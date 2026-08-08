@@ -1,420 +1,779 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Join Us — Echo Air Group</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <link rel="stylesheet" href="style.css">
+<title>Join — Echo Air Group</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* Application form improvements */
+
+.form-card {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    border: 1px solid #d8ded6;
+    border-radius: 10px;
+    background: #f8faf7;
+    font-family: inherit;
+    font-size: 15px;
+    color: #20251f;
+    outline: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: #9fcb42;
+}
+
+.field textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.hint {
+    font-size: 12px;
+    color: #7b857a;
+}
+
+.application-note {
+    margin-top: 20px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #eef5e7;
+    color: #52604d;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@media (max-width: 750px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <header>
-    <div class="container nav">
 
-        <a href="index.html" class="logo">
-            Echo Air Group
-        </a>
+<div class="container nav">
 
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="fleet.html">Fleet</a>
-            <a href="routes.html">Routes</a>
-            <a href="team.html">Team</a>
-            <a href="pilot-manual.html">Pilot Manual</a>
-            <a href="contact.html">Contact Us</a>
-            <a href="join.html">Register</a>
-        </nav>
+<a class="brand" href="index.html">
 
-    </div>
+<div class="logo">
+EA
+</div>
+
+<div>
+ECHO AIR GROUP
+<small>6L · ECV · CLOVER</small>
+</div>
+
+</a>
+
+<nav class="navlinks">
+
+<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a>
+
+</nav>
+
+<a class="register" href="join.html">
+REGISTER
+</a>
+
+<button class="menu" onclick="toggleMenu()">
+☰
+</button>
+
+</div>
+
+<div id="mobileNav" class="mobileNav">
+
+<div class="container">
+
+<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a> <a href="join.html">Register</a>
+
+</div>
+
+</div>
+
 </header>
 
+<!-- MAIN -->
 
 <main>
 
-    <section class="hero">
+<!-- HERO -->
 
-        <div class="container">
+<section class="pagehero">
 
-            <h1>Join Echo Air Group</h1>
+<div class="container">
 
-            <p>
-                Become part of our virtual airline and fly with pilots
-                who share your passion for aviation.
-            </p>
+<span class="pill">
+Ready for Departure?
+</span>
 
-        </div>
+<h1>
+Join <span>Echo Air Group.</span>
+</h1>
 
-    </section>
+<p>
+Become part of a virtual airline built for realistic operations, community and the freedom to explore.
+</p>
 
+</div>
 
-    <section class="container">
+</section>
 
-        <form
-            action="https://formsubmit.co/echoairgrouptiktok@gmail.com"
-            method="POST"
-        >
+<!-- APPLICATION -->
 
-            <!-- FormSubmit settings -->
+<section
+class="content-section"
+id="application"
+style="background:#f5f7f3"
+>
 
-            <input
-                type="hidden"
-                name="_subject"
-                value="New Echo Air Group Pilot Application"
-            >
+<div class="container">
 
-            <input
-                type="hidden"
-                name="_captcha"
-                value="false"
-            >
+<div class="section-head">
 
-            <input
-                type="hidden"
-                name="_template"
-                value="table"
-            >
+<span class="eyebrow">
+Register
+</span>
 
-            <!-- Redirect applicant to homepage after submission -->
+<h2>
+Application <span>Form</span>
+</h2>
 
-            <input
-                type="hidden"
-                name="_next"
-                value="https://chrissi12345.github.io/Echo-Air-Group/"
-            >
+<p>
+Complete the form below to start your virtual pilot application.
+</p>
 
+</div>
 
-            <!-- First Name -->
+<!--
+====================================================
+IMPORTANT:
+ONLY CHANGE THIS EMAIL ADDRESS
+====================================================
 
-            <label for="first_name">
-                First Name
-            </label>
+Replace:
 
-            <input
-                id="first_name"
-                name="First Name"
-                type="text"
-                required
-                placeholder="e.g. Alex"
-            >
+YOUR_ECHO_AIR_GROUP_EMAIL_HERE
 
+with the email address that should receive applications.
 
-            <!-- Last Name -->
+Example:
 
-            <label for="last_name">
-                Last Name
-            </label>
+action="https://formsubmit.co/echoairgroup@gmail.com"
 
-            <input
-                id="last_name"
-                name="Last Name"
-                type="text"
-                required
-                placeholder="e.g. Carter"
-            >
+====================================================
+-->
 
+<form
+class="form-card"
+action="https://formsubmit.co/echoairgrouptiktok@gmail.com"
+method="POST"
+>
 
-            <!-- Age -->
+<!-- FormSubmit settings -->
 
-            <label for="age">
-                Age
-            </label>
+<input
+type="hidden"
+name="_subject"
+value="New Echo Air Group Pilot Application"
 
-            <input
-                id="age"
-                name="Age"
-                type="number"
-                min="1"
-                required
-                placeholder="18"
-            >
+>
 
+<input
+type="hidden"
+name="_captcha"
+value="false"
 
-            <!-- Country -->
+>
 
-            <label for="country">
-                Country
-            </label>
+<input
+type="hidden"
+name="_template"
+value="table"
 
-            <select
-                id="country"
-                name="Country"
-                required
-            >
+>
 
-                <option value="">
-                    Select your country
-                </option>
+<!--
+After submitting, the applicant will be sent back
+to your website.
 
-                <option value="Netherlands">
-                    Netherlands
-                </option>
+Change index.html below if you want a different page.
+-->
 
-                <option value="Belgium">
-                    Belgium
-                </option>
+<input
+type="hidden"
+name="_next"
+value="https://chrissi12345.github.io/Echo-Air-Group"
 
-                <option value="Germany">
-                    Germany
-                </option>
+>
 
-                <option value="France">
-                    France
-                </option>
+<h3>
+Join Echo Air Group
+</h3>
 
-                <option value="United Kingdom">
-                    United Kingdom
-                </option>
+<p style="color:#687267">
+Please complete all required fields marked with *.
+</p>
 
-                <option value="Spain">
-                    Spain
-                </option>
+<div
+style="height:1px;background:#e8ede5;margin:22px 0 28px"
+></div>
 
-                <option value="Portugal">
-                    Portugal
-                </option>
+<div class="form-grid">
 
-                <option value="Italy">
-                    Italy
-                </option>
-
-                <option value="Greece">
-                    Greece
-                </option>
-
-                <option value="United States">
-                    United States
-                </option>
-
-                <option value="Canada">
-                    Canada
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
-
-            <!-- Email -->
-
-            <label for="email">
-                Email Address
-            </label>
-
-            <input
-                id="email"
-                name="Email Address"
-                type="email"
-                required
-                placeholder="pilot@email.com"
-            >
-
-
-            <!-- Discord -->
-
-            <label for="discord">
-                Discord Username
-            </label>
-
-            <input
-                id="discord"
-                name="Discord Username"
-                type="text"
-                required
-                placeholder="alex.carter"
-            >
-
-
-            <!-- Simulator -->
-
-            <label for="simulator">
-                Simulator
-            </label>
-
-            <select
-                id="simulator"
-                name="Simulator"
-                required
-            >
-
-                <option value="">
-                    Select your simulator
-                </option>
-
-                <option value="Microsoft Flight Simulator 2024">
-                    Microsoft Flight Simulator 2024
-                </option>
-
-                <option value="Microsoft Flight Simulator 2020">
-                    Microsoft Flight Simulator 2020
-                </option>
-
-                <option value="X-Plane 12">
-                    X-Plane 12
-                </option>
-
-                <option value="X-Plane 11">
-                    X-Plane 11
-                </option>
-
-                <option value="Prepar3D">
-                    Prepar3D
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
-
-            <!-- Experience -->
-
-            <label for="experience">
-                Experience Level
-            </label>
-
-            <select
-                id="experience"
-                name="Experience Level"
-                required
-            >
-
-                <option value="">
-                    Select your experience level
-                </option>
-
-                <option value="Beginner">
-                    Beginner
-                </option>
-
-                <option value="Intermediate">
-                    Intermediate
-                </option>
-
-                <option value="Experienced">
-                    Experienced
-                </option>
-
-                <option value="Advanced">
-                    Advanced
-                </option>
-
-            </select>
-
-
-            <!-- Flight Hours -->
-
-            <label for="flight_hours">
-                Approximate Flight Hours
-            </label>
-
-            <input
-                id="flight_hours"
-                name="Approximate Flight Hours"
-                type="number"
-                min="0"
-                step="1"
-                required
-                placeholder="e.g. 175"
-            >
-
-
-            <!-- Network -->
-
-            <label for="network">
-                Network
-            </label>
-
-            <select
-                id="network"
-                name="Network"
-            >
-
-                <option value="">
-                    Select your network
-                </option>
-
-                <option value="VATSIM">
-                    VATSIM
-                </option>
-
-                <option value="IVAO">
-                    IVAO
-                </option>
-
-                <option value="PilotEdge">
-                    PilotEdge
-                </option>
-
-                <option value="None">
-                    None
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
-
-            <!-- Submit button -->
-
-            <button
-                class="btn btn-primary"
-                type="submit"
-            >
-                Submit Application ✈
-            </button>
-
-        </form>
-
-    </section>
-
-
-    <section class="container">
-
-        <h2>What happens next?</h2>
-
-        <p>
-            Your application will be sent to the Echo Air Group
-            recruitment email. The recruitment team can then review
-            your application and contact you using the email address
-            or Discord username you provided.
-        </p>
-
-    </section>
+<!-- FIRST NAME -->
+
+<div class="field">
+
+<label for="first_name">
+First Name *
+</label>
+
+<input
+id="first_name"
+name="First Name"
+required
+placeholder="e.g. Alex"
+
+>
+
+</div>
+
+<!-- LAST NAME -->
+
+<div class="field">
+
+<label for="last_name">
+Last Name *
+</label>
+
+<input
+id="last_name"
+name="Last Name"
+required
+placeholder="e.g. Carter"
+
+>
+
+</div>
+
+<!-- AGE -->
+
+<div class="field">
+
+<label for="age">
+Age *
+</label>
+
+<input
+id="age"
+name="Age"
+required
+type="number"
+min="1"
+placeholder="18"
+
+>
+
+</div>
+
+<!-- COUNTRY -->
+
+<div class="field">
+
+<label for="country">
+Country *
+</label>
+
+<select
+id="country"
+name="Country"
+required
+
+>
+
+<option value="">
+Select your country
+</option>
+
+<option>Afghanistan</option>
+<option>Albania</option>
+<option>Algeria</option>
+<option>American Samoa</option>
+<option>Andorra</option>
+<option>Angola</option>
+<option>Anguilla</option>
+<option>Antarctica</option>
+<option>Antigua and Barbuda</option>
+<option>Argentina</option>
+<option>Armenia</option>
+<option>Aruba</option>
+<option>Australia</option>
+<option>Austria</option>
+<option>Azerbaijan</option>
+<option>Bahamas</option>
+<option>Bahrain</option>
+<option>Bangladesh</option>
+<option>Barbados</option>
+<option>Belarus</option>
+<option>Belgium</option>
+<option>Belize</option>
+<option>Benin</option>
+<option>Bermuda</option>
+<option>Bhutan</option>
+<option>Bolivia</option>
+<option>Bonaire, Sint Eustatius and Saba</option>
+<option>Bosnia and Herzegovina</option>
+<option>Botswana</option>
+<option>Brazil</option>
+<option>Brunei Darussalam</option>
+<option>Bulgaria</option>
+<option>Burkina Faso</option>
+<option>Burundi</option>
+<option>Cabo Verde</option>
+<option>Cambodia</option>
+<option>Cameroon</option>
+<option>Canada</option>
+<option>Cayman Islands</option>
+<option>Chile</option>
+<option>China</option>
+<option>Colombia</option>
+<option>Costa Rica</option>
+<option>Croatia</option>
+<option>Cuba</option>
+<option>Curaçao</option>
+<option>Cyprus</option>
+<option>Czechia</option>
+<option>Denmark</option>
+<option>Djibouti</option>
+<option>Dominica</option>
+<option>Dominican Republic</option>
+<option>Ecuador</option>
+<option>Egypt</option>
+<option>El Salvador</option>
+<option>Estonia</option>
+<option>Eswatini</option>
+<option>Ethiopia</option>
+<option>Finland</option>
+<option>France</option>
+<option>Georgia</option>
+<option>Germany</option>
+<option>Ghana</option>
+<option>Gibraltar</option>
+<option>Greece</option>
+<option>Greenland</option>
+<option>Guatemala</option>
+<option>Guernsey</option>
+<option>Hungary</option>
+<option>Iceland</option>
+<option>India</option>
+<option>Indonesia</option>
+<option>Ireland</option>
+<option>Isle of Man</option>
+<option>Israel</option>
+<option>Italy</option>
+<option>Jamaica</option>
+<option>Japan</option>
+<option>Jersey</option>
+<option>Jordan</option>
+<option>Kazakhstan</option>
+<option>Kenya</option>
+<option>Kuwait</option>
+<option>Kyrgyzstan</option>
+<option>Latvia</option>
+<option>Lebanon</option>
+<option>Liechtenstein</option>
+<option>Lithuania</option>
+<option>Luxembourg</option>
+<option>Malaysia</option>
+<option>Malta</option>
+<option>Mexico</option>
+<option>Monaco</option>
+<option>Montenegro</option>
+<option>Morocco</option>
+<option>Netherlands</option>
+<option>New Zealand</option>
+<option>Nicaragua</option>
+<option>Nigeria</option>
+<option>North Macedonia</option>
+<option>Norway</option>
+<option>Oman</option>
+<option>Pakistan</option>
+<option>Panama</option>
+<option>Peru</option>
+<option>Philippines</option>
+<option>Poland</option>
+<option>Portugal</option>
+<option>Qatar</option>
+<option>Romania</option>
+<option>Saudi Arabia</option>
+<option>Serbia</option>
+<option>Singapore</option>
+<option>Slovakia</option>
+<option>Slovenia</option>
+<option>South Africa</option>
+<option>South Korea</option>
+<option>Spain</option>
+<option>Sri Lanka</option>
+<option>Sweden</option>
+<option>Switzerland</option>
+<option>Thailand</option>
+<option>Türkiye</option>
+<option>Ukraine</option>
+<option>United Arab Emirates</option>
+<option>United Kingdom</option>
+<option>United States</option>
+<option>Uruguay</option>
+<option>Uzbekistan</option>
+<option>Venezuela</option>
+<option>Vietnam</option>
+<option>Zimbabwe</option>
+
+</select>
+
+</div>
+
+<!-- EMAIL -->
+
+<div class="field">
+
+<label for="email">
+Email Address *
+</label>
+
+<input
+id="email"
+name="Email Address"
+required
+type="email"
+placeholder="[pilot@email.com](mailto:pilot@email.com)"
+
+>
+
+</div>
+
+<!-- DISCORD -->
+
+<div class="field">
+
+<label for="discord">
+Discord Username *
+</label>
+
+<input
+id="discord"
+name="Discord Username"
+required
+placeholder="alex.carter"
+
+>
+
+</div>
+
+<!-- SIMULATOR -->
+
+<div class="field">
+
+<label for="simulator">
+Simulator *
+</label>
+
+<select
+id="simulator"
+name="Simulator"
+required
+
+>
+
+<option value="">
+Select one
+</option>
+
+<option>
+Microsoft Flight Simulator 2024
+</option>
+
+<option>
+Microsoft Flight Simulator 2020
+</option>
+
+<option>
+X-Plane 12
+</option>
+
+<option>
+X-Plane 11
+</option>
+
+<option>
+Prepar3D
+</option>
+
+</select>
+
+</div>
+
+<!-- EXPERIENCE -->
+
+<div class="field">
+
+<label for="experience">
+Experience Level *
+</label>
+
+<select
+id="experience"
+name="Experience Level"
+required
+
+>
+
+<option value="">
+Select your level
+</option>
+
+<option>
+Beginner — 0–50 hours
+</option>
+
+<option>
+Intermediate — 50–300 hours
+</option>
+
+<option>
+Advanced — 300–1,000 hours
+</option>
+
+<option>
+Expert — 1,000+ hours
+</option>
+
+</select>
+
+<span class="hint">
+Intermediate is set to 50–300 hours to avoid overlapping the Beginner range.
+</span>
+
+</div>
+
+<!-- FLIGHT HOURS -->
+
+<div class="field">
+
+<label for="flight_hours">
+Approximate Flight Hours *
+</label>
+
+<input
+id="flight_hours"
+name="Approximate Flight Hours"
+required
+type="number"
+min="0"
+step="1"
+placeholder="e.g. 175"
+
+>
+
+</div>
+
+<!-- NETWORK -->
+
+<div class="field">
+
+<label for="network">
+Network
+</label>
+
+<select
+id="network"
+name="Network"
+
+>
+
+<option value="">
+Select one
+</option>
+
+<option>
+VATSIM
+</option>
+
+<option>
+IVAO
+</option>
+
+<option>
+Both
+</option>
+
+<option>
+Offline
+</option>
+
+</select>
+
+</div>
+
+<!-- WHY JOIN -->
+
+<div class="field full">
+
+<label for="reason">
+Why do you want to join Echo Air Group?
+</label>
+
+<textarea
+id="reason"
+name="Why do you want to join Echo Air Group?"
+placeholder="Tell us about yourself and why you'd like to fly with Echo..."
+></textarea>
+
+</div>
+
+<!-- SUBMIT -->
+
+<div class="field full">
+
+<button
+class="btn btn-primary"
+type="submit"
+
+>
+
+Submit Application ✈ </button>
+
+</div>
+
+</div>
+
+<div class="application-note">
+
+<strong>What happens next?</strong><br>
+
+Your application will be sent to the Echo Air Group recruitment email. The recruitment team can then review your application and contact you using the email address or Discord username you provided.
+
+</div>
+
+</form>
+
+</div>
+
+</section>
 
 </main>
 
+<!-- FOOTER -->
 
 <footer>
 
-    <div class="container">
+<div class="container">
 
-        <p>
-            Virtual aviation. Real passion. A community built for
-            pilots who love the world of flight simulation.
-        </p>
+<div class="foot-top">
 
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="fleet.html">Fleet</a>
-            <a href="routes.html">Routes</a>
-            <a href="team.html">Team</a>
-            <a href="pilot-manual.html">Pilot Manual</a>
-            <a href="contact.html">Contact Us</a>
-        </nav>
+<div>
 
-    </div>
+<div class="brand">
+
+<div class="logo">
+EA
+</div>
+
+<div>
+ECHO AIR GROUP
+<small>6L · ECV · CLOVER</small>
+</div>
+
+</div>
+
+<p style="max-width:450px">
+
+Virtual aviation. Real passion. A community built for pilots who love the world of flight simulation.
+
+</p>
+
+</div>
+
+<div class="foot-links">
+
+<a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="manual.html">Pilot Manual</a> <a href="join.html">Register</a>
+
+</div>
+
+</div>
+
+<div class="copy">
+
+<span>
+© 2026 Echo Air Group. Virtual airline.
+</span>
+
+<span>
+Not affiliated with any real-world airline.
+</span>
+
+</div>
+
+</div>
 
 </footer>
 
+<script src="script.js"></script>
+
 </body>
+
 </html>
