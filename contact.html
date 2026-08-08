@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="en">
 
@@ -32,8 +33,6 @@ header {
         backdrop-filter 0.25s ease;
 }
 
-/* Header after scrolling */
-
 header.scrolled {
     background: rgba(9, 13, 8, .80);
     backdrop-filter: blur(14px);
@@ -42,41 +41,8 @@ header.scrolled {
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-/* Make sure the page doesn't hide behind the fixed header */
-
 body {
     padding-top: 80px;
-}
-
-   footer {
-    background: #090d08;
-
-    color: white;
-
-    padding: 55px 0 25px;
-}
-
-
-.foot-top {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: flex-start;
-
-    gap: 50px;
-}
-
-
-footer .brand {
-    margin-bottom: 18px;
-}
-
-
-footer p {
-    color: #8f988c;
-
-    line-height: 1.7;
 }
 
 
@@ -216,14 +182,133 @@ footer p {
     font-size: 20px;
 }
 
-.contact-success {
-    display: none;
-    margin-top: 15px;
-    padding: 14px;
-    border-radius: 10px;
-    background: #eef8df;
-    color: #426118;
+
+/* =========================
+   COMPACT FOOTER
+========================= */
+
+footer {
+    background: #090d08;
+    color: white;
+    padding: 30px 0 18px;
+}
+
+footer .foot-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+/* Footer brand */
+
+footer .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 12px;
+}
+
+footer .brand-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    display: block;
+}
+
+footer .brand-text {
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 1.2;
+}
+
+footer .brand-text small {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
     font-weight: 600;
+    color: #8f988c;
+}
+
+/* Footer text */
+
+footer p {
+    color: #8f988c;
+    line-height: 1.5;
+    margin: 0;
+    font-size: 13px;
+}
+
+/* Footer links */
+
+footer .foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 7px 18px;
+    max-width: 500px;
+}
+
+footer .foot-links a {
+    color: #8f988c;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+footer .foot-links a:hover {
+    color: #ace336;
+}
+
+/* Social buttons */
+
+.footer-social {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.footer-social a {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+    background: #151b13;
+
+    transition: 0.2s ease;
+}
+
+.footer-social a:hover {
+    transform: translateY(-2px);
+    background: #20291d;
+}
+
+.footer-social img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+/* Copyright */
+
+footer .copy {
+    margin-top: 22px;
+    padding-top: 14px;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    color: #687066;
+    font-size: 11px;
 }
 
 
@@ -245,6 +330,25 @@ footer p {
         height: 40px;
     }
 
+    footer {
+        padding: 25px 0 15px;
+    }
+
+    footer .foot-top {
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    footer .foot-links {
+        justify-content: flex-start;
+        max-width: none;
+    }
+
+    footer .copy {
+        flex-direction: column;
+        gap: 5px;
+    }
+
 }
 
 
@@ -260,6 +364,11 @@ footer p {
 
     .header-logo {
         height: 36px;
+    }
+
+    footer .brand-logo {
+        width: 50px;
+        height: 50px;
     }
 
 }
@@ -294,19 +403,12 @@ footer p {
 <nav class="navlinks">
 
 <a href="index.html">Home</a>
-
 <a href="about.html">About</a>
-
 <a href="fleet.html">Fleet</a>
-
 <a href="routes.html">Routes</a>
-
 <a href="team.html">Team</a>
-
 <a href="join.html">Join Us</a>
-
 <a href="manual.html">Pilot Manual</a>
-
 <a href="contact.html">Contact Us</a>
 
 </nav>
@@ -335,21 +437,13 @@ REGISTER
 <div class="container">
 
 <a href="index.html">Home</a>
-
 <a href="about.html">About</a>
-
 <a href="fleet.html">Fleet</a>
-
 <a href="routes.html">Routes</a>
-
 <a href="team.html">Team</a>
-
 <a href="join.html">Join Us</a>
-
 <a href="manual.html">Pilot Manual</a>
-
 <a href="contact.html">Contact</a>
-
 <a href="join.html">Register</a>
 
 </div>
@@ -367,9 +461,7 @@ REGISTER
 <main>
 
 
-<!-- =========================
-     HERO
-========================= -->
+<!-- HERO -->
 
 <section class="pagehero">
 
@@ -393,9 +485,7 @@ Have a question about Echo Air Group? We'd love to hear from you.
 
 
 
-<!-- =========================
-     CONTACT SECTION
-========================= -->
+<!-- CONTACT -->
 
 <section class="content-section">
 
@@ -404,9 +494,7 @@ Have a question about Echo Air Group? We'd love to hear from you.
 <div class="contact-grid">
 
 
-<!-- =========================
-     CONTACT FORM
-========================= -->
+<!-- CONTACT FORM -->
 
 <div class="contact-card">
 
@@ -425,13 +513,11 @@ Fill out the form below and the Echo Air Group team will get back to you.
     method="POST"
 >
 
-
 <input
     type="hidden"
     name="_subject"
     value="New Echo Air Group Contact Message"
 >
-
 
 <input
     type="hidden"
@@ -439,15 +525,12 @@ Fill out the form below and the Echo Air Group team will get back to you.
     value="false"
 >
 
-
 <input
     type="hidden"
     name="_template"
     value="table"
 >
 
-
-<!-- NAME -->
 
 <div>
 
@@ -466,8 +549,6 @@ Name *
 </div>
 
 
-<!-- EMAIL -->
-
 <div>
 
 <label for="email">
@@ -484,8 +565,6 @@ Email *
 
 </div>
 
-
-<!-- SUBJECT -->
 
 <div>
 
@@ -528,8 +607,6 @@ Other
 </div>
 
 
-<!-- MESSAGE -->
-
 <div>
 
 <label for="message">
@@ -546,8 +623,6 @@ Message *
 </div>
 
 
-<!-- SUBMIT -->
-
 <button
     type="submit"
     class="contact-submit"
@@ -563,9 +638,7 @@ Send Message
 
 
 
-<!-- =========================
-     CONTACT INFORMATION
-========================= -->
+<!-- CONTACT INFORMATION -->
 
 <div class="contact-card">
 
@@ -577,8 +650,6 @@ Contact Information
 You can also reach the Echo Air Group team through the channels below.
 </p>
 
-
-<!-- EMAIL -->
 
 <div class="contact-method">
 
@@ -604,8 +675,6 @@ echoairgrouptiktok@gmail.com
 
 </div>
 
-
-<!-- DISCORD -->
 
 <div class="contact-method">
 
@@ -636,8 +705,6 @@ Join our Discord ↗
 </div>
 
 
-<!-- PILOT APPLICATION -->
-
 <div class="contact-method">
 
 <div class="contact-icon">
@@ -663,8 +730,6 @@ Apply to join the airline →
 </div>
 
 
-<!-- RESPONSE TIME -->
-
 <div class="contact-method">
 
 <div class="contact-icon">
@@ -681,7 +746,6 @@ We usually respond to messages as soon as possible. Please allow some time for a
 
 </div>
 
-
 </div>
 
 </div>
@@ -692,9 +756,7 @@ We usually respond to messages as soon as possible. Please allow some time for a
 
 
 
-<!-- =========================
-     CTA
-========================= -->
+<!-- CTA -->
 
 <section class="dark-section">
 
@@ -713,7 +775,6 @@ Ready to <span>fly with us?</span>
 <p>
 Join the Echo Air Group community and take to the skies with fellow flight simulation enthusiasts.
 </p>
-
 
 <a
     href="join.html#application"
@@ -737,25 +798,26 @@ JOIN ECHO AIR GROUP
 
 
 <!-- =========================
-     FOOTER
+     COMPACT FOOTER
 ========================= -->
 
 <footer>
 
 <div class="container">
 
-
 <div class="foot-top">
 
+
+<!-- FOOTER BRAND -->
 
 <div>
 
 <a class="brand" href="index.html">
 
 <img
-class="brand-logo"
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
-alt="Echo Air Group Logo"
+    class="brand-logo"
+    src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
+    alt="Echo Air Group Logo"
 >
 
 <div class="brand-text">
@@ -780,35 +842,35 @@ the world of flight simulation.
 </p>
 
 
-<!-- FOOTER SOCIAL BUTTONS -->
+<!-- SOCIAL -->
 
 <div class="footer-social">
 
 <a
-href="https://discord.gg/e7ePxYA24"
-target="_blank"
-rel="noopener"
-aria-label="Discord"
+    href="https://discord.gg/e7ePxYA24"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Discord"
 >
 
 <img
-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
-alt="Discord"
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
+    alt="Discord"
 >
 
 </a>
 
 
 <a
-href="https://www.tiktok.com/@echoairgroup"
-target="_blank"
-rel="noopener"
-aria-label="TikTok"
+    href="https://www.tiktok.com/@echoairgroup"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="TikTok"
 >
 
 <img
-src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
-alt="TikTok"
+    src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
+    alt="TikTok"
 >
 
 </a>
@@ -819,55 +881,28 @@ alt="TikTok"
 
 
 
-<!-- FOOTER NAVIGATION -->
+<!-- FOOTER LINKS -->
 
 <div class="foot-links">
 
-<a href="index.html">
-Home
-</a>
-
-<a href="about.html">
-About
-</a>
-
-<a href="index.html#fleet">
-Fleet
-</a>
-
-<a href="routes.html">
-Routes
-</a>
-
-<a href="team.html">
-Team
-</a>
-
-<a href="index.html#news">
-News
-</a>
-
-<a href="join.html">
-Join Us
-</a>
-
-<a href="manual.html">
-Pilot Manual
-</a>
-
-<a href="contact.html">
-Contact Us
-</a>
-
-<a href="join.html">
-Register
-</a>
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="index.html#fleet">Fleet</a>
+<a href="routes.html">Routes</a>
+<a href="team.html">Team</a>
+<a href="index.html#news">News</a>
+<a href="join.html">Join Us</a>
+<a href="manual.html">Pilot Manual</a>
+<a href="contact.html">Contact Us</a>
+<a href="join.html">Register</a>
 
 </div>
 
 
 </div>
 
+
+<!-- COPYRIGHT -->
 
 <div class="copy">
 
@@ -881,7 +916,6 @@ Not affiliated with any real-world airline.
 
 </div>
 
-
 </div>
 
 </footer>
@@ -894,25 +928,18 @@ Not affiliated with any real-world airline.
 
 <script src="script.js"></script>
 
-
 <script>
 
-/* =========================
-   HEADER SCROLL EFFECT
-========================= */
+/* HEADER SCROLL EFFECT */
 
 const header = document.getElementById("siteHeader");
 
 function updateHeader() {
 
     if (window.scrollY > 20) {
-
         header.classList.add("scrolled");
-
     } else {
-
         header.classList.remove("scrolled");
-
     }
 
 }
@@ -922,18 +949,14 @@ window.addEventListener("scroll", updateHeader);
 updateHeader();
 
 
-/* =========================
-   MOBILE MENU
-========================= */
+/* MOBILE MENU */
 
 function toggleMenu() {
 
     const mobileNav = document.getElementById("mobileNav");
 
     if (mobileNav) {
-
         mobileNav.classList.toggle("open");
-
     }
 
 }
@@ -943,3 +966,4 @@ function toggleMenu() {
 
 </body>
 </html>
+```
