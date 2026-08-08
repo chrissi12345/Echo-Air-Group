@@ -1,4 +1,3 @@
-```html
 <!doctype html>
 <html lang="en">
 
@@ -982,8 +981,6 @@ body {
 }
 
 
-/* SMALL SOCIAL BUTTONS */
-
 .social-buttons {
     display: flex;
 
@@ -1065,6 +1062,26 @@ body {
 
 .social-tiktok:hover {
     background: #111;
+}
+
+
+/* =========================================================
+   FOOTER SOCIAL MEDIA
+   ========================================================= */
+
+.footer-social {
+    margin-top: 25px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+.footer-social .social-button {
+    min-width: 105px;
 }
 
 
@@ -1240,6 +1257,10 @@ body {
     .social-button img {
         width: 18px;
         height: 18px;
+    }
+
+    .footer-social {
+        justify-content: flex-start;
     }
 
 }
@@ -1594,20 +1615,6 @@ View All Routes
 
 <!-- =====================================================
      FLEET
-
-     HOW TO ADD AIRCRAFT:
-
-     1. Copy an entire .fcard
-     2. Change data-type
-     3. Change the name
-     4. Change image
-     5. Change specifications
-
-     AVAILABLE TYPES:
-
-     narrow
-     regional
-     wide
      ===================================================== -->
 
 <section
@@ -1634,8 +1641,6 @@ Use the buttons below to filter the aircraft.
 
 </div>
 
-
-<!-- FLEET FILTER BUTTONS -->
 
 <div class="fleet-tabs">
 
@@ -1677,9 +1682,7 @@ Wide Body
 <div class="fleet-grid">
 
 
-<!-- =====================================================
-     AIRBUS A319
-     ===================================================== -->
+<!-- A319 -->
 
 <article class="fcard" data-type="narrow">
 
@@ -1911,7 +1914,7 @@ Medium & Long Haul
 </article>
 
 
-<!-- BOEING 737-700 -->
+<!-- 737-700 -->
 
 <article class="fcard" data-type="narrow">
 
@@ -1969,7 +1972,7 @@ Regional & Short Haul
 </article>
 
 
-<!-- BOEING 737-800 -->
+<!-- 737-800 -->
 
 <article class="fcard" data-type="narrow">
 
@@ -2027,7 +2030,7 @@ Short & Medium Haul
 </article>
 
 
-<!-- BOEING 737 MAX 8 -->
+<!-- 737 MAX 8 -->
 
 <article class="fcard" data-type="narrow">
 
@@ -2085,7 +2088,7 @@ Medium Haul
 </article>
 
 
-<!-- EMBRAER E190 -->
+<!-- E190 -->
 
 <article class="fcard" data-type="regional">
 
@@ -2143,7 +2146,7 @@ Regional & Short Haul
 </article>
 
 
-<!-- AIRBUS A350 -->
+<!-- A350 -->
 
 <article class="fcard" data-type="wide">
 
@@ -2220,20 +2223,6 @@ View Full Fleet
 
 <!-- =====================================================
      NEWS
-
-     HOW TO ADD NEWS:
-
-     Copy an entire article below.
-
-     Change:
-
-     1. Date
-     2. Title
-     3. Text
-     4. Optional image
-
-     Put the newest article FIRST.
-
      ===================================================== -->
 
 <section
@@ -2262,42 +2251,6 @@ and everything happening inside Echo Air Group.
 
 
 <div class="news-grid">
-
-
-<!-- =====================================================
-     ADD NEW NEWS ABOVE THIS ARTICLE
-     ===================================================== -->
-
-<!--
-<article class="news-card">
-
-<div class="news-image">
-
-<img
-src="YOUR-IMAGE-URL-HERE"
-alt="News image"
->
-
-</div>
-
-<div class="news-content">
-
-<div class="news-date">
-August 8, 2026
-</div>
-
-<h3>
-YOUR NEWS TITLE
-</h3>
-
-<p>
-YOUR NEWS TEXT GOES HERE.
-</p>
-
-</div>
-
-</article>
--->
 
 
 <!-- NEWS 1 -->
@@ -2653,9 +2606,6 @@ Meet The Full Team
 
 <!-- =====================================================
      SOCIAL MEDIA
-
-     ONLY CHANGE THESE TWO HREF VALUES IF YOU EVER
-     WANT TO CHANGE YOUR SOCIAL MEDIA LINKS.
      ===================================================== -->
 
 <section class="social-section reveal">
@@ -2679,9 +2629,7 @@ with our latest announcements, events and content.
 <div class="social-buttons">
 
 
-<!-- =====================================================
-     DISCORD
-     ===================================================== -->
+<!-- DISCORD -->
 
 <a
 class="social-button social-discord"
@@ -2702,10 +2650,7 @@ Discord
 </a>
 
 
-
-<!-- =====================================================
-     TIKTOK
-     ===================================================== -->
+<!-- TIKTOK -->
 
 <a
 class="social-button social-tiktok"
@@ -2820,6 +2765,59 @@ the world of flight simulation.
 
 </p>
 
+
+<!-- =====================================================
+     FOOTER SOCIAL MEDIA BUTTONS
+     ===================================================== -->
+
+<div class="footer-social">
+
+
+<!-- DISCORD -->
+
+<a
+class="social-button social-discord"
+href="https://discord.gg/e7ePxYA24"
+target="_blank"
+rel="noopener"
+>
+
+<img
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
+alt="Discord"
+>
+
+<span>
+Discord
+</span>
+
+</a>
+
+
+<!-- TIKTOK -->
+
+<a
+class="social-button social-tiktok"
+href="https://www.tiktok.com/@echoairgroup"
+target="_blank"
+rel="noopener"
+>
+
+<img
+src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
+alt="TikTok"
+>
+
+<span>
+TikTok
+</span>
+
+</a>
+
+
+</div>
+
+
 </div>
 
 
@@ -2876,18 +2874,12 @@ function filterFleet(type, button) {
     const cards = document.querySelectorAll(".fcard");
     const tabs = document.querySelectorAll(".fleet-tab");
 
-    /* Remove active state */
-
     tabs.forEach(tab => {
         tab.classList.remove("active");
     });
 
-    /* Activate selected button */
-
     button.classList.add("active");
 
-
-    /* Filter aircraft */
 
     cards.forEach(card => {
 
@@ -3010,9 +3002,6 @@ cards.forEach(card => {
 
 /* =========================================================
    MOBILE NAVIGATION
-
-   This also works if your existing script.js already
-   contains toggleMenu().
    ========================================================= */
 
 function toggleMenu() {
@@ -3049,4 +3038,3 @@ document.querySelectorAll("#mobileNav a").forEach(link => {
 
 </body>
 </html>
-```
