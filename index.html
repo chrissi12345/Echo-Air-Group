@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -712,7 +713,7 @@ body {
 
 
 /* =========================================================
-   NEWS ADMIN HELP BOX
+   NEWS HELP BOX
    ========================================================= */
 
 .news-help {
@@ -737,9 +738,15 @@ body {
     color: #273025;
 }
 
+.news-help code {
+    background: #e8ede4;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
 
 /* =========================================================
-   OPERATIONS / NEWSKY
+   OPERATIONS
    ========================================================= */
 
 .operations-section {
@@ -941,11 +948,11 @@ body {
 
 
 /* =========================================================
-   SOCIALS
+   SOCIAL MEDIA
    ========================================================= */
 
 .social-section {
-    padding: 95px 0;
+    padding: 80px 0;
 
     background: #101410;
 
@@ -974,16 +981,19 @@ body {
     line-height: 1.8;
 }
 
+
+/* SMALL SOCIAL BUTTONS */
+
 .social-buttons {
     display: flex;
 
     justify-content: center;
+    align-items: center;
 
-    gap: 14px;
-
+    gap: 10px;
     flex-wrap: wrap;
 
-    margin-top: 32px;
+    margin-top: 28px;
 }
 
 .social-button {
@@ -992,16 +1002,17 @@ body {
     align-items: center;
     justify-content: center;
 
-    gap: 10px;
+    gap: 8px;
 
-    min-width: 190px;
+    min-width: 105px;
 
-    padding: 15px 22px;
+    padding: 9px 14px;
 
-    border-radius: 12px;
+    border-radius: 9px;
 
     text-decoration: none;
 
+    font-size: 13px;
     font-weight: 800;
 
     transition:
@@ -1010,20 +1021,37 @@ body {
         background .25s ease;
 }
 
-.social-button:hover {
-    transform: translateY(-4px);
+.social-button img {
+    width: 20px;
+    height: 20px;
+
+    object-fit: contain;
+
+    display: block;
 }
+
+.social-button:hover {
+    transform: translateY(-3px);
+}
+
+
+/* DISCORD */
 
 .social-discord {
     background: #5865F2;
     color: white;
 
-    box-shadow: 0 12px 30px rgba(88,101,242,.2);
+    box-shadow:
+        0 7px 20px rgba(88,101,242,.18);
 }
 
 .social-discord:hover {
-    box-shadow: 0 18px 40px rgba(88,101,242,.35);
+    box-shadow:
+        0 10px 28px rgba(88,101,242,.32);
 }
+
+
+/* TIKTOK */
 
 .social-tiktok {
     background: #000;
@@ -1031,7 +1059,8 @@ body {
 
     border: 1px solid rgba(255,255,255,.15);
 
-    box-shadow: 0 12px 30px rgba(0,0,0,.3);
+    box-shadow:
+        0 7px 20px rgba(0,0,0,.25);
 }
 
 .social-tiktok:hover {
@@ -1136,6 +1165,7 @@ body {
     }
 }
 
+
 @media (max-width: 700px) {
 
     .hero {
@@ -1202,8 +1232,16 @@ body {
     }
 
     .social-button {
-        width: 100%;
+        min-width: 100px;
+        padding: 8px 12px;
+        font-size: 12px;
     }
+
+    .social-button img {
+        width: 18px;
+        height: 18px;
+    }
+
 }
 
 </style>
@@ -1223,7 +1261,9 @@ body {
 
 <a class="brand" href="index.html">
 
-<div class="logo">EA</div>
+<div class="logo">
+EA
+</div>
 
 <div>
 ECHO AIR GROUP
@@ -1237,9 +1277,10 @@ ECHO AIR GROUP
 
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
-<a href="fleet.html">Fleet</a>
+<a href="#fleet">Fleet</a>
 <a href="routes.html">Routes</a>
 <a href="team.html">Team</a>
+<a href="#news">News</a>
 <a href="join.html">Join Us</a>
 <a href="manual.html">Pilot Manual</a>
 <a href="contact.html">Contact Us</a>
@@ -1252,7 +1293,7 @@ REGISTER
 </a>
 
 
-<button class="menu" onclick="toggleMenu()">
+<button class="menu" onclick="toggleMenu()" type="button">
 ☰
 </button>
 
@@ -1265,9 +1306,10 @@ REGISTER
 
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
-<a href="fleet.html">Fleet</a>
+<a href="#fleet">Fleet</a>
 <a href="routes.html">Routes</a>
 <a href="team.html">Team</a>
+<a href="#news">News</a>
 <a href="join.html">Join Us</a>
 <a href="manual.html">Pilot Manual</a>
 <a href="contact.html">Contact Us</a>
@@ -1552,20 +1594,26 @@ View All Routes
 
 <!-- =====================================================
      FLEET
-     
-     IMPORTANT:
-     To add another aircraft:
-     1. Copy one .fcard
+
+     HOW TO ADD AIRCRAFT:
+
+     1. Copy an entire .fcard
      2. Change data-type
-     3. Change name/image/specs
-     
-     data-type options:
+     3. Change the name
+     4. Change image
+     5. Change specifications
+
+     AVAILABLE TYPES:
+
      narrow
      regional
      wide
      ===================================================== -->
 
-<section class="fleet-section reveal">
+<section
+class="fleet-section reveal"
+id="fleet"
+>
 
 <div class="container">
 
@@ -1581,7 +1629,7 @@ Meet the <span>Fleet.</span>
 
 <p>
 Browse the Echo Air Group fleet by aircraft category.
-Use the buttons below to quickly filter the aircraft.
+Use the buttons below to filter the aircraft.
 </p>
 
 </div>
@@ -1689,9 +1737,7 @@ Short & Medium Haul
 </article>
 
 
-<!-- =====================================================
-     AIRBUS A320
-     ===================================================== -->
+<!-- A320 -->
 
 <article class="fcard" data-type="narrow">
 
@@ -1749,9 +1795,7 @@ Short & Medium Haul
 </article>
 
 
-<!-- =====================================================
-     AIRBUS A320NEO
-     ===================================================== -->
+<!-- A320NEO -->
 
 <article class="fcard" data-type="narrow">
 
@@ -1809,9 +1853,7 @@ Short & Medium Haul
 </article>
 
 
-<!-- =====================================================
-     AIRBUS A321NEO
-     ===================================================== -->
+<!-- A321NEO -->
 
 <article class="fcard" data-type="narrow">
 
@@ -1869,9 +1911,7 @@ Medium & Long Haul
 </article>
 
 
-<!-- =====================================================
-     BOEING 737-700
-     ===================================================== -->
+<!-- BOEING 737-700 -->
 
 <article class="fcard" data-type="narrow">
 
@@ -1929,9 +1969,7 @@ Regional & Short Haul
 </article>
 
 
-<!-- =====================================================
-     BOEING 737-800
-     ===================================================== -->
+<!-- BOEING 737-800 -->
 
 <article class="fcard" data-type="narrow">
 
@@ -1989,9 +2027,7 @@ Short & Medium Haul
 </article>
 
 
-<!-- =====================================================
-     BOEING 737 MAX 8
-     ===================================================== -->
+<!-- BOEING 737 MAX 8 -->
 
 <article class="fcard" data-type="narrow">
 
@@ -2049,9 +2085,7 @@ Medium Haul
 </article>
 
 
-<!-- =====================================================
-     EMBRAER E190
-     ===================================================== -->
+<!-- EMBRAER E190 -->
 
 <article class="fcard" data-type="regional">
 
@@ -2109,9 +2143,7 @@ Regional & Short Haul
 </article>
 
 
-<!-- =====================================================
-     AIRBUS A350-900
-     ===================================================== -->
+<!-- AIRBUS A350 -->
 
 <article class="fcard" data-type="wide">
 
@@ -2188,47 +2220,26 @@ View Full Fleet
 
 <!-- =====================================================
      NEWS
-     
-     =====================================================
-     
+
      HOW TO ADD NEWS:
-     
-     Copy the example article below and change:
-     
-     1. date
-     2. title
-     3. text
-     4. optional image
-     
-     Example:
-     
-     <article class="news-card">
-     
-         <div class="news-image">
-             <img src="YOUR-IMAGE-URL.jpg">
-         </div>
-     
-         <div class="news-content">
-     
-             <div class="news-date">
-                 August 8, 2026
-             </div>
-     
-             <h3>
-                 Your News Title
-             </h3>
-     
-             <p>
-                 Your news text goes here.
-             </p>
-     
-         </div>
-     
-     </article>
-     
+
+     Copy an entire article below.
+
+     Change:
+
+     1. Date
+     2. Title
+     3. Text
+     4. Optional image
+
+     Put the newest article FIRST.
+
      ===================================================== -->
 
-<section class="news-section reveal">
+<section
+class="news-section reveal"
+id="news"
+>
 
 <div class="container">
 
@@ -2254,28 +2265,48 @@ and everything happening inside Echo Air Group.
 
 
 <!-- =====================================================
-     NEWS ARTICLE 1
+     ADD NEW NEWS ABOVE THIS ARTICLE
      ===================================================== -->
 
+<!--
 <article class="news-card">
 
 <div class="news-image">
 
-<!--
-     OPTIONAL IMAGE:
-
-     Replace the entire emoji with:
-
-     <img src="YOUR-IMAGE-URL.jpg"
-          alt="News image">
-
-     If you don't want an image, keep the ✈.
--->
-
-✈
+<img
+src="YOUR-IMAGE-URL-HERE"
+alt="News image"
+>
 
 </div>
 
+<div class="news-content">
+
+<div class="news-date">
+August 8, 2026
+</div>
+
+<h3>
+YOUR NEWS TITLE
+</h3>
+
+<p>
+YOUR NEWS TEXT GOES HERE.
+</p>
+
+</div>
+
+</article>
+-->
+
+
+<!-- NEWS 1 -->
+
+<article class="news-card">
+
+<div class="news-image">
+✈
+</div>
 
 <div class="news-content">
 
@@ -2298,9 +2329,7 @@ part of our growing virtual airline community.
 </article>
 
 
-<!-- =====================================================
-     NEWS ARTICLE 2
-     ===================================================== -->
+<!-- NEWS 2 -->
 
 <article class="news-card">
 
@@ -2328,9 +2357,7 @@ destinations and exciting opportunities for our pilots.
 </article>
 
 
-<!-- =====================================================
-     NEWS ARTICLE 3
-     ===================================================== -->
+<!-- NEWS 3 -->
 
 <article class="news-card">
 
@@ -2362,21 +2389,17 @@ Air Group operations.
 </div>
 
 
-<!-- EASY NEWS INSTRUCTIONS -->
-
 <div class="news-help">
 
 <strong>💡 Adding new news:</strong>
 
-Copy one of the
+Copy the commented
 <code>&lt;article class="news-card"&gt;</code>
-blocks above, paste it at the beginning of the
+template above, paste it at the beginning of the
 <code>.news-grid</code>, and change the date, title,
-text and optional image. Your newest article will then
-appear first.
+text and image. Your newest article will appear first.
 
 </div>
-
 
 </div>
 
@@ -2630,17 +2653,9 @@ Meet The Full Team
 
 <!-- =====================================================
      SOCIAL MEDIA
-     
-     =====================================================
-     
-     !!! ONLY CHANGE THESE TWO LINKS !!!
-     
-     DISCORD:
-     Replace the href below with your Discord invite.
-     
-     TIKTOK:
-     Replace the href below with your TikTok profile.
-     
+
+     ONLY CHANGE THESE TWO HREF VALUES IF YOU EVER
+     WANT TO CHANGE YOUR SOCIAL MEDIA LINKS.
      ===================================================== -->
 
 <section class="social-section reveal">
@@ -2665,32 +2680,49 @@ with our latest announcements, events and content.
 
 
 <!-- =====================================================
-     DISCORD LINK
+     DISCORD
      ===================================================== -->
 
 <a
 class="social-button social-discord"
-href="PASTE-YOUR-DISCORD-LINK-HERE"
+href="https://discord.gg/e7ePxYA24"
 target="_blank"
 rel="noopener"
 >
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
-          alt="Discord image"> Join Our Discord
+
+<img
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
+alt="Discord"
+>
+
+<span>
+Discord
+</span>
+
 </a>
 
 
+
 <!-- =====================================================
-     TIKTOK LINK
+     TIKTOK
      ===================================================== -->
 
 <a
 class="social-button social-tiktok"
-href="PASTE-YOUR-TIKTOK-LINK-HERE"
+href="https://www.tiktok.com/@echoairgroup"
 target="_blank"
 rel="noopener"
 >
-<img src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
-          alt="Discord image"> Follow Us On TikTok
+
+<img
+src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
+alt="TikTok"
+>
+
+<span>
+TikTok
+</span>
+
 </a>
 
 
@@ -2795,9 +2827,10 @@ the world of flight simulation.
 
 <a href="index.html">Home</a>
 <a href="about.html">About</a>
-<a href="fleet.html">Fleet</a>
+<a href="#fleet">Fleet</a>
 <a href="routes.html">Routes</a>
 <a href="team.html">Team</a>
+<a href="#news">News</a>
 <a href="manual.html">Pilot Manual</a>
 <a href="contact.html">Contact</a>
 <a href="join.html">Register</a>
@@ -2825,6 +2858,10 @@ Not affiliated with any real-world airline.
 
 
 
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
 <script src="script.js"></script>
 
 
@@ -2839,18 +2876,18 @@ function filterFleet(type, button) {
     const cards = document.querySelectorAll(".fcard");
     const tabs = document.querySelectorAll(".fleet-tab");
 
-    /* Remove active state from every button */
+    /* Remove active state */
 
     tabs.forEach(tab => {
         tab.classList.remove("active");
     });
 
-    /* Activate the button that was clicked */
+    /* Activate selected button */
 
     button.classList.add("active");
 
 
-    /* Show/hide aircraft */
+    /* Filter aircraft */
 
     cards.forEach(card => {
 
@@ -2938,7 +2975,9 @@ const cardObserver =
                 if (entry.isIntersecting) {
 
                     entry.target.style.opacity = "1";
-                    entry.target.style.transform = "translateY(0)";
+
+                    entry.target.style.transform =
+                        "translateY(0)";
 
                     cardObserver.unobserve(entry.target);
 
@@ -2965,6 +3004,43 @@ cards.forEach(card => {
         "opacity .7s ease, transform .7s ease, box-shadow .3s ease";
 
     cardObserver.observe(card);
+
+});
+
+
+/* =========================================================
+   MOBILE NAVIGATION
+
+   This also works if your existing script.js already
+   contains toggleMenu().
+   ========================================================= */
+
+function toggleMenu() {
+
+    const mobileNav =
+        document.getElementById("mobileNav");
+
+    if (!mobileNav) return;
+
+    mobileNav.classList.toggle("open");
+
+}
+
+
+/* Close mobile menu when clicking a link */
+
+document.querySelectorAll("#mobileNav a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        const mobileNav =
+            document.getElementById("mobileNav");
+
+        if (mobileNav) {
+            mobileNav.classList.remove("open");
+        }
+
+    });
 
 });
 
