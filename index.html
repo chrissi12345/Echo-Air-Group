@@ -1,97 +1,922 @@
-<!doctype html>
+]<!doctype html>
 
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Echo Air Group</title>
+
+<title>Echo Air Group — Virtual Airline</title>
+
 <link rel="stylesheet" href="style.css">
 
 <style>
-/* Compact homepage sections */
-.home-section {
-    padding: 55px 0;
+
+/* =========================================================
+   ECHO AIR GROUP — HOMEPAGE
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
 }
 
-.home-section.compact {
-    padding: 45px 0;
+body {
+    overflow-x: hidden;
 }
 
-.mini-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 28px;
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.home-hero {
+    min-height: 760px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 75% 35%, rgba(172,227,54,.16), transparent 30%),
+        linear-gradient(135deg,#0d130e 0%,#182019 55%,#0d120e 100%);
+    color: white;
 }
 
-.mini-card {
-    padding: 24px;
-    border-radius: 14px;
-    background: #f5f7f3;
-    border: 1px solid #e5e9e2;
+.home-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg,rgba(0,0,0,.55),transparent 70%),
+        radial-gradient(circle at 85% 75%,rgba(172,227,54,.08),transparent 25%);
+    pointer-events: none;
 }
 
-.mini-card h3 {
-    margin: 0 0 8px;
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    opacity: .12;
+    background-image:
+        linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);
+    background-size: 70px 70px;
+    mask-image: linear-gradient(to bottom,black,transparent);
 }
 
-.mini-card p {
-    margin: 0;
-    color: #687267;
-    line-height: 1.6;
+.home-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 760px;
+    padding: 110px 0;
+}
+
+.hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 15px;
+    border: 1px solid rgba(172,227,54,.25);
+    border-radius: 999px;
+    background: rgba(172,227,54,.06);
+    color: #c9f17c;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.hero-kicker span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ace336;
+    box-shadow: 0 0 15px #ace336;
+}
+
+.home-hero h1 {
+    font-size: clamp(55px,8vw,100px);
+    line-height: .95;
+    letter-spacing: -5px;
+    margin: 28px 0;
+    font-weight: 800;
+}
+
+.home-hero h1 span {
+    color: #ace336;
+}
+
+.home-hero p {
+    max-width: 620px;
+    font-size: 19px;
+    line-height: 1.75;
+    color: #c2c9c0;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 35px;
+}
+
+.hero-plane-large {
+    position: absolute;
+    right: -4%;
+    top: 50%;
+    transform: translateY(-50%) rotate(-3deg);
+    font-size: clamp(180px,25vw,420px);
+    opacity: .06;
+    user-select: none;
+}
+
+.hero-orbit {
+    position: absolute;
+    width: 620px;
+    height: 620px;
+    right: -100px;
+    top: 90px;
+    border: 1px solid rgba(172,227,54,.13);
+    border-radius: 50%;
+}
+
+.hero-orbit::before,
+.hero-orbit::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(172,227,54,.08);
+    border-radius: 50%;
+}
+
+.hero-orbit::before {
+    inset: 70px;
+}
+
+.hero-orbit::after {
+    inset: 150px;
+}
+
+.hero-flight-card {
+    position: absolute;
+    right: 9%;
+    bottom: 85px;
+    z-index: 4;
+    padding: 20px 24px;
+    min-width: 245px;
+    border-radius: 18px;
+    background: rgba(18,25,19,.82);
+    border: 1px solid rgba(255,255,255,.09);
+    box-shadow: 0 25px 70px rgba(0,0,0,.35);
+    backdrop-filter: blur(15px);
+}
+
+.hero-flight-card strong {
+    display: block;
     font-size: 14px;
 }
 
-.mini-card a {
-    display: inline-block;
-    margin-top: 14px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #587d24;
-    text-decoration: none;
-}
-
-.mini-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 25px;
-}
-
-.mini-item {
-    padding: 16px;
-    border-radius: 12px;
-    background: #f5f7f3;
-    border: 1px solid #e5e9e2;
-}
-
-.mini-item strong {
+.hero-flight-card small {
     display: block;
-    margin-bottom: 4px;
+    margin-top: 5px;
+    color: #8d988c;
 }
 
-.mini-item small {
-    color: #687267;
+.live-dot {
+    color: #ace336;
 }
 
-.home-cta {
+/* =========================================================
+   STAT BAR
+   ========================================================= */
+
+.home-stats {
+    background: #101610;
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.home-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+
+.home-stat {
+    padding: 32px 20px;
     text-align: center;
-    padding: 65px 0;
+    border-right: 1px solid rgba(255,255,255,.07);
 }
 
-@media (max-width: 800px) {
-    .mini-grid,
-    .mini-list {
+.home-stat:last-child {
+    border-right: none;
+}
+
+.home-stat strong {
+    display: block;
+    font-size: 34px;
+    color: #ace336;
+}
+
+.home-stat span {
+    display: block;
+    margin-top: 5px;
+    color: #899287;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   GENERAL HOME SECTIONS
+   ========================================================= */
+
+.home-section {
+    padding: 115px 0;
+}
+
+.home-section-light {
+    background: #f6f8f4;
+}
+
+.home-section-dark {
+    background: #111711;
+    color: white;
+}
+
+.home-section-dark .section-copy p {
+    color: #929b91;
+}
+
+.section-copy {
+    max-width: 700px;
+}
+
+.section-copy h2 {
+    font-size: clamp(38px,5vw,62px);
+    line-height: 1;
+    letter-spacing: -2px;
+    margin: 15px 0 22px;
+}
+
+.section-copy h2 span {
+    color: #719b2b;
+}
+
+.section-copy p {
+    color: #697368;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.center-copy {
+    max-width: 750px;
+    margin: auto;
+    text-align: center;
+}
+
+/* =========================================================
+   EXPERIENCE CARDS
+   ========================================================= */
+
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 22px;
+    margin-top: 55px;
+}
+
+.experience-card {
+    padding: 34px;
+    border-radius: 20px;
+    background: white;
+    border: 1px solid #e4e9e1;
+    box-shadow: 0 15px 45px rgba(20,30,20,.05);
+    transition: .35s ease;
+}
+
+.experience-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 65px rgba(20,30,20,.12);
+}
+
+.experience-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #eef5e6;
+    color: #719b2b;
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+
+.experience-card h3 {
+    margin-bottom: 12px;
+}
+
+.experience-card p {
+    color: #727c71;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* =========================================================
+   FLEET
+   ========================================================= */
+
+.fleet-section {
+    padding: 125px 0;
+    background: #f5f7f3;
+}
+
+.fleet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+    margin-bottom: 55px;
+}
+
+.fleet-header-copy {
+    max-width: 650px;
+}
+
+.fleet-header-copy h2 {
+    font-size: clamp(42px,5vw,65px);
+    line-height: .98;
+    letter-spacing: -3px;
+    margin: 15px 0;
+}
+
+.fleet-header-copy h2 span {
+    color: #719b2b;
+}
+
+.fleet-header-copy p {
+    color: #697368;
+    line-height: 1.7;
+}
+
+/* FLEET GRID */
+
+.fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 24px;
+}
+
+/* FLEET CARD */
+
+.fcard {
+    background: white;
+    border: 1px solid #e1e7de;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(30,40,30,.04);
+    transition:
+        transform .45s ease,
+        box-shadow .45s ease,
+        opacity .8s ease;
+    opacity: 0;
+    transform: translateY(45px);
+}
+
+.fcard.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fcard:hover {
+    transform: translateY(-9px);
+    box-shadow: 0 30px 70px rgba(25,35,25,.14);
+}
+
+/* AIRCRAFT IMAGE */
+
+.fcard-visual {
+    position: relative;
+    height: 185px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #f1f4ef;
+    border-radius: 20px 20px 0 0;
+}
+
+.fcard-visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 60%,
+        rgba(20,30,20,.04)
+    );
+    pointer-events: none;
+}
+
+.fcard-plane-img {
+    position: relative;
+    z-index: 1;
+    width: 82%;
+    height: 82%;
+    object-fit: contain;
+    display: block;
+    transition: transform .5s ease;
+}
+
+.fcard:hover .fcard-plane-img {
+    transform: scale(1.05);
+}
+
+.fcard-badge {
+    position: absolute;
+    z-index: 3;
+    top: 14px;
+    left: 14px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.9);
+    color: #53634f;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    box-shadow: 0 7px 20px rgba(0,0,0,.08);
+}
+
+/* CARD INFORMATION */
+
+.fcard-info {
+    padding: 22px 24px 25px;
+}
+
+.fcard-specs {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 9px 18px;
+    margin-bottom: 21px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e7ebe5;
+}
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 11px;
+}
+
+.spec-row span:first-child {
+    color: #899287;
+}
+
+.spec-row span:last-child {
+    color: #374036;
+    font-weight: 700;
+    text-align: right;
+}
+
+.fcard-info h3 {
+    margin: 0;
+    font-size: 21px;
+    letter-spacing: -.5px;
+}
+
+.fcard-sub {
+    margin: 5px 0 0;
+    color: #7b8579;
+    font-size: 12px;
+}
+
+/* DIFFERENT AIRCRAFT CATEGORY BACKGROUNDS */
+
+.vis-narrowbody {
+    background: linear-gradient(135deg,#f1f5ed,#e9efe4);
+}
+
+.vis-regional {
+    background: linear-gradient(135deg,#f4f1e9,#eeeadd);
+}
+
+.vis-widebody {
+    background: linear-gradient(135deg,#edf1f5,#e6ebef);
+}
+
+/* =========================================================
+   FLEET CATEGORY BAR
+   ========================================================= */
+
+.fleet-categories {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.fleet-category {
+    padding: 9px 15px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid #dfe6dc;
+    color: #687267;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   ROUTES
+   ========================================================= */
+
+.routes-section {
+    padding: 125px 0;
+    background: white;
+}
+
+.routes-layout {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.route-preview {
+    border-radius: 24px;
+    min-height: 460px;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 20% 35%,rgba(172,227,54,.18),transparent 20%),
+        radial-gradient(circle at 80% 65%,rgba(172,227,54,.12),transparent 25%),
+        #111811;
+    box-shadow: 0 30px 80px rgba(20,30,20,.16);
+}
+
+.route-grid {
+    position: absolute;
+    inset: 0;
+    opacity: .15;
+    background-image:
+        linear-gradient(rgba(255,255,255,.2) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);
+    background-size: 55px 55px;
+}
+
+.route-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ace336;
+    box-shadow: 0 0 20px #ace336;
+}
+
+.route-dot::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 1px;
+    background: rgba(172,227,54,.45);
+    transform-origin: left;
+}
+
+.route-dot.one {
+    left: 20%;
+    top: 45%;
+}
+
+.route-dot.two {
+    left: 47%;
+    top: 32%;
+}
+
+.route-dot.three {
+    left: 72%;
+    top: 57%;
+}
+
+.route-dot.four {
+    left: 84%;
+    top: 30%;
+}
+
+.route-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg,transparent,#ace336,transparent);
+    opacity: .45;
+}
+
+.line-one {
+    left: 20%;
+    top: 45%;
+    width: 30%;
+    transform: rotate(-15deg);
+}
+
+.line-two {
+    left: 47%;
+    top: 32%;
+    width: 29%;
+    transform: rotate(25deg);
+}
+
+.line-three {
+    left: 72%;
+    top: 57%;
+    width: 20%;
+    transform: rotate(-40deg);
+}
+
+.route-map-label {
+    position: absolute;
+    left: 28px;
+    bottom: 25px;
+    color: white;
+}
+
+.route-map-label strong {
+    display: block;
+    font-size: 18px;
+}
+
+.route-map-label small {
+    color: #879184;
+}
+
+/* ROUTE LIST */
+
+.route-list {
+    margin-top: 38px;
+}
+
+.route-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid #e5e9e3;
+}
+
+.route-item strong {
+    font-size: 14px;
+}
+
+.route-item small {
+    display: block;
+    margin-top: 4px;
+    color: #879184;
+}
+
+.route-type {
+    font-size: 9px;
+    letter-spacing: 1px;
+    font-weight: 800;
+    color: #719b2b;
+}
+
+/* =========================================================
+   NEW SKY
+   ========================================================= */
+
+.newsky-section {
+    padding: 110px 0;
+    background: #111711;
+    color: white;
+}
+
+.newsky-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.newsky-preview {
+    min-height: 390px;
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 25% 40%,rgba(172,227,54,.12),transparent 20%),
+        radial-gradient(circle at 75% 65%,rgba(172,227,54,.08),transparent 20%),
+        #0b100c;
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 35px 100px rgba(0,0,0,.3);
+}
+
+.newsky-preview::before {
+    content: "NEWSKY";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 70px;
+    font-weight: 800;
+    letter-spacing: -4px;
+    color: rgba(255,255,255,.035);
+}
+
+.newsky-content h2 {
+    font-size: clamp(40px,5vw,60px);
+    line-height: 1;
+    letter-spacing: -3px;
+    margin: 15px 0 25px;
+}
+
+.newsky-content h2 span {
+    color: #ace336;
+}
+
+.newsky-content p {
+    color: #909990;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   COMMUNITY
+   ========================================================= */
+
+.community-section {
+    padding: 125px 0;
+    background: #f5f7f3;
+}
+
+.community-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 25px;
+    margin-top: 50px;
+}
+
+.community-card {
+    min-height: 230px;
+    padding: 35px;
+    border-radius: 22px;
+    background: white;
+    border: 1px solid #e3e9e0;
+    box-shadow: 0 15px 45px rgba(25,35,25,.05);
+}
+
+.community-card h3 {
+    margin-bottom: 12px;
+}
+
+.community-card p {
+    color: #737d72;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.final-cta {
+    padding: 145px 0;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(172,227,54,.15),transparent 35%),
+        #111711;
+    color: white;
+    text-align: center;
+}
+
+.final-cta h2 {
+    font-size: clamp(50px,7vw,85px);
+    line-height: .95;
+    letter-spacing: -4px;
+    margin: 18px 0;
+}
+
+.final-cta h2 span {
+    color: #ace336;
+}
+
+.final-cta p {
+    max-width: 650px;
+    margin: auto;
+    color: #929b91;
+    line-height: 1.8;
+}
+
+.final-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 35px;
+    flex-wrap: wrap;
+}
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(35px);
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .fleet-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .experience-grid {
         grid-template-columns: 1fr;
     }
+
+    .routes-layout,
+    .newsky-box {
+        grid-template-columns: 1fr;
+    }
+
+    .home-hero {
+        min-height: 680px;
+    }
+
+    .hero-orbit {
+        opacity: .4;
+    }
 }
+
+@media (max-width: 700px) {
+
+    .home-stats-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .home-stat:nth-child(2) {
+        border-right: none;
+    }
+
+    .home-stat {
+        border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .fleet-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fleet-header {
+        display: block;
+    }
+
+    .home-hero h1 {
+        letter-spacing: -3px;
+    }
+
+    .hero-flight-card {
+        display: none;
+    }
+
+    .hero-orbit {
+        right: -300px;
+    }
+
+    .route-preview {
+        min-height: 350px;
+    }
+
+    .community-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-section,
+    .fleet-section,
+    .routes-section,
+    .community-section {
+        padding: 85px 0;
+    }
+}
+
 </style>
 
 </head>
 
 <body>
 
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
 <header>
+
 <div class="container nav">
 
 <a class="brand" href="index.html">
@@ -113,7 +938,9 @@ ECHO AIR GROUP
 <a href="contact.html">Contact Us</a>
 </nav>
 
-<a class="register" href="join.html">REGISTER</a>
+<a class="register" href="join.html#application">
+REGISTER
+</a>
 
 <button class="menu" onclick="toggleMenu()">☰</button>
 
@@ -129,321 +956,964 @@ ECHO AIR GROUP
 <a href="join.html">Join Us</a>
 <a href="manual.html">Pilot Manual</a>
 <a href="contact.html">Contact Us</a>
-<a href="join.html">Register</a>
+<a href="join.html#application">Register</a>
 </div>
 </div>
+
 </header>
 
 <main>
 
-<!-- HERO -->
+<!-- =========================================================
+     HERO
+     ========================================================= -->
 
-<section class="hero">
-<div class="container hero-content">
+<section class="home-hero">
 
-<div class="pill">
-<span class="dot"></span>
+<div class="hero-grid"></div>
+<div class="hero-orbit"></div>
+
+<div class="hero-plane-large">✈</div>
+
+<div class="container">
+
+<div class="home-hero-content reveal">
+
+<div class="hero-kicker">
+<span></span>
 Virtual Airline Network
 </div>
 
 <h1>
-Fly beyond the <span>ordinary.</span>
+Fly beyond the
+<span>ordinary.</span>
 </h1>
 
 <p>
-Echo Air Group brings together pilots from around the world for realistic,
-social and enjoyable virtual airline operations.
+Echo Air Group is a virtual airline built around realistic operations,
+great aircraft, a growing route network and a community of pilots who
+simply love aviation.
 </p>
 
-<div class="actions">
+<div class="hero-actions">
+
 <a class="btn btn-primary" href="join.html#application">
-♙ &nbsp; Join Echo Air Group
+Join Echo Air Group
 </a>
 
-<a class="btn btn-outline" href="routes.html">
-◎ &nbsp; Explore Routes
+<a class="btn btn-outline" href="#fleet">
+Explore Our Fleet
 </a>
+
 </div>
 
 </div>
 
-<div class="hero-plane">✈</div>
+</div>
 
-<div class="hero-float">
-<strong>ECV · CLOVER</strong><br>
-<small>Echo Air Group Virtual Airline</small><br>
-<small style="color:#ace336">● Network operations</small>
+<div class="hero-flight-card">
+
+<strong>ECV · CLOVER</strong>
+
+<small>
+Echo Air Group Virtual Airline
+</small>
+
+<small>
+<span class="live-dot">●</span>
+Network operations
+</small>
+
 </div>
 
 </section>
 
-<!-- STATS -->
+<!-- =========================================================
+     STATS
+     ========================================================= -->
 
-<div class="stats">
-<div class="container stats-grid">
+<section class="home-stats">
 
-<div class="stat">
-<b>9+</b>
+<div class="container home-stats-grid">
+
+<div class="home-stat">
+<strong>9+</strong>
 <span>Aircraft Types</span>
 </div>
 
-<div class="stat">
-<b>3</b>
+<div class="home-stat">
+<strong>3</strong>
 <span>Main Hubs</span>
 </div>
 
-<div class="stat">
-<b>100+</b>
+<div class="home-stat">
+<strong>100+</strong>
 <span>Routes</span>
 </div>
 
-<div class="stat">
-<b>24/7</b>
+<div class="home-stat">
+<strong>24/7</strong>
 <span>Virtual Network</span>
 </div>
 
 </div>
-</div>
 
-<!-- ABOUT -->
+</section>
 
-<section class="home-section">
+<!-- =========================================================
+     INTRO
+     ========================================================= -->
+
+<section class="home-section home-section-light">
+
 <div class="container">
 
-<div class="section-head">
-<span class="eyebrow">About Echo Air Group</span>
+<div class="section-copy center-copy reveal">
+
+<span class="eyebrow">
+Welcome Aboard
+</span>
 
 <h2>
-One group. <span>One passion.</span>
+More than an airline.
+<span>A community.</span>
 </h2>
 
 <p>
-Echo Air Group is a virtual airline focused on realistic operations,
-community and the freedom to explore the world of flight simulation.
-Whether you're new to flight simulation or an experienced virtual pilot,
-there is a place for you here.
+Whether you are taking your first flight in a simulator or have
+thousands of hours behind you, Echo Air Group gives you a place to
+fly, learn, explore and meet other aviation enthusiasts.
 </p>
+
 </div>
 
-<div class="mini-grid">
+<div class="experience-grid">
 
-<div class="mini-card">
+<div class="experience-card reveal">
+
+<div class="experience-icon">✈</div>
+
 <h3>Realistic Operations</h3>
+
 <p>
-Structured routes, aircraft assignments and NewSky-based flight logging
-create an immersive airline experience.
+Structured routes, aircraft assignments, pilot standards and
+NewSky-based flight logging create a realistic airline environment.
 </p>
-<a href="about.html">Learn More →</a>
+
 </div>
 
-<div class="mini-card">
-<h3>Community</h3>
+<div class="experience-card reveal">
+
+<div class="experience-icon">◈</div>
+
+<h3>Freedom to Fly</h3>
+
 <p>
-Fly with other aviation enthusiasts, participate in events and improve
-your flying alongside fellow pilots.
+Fly short regional sectors, European routes or long-haul missions.
+Choose the aircraft and destinations that fit your flying style.
 </p>
-<a href="team.html">Meet the Team →</a>
+
 </div>
 
-<div class="mini-card">
-<h3>Fly Your Way</h3>
+<div class="experience-card reveal">
+
+<div class="experience-icon">◎</div>
+
+<h3>Community First</h3>
+
 <p>
-Support for MSFS 2020/2024, X-Plane 11 and X-Plane 12, with online or
-offline operations.
+Echo Air Group is built around pilots. Fly together, participate in
+events and become part of a growing virtual aviation community.
 </p>
-<a href="manual.html">Pilot Manual →</a>
-</div>
 
 </div>
 
 </div>
+
+</div>
+
 </section>
 
-<!-- FLEET -->
+<!-- =========================================================
+     FLEET
+     ========================================================= -->
 
-<section class="home-section compact">
+<section class="fleet-section" id="fleet">
+
 <div class="container">
 
-<div class="section-head">
-<span class="eyebrow">Our Aircraft</span>
+<div class="fleet-header">
+
+<div class="fleet-header-copy reveal">
+
+<span class="eyebrow">
+Our Aircraft
+</span>
 
 <h2>
-A fleet built for <span>every mission.</span>
+A fleet for
+<span>every mission.</span>
 </h2>
 
 <p>
-From regional aircraft to long-haul wide-bodies, our fleet gives pilots
-the freedom to explore different types of operations.
+From compact regional aircraft to advanced long-haul wide-bodies,
+Echo Air Group gives pilots plenty of ways to explore the network.
 </p>
-</div>
-
-<div class="mini-list">
-
-<div class="mini-item">
-<strong>Airbus A319</strong>
-<small>Short & Medium Haul</small>
-</div>
-
-<div class="mini-item">
-<strong>Airbus A320</strong>
-<small>Short & Medium Haul</small>
-</div>
-
-<div class="mini-item">
-<strong>Airbus A320neo</strong>
-<small>Short & Medium Haul</small>
-</div>
-
-<div class="mini-item">
-<strong>Airbus A321neo</strong>
-<small>Medium & Long Haul</small>
-</div>
-
-<div class="mini-item">
-<strong>Boeing 737-700</strong>
-<small>Short & Medium Haul</small>
-</div>
-
-<div class="mini-item">
-<strong>Boeing 737-800</strong>
-<small>Short & Medium Haul</small>
-</div>
-
-<div class="mini-item">
-<strong>Boeing 737 MAX 8</strong>
-<small>Medium Haul</small>
-</div>
-
-<div class="mini-item">
-<strong>Embraer E190</strong>
-<small>Regional & Short Haul</small>
-</div>
-
-<div class="mini-item">
-<strong>Airbus A350-900</strong>
-<small>Long Haul</small>
-</div>
 
 </div>
 
-<div class="actions" style="justify-content:center;margin-top:25px">
+<a class="btn btn-outline reveal" href="fleet.html">
+Full Fleet
+</a>
+
+</div>
+
+<div class="fleet-categories reveal">
+
+<div class="fleet-category">Narrow Body</div>
+<div class="fleet-category">Regional</div>
+<div class="fleet-category">Wide Body</div>
+<div class="fleet-category">Short Haul</div>
+<div class="fleet-category">Long Haul</div>
+
+</div>
+
+<div class="fleet-grid">
+
+<!-- A319 -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-narrowbody">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/A319.png"
+alt="Airbus A319"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>3,700 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>144 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.78</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>CFM56 / V2500</span>
+</div>
+
+</div>
+
+<h3>Airbus A319</h3>
+
+<p class="fcard-sub">
+Short &amp; Medium Haul
+</p>
+
+</div>
+
+</article>
+
+<!-- A320 -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-narrowbody">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/A320.png"
+alt="Airbus A320"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>3,300 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>180 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.78</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>CFM56 / V2500</span>
+</div>
+
+</div>
+
+<h3>Airbus A320</h3>
+
+<p class="fcard-sub">
+Short &amp; Medium Haul
+</p>
+
+</div>
+
+</article>
+
+<!-- A320NEO -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-narrowbody">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/A320neo.png"
+alt="Airbus A320neo"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>3,500 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>186 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.78</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>LEAP-1A</span>
+</div>
+
+</div>
+
+<h3>Airbus A320neo</h3>
+
+<p class="fcard-sub">
+Short &amp; Medium Haul
+</p>
+
+</div>
+
+</article>
+
+<!-- A321NEO -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-narrowbody">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/A321neo.png"
+alt="Airbus A321neo"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>4,000 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>220 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.78</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>LEAP-1A</span>
+</div>
+
+</div>
+
+<h3>Airbus A321neo</h3>
+
+<p class="fcard-sub">
+Medium &amp; Long Haul
+</p>
+
+</div>
+
+</article>
+
+<!-- 737-700 -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-narrowbody">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/B737.png"
+alt="Boeing 737-700"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>3,440 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>128 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.79</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>CFM56-7B</span>
+</div>
+
+</div>
+
+<h3>Boeing 737-700</h3>
+
+<p class="fcard-sub">
+Regional &amp; Short Haul
+</p>
+
+</div>
+
+</article>
+
+<!-- 737-800 -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-narrowbody">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/B737-800.png"
+alt="Boeing 737-800"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>2,935 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>174 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.79</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>CFM56-7B</span>
+</div>
+
+</div>
+
+<h3>Boeing 737-800</h3>
+
+<p class="fcard-sub">
+Short &amp; Medium Haul
+</p>
+
+</div>
+
+</article>
+
+<!-- 737 MAX -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-narrowbody">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/B737MAX8.png"
+alt="Boeing 737 MAX 8"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>3,550 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>178 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.79</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>LEAP-1B</span>
+</div>
+
+</div>
+
+<h3>Boeing 737 MAX 8</h3>
+
+<p class="fcard-sub">
+Medium Haul
+</p>
+
+</div>
+
+</article>
+
+<!-- E190 -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-regional">
+
+<div class="fcard-badge">
+Regional
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/E190.png"
+alt="Embraer E190"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>2,450 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>100 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.82</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>CF34-10E</span>
+</div>
+
+</div>
+
+<h3>Embraer E190</h3>
+
+<p class="fcard-sub">
+Regional &amp; Short Haul
+</p>
+
+</div>
+
+</article>
+
+<!-- A350 -->
+
+<article class="fcard">
+
+<div class="fcard-visual vis-widebody">
+
+<div class="fcard-badge">
+Wide Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="images/planes/A350.png"
+alt="Airbus A350-900"
+loading="lazy">
+
+</div>
+
+<div class="fcard-info">
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>8,100 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>325 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.85</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>Trent XWB</span>
+</div>
+
+</div>
+
+<h3>Airbus A350-900</h3>
+
+<p class="fcard-sub">
+Long Haul
+</p>
+
+</div>
+
+</article>
+
+</div>
+
+<div style="text-align:center;margin-top:50px">
+
 <a class="btn btn-outline" href="fleet.html">
-View Full Fleet
+View Detailed Fleet
 </a>
+
 </div>
 
 </div>
+
 </section>
 
-<!-- ROUTES -->
+<!-- =========================================================
+     ROUTES
+     ========================================================= -->
 
-<section class="home-section">
+<section class="routes-section">
+
 <div class="container">
 
-<div class="section-head">
-<span class="eyebrow">Our Network</span>
+<div class="routes-layout">
+
+<div class="route-preview reveal">
+
+<div class="route-grid"></div>
+
+<div class="route-dot one"></div>
+<div class="route-dot two"></div>
+<div class="route-dot three"></div>
+<div class="route-dot four"></div>
+
+<div class="route-line line-one"></div>
+<div class="route-line line-two"></div>
+<div class="route-line line-three"></div>
+
+<div class="route-map-label">
+
+<strong>Echo Air Group Network</strong>
+
+<small>
+Explore our growing route network
+</small>
+
+</div>
+
+</div>
+
+<div class="section-copy reveal">
+
+<span class="eyebrow">
+Our Network
+</span>
 
 <h2>
-Explore our <span>routes.</span>
+Go further.
+<span>Fly anywhere.</span>
 </h2>
 
 <p>
-Fly across Europe and beyond with a growing network of domestic,
-international and long-haul routes.
+Our network combines short European sectors with international and
+long-haul operations. New destinations can be added as Echo Air Group
+continues to grow.
 </p>
+
+<div class="route-list">
+
+<div class="route-item">
+<div>
+<strong>Rome → Barcelona</strong>
+<small>LIRF → LEBL</small>
+</div>
+<span class="route-type">INTERNATIONAL</span>
 </div>
 
-<div class="mini-grid">
+<div class="route-item">
+<div>
+<strong>Rome → Prague</strong>
+<small>LIRF → LKPR</small>
+</div>
+<span class="route-type">INTERNATIONAL</span>
+</div>
 
-<div class="mini-card">
-<h3>Domestic</h3>
+<div class="route-item">
+<div>
+<strong>Rome → Singapore</strong>
+<small>LIRF → WSSS</small>
+</div>
+<span class="route-type">LONG HAUL</span>
+</div>
+
+<div class="route-item">
+<div>
+<strong>Rome → New York</strong>
+<small>LIRF → KJFK</small>
+</div>
+<span class="route-type">LONG HAUL</span>
+</div>
+
+</div>
+
+<div class="actions">
+
+<a class="btn btn-primary" href="routes.html">
+Explore All Routes
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+     NEWSKY
+     ========================================================= -->
+
+<section class="newsky-section">
+
+<div class="container">
+
+<div class="newsky-box">
+
+<div class="newsky-preview reveal"></div>
+
+<div class="newsky-content reveal">
+
+<span class="eyebrow">
+Flight Operations
+</span>
+
+<h2>
+Your flights.
+<span>Your network.</span>
+</h2>
+
 <p>
-Rome → Milan<br>
-Barcelona → Madrid
+Echo Air Group uses NewSky to support our virtual airline operations
+and flight logging. Pilots can follow their flights, build their
+career and become part of the network.
 </p>
+
+<div class="actions">
+
+<a
+class="btn btn-primary"
+href="https://newsky.app/map"
+target="_blank">
+Open NewSky Map </a>
+
 </div>
 
-<div class="mini-card">
-<h3>International</h3>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+     COMMUNITY
+     ========================================================= -->
+
+<section class="community-section">
+
+<div class="container">
+
+<div class="section-copy center-copy reveal">
+
+<span class="eyebrow">
+The Echo Experience
+</span>
+
+<h2>
+Built around the
+<span>pilot.</span>
+</h2>
+
 <p>
-Rome → Barcelona<br>
-Rome → Prague<br>
-Prague → Rome
+Flying is better when you're not doing it alone. Echo Air Group is
+designed to give pilots a place to connect, learn and enjoy aviation.
 </p>
+
 </div>
 
-<div class="mini-card">
-<h3>Long Haul</h3>
+<div class="community-grid">
+
+<div class="community-card reveal">
+
+<h3>For New Pilots</h3>
+
 <p>
-Rome → Singapore<br>
-Rome → New York<br>
-Prague → Dubai
+New to virtual airlines? No problem. Our pilot resources and community
+give you a place to learn the basics and gradually build your experience.
 </p>
-</div>
+
+<a class="btn btn-outline" href="manual.html">
+Pilot Manual
+</a>
 
 </div>
 
-<div class="actions" style="justify-content:center;margin-top:25px">
+<div class="community-card reveal">
+
+<h3>For Experienced Pilots</h3>
+
+<p>
+Already comfortable in the cockpit? Explore the network, fly longer
+routes and take advantage of the variety within our fleet.
+</p>
+
 <a class="btn btn-outline" href="routes.html">
-Explore Full Network
+Explore Routes
 </a>
-</div>
 
 </div>
-</section>
 
-<!-- TEAM -->
+<div class="community-card reveal">
 
-<section class="home-section compact">
-<div class="container">
-
-<div class="section-head">
-<span class="eyebrow">The People Behind Echo</span>
-
-<h2>
-Meet the <span>team.</span>
-</h2>
+<h3>Want to Join?</h3>
 
 <p>
-Our team keeps Echo Air Group running and helps create a friendly,
-active virtual aviation community.
+Become an Echo Air Group pilot by completing our online application.
+It only takes a few minutes to get started.
 </p>
-</div>
-
-<div class="actions" style="justify-content:center">
-<a class="btn btn-outline" href="team.html">
-Meet Our Team
-</a>
-</div>
-
-</div>
-</section>
-
-<!-- JOIN -->
-
-<section class="dark">
-<div class="container">
-
-<div class="section-head">
-
-<span class="eyebrow">Ready for Departure?</span>
-
-<h2>
-Join <span>Echo Air Group.</span>
-</h2>
-
-<p>
-Become part of a virtual airline built for realistic operations,
-community and the freedom to explore.
-</p>
-
-<div class="actions" style="justify-content:center">
 
 <a class="btn btn-primary" href="join.html#application">
-Register as a Pilot
+Apply Now
 </a>
 
-<a class="btn btn-primary" href="contact.html">
+</div>
+
+<div class="community-card reveal">
+
+<h3>Need Help?</h3>
+
+<p>
+Have a question about the airline, your application or our operations?
+Our team is here to help.
+</p>
+
+<a class="btn btn-outline" href="contact.html">
 Contact Us
 </a>
 
@@ -452,88 +1922,52 @@ Contact Us
 </div>
 
 </div>
+
 </section>
 
-<!-- QUICK LINKS -->
+<!-- =========================================================
+     FINAL CTA
+     ========================================================= -->
 
-<section class="home-section compact">
-<div class="container">
+<section class="final-cta">
 
-<div class="section-head">
-<span class="eyebrow">Pilot Resources</span>
+<div class="container reveal">
 
-<h2>
-Everything you need to <span>fly.</span>
-</h2>
-</div>
-
-<div class="mini-grid">
-
-<div class="mini-card">
-<h3>Pilot Manual</h3>
-<p>
-Read the rules, procedures and standards for Echo Air Group pilots.
-</p>
-<a href="manual.html">Open Pilot Manual →</a>
-</div>
-
-<div class="mini-card">
-<h3>Join Us</h3>
-<p>
-Complete the application form and start your journey with Echo Air Group.
-</p>
-<a href="join.html#application">Apply Now →</a>
-</div>
-
-<div class="mini-card">
-<h3>Contact Us</h3>
-<p>
-Have a question or need help? Get in touch with the Echo Air Group team.
-</p>
-<a href="contact.html">Contact the Team →</a>
-</div>
-
-</div>
-
-</div>
-</section>
-
-<!-- FINAL CTA -->
-
-<section class="home-cta">
-<div class="container">
-
-<div class="section-head">
-
-<span class="eyebrow">The Echo Experience</span>
+<span class="eyebrow">
+Ready for Departure?
+</span>
 
 <h2>
-Ready to take <span>off?</span>
+Your next flight
+<span>starts here.</span>
 </h2>
 
 <p>
-Explore our fleet, discover the route network and become an Echo Air
-Group pilot.
+Join Echo Air Group and become part of a virtual airline built around
+realistic flying, great aircraft and an international community.
 </p>
 
-<div class="actions" style="justify-content:center">
+<div class="final-actions">
 
 <a class="btn btn-primary" href="join.html#application">
-Register Now
+Join Echo Air Group
 </a>
 
-<a class="btn btn-outline" href="fleet.html">
-View Fleet
+<a class="btn btn-outline" href="contact.html">
+Contact Us
 </a>
 
 </div>
 
 </div>
 
-</div>
 </section>
 
 </main>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
 
 <footer>
 
@@ -544,24 +1978,28 @@ View Fleet
 <div>
 
 <div class="brand">
-<div class="logo">EA</div>
+
+<div class="logo">
+EA
+</div>
 
 <div>
 ECHO AIR GROUP
 <small>6L · ECV · CLOVER</small>
 </div>
+
 </div>
 
 <p style="max-width:450px">
-Virtual aviation. Real passion. A community built for pilots who love
-the world of flight simulation.
+Virtual aviation. Real passion. A community built for pilots who
+love the world of flight simulation.
 </p>
 
 </div>
 
 <div class="foot-links">
 
-<a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a> <a href="join.html">Register</a>
+<a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a>
 
 </div>
 
@@ -582,6 +2020,49 @@ Not affiliated with any real-world airline.
 </div>
 
 </footer>
+
+<!-- =========================================================
+     SCROLL ANIMATION
+     ========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const revealElements = document.querySelectorAll(
+        ".reveal, .fcard"
+    );
+
+    const observer = new IntersectionObserver(
+        function(entries) {
+
+            entries.forEach(function(entry) {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("visible");
+
+                    observer.unobserve(entry.target);
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.12
+        }
+    );
+
+    revealElements.forEach(function(element) {
+
+        observer.observe(element);
+
+    });
+
+});
+
+</script>
 
 <script src="script.js"></script>
 
