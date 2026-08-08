@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 
 <head>
@@ -12,7 +11,59 @@
 
 <style>
 
-/* CONTACT PAGE */
+/* =========================
+   FIXED HEADER
+========================= */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    transition:
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        backdrop-filter 0.25s ease;
+}
+
+/* Header after scrolling */
+
+header.scrolled {
+    background: rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* Make sure the page doesn't hide behind the fixed header */
+
+body {
+    padding-top: 80px;
+}
+
+
+/* =========================
+   HEADER LOGO
+========================= */
+
+.header-logo {
+    height: 48px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+
+/* =========================
+   CONTACT PAGE
+========================= */
 
 .contact-grid {
     display: grid;
@@ -144,6 +195,11 @@
     font-weight: 600;
 }
 
+
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 800px) {
 
     .contact-grid {
@@ -154,54 +210,116 @@
         padding: 22px;
     }
 
+    .header-logo {
+        height: 40px;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL SCREENS
+========================= */
+
+@media (max-width: 500px) {
+
+    body {
+        padding-top: 70px;
+    }
+
+    .header-logo {
+        height: 36px;
+    }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
 
-<!-- HEADER -->
 
-<header>
+<!-- =========================
+     HEADER
+========================= -->
+
+<header id="siteHeader">
 
 <div class="container nav">
 
 <a class="brand" href="index.html">
 
-<div class="logo">
-EA
-</div>
-
-<div>
-ECHO AIR GROUP
-<small>6L · ECV · CLOVER</small>
-</div>
+<img
+    class="header-logo"
+    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685568659496/White_Text_Logo.png?ex=6a78daac&is=6a77892c&hm=c02637307e0a0d9e706461e9efaf5465e55b91d781656a792e6226f3300a0c82&=&format=webp&quality=lossless&width=1024&height=768"
+    alt="Echo Air Group"
+>
 
 </a>
 
+
 <nav class="navlinks">
 
-<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a>
+<a href="index.html">Home</a>
+
+<a href="about.html">About</a>
+
+<a href="fleet.html">Fleet</a>
+
+<a href="routes.html">Routes</a>
+
+<a href="team.html">Team</a>
+
+<a href="join.html">Join Us</a>
+
+<a href="manual.html">Pilot Manual</a>
+
+<a href="contact.html">Contact Us</a>
 
 </nav>
+
 
 <a class="register" href="join.html">
 REGISTER
 </a>
 
-<button class="menu" onclick="toggleMenu()">
+
+<button
+    class="menu"
+    onclick="toggleMenu()"
+    aria-label="Open navigation menu"
+>
 ☰
 </button>
 
 </div>
 
+
+<!-- MOBILE NAV -->
+
 <div id="mobileNav" class="mobileNav">
 
 <div class="container">
 
-<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact</a> <a href="join.html">Register</a>
+<a href="index.html">Home</a>
+
+<a href="about.html">About</a>
+
+<a href="fleet.html">Fleet</a>
+
+<a href="routes.html">Routes</a>
+
+<a href="team.html">Team</a>
+
+<a href="join.html">Join Us</a>
+
+<a href="manual.html">Pilot Manual</a>
+
+<a href="contact.html">Contact</a>
+
+<a href="join.html">Register</a>
 
 </div>
 
@@ -209,11 +327,18 @@ REGISTER
 
 </header>
 
-<!-- MAIN -->
+
+
+<!-- =========================
+     MAIN
+========================= -->
 
 <main>
 
-<!-- HERO -->
+
+<!-- =========================
+     HERO
+========================= -->
 
 <section class="pagehero">
 
@@ -235,7 +360,11 @@ Have a question about Echo Air Group? We'd love to hear from you.
 
 </section>
 
-<!-- CONTACT -->
+
+
+<!-- =========================
+     CONTACT SECTION
+========================= -->
 
 <section class="content-section">
 
@@ -243,7 +372,10 @@ Have a question about Echo Air Group? We'd love to hear from you.
 
 <div class="contact-grid">
 
-<!-- CONTACT FORM -->
+
+<!-- =========================
+     CONTACT FORM
+========================= -->
 
 <div class="contact-card">
 
@@ -255,49 +387,55 @@ Send us a message
 Fill out the form below and the Echo Air Group team will get back to you.
 </p>
 
+
 <form
-class="contact-form"
-action="https://formsubmit.co/echoairgrouptiktok@gmail.com"
-method="POST"
+    class="contact-form"
+    action="https://formsubmit.co/echoairgrouptiktok@gmail.com"
+    method="POST"
 >
+
 
 <input
-type="hidden"
-name="_subject"
-value="New Echo Air Group Contact Message"
-
+    type="hidden"
+    name="_subject"
+    value="New Echo Air Group Contact Message"
 >
+
 
 <input
-type="hidden"
-name="_captcha"
-value="false"
-
+    type="hidden"
+    name="_captcha"
+    value="false"
 >
+
 
 <input
-type="hidden"
-name="_template"
-value="table"
-
+    type="hidden"
+    name="_template"
+    value="table"
 >
+
+
+<!-- NAME -->
 
 <div>
 
 <label for="name">
-Name*
+Name *
 </label>
 
 <input
-type="text"
-id="name"
-name="name"
-placeholder="Your name"
-required
-
+    type="text"
+    id="name"
+    name="name"
+    placeholder="Your name"
+    required
 >
 
 </div>
+
+
+<!-- EMAIL -->
 
 <div>
 
@@ -306,15 +444,17 @@ Email *
 </label>
 
 <input
-type="email"
-id="email"
-name="email"
-placeholder="your@email.com"
-required
-
+    type="email"
+    id="email"
+    name="email"
+    placeholder="your@email.com"
+    required
 >
 
 </div>
+
+
+<!-- SUBJECT -->
 
 <div>
 
@@ -323,10 +463,9 @@ Subject *
 </label>
 
 <select
-id="subject"
-name="subject"
-required
-
+    id="subject"
+    name="subject"
+    required
 >
 
 <option value="">
@@ -357,34 +496,45 @@ Other
 
 </div>
 
+
+<!-- MESSAGE -->
+
 <div>
 
 <label for="message">
-Message*
+Message *
 </label>
 
 <textarea
-id="message"
-name="message"
-placeholder="Write your message here..."
-required
+    id="message"
+    name="message"
+    placeholder="Write your message here..."
+    required
 ></textarea>
 
 </div>
 
-<button
-type="submit"
-class="contact-submit"
 
+<!-- SUBMIT -->
+
+<button
+    type="submit"
+    class="contact-submit"
 >
 
-Send Message </button>
+Send Message
+
+</button>
 
 </form>
 
 </div>
 
-<!-- CONTACT INFORMATION -->
+
+
+<!-- =========================
+     CONTACT INFORMATION
+========================= -->
 
 <div class="contact-card">
 
@@ -395,6 +545,9 @@ Contact Information
 <p>
 You can also reach the Echo Air Group team through the channels below.
 </p>
+
+
+<!-- EMAIL -->
 
 <div class="contact-method">
 
@@ -420,6 +573,9 @@ echoairgrouptiktok@gmail.com
 
 </div>
 
+
+<!-- DISCORD -->
+
 <div class="contact-method">
 
 <div class="contact-icon">
@@ -436,13 +592,20 @@ Join our community and speak directly with other Echo Air Group pilots.
 
 <p style="margin-top:8px">
 
-<a href="https://discord.gg/YHyw3RwHT" target="_blank">
+<a
+    href="https://discord.gg/YHyw3RwHT"
+    target="_blank"
+    rel="noopener noreferrer"
+>
 Join our Discord ↗
 </a>
 
 </p>
 
 </div>
+
+
+<!-- PILOT APPLICATION -->
 
 <div class="contact-method">
 
@@ -468,6 +631,9 @@ Apply to join the airline →
 
 </div>
 
+
+<!-- RESPONSE TIME -->
+
 <div class="contact-method">
 
 <div class="contact-icon">
@@ -484,6 +650,7 @@ We usually respond to messages as soon as possible. Please allow some time for a
 
 </div>
 
+
 </div>
 
 </div>
@@ -492,7 +659,11 @@ We usually respond to messages as soon as possible. Please allow some time for a
 
 </section>
 
-<!-- CTA -->
+
+
+<!-- =========================
+     CTA
+========================= -->
 
 <section class="dark-section">
 
@@ -512,14 +683,16 @@ Ready to <span>fly with us?</span>
 Join the Echo Air Group community and take to the skies with fellow flight simulation enthusiasts.
 </p>
 
-<a
-href="join.html#application"
-class="register"
-style="display:inline-block;margin-top:20px;"
 
+<a
+    href="join.html#application"
+    class="register"
+    style="display:inline-block;margin-top:20px;"
 >
 
-JOIN ECHO AIR GROUP </a>
+JOIN ECHO AIR GROUP
+
+</a>
 
 </div>
 
@@ -527,9 +700,14 @@ JOIN ECHO AIR GROUP </a>
 
 </section>
 
+
 </main>
 
-<!-- FOOTER -->
+
+
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
@@ -537,18 +715,16 @@ JOIN ECHO AIR GROUP </a>
 
 <div class="foot-top">
 
+
 <div>
 
 <div class="brand">
 
-<div class="logo">
-EA
-</div>
-
-<div>
-ECHO AIR GROUP
-<small>6L · ECV · CLOVER</small>
-</div>
+<img
+    class="header-logo"
+    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685568659496/White_Text_Logo.png?ex=6a78daac&is=6a77892c&hm=c02637307e0a0d9e706461e9efaf5465e55b91d781656a792e6226f3300a0c82&=&format=webp&quality=lossless&width=1024&height=768"
+    alt="Echo Air Group"
+>
 
 </div>
 
@@ -560,13 +736,42 @@ Virtual aviation. Real passion. A community built for pilots who love the world 
 
 </div>
 
+
 <div class="foot-links">
 
-<a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="manual.html">Pilot Manual</a> <a href="join.html">Register</a> <a href="contact.html">Contact</a>
+<a href="about.html">
+About
+</a>
+
+<a href="fleet.html">
+Fleet
+</a>
+
+<a href="routes.html">
+Routes
+</a>
+
+<a href="team.html">
+Team
+</a>
+
+<a href="manual.html">
+Pilot Manual
+</a>
+
+<a href="join.html">
+Register
+</a>
+
+<a href="contact.html">
+Contact
+</a>
 
 </div>
 
+
 </div>
+
 
 <div class="copy">
 
@@ -584,7 +789,60 @@ Not affiliated with any real-world airline.
 
 </footer>
 
+
+
+<!-- =========================
+     SCRIPTS
+========================= -->
+
 <script src="script.js"></script>
+
+
+<script>
+
+/* =========================
+   HEADER SCROLL EFFECT
+========================= */
+
+const header = document.getElementById("siteHeader");
+
+function updateHeader() {
+
+    if (window.scrollY > 20) {
+
+        header.classList.add("scrolled");
+
+    } else {
+
+        header.classList.remove("scrolled");
+
+    }
+
+}
+
+window.addEventListener("scroll", updateHeader);
+
+updateHeader();
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+function toggleMenu() {
+
+    const mobileNav = document.getElementById("mobileNav");
+
+    if (mobileNav) {
+
+        mobileNav.classList.toggle("open");
+
+    }
+
+}
+
+</script>
+
 
 </body>
 </html>
