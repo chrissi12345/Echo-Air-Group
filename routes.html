@@ -1,1 +1,615 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Routes — Echo Air Group</title><link rel="stylesheet" href="style.css"></head><body><header><div class="container nav"><a class="brand" href="index.html"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></a><nav class="navlinks"><a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a></nav><a class="register" href="join.html#application">REGISTER</a><button class="menu" onclick="toggleMenu()">☰</button></div><div id="mobileNav" class="mobileNav"><div class="container"><a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="join.html#application">Register</a></div></div></header><main><section class="pagehero"><div class="container"><span class="pill">Our Network</span><h1>Explore our <span>routes.</span></h1><p>Filter the network by operation type and see the route map.</p></div></section><section class="content-section"><div class="container"><div class="filters"><button class="filter active" data-filter="all" onclick="filterRoutes('all')">All Routes</button><button class="filter" data-filter="domestic" onclick="filterRoutes('domestic')">Domestic</button><button class="filter" data-filter="international" onclick="filterRoutes('international')">International</button><button class="filter" data-filter="longhaul" onclick="filterRoutes('longhaul')">Long Haul</button></div><div class="route-table"><div class="route-row route-head"><div>Route</div><div>Type</div><div>Aircraft</div><div>Distance</div><div>Hub</div></div><div class="route-row" data-type="international"><div><strong>Rome → Barcelona</strong><small style="display:block;color:#7d887a">LIRF → LEBL</small></div><div><span class="route-badge">INTERNATIONAL</span></div><div>A320</div><div>533 nm</div><div>Rome</div></div><div class="route-row" data-type="international"><div><strong>Rome → Prague</strong><small style="display:block;color:#7d887a">LIRF → LKPR</small></div><div><span class="route-badge">INTERNATIONAL</span></div><div>A21N</div><div>482 nm</div><div>Rome</div></div><div class="route-row" data-type="international"><div><strong>Prague → Rome</strong><small style="display:block;color:#7d887a">LKPR → LIRF</small></div><div><span class="route-badge">INTERNATIONAL</span></div><div>A319</div><div>482 nm</div><div>Prague</div></div><div class="route-row" data-type="domestic"><div><strong>Rome → Milan</strong><small style="display:block;color:#7d887a">LIRF → LIMC</small></div><div><span class="route-badge">DOMESTIC</span></div><div>A320</div><div>266 nm</div><div>Rome</div></div><div class="route-row" data-type="domestic"><div><strong>Barcelona → Madrid</strong><small style="display:block;color:#7d887a">LEBL → LEMD</small></div><div><span class="route-badge">DOMESTIC</span></div><div>A320</div><div>301 nm</div><div>Barcelona</div></div><div class="route-row" data-type="longhaul"><div><strong>Rome → Singapore</strong><small style="display:block;color:#7d887a">LIRF → WSSS</small></div><div><span class="route-badge">LONG HAUL</span></div><div>A359</div><div>5,250 nm</div><div>Rome</div></div><div class="route-row" data-type="longhaul"><div><strong>Rome → New York</strong><small style="display:block;color:#7d887a">LIRF → KJFK</small></div><div><span class="route-badge">LONG HAUL</span></div><div>A359</div><div>3,990 nm</div><div>Rome</div></div><div class="route-row" data-type="longhaul"><div><strong>Prague → Dubai</strong><small style="display:block;color:#7d887a">LKPR → OMDB</small></div><div><span class="route-badge">LONG HAUL</span></div><div>A321neo</div><div>2,485 nm</div><div>Prague</div></div></div><div class="live-map"><div class="gridmap"><div class="maplabel"><strong>NewSky Live Network</strong><small>Integration-ready map</small></div><div class="mapline" style="left:22%;top:52%;width:180px;transform:rotate(-7deg)"></div><div class="mapline" style="left:39%;top:45%;width:210px;transform:rotate(20deg)"></div><div class="mapline" style="left:23%;top:52%;width:390px;transform:rotate(10deg)"></div><div class="airport" data-code="LIRF" style="left:22%;top:51%"></div><div class="airport" data-code="LEBL" style="left:38%;top:45%"></div><div class="airport" data-code="LKPR" style="left:43%;top:39%"></div><div class="airport" data-code="KJFK" style="left:8%;top:37%"></div><div class="airport" data-code="WSSS" style="left:72%;top:61%"></div><div class="mapnote">Connect this panel to your Echo Air Group NewSky map. <a href="https://newsky.app/" target="_blank">Open NewSky ↗</a></div></div></div></div></section></main><footer><div class="container"><div class="foot-top"><div><div class="brand"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></div><p style="max-width:450px">Virtual aviation. Real passion. A community built for pilots who love the world of flight simulation.</p></div><div class="foot-links"><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="manual.html">Pilot Manual</a><a href="join.html">Register</a></div></div><div class="copy"><span>© 2026 Echo Air Group. Virtual airline.</span><span>Not affiliated with any real-world airline.</span></div></div></footer><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Routes — Echo Air Group</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* NewSky Live Map */
+        .newsky-map {
+            width: 100%;
+            height: 650px;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #101410;
+            border: 1px solid #dfe5dc;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .newsky-map iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .map-header h2 {
+            margin-bottom: 5px;
+        }
+
+        .map-header p {
+            margin: 0;
+            color: #687267;
+        }
+
+        .newsky-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: #ace336;
+            color: #17200f;
+            text-decoration: none;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .newsky-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .map-fallback {
+            display: none;
+            position: absolute;
+            inset: 0;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            background: #101410;
+            color: white;
+        }
+
+        .map-fallback-content {
+            max-width: 500px;
+        }
+
+        .map-fallback h3 {
+            margin-bottom: 10px;
+        }
+
+        .map-fallback p {
+            color: #c8cec5;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 700px) {
+            .newsky-map {
+                height: 500px;
+            }
+
+            .map-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .newsky-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container nav">
+
+        <a class="brand" href="index.html">
+            <div class="logo">EA</div>
+            <div>
+                ECHO AIR GROUP
+                <small>6L · ECV · CLOVER</small>
+            </div>
+        </a>
+
+        <nav class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="fleet.html">Fleet</a>
+            <a href="routes.html">Routes</a>
+            <a href="team.html">Team</a>
+            <a href="join.html">Join Us</a>
+            <a href="manual.html">Pilot Manual</a>
+        </nav>
+
+        <a class="register" href="join.html#application">REGISTER</a>
+
+        <button class="menu" onclick="toggleMenu()">☰</button>
+
+    </div>
+
+    <div id="mobileNav" class="mobileNav">
+        <div class="container">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="fleet.html">Fleet</a>
+            <a href="routes.html">Routes</a>
+            <a href="team.html">Team</a>
+            <a href="join.html">Join Us</a>
+            <a href="manual.html">Pilot Manual</a>
+            <a href="join.html#application">Register</a>
+        </div>
+    </div>
+</header>
+
+
+<main>
+
+    <!-- PAGE HEADER -->
+    <section class="pagehero">
+        <div class="container">
+
+            <span class="pill">Our Network</span>
+
+            <h1>
+                Explore our <span>routes.</span>
+            </h1>
+
+            <p>
+                Filter the network by operation type and view the live NewSky network.
+            </p>
+
+        </div>
+    </section>
+
+
+    <!-- ROUTES -->
+    <section class="content-section">
+
+        <div class="container">
+
+            <!-- FILTER BUTTONS -->
+            <div class="filters">
+
+                <button
+                    class="filter active"
+                    data-filter="all"
+                    onclick="filterRoutes('all')">
+                    All Routes
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="domestic"
+                    onclick="filterRoutes('domestic')">
+                    Domestic
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="international"
+                    onclick="filterRoutes('international')">
+                    International
+                </button>
+
+                <button
+                    class="filter"
+                    data-filter="longhaul"
+                    onclick="filterRoutes('longhaul')">
+                    Long Haul
+                </button>
+
+            </div>
+
+
+            <!-- ROUTE TABLE -->
+            <div class="route-table">
+
+                <div class="route-row route-head">
+                    <div>Route</div>
+                    <div>Type</div>
+                    <div>Aircraft</div>
+                    <div>Distance</div>
+                    <div>Hub</div>
+                </div>
+
+
+                <!-- ROME → BARCELONA -->
+                <div class="route-row" data-type="international">
+
+                    <div>
+                        <strong>Rome → Barcelona</strong>
+                        <small style="display:block;color:#7d887a">
+                            LIRF → LEBL
+                        </small>
+                    </div>
+
+                    <div>
+                        <span class="route-badge">
+                            INTERNATIONAL
+                        </span>
+                    </div>
+
+                    <div>A320</div>
+
+                    <div>533 nm</div>
+
+                    <div>Rome</div>
+
+                </div>
+
+
+                <!-- ROME → PRAGUE -->
+                <div class="route-row" data-type="international">
+
+                    <div>
+                        <strong>Rome → Prague</strong>
+                        <small style="display:block;color:#7d887a">
+                            LIRF → LKPR
+                        </small>
+                    </div>
+
+                    <div>
+                        <span class="route-badge">
+                            INTERNATIONAL
+                        </span>
+                    </div>
+
+                    <div>A21N</div>
+
+                    <div>482 nm</div>
+
+                    <div>Rome</div>
+
+                </div>
+
+
+                <!-- PRAGUE → ROME -->
+                <div class="route-row" data-type="international">
+
+                    <div>
+                        <strong>Prague → Rome</strong>
+                        <small style="display:block;color:#7d887a">
+                            LKPR → LIRF
+                        </small>
+                    </div>
+
+                    <div>
+                        <span class="route-badge">
+                            INTERNATIONAL
+                        </span>
+                    </div>
+
+                    <div>A319</div>
+
+                    <div>482 nm</div>
+
+                    <div>Prague</div>
+
+                </div>
+
+
+                <!-- ROME → MILAN -->
+                <div class="route-row" data-type="domestic">
+
+                    <div>
+                        <strong>Rome → Milan</strong>
+                        <small style="display:block;color:#7d887a">
+                            LIRF → LIMC
+                        </small>
+                    </div>
+
+                    <div>
+                        <span class="route-badge">
+                            DOMESTIC
+                        </span>
+                    </div>
+
+                    <div>A320</div>
+
+                    <div>266 nm</div>
+
+                    <div>Rome</div>
+
+                </div>
+
+
+                <!-- BARCELONA → MADRID -->
+                <div class="route-row" data-type="domestic">
+
+                    <div>
+                        <strong>Barcelona → Madrid</strong>
+                        <small style="display:block;color:#7d887a">
+                            LEBL → LEMD
+                        </small>
+                    </div>
+
+                    <div>
+                        <span class="route-badge">
+                            DOMESTIC
+                        </span>
+                    </div>
+
+                    <div>A320</div>
+
+                    <div>301 nm</div>
+
+                    <div>Barcelona</div>
+
+                </div>
+
+
+                <!-- ROME → SINGAPORE -->
+                <div class="route-row" data-type="longhaul">
+
+                    <div>
+                        <strong>Rome → Singapore</strong>
+                        <small style="display:block;color:#7d887a">
+                            LIRF → WSSS
+                        </small>
+                    </div>
+
+                    <div>
+                        <span class="route-badge">
+                            LONG HAUL
+                        </span>
+                    </div>
+
+                    <div>A359</div>
+
+                    <div>5,250 nm</div>
+
+                    <div>Rome</div>
+
+                </div>
+
+
+                <!-- ROME → NEW YORK -->
+                <div class="route-row" data-type="longhaul">
+
+                    <div>
+                        <strong>Rome → New York</strong>
+                        <small style="display:block;color:#7d887a">
+                            LIRF → KJFK
+                        </small>
+                    </div>
+
+                    <div>
+                        <span class="route-badge">
+                            LONG HAUL
+                        </span>
+                    </div>
+
+                    <div>A359</div>
+
+                    <div>3,990 nm</div>
+
+                    <div>Rome</div>
+
+                </div>
+
+
+                <!-- PRAGUE → DUBAI -->
+                <div class="route-row" data-type="longhaul">
+
+                    <div>
+                        <strong>Prague → Dubai</strong>
+                        <small style="display:block;color:#7d887a">
+                            LKPR → OMDB
+                        </small>
+                    </div>
+
+                    <div>
+                        <span class="route-badge">
+                            LONG HAUL
+                        </span>
+                    </div>
+
+                    <div>A321neo</div>
+
+                    <div>2,485 nm</div>
+
+                    <div>Prague</div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEW SKY LIVE MAP -->
+
+            <section style="margin-top:70px;">
+
+                <div class="map-header">
+
+                    <div>
+                        <span class="eyebrow">
+                            Live Network
+                        </span>
+
+                        <h2>
+                            NewSky <span>Live Map.</span>
+                        </h2>
+
+                        <p>
+                            View live virtual aviation traffic on the NewSky network.
+                        </p>
+                    </div>
+
+                    <a
+                        class="newsky-button"
+                        href="https://newsky.app/map"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        Open Full Map ↗
+                    </a>
+
+                </div>
+
+
+                <div class="newsky-map">
+
+                    <!-- NEW SKY MAP -->
+                    <iframe
+                        src="https://newsky.app/map"
+                        title="NewSky Live Map"
+                        loading="lazy"
+                        allow="fullscreen">
+                    </iframe>
+
+
+                    <!-- FALLBACK -->
+                    <div class="map-fallback">
+
+                        <div class="map-fallback-content">
+
+                            <h3>
+                                NewSky Live Map
+                            </h3>
+
+                            <p>
+                                The NewSky map cannot be displayed directly
+                                inside this page. Use the button below to open
+                                the live map.
+                            </p>
+
+                            <a
+                                class="newsky-button"
+                                href="https://newsky.app/map"
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                Open NewSky Live Map ↗
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </section>
+
+
+    <!-- BOTTOM SECTION -->
+    <section class="dark-section">
+
+        <div class="container">
+
+            <div class="section-head">
+
+                <span class="eyebrow">
+                    Echo Network
+                </span>
+
+                <h2>
+                    Fly further. <span>Fly together.</span>
+                </h2>
+
+                <p>
+                    Explore the Echo Air Group network and follow virtual
+                    flights across the world.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="foot-top">
+
+            <div>
+
+                <div class="brand">
+
+                    <div class="logo">
+                        EA
+                    </div>
+
+                    <div>
+                        ECHO AIR GROUP
+                        <small>
+                            6L · ECV · CLOVER
+                        </small>
+                    </div>
+
+                </div>
+
+                <p style="max-width:450px">
+                    Virtual aviation. Real passion. A community built
+                    for pilots who love the world of flight simulation.
+                </p>
+
+            </div>
+
+
+            <div class="foot-links">
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="fleet.html">
+                    Fleet
+                </a>
+
+                <a href="routes.html">
+                    Routes
+                </a>
+
+                <a href="team.html">
+                    Team
+                </a>
+
+                <a href="manual.html">
+                    Pilot Manual
+                </a>
+
+                <a href="join.html">
+                    Register
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="copy">
+
+            <span>
+                © 2026 Echo Air Group. Virtual airline.
+            </span>
+
+            <span>
+                Not affiliated with any real-world airline.
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
