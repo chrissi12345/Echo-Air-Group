@@ -1,1 +1,589 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Echo Air Group</title><link rel="stylesheet" href="style.css"></head><body><header><div class="container nav"><a class="brand" href="index.html"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></a><nav class="navlinks"><a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="contact.html">Contact Us</a></nav><a class="register" href="join.html">REGISTER</a><button class="menu" onclick="toggleMenu()">☰</button></div><div id="mobileNav" class="mobileNav"><div class="container"><a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="contact.html">Contact Us</a><a href="join.html">Register</a></div></div></header><main><section class="hero"><div class="container hero-content"><div class="pill"><span class="dot"></span> Virtual Airline Network</div><h1>Fly beyond the <span>ordinary.</span></h1><p>Echo Air Group brings together pilots from around the world for realistic, social and enjoyable virtual airline operations.</p><div class="actions"><a class="btn btn-primary" href="join.html#application">♙ &nbsp; Join Echo Air Group</a><a class="btn btn-outline" href="routes.html">◎ &nbsp; Explore Routes</a></div></div><div class="hero-plane">✈</div><div class="hero-float"><strong>ECV · CLOVER</strong><br><small>Echo Air Group Virtual Airline</small><br><small style="color:#ace336">● Network operations</small></div></section><div class="stats"><div class="container stats-grid"><div class="stat"><b>9+</b><span>Aircraft Types</span></div><div class="stat"><b>3</b><span>Main Hubs</span></div><div class="stat"><b>100+</b><span>Routes</span></div><div class="stat"><b>24/7</b><span>Virtual Network</span></div></div></div><section><div class="container"><div class="section-head"><span class="eyebrow">Welcome Aboard</span><h2>One group. <span>One passion.</span></h2><p>Whether you are taking your first flight or have thousands of hours in the simulator, Echo Air Group gives you a place to fly, learn and meet other aviation enthusiasts.</p></div><div class="cards"><div class="card"><div class="card-body"><h3>Realistic Operations</h3><p>Structured routes, aircraft assignments and NewSky-based flight logging create an immersive airline experience.</p></div></div><div class="card"><div class="card-body"><h3>Fly Your Way</h3><p>Use MSFS 2020/2024, X-Plane 11 or X-Plane 12 and fly online or offline according to our pilot standards.</p></div></div><div class="card"><div class="card-body"><h3>Community First</h3><p>Join a friendly virtual aviation community, take part in events and grow your skills with fellow pilots.</p></div></div></div></div></section><section class="dark"><div class="container"><div class="section-head"><span class="eyebrow">The Echo Experience</span><h2>Ready to take <span>off?</span></h2><p>Explore our fleet, discover the route network and register as an Echo Air Group pilot.</p><div class="actions" style="justify-content:center"><a class="btn btn-primary" href="join.html#application">Register Now</a><a class="btn btn-primary" href="fleet.html">View Fleet</a></div></div></div></section></main><footer><div class="container"><div class="foot-top"><div><div class="brand"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></div><p style="max-width:450px">Virtual aviation. Real passion. A community built for pilots who love the world of flight simulation.</p></div><div class="foot-links"><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="manual.html">Pilot Manual</a><a href="join.html">Register</a></div></div><div class="copy"><span>© 2026 Echo Air Group. Virtual airline.</span><span>Not affiliated with any real-world airline.</span></div></div></footer><script src="script.js"></script></body></html>
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Echo Air Group</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* Compact homepage sections */
+.home-section {
+    padding: 55px 0;
+}
+
+.home-section.compact {
+    padding: 45px 0;
+}
+
+.mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 28px;
+}
+
+.mini-card {
+    padding: 24px;
+    border-radius: 14px;
+    background: #f5f7f3;
+    border: 1px solid #e5e9e2;
+}
+
+.mini-card h3 {
+    margin: 0 0 8px;
+}
+
+.mini-card p {
+    margin: 0;
+    color: #687267;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.mini-card a {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #587d24;
+    text-decoration: none;
+}
+
+.mini-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.mini-item {
+    padding: 16px;
+    border-radius: 12px;
+    background: #f5f7f3;
+    border: 1px solid #e5e9e2;
+}
+
+.mini-item strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.mini-item small {
+    color: #687267;
+}
+
+.home-cta {
+    text-align: center;
+    padding: 65px 0;
+}
+
+@media (max-width: 800px) {
+    .mini-grid,
+    .mini-list {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="container nav">
+
+<a class="brand" href="index.html">
+<div class="logo">EA</div>
+<div>
+ECHO AIR GROUP
+<small>6L · ECV · CLOVER</small>
+</div>
+</a>
+
+<nav class="navlinks">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="fleet.html">Fleet</a>
+<a href="routes.html">Routes</a>
+<a href="team.html">Team</a>
+<a href="join.html">Join Us</a>
+<a href="manual.html">Pilot Manual</a>
+<a href="contact.html">Contact Us</a>
+</nav>
+
+<a class="register" href="join.html">REGISTER</a>
+
+<button class="menu" onclick="toggleMenu()">☰</button>
+
+</div>
+
+<div id="mobileNav" class="mobileNav">
+<div class="container">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="fleet.html">Fleet</a>
+<a href="routes.html">Routes</a>
+<a href="team.html">Team</a>
+<a href="join.html">Join Us</a>
+<a href="manual.html">Pilot Manual</a>
+<a href="contact.html">Contact Us</a>
+<a href="join.html">Register</a>
+</div>
+</div>
+</header>
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero">
+<div class="container hero-content">
+
+<div class="pill">
+<span class="dot"></span>
+Virtual Airline Network
+</div>
+
+<h1>
+Fly beyond the <span>ordinary.</span>
+</h1>
+
+<p>
+Echo Air Group brings together pilots from around the world for realistic,
+social and enjoyable virtual airline operations.
+</p>
+
+<div class="actions">
+<a class="btn btn-primary" href="join.html#application">
+♙ &nbsp; Join Echo Air Group
+</a>
+
+<a class="btn btn-outline" href="routes.html">
+◎ &nbsp; Explore Routes
+</a>
+</div>
+
+</div>
+
+<div class="hero-plane">✈</div>
+
+<div class="hero-float">
+<strong>ECV · CLOVER</strong><br>
+<small>Echo Air Group Virtual Airline</small><br>
+<small style="color:#ace336">● Network operations</small>
+</div>
+
+</section>
+
+<!-- STATS -->
+
+<div class="stats">
+<div class="container stats-grid">
+
+<div class="stat">
+<b>9+</b>
+<span>Aircraft Types</span>
+</div>
+
+<div class="stat">
+<b>3</b>
+<span>Main Hubs</span>
+</div>
+
+<div class="stat">
+<b>100+</b>
+<span>Routes</span>
+</div>
+
+<div class="stat">
+<b>24/7</b>
+<span>Virtual Network</span>
+</div>
+
+</div>
+</div>
+
+<!-- ABOUT -->
+
+<section class="home-section">
+<div class="container">
+
+<div class="section-head">
+<span class="eyebrow">About Echo Air Group</span>
+
+<h2>
+One group. <span>One passion.</span>
+</h2>
+
+<p>
+Echo Air Group is a virtual airline focused on realistic operations,
+community and the freedom to explore the world of flight simulation.
+Whether you're new to flight simulation or an experienced virtual pilot,
+there is a place for you here.
+</p>
+</div>
+
+<div class="mini-grid">
+
+<div class="mini-card">
+<h3>Realistic Operations</h3>
+<p>
+Structured routes, aircraft assignments and NewSky-based flight logging
+create an immersive airline experience.
+</p>
+<a href="about.html">Learn More →</a>
+</div>
+
+<div class="mini-card">
+<h3>Community</h3>
+<p>
+Fly with other aviation enthusiasts, participate in events and improve
+your flying alongside fellow pilots.
+</p>
+<a href="team.html">Meet the Team →</a>
+</div>
+
+<div class="mini-card">
+<h3>Fly Your Way</h3>
+<p>
+Support for MSFS 2020/2024, X-Plane 11 and X-Plane 12, with online or
+offline operations.
+</p>
+<a href="manual.html">Pilot Manual →</a>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- FLEET -->
+
+<section class="home-section compact">
+<div class="container">
+
+<div class="section-head">
+<span class="eyebrow">Our Aircraft</span>
+
+<h2>
+A fleet built for <span>every mission.</span>
+</h2>
+
+<p>
+From regional aircraft to long-haul wide-bodies, our fleet gives pilots
+the freedom to explore different types of operations.
+</p>
+</div>
+
+<div class="mini-list">
+
+<div class="mini-item">
+<strong>Airbus A319</strong>
+<small>Short & Medium Haul</small>
+</div>
+
+<div class="mini-item">
+<strong>Airbus A320</strong>
+<small>Short & Medium Haul</small>
+</div>
+
+<div class="mini-item">
+<strong>Airbus A320neo</strong>
+<small>Short & Medium Haul</small>
+</div>
+
+<div class="mini-item">
+<strong>Airbus A321neo</strong>
+<small>Medium & Long Haul</small>
+</div>
+
+<div class="mini-item">
+<strong>Boeing 737-700</strong>
+<small>Short & Medium Haul</small>
+</div>
+
+<div class="mini-item">
+<strong>Boeing 737-800</strong>
+<small>Short & Medium Haul</small>
+</div>
+
+<div class="mini-item">
+<strong>Boeing 737 MAX 8</strong>
+<small>Medium Haul</small>
+</div>
+
+<div class="mini-item">
+<strong>Embraer E190</strong>
+<small>Regional & Short Haul</small>
+</div>
+
+<div class="mini-item">
+<strong>Airbus A350-900</strong>
+<small>Long Haul</small>
+</div>
+
+</div>
+
+<div class="actions" style="justify-content:center;margin-top:25px">
+<a class="btn btn-outline" href="fleet.html">
+View Full Fleet
+</a>
+</div>
+
+</div>
+</section>
+
+<!-- ROUTES -->
+
+<section class="home-section">
+<div class="container">
+
+<div class="section-head">
+<span class="eyebrow">Our Network</span>
+
+<h2>
+Explore our <span>routes.</span>
+</h2>
+
+<p>
+Fly across Europe and beyond with a growing network of domestic,
+international and long-haul routes.
+</p>
+</div>
+
+<div class="mini-grid">
+
+<div class="mini-card">
+<h3>Domestic</h3>
+<p>
+Rome → Milan<br>
+Barcelona → Madrid
+</p>
+</div>
+
+<div class="mini-card">
+<h3>International</h3>
+<p>
+Rome → Barcelona<br>
+Rome → Prague<br>
+Prague → Rome
+</p>
+</div>
+
+<div class="mini-card">
+<h3>Long Haul</h3>
+<p>
+Rome → Singapore<br>
+Rome → New York<br>
+Prague → Dubai
+</p>
+</div>
+
+</div>
+
+<div class="actions" style="justify-content:center;margin-top:25px">
+<a class="btn btn-outline" href="routes.html">
+Explore Full Network
+</a>
+</div>
+
+</div>
+</section>
+
+<!-- TEAM -->
+
+<section class="home-section compact">
+<div class="container">
+
+<div class="section-head">
+<span class="eyebrow">The People Behind Echo</span>
+
+<h2>
+Meet the <span>team.</span>
+</h2>
+
+<p>
+Our team keeps Echo Air Group running and helps create a friendly,
+active virtual aviation community.
+</p>
+</div>
+
+<div class="actions" style="justify-content:center">
+<a class="btn btn-outline" href="team.html">
+Meet Our Team
+</a>
+</div>
+
+</div>
+</section>
+
+<!-- JOIN -->
+
+<section class="dark">
+<div class="container">
+
+<div class="section-head">
+
+<span class="eyebrow">Ready for Departure?</span>
+
+<h2>
+Join <span>Echo Air Group.</span>
+</h2>
+
+<p>
+Become part of a virtual airline built for realistic operations,
+community and the freedom to explore.
+</p>
+
+<div class="actions" style="justify-content:center">
+
+<a class="btn btn-primary" href="join.html#application">
+Register as a Pilot
+</a>
+
+<a class="btn btn-primary" href="contact.html">
+Contact Us
+</a>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- QUICK LINKS -->
+
+<section class="home-section compact">
+<div class="container">
+
+<div class="section-head">
+<span class="eyebrow">Pilot Resources</span>
+
+<h2>
+Everything you need to <span>fly.</span>
+</h2>
+</div>
+
+<div class="mini-grid">
+
+<div class="mini-card">
+<h3>Pilot Manual</h3>
+<p>
+Read the rules, procedures and standards for Echo Air Group pilots.
+</p>
+<a href="manual.html">Open Pilot Manual →</a>
+</div>
+
+<div class="mini-card">
+<h3>Join Us</h3>
+<p>
+Complete the application form and start your journey with Echo Air Group.
+</p>
+<a href="join.html#application">Apply Now →</a>
+</div>
+
+<div class="mini-card">
+<h3>Contact Us</h3>
+<p>
+Have a question or need help? Get in touch with the Echo Air Group team.
+</p>
+<a href="contact.html">Contact the Team →</a>
+</div>
+
+</div>
+
+</div>
+</section>
+
+<!-- FINAL CTA -->
+
+<section class="home-cta">
+<div class="container">
+
+<div class="section-head">
+
+<span class="eyebrow">The Echo Experience</span>
+
+<h2>
+Ready to take <span>off?</span>
+</h2>
+
+<p>
+Explore our fleet, discover the route network and become an Echo Air
+Group pilot.
+</p>
+
+<div class="actions" style="justify-content:center">
+
+<a class="btn btn-primary" href="join.html#application">
+Register Now
+</a>
+
+<a class="btn btn-outline" href="fleet.html">
+View Fleet
+</a>
+
+</div>
+
+</div>
+
+</div>
+</section>
+
+</main>
+
+<footer>
+
+<div class="container">
+
+<div class="foot-top">
+
+<div>
+
+<div class="brand">
+<div class="logo">EA</div>
+
+<div>
+ECHO AIR GROUP
+<small>6L · ECV · CLOVER</small>
+</div>
+</div>
+
+<p style="max-width:450px">
+Virtual aviation. Real passion. A community built for pilots who love
+the world of flight simulation.
+</p>
+
+</div>
+
+<div class="foot-links">
+
+<a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a> <a href="join.html">Register</a>
+
+</div>
+
+</div>
+
+<div class="copy">
+
+<span>
+© 2026 Echo Air Group. Virtual airline.
+</span>
+
+<span>
+Not affiliated with any real-world airline.
+</span>
+
+</div>
+
+</div>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
