@@ -39,115 +39,217 @@ body {
    HEADER
    ========================================================= */
 
+/*
+   HEADER IS NOW FIXED
+   It stays at the very top while scrolling.
+*/
+
 header {
-    position: relative;
-    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+
+    z-index: 1000;
+
+    background: rgba(9, 13, 8, 1);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.06);
+
+    transition:
+        background .3s ease,
+        backdrop-filter .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
 }
 
-   .brand > div:last-child {
+
+/*
+   When the user scrolls, the header becomes
+   2% transparent = 98% opaque.
+*/
+
+header.scrolled {
+    background: rgba(9, 13, 8, .98);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border-bottom:
+        1px solid rgba(172,227,54,.12);
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.22);
+}
+
+
+.brand > div:last-child {
     font-size: 18px;
     font-weight: 800;
 }
-   
+
+
 .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     min-height: 100px;
 }
 
 
-/* LOGO */
+/* =========================================================
+   LOGO
+   ========================================================= */
 
 .brand {
     display: flex;
+
     align-items: center;
+
     text-decoration: none;
+
     color: white;
+
     flex-shrink: 0;
 }
 
 .brand-logo {
     width: 58px;
     height: 58px;
+
     object-fit: contain;
+
     display: block;
 }
 
 .brand-text {
     margin-left: 12px;
+
     font-weight: 800;
+
     font-size: 14px;
+
     letter-spacing: .04em;
 }
 
 .brand-text small {
     display: block;
+
     margin-top: 3px;
+
     font-size: 9px;
+
     color: #ace336;
+
     letter-spacing: .08em;
 }
 
 
-/* NAVIGATION */
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
 .navlinks {
     display: flex;
+
     align-items: center;
+
     justify-content: flex-end;
-    gap: 20px;
+
+    gap: 24px;
+
     margin-left: auto;
+
+    margin-right: 22px;
 }
 
+
 .navlinks a {
-    color: rgba(255,255,255,.82);
+    color: rgba(255,255,255,.9);
+
     text-decoration: none;
-    font-size: 13px;
+
+    /*
+       Navigation text made bigger
+    */
+
+    font-size: 15px;
+
     font-weight: 700;
+
     white-space: nowrap;
-    transition: color .2s ease;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
 }
+
 
 .navlinks a:hover {
     color: #ace336;
+
+    transform: translateY(-1px);
 }
+
+
+/* =========================================================
+   REGISTER BUTTON
+   ========================================================= */
 
 .register {
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
 
-    padding: 11px 17px;
+    padding: 13px 20px;
 
-    border-radius: 9px;
+    border-radius: 10px;
 
     background: #ace336;
+
     color: #17200f;
 
     text-decoration: none;
 
-    font-size: 12px;
+    font-size: 14px;
+
     font-weight: 800;
 
     white-space: nowrap;
 
-    transition: transform .2s ease, box-shadow .2s ease;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
 }
+
 
 .register:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(172,227,54,.2);
+
+    box-shadow:
+        0 8px 25px rgba(172,227,54,.25);
 }
 
 
-/* MOBILE MENU BUTTON */
+/* =========================================================
+   MOBILE MENU BUTTON
+   ========================================================= */
 
 .menu {
     display: none;
 
-    border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.05);
+    border:
+        1px solid rgba(255,255,255,.15);
+
+    background:
+        rgba(255,255,255,.05);
 
     color: white;
 
@@ -161,10 +263,17 @@ header {
 }
 
 
-/* MOBILE NAV */
+/* =========================================================
+   MOBILE NAV
+   ========================================================= */
 
 .mobileNav {
     display: none;
+
+    background: rgba(9,13,8,.98);
+
+    border-top:
+        1px solid rgba(255,255,255,.06);
 }
 
 .mobileNav.open {
@@ -178,15 +287,24 @@ header {
 .mobileNav a {
     display: block;
 
-    padding: 12px 0;
+    padding: 13px 0;
 
     color: white;
 
     text-decoration: none;
 
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
 
     font-weight: 700;
+
+    font-size: 15px;
+
+    transition: color .2s ease;
+}
+
+.mobileNav a:hover {
+    color: #ace336;
 }
 
 
@@ -200,6 +318,7 @@ header {
     position: relative;
 
     display: flex;
+
     align-items: center;
 
     overflow: hidden;
@@ -218,7 +337,16 @@ header {
         );
 
     color: white;
+
+    /*
+       Space for the fixed 100px header
+    */
+
+    padding-top: 100px;
+
+    box-sizing: border-box;
 }
+
 
 .hero::before {
     content: "";
@@ -240,15 +368,18 @@ header {
 
 
 /*
-   IMPORTANT:
-   The hero content is NOT pushed off-screen anymore.
+   HERO CONTENT
 */
 
 .hero-content {
     position: relative;
+
     z-index: 3;
+
     max-width: 760px;
+
     padding: 100px 0;
+
     transform: translateX(-200px);
 }
 
@@ -264,9 +395,11 @@ header {
 
     border-radius: 999px;
 
-    background: rgba(172,227,54,.1);
+    background:
+        rgba(172,227,54,.1);
 
-    border: 1px solid rgba(172,227,54,.3);
+    border:
+        1px solid rgba(172,227,54,.3);
 
     color: #ace336;
 
@@ -288,14 +421,16 @@ header {
 
     background: #ace336;
 
-    box-shadow: 0 0 12px #ace336;
+    box-shadow:
+        0 0 12px #ace336;
 }
 
 
 .hero h1 {
     margin: 25px 0 20px;
 
-    font-size: clamp(48px, 7vw, 88px);
+    font-size:
+        clamp(48px, 7vw, 88px);
 
     line-height: .98;
 
@@ -330,7 +465,9 @@ header {
 }
 
 
-/* HERO PLANE */
+/* =========================================================
+   HERO PLANE
+   ========================================================= */
 
 .hero-plane {
     position: absolute;
@@ -345,15 +482,19 @@ header {
         translateY(-50%)
         rotate(-5deg);
 
-    font-size: min(35vw, 520px);
+    font-size:
+        min(35vw, 520px);
 
-    color: rgba(255,255,255,.025);
+    color:
+        rgba(255,255,255,.025);
 
     user-select: none;
 }
 
 
-/* HERO FLOAT */
+/* =========================================================
+   HERO FLOAT
+   ========================================================= */
 
 .hero-float {
     position: absolute;
@@ -366,11 +507,13 @@ header {
 
     padding: 20px 24px;
 
-    border: 1px solid rgba(255,255,255,.12);
+    border:
+        1px solid rgba(255,255,255,.12);
 
     border-radius: 16px;
 
-    background: rgba(16,20,14,.75);
+    background:
+        rgba(16,20,14,.75);
 
     backdrop-filter: blur(15px);
 
@@ -380,9 +523,11 @@ header {
     line-height: 1.6;
 }
 
+
 .hero-float strong {
     color: white;
 }
+
 
 .hero-float small {
     color: #aeb7aa;
@@ -414,9 +559,11 @@ header {
         background .25s ease;
 }
 
+
 .btn:hover {
     transform: translateY(-3px);
 }
+
 
 .btn-primary {
     background: #ace336;
@@ -427,21 +574,27 @@ header {
         0 10px 30px rgba(172,227,54,.15);
 }
 
+
 .btn-primary:hover {
     box-shadow:
         0 15px 40px rgba(172,227,54,.25);
 }
 
+
 .btn-outline {
     color: white;
 
-    border: 1px solid rgba(255,255,255,.2);
+    border:
+        1px solid rgba(255,255,255,.2);
 
-    background: rgba(255,255,255,.04);
+    background:
+        rgba(255,255,255,.04);
 }
 
+
 .btn-outline:hover {
-    background: rgba(255,255,255,.09);
+    background:
+        rgba(255,255,255,.09);
 }
 
 
@@ -449,19 +602,18 @@ header {
    STATS
    ========================================================= */
 
-/*
-   Changed from bright green to dark green.
-*/
-
 .stats {
     background: #202b1b;
 
     color: white;
 
-    border-top: 1px solid rgba(172,227,54,.15);
+    border-top:
+        1px solid rgba(172,227,54,.15);
 
-    border-bottom: 1px solid rgba(172,227,54,.15);
+    border-bottom:
+        1px solid rgba(172,227,54,.15);
 }
+
 
 .stats-grid {
     display: grid;
@@ -469,6 +621,7 @@ header {
     grid-template-columns:
         repeat(4, 1fr);
 }
+
 
 .stat {
     padding: 30px 20px;
@@ -479,9 +632,11 @@ header {
         1px solid rgba(255,255,255,.08);
 }
 
+
 .stat:last-child {
     border-right: none;
 }
+
 
 .stat b {
     display: block;
@@ -492,6 +647,7 @@ header {
 
     color: #ace336;
 }
+
 
 .stat span {
     font-size: 13px;
@@ -514,9 +670,11 @@ header {
     padding: 110px 0;
 }
 
+
 .home-section.alt {
     background: #f5f7f3;
 }
+
 
 .section-head {
     max-width: 760px;
@@ -524,24 +682,30 @@ header {
     margin-bottom: 55px;
 }
 
+
 .section-head.center {
     margin-left: auto;
+
     margin-right: auto;
 
     text-align: center;
 }
 
+
 .section-head h2 {
-    font-size: clamp(36px, 5vw, 58px);
+    font-size:
+        clamp(36px, 5vw, 58px);
 
     letter-spacing: -.04em;
 
     margin: 10px 0 18px;
 }
 
+
 .section-head h2 span {
     color: #6e9c1e;
 }
+
 
 .section-head p {
     color: #687267;
@@ -550,6 +714,7 @@ header {
 
     font-size: 17px;
 }
+
 
 .eyebrow {
     color: #6e9c1e;
@@ -577,6 +742,7 @@ header {
     gap: 22px;
 }
 
+
 .experience-card {
     padding: 34px;
 
@@ -584,7 +750,8 @@ header {
 
     background: white;
 
-    border: 1px solid #e3e8df;
+    border:
+        1px solid #e3e8df;
 
     box-shadow:
         0 12px 35px rgba(20,30,15,.05);
@@ -594,12 +761,14 @@ header {
         box-shadow .3s ease;
 }
 
+
 .experience-card:hover {
     transform: translateY(-7px);
 
     box-shadow:
         0 25px 60px rgba(20,30,15,.12);
 }
+
 
 .experience-icon {
     width: 52px;
@@ -622,9 +791,11 @@ header {
     font-size: 22px;
 }
 
+
 .experience-card h3 {
     margin-bottom: 10px;
 }
+
 
 .experience-card p {
     color: #687267;
@@ -645,9 +816,11 @@ header {
     color: white;
 }
 
+
 .network-section .section-head p {
     color: #aeb7aa;
 }
+
 
 .network-image-wrapper {
     position: relative;
@@ -665,6 +838,7 @@ header {
         0 35px 90px rgba(0,0,0,.45);
 }
 
+
 .network-image {
     width: 100%;
 
@@ -676,6 +850,7 @@ header {
 
     object-fit: contain;
 }
+
 
 .network-caption {
     display: flex;
@@ -691,11 +866,13 @@ header {
     background: #151b13;
 }
 
+
 .network-caption strong {
     display: block;
 
     margin-bottom: 4px;
 }
+
 
 .network-caption span {
     color: #899486;
@@ -714,6 +891,7 @@ header {
     background: #f5f7f3;
 }
 
+
 .fleet-tabs {
     display: flex;
 
@@ -724,8 +902,10 @@ header {
     margin-bottom: 30px;
 }
 
+
 .fleet-tab {
-    border: 1px solid #dfe5dc;
+    border:
+        1px solid #dfe5dc;
 
     background: white;
 
@@ -742,6 +922,7 @@ header {
     color: #273025;
 }
 
+
 .fleet-tab.active {
     background: #17200f;
 
@@ -749,6 +930,7 @@ header {
 
     border-color: #17200f;
 }
+
 
 .fleet-grid {
     display: grid;
@@ -759,6 +941,7 @@ header {
     gap: 20px;
 }
 
+
 .fcard {
     background: white;
 
@@ -766,7 +949,8 @@ header {
 
     overflow: hidden;
 
-    border: 1px solid #e0e6dc;
+    border:
+        1px solid #e0e6dc;
 
     box-shadow:
         0 10px 30px rgba(20,30,15,.05);
@@ -776,6 +960,7 @@ header {
         box-shadow .3s ease;
 }
 
+
 .fcard:hover {
     transform: translateY(-6px);
 
@@ -783,9 +968,11 @@ header {
         0 25px 60px rgba(20,30,15,.13);
 }
 
+
 .fcard.hidden {
     display: none;
 }
+
 
 .fcard-visual {
     position: relative;
@@ -808,6 +995,7 @@ header {
         );
 }
 
+
 .fcard-plane-img {
     width: 92%;
 
@@ -817,6 +1005,7 @@ header {
 
     display: block;
 }
+
 
 .fcard-badge {
     position: absolute;
@@ -831,7 +1020,8 @@ header {
 
     border-radius: 7px;
 
-    background: rgba(23,32,15,.9);
+    background:
+        rgba(23,32,15,.9);
 
     color: white;
 
@@ -844,15 +1034,18 @@ header {
     letter-spacing: .08em;
 }
 
+
 .fcard-info {
     padding: 18px;
 }
+
 
 .fcard-info h3 {
     margin: 0 0 4px;
 
     font-size: 19px;
 }
+
 
 .fcard-sub {
     color: #71806d;
@@ -861,6 +1054,7 @@ header {
 
     margin: 0 0 15px;
 }
+
 
 .fcard-specs {
     display: grid;
@@ -876,6 +1070,7 @@ header {
         1px solid #edf0eb;
 }
 
+
 .spec-row {
     display: flex;
 
@@ -886,9 +1081,11 @@ header {
     font-size: 11px;
 }
 
+
 .spec-row span:first-child {
     color: #8a9485;
 }
+
 
 .spec-row span:last-child {
     font-weight: 700;
@@ -907,6 +1104,7 @@ header {
     background: white;
 }
 
+
 .news-grid {
     display: grid;
 
@@ -916,10 +1114,12 @@ header {
     gap: 22px;
 }
 
+
 .news-card {
     background: white;
 
-    border: 1px solid #e0e6dc;
+    border:
+        1px solid #e0e6dc;
 
     border-radius: 20px;
 
@@ -928,6 +1128,7 @@ header {
     box-shadow:
         0 12px 35px rgba(20,30,15,.05);
 }
+
 
 .news-image {
     height: 190px;
@@ -950,6 +1151,7 @@ header {
     font-size: 50px;
 }
 
+
 .news-image img {
     width: 100%;
 
@@ -958,9 +1160,11 @@ header {
     object-fit: cover;
 }
 
+
 .news-content {
     padding: 23px;
 }
+
 
 .news-date {
     color: #6e9c1e;
@@ -974,11 +1178,13 @@ header {
     letter-spacing: .08em;
 }
 
+
 .news-content h3 {
     margin: 9px 0 10px;
 
     font-size: 21px;
 }
+
 
 .news-content p {
     color: #687267;
@@ -999,6 +1205,7 @@ header {
     background: #f5f7f3;
 }
 
+
 .map-header {
     display: flex;
 
@@ -1011,15 +1218,18 @@ header {
     margin-bottom: 22px;
 }
 
+
 .map-header h2 {
     margin: 8px 0 5px;
 }
+
 
 .map-header p {
     margin: 0;
 
     color: #687267;
 }
+
 
 .newsky-map {
     width: 100%;
@@ -1032,11 +1242,13 @@ header {
 
     background: #101410;
 
-    border: 1px solid #dfe5dc;
+    border:
+        1px solid #dfe5dc;
 
     box-shadow:
         0 20px 60px rgba(20,30,15,.12);
 }
+
 
 .newsky-map iframe {
     width: 100%;
@@ -1047,6 +1259,7 @@ header {
 
     display: block;
 }
+
 
 .newsky-button {
     display: inline-flex;
@@ -1087,6 +1300,7 @@ header {
     color: white;
 }
 
+
 .routes-banner-inner {
     display: flex;
 
@@ -1097,6 +1311,7 @@ header {
     gap: 40px;
 }
 
+
 .routes-banner h2 {
     margin: 8px 0 10px;
 
@@ -1104,9 +1319,11 @@ header {
         clamp(35px, 5vw, 55px);
 }
 
+
 .routes-banner h2 span {
     color: #ace336;
 }
+
 
 .routes-banner p {
     color: #aeb7aa;
@@ -1127,6 +1344,7 @@ header {
     background: #f5f7f3;
 }
 
+
 .team-grid {
     display: grid;
 
@@ -1136,6 +1354,7 @@ header {
     gap: 20px;
 }
 
+
 .team-card {
     overflow: hidden;
 
@@ -1143,11 +1362,13 @@ header {
 
     background: white;
 
-    border: 1px solid #e0e6dc;
+    border:
+        1px solid #e0e6dc;
 
     box-shadow:
         0 10px 30px rgba(20,30,15,.05);
 }
+
 
 .team-photo {
     height: 230px;
@@ -1170,13 +1391,16 @@ header {
     font-size: 55px;
 }
 
+
 .team-info {
     padding: 20px;
 }
 
+
 .team-info h3 {
     margin: 5px 0;
 }
+
 
 .team-role {
     color: #6e9c1e;
@@ -1189,6 +1413,7 @@ header {
 
     letter-spacing: .08em;
 }
+
 
 .team-info p {
     color: #687267;
@@ -1213,6 +1438,7 @@ header {
     text-align: center;
 }
 
+
 .social-section h2 {
     font-size:
         clamp(35px, 5vw, 55px);
@@ -1220,9 +1446,11 @@ header {
     margin: 10px 0 15px;
 }
 
+
 .social-section h2 span {
     color: #ace336;
 }
+
 
 .social-section p {
     max-width: 650px;
@@ -1233,6 +1461,7 @@ header {
 
     line-height: 1.8;
 }
+
 
 .social-buttons {
     display: flex;
@@ -1247,6 +1476,7 @@ header {
 
     margin-top: 28px;
 }
+
 
 .social-button {
     display: inline-flex;
@@ -1274,6 +1504,7 @@ header {
         box-shadow .25s ease;
 }
 
+
 .social-button img {
     width: 20px;
 
@@ -1284,15 +1515,18 @@ header {
     display: block;
 }
 
+
 .social-button:hover {
     transform: translateY(-3px);
 }
+
 
 .social-discord {
     background: #5865F2;
 
     color: white;
 }
+
 
 .social-tiktok {
     background: #000;
@@ -1324,6 +1558,7 @@ header {
     color: white;
 }
 
+
 .final-cta h2 {
     font-size:
         clamp(40px, 6vw, 65px);
@@ -1331,9 +1566,11 @@ header {
     margin: 10px 0 15px;
 }
 
+
 .final-cta h2 span {
     color: #ace336;
 }
+
 
 .final-cta p {
     max-width: 650px;
@@ -1344,6 +1581,7 @@ header {
 
     line-height: 1.8;
 }
+
 
 .final-cta .actions {
     margin-top: 30px;
@@ -1370,6 +1608,7 @@ footer {
     padding: 55px 0 25px;
 }
 
+
 .foot-top {
     display: flex;
 
@@ -1380,9 +1619,11 @@ footer {
     gap: 50px;
 }
 
+
 footer .brand {
     margin-bottom: 18px;
 }
+
 
 footer p {
     color: #8f988c;
@@ -1391,9 +1632,9 @@ footer p {
 }
 
 
-/*
-   TWO ROW FOOTER NAVIGATION
-*/
+/* =========================================================
+   FOOTER NAVIGATION
+   ========================================================= */
 
 .foot-links {
     display: grid;
@@ -1409,6 +1650,7 @@ footer p {
     justify-content: end;
 }
 
+
 .foot-links a {
     color: #aeb7aa;
 
@@ -1423,12 +1665,15 @@ footer p {
     transition: color .2s ease;
 }
 
+
 .foot-links a:hover {
     color: #ace336;
 }
 
 
-/* FOOTER SOCIAL BUTTONS */
+/* =========================================================
+   FOOTER SOCIAL BUTTONS
+   ========================================================= */
 
 .footer-social {
     display: flex;
@@ -1437,6 +1682,7 @@ footer p {
 
     margin-top: 22px;
 }
+
 
 .footer-social a {
     width: 38px;
@@ -1450,7 +1696,8 @@ footer p {
 
     border-radius: 9px;
 
-    background: rgba(255,255,255,.06);
+    background:
+        rgba(255,255,255,.06);
 
     border:
         1px solid rgba(255,255,255,.1);
@@ -1460,11 +1707,14 @@ footer p {
         background .2s ease;
 }
 
+
 .footer-social a:hover {
     transform: translateY(-3px);
 
-    background: rgba(172,227,54,.12);
+    background:
+        rgba(172,227,54,.12);
 }
+
 
 .footer-social img {
     width: 20px;
@@ -1474,6 +1724,10 @@ footer p {
     object-fit: contain;
 }
 
+
+/* =========================================================
+   COPYRIGHT
+   ========================================================= */
 
 .copy {
     display: flex;
@@ -1509,6 +1763,7 @@ footer p {
         transform .8s ease;
 }
 
+
 .reveal.visible {
     opacity: 1;
 
@@ -1520,10 +1775,31 @@ footer p {
    TABLET
    ========================================================= */
 
+@media (max-width: 1200px) {
+
+    .navlinks {
+        gap: 15px;
+
+        margin-right: 15px;
+    }
+
+    .navlinks a {
+        font-size: 13px;
+    }
+
+    .register {
+        padding: 12px 16px;
+
+        font-size: 13px;
+    }
+
+}
+
+
 @media (max-width: 1100px) {
 
     .navlinks {
-        gap: 13px;
+        gap: 12px;
     }
 
     .navlinks a {
@@ -1558,6 +1834,14 @@ footer p {
 
     /* HEADER */
 
+    header {
+        min-height: auto;
+    }
+
+    .nav {
+        min-height: 82px;
+    }
+
     .navlinks,
     .nav > .register {
         display: none;
@@ -1574,10 +1858,19 @@ footer p {
 
     .hero {
         min-height: 650px;
+
+        padding-top: 82px;
     }
 
     .hero-content {
         padding: 80px 0;
+
+        /*
+           Prevents the desktop horizontal
+           movement from affecting mobile.
+        */
+
+        transform: none;
     }
 
     .hero h1 {
@@ -1695,6 +1988,10 @@ footer p {
             calc(100% - 28px);
     }
 
+    .nav {
+        min-height: 76px;
+    }
+
     .brand-logo {
         width: 48px;
         height: 48px;
@@ -1702,6 +1999,10 @@ footer p {
 
     .brand-text {
         font-size: 12px;
+    }
+
+    .hero {
+        padding-top: 76px;
     }
 
     .hero h1 {
@@ -1773,7 +2074,7 @@ footer p {
      HEADER
      ===================================================== -->
 
-<header>
+<header id="siteHeader">
 
 <div class="container nav">
 
@@ -1801,38 +2102,68 @@ ECHO AIR GROUP
 </a>
 
 
+<!-- =====================================================
+     DESKTOP NAVIGATION
+     ===================================================== -->
+
 <nav class="navlinks">
 
-<a href="index.html">Home</a>
+<a href="index.html">
+Home
+</a>
 
-<a href="about.html">About</a>
+<a href="about.html">
+About
+</a>
 
-<a href="#fleet">Fleet</a>
+<a href="index.html#fleet">
+Fleet
+</a>
 
-<a href="routes.html">Routes</a>
+<a href="routes.html">
+Routes
+</a>
 
-<a href="team.html">Team</a>
+<a href="team.html">
+Team
+</a>
 
-<a href="#news">News</a>
+<a href="index.html#news">
+News
+</a>
 
-<a href="join.html">Join Us</a>
+<a href="join.html">
+Join Us
+</a>
 
-<a href="manual.html">Pilot Manual</a>
+<a href="manual.html">
+Pilot Manual
+</a>
 
-<a href="contact.html">Contact Us</a>
+<a href="contact.html">
+Contact Us
+</a>
 
 </nav>
 
 
-<a class="register" href="join.html">
+<!-- REGISTER -->
+
+<a
+class="register"
+href="join.html"
+>
 REGISTER
 </a>
 
+
+<!-- MOBILE MENU -->
 
 <button
 class="menu"
 onclick="toggleMenu()"
 type="button"
+aria-label="Open navigation menu"
 >
 ☰
 </button>
@@ -1840,29 +2171,53 @@ type="button"
 </div>
 
 
+<!-- =====================================================
+     MOBILE NAVIGATION
+     ===================================================== -->
+
 <div id="mobileNav" class="mobileNav">
 
 <div class="container">
 
-<a href="index.html">Home</a>
+<a href="index.html">
+Home
+</a>
 
-<a href="about.html">About</a>
+<a href="about.html">
+About
+</a>
 
-<a href="#fleet">Fleet</a>
+<a href="index.html#fleet">
+Fleet
+</a>
 
-<a href="routes.html">Routes</a>
+<a href="routes.html">
+Routes
+</a>
 
-<a href="team.html">Team</a>
+<a href="team.html">
+Team
+</a>
 
-<a href="#news">News</a>
+<a href="index.html#news">
+News
+</a>
 
-<a href="join.html">Join Us</a>
+<a href="join.html">
+Join Us
+</a>
 
-<a href="manual.html">Pilot Manual</a>
+<a href="manual.html">
+Pilot Manual
+</a>
 
-<a href="contact.html">Contact Us</a>
+<a href="contact.html">
+Contact Us
+</a>
 
-<a href="join.html">Register</a>
+<a href="join.html">
+Register
+</a>
 
 </div>
 
@@ -3351,7 +3706,7 @@ the world of flight simulation.
 </p>
 
 
-<!-- SOCIAL BUTTONS IN FOOTER -->
+<!-- FOOTER SOCIAL BUTTONS -->
 
 <div class="footer-social">
 
@@ -3394,25 +3749,45 @@ alt="TikTok"
 
 <div class="foot-links">
 
-<a href="index.html">Home</a>
+<a href="index.html">
+Home
+</a>
 
-<a href="about.html">About</a>
+<a href="about.html">
+About
+</a>
 
-<a href="#fleet">Fleet</a>
+<a href="index.html#fleet">
+Fleet
+</a>
 
-<a href="routes.html">Routes</a>
+<a href="routes.html">
+Routes
+</a>
 
-<a href="team.html">Team</a>
+<a href="team.html">
+Team
+</a>
 
-<a href="#news">News</a>
+<a href="index.html#news">
+News
+</a>
 
-<a href="join.html">Join Us</a>
+<a href="join.html">
+Join Us
+</a>
 
-<a href="manual.html">Pilot Manual</a>
+<a href="manual.html">
+Pilot Manual
+</a>
 
-<a href="contact.html">Contact Us</a>
+<a href="contact.html">
+Contact Us
+</a>
 
-<a href="join.html">Register</a>
+<a href="join.html">
+Register
+</a>
 
 </div>
 
@@ -3571,6 +3946,57 @@ document
     );
 
 });
+
+
+/* =========================================================
+   STICKY HEADER / SCROLL EFFECT
+   ========================================================= */
+
+/*
+   At the very top:
+   header = completely opaque.
+
+   After scrolling:
+   header = 98% opaque / 2% transparent
+   + blur + shadow.
+*/
+
+const siteHeader =
+    document.getElementById("siteHeader");
+
+
+function updateHeader() {
+
+    if (!siteHeader) return;
+
+
+    if (window.scrollY > 10) {
+
+        siteHeader.classList.add("scrolled");
+
+    } else {
+
+        siteHeader.classList.remove("scrolled");
+
+    }
+
+}
+
+
+window.addEventListener(
+    "scroll",
+    updateHeader,
+    {
+        passive: true
+    }
+);
+
+
+/*
+   Run once when the page loads.
+*/
+
+updateHeader();
 
 
 </script>
