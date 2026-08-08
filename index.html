@@ -1,192 +1,28 @@
-<!DOCTYPE html>
+```html
+<!doctype html>
 <html lang="en">
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Echo Air Group — Virtual Airline</title>
 
-<meta name="description" content="Echo Air Group — A virtual airline built for pilots who love flight simulation.">
+<link rel="stylesheet" href="style.css">
 
 <style>
 
 /* =========================================================
-   ECHO AIR GROUP
-   MAIN WEBSITE
+   ECHO AIR GROUP — HOMEPAGE
    ========================================================= */
-
-* {
-    box-sizing: border-box;
-}
 
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f7f3;
-    color: #17200f;
     overflow-x: hidden;
-}
-
-a {
-    text-decoration: none;
-}
-
-.container {
-    width: min(1180px, calc(100% - 40px));
-    margin: 0 auto;
-}
-
-
-/* =========================================================
-   COLORS
-   ========================================================= */
-
-:root {
-    --green: #ace336;
-    --dark-green: #17200f;
-    --dark: #0d120c;
-    --dark-2: #121811;
-    --light: #f5f7f3;
-    --text: #273025;
-    --muted: #687267;
-    --border: #e0e6dc;
-}
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    background: rgba(13, 18, 12, .96);
-    backdrop-filter: blur(18px);
-
-    border-bottom: 1px solid rgba(255,255,255,.08);
-}
-
-.nav {
-    height: 82px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 30px;
-}
-
-
-/* LOGO */
-
-.brand {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.brand img {
-    display: block;
-}
-
-.header-logo {
-    width: 190px;
-    height: 58px;
-    object-fit: contain;
-}
-
-
-/* NAVIGATION */
-
-.navlinks {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.navlinks a {
-    color: #d9dfd5;
-    font-size: 13px;
-    font-weight: 700;
-
-    transition: color .2s ease;
-}
-
-.navlinks a:hover {
-    color: var(--green);
-}
-
-
-/* REGISTER BUTTON */
-
-.register {
-    padding: 11px 17px;
-
-    background: var(--green);
-    color: var(--dark-green);
-
-    border-radius: 9px;
-
-    font-size: 12px;
-    font-weight: 900;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease;
-}
-
-.register:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(172,227,54,.25);
-}
-
-
-/* MOBILE BUTTON */
-
-.menu {
-    display: none;
-
-    border: 0;
-    background: transparent;
-
-    color: white;
-
-    font-size: 27px;
-    cursor: pointer;
-}
-
-
-/* MOBILE NAV */
-
-.mobileNav {
-    display: none;
-    background: #101510;
-    border-top: 1px solid rgba(255,255,255,.08);
-}
-
-.mobileNav.open {
-    display: block;
-}
-
-.mobileNav .container {
-    display: flex;
-    flex-direction: column;
-    padding: 15px 0 20px;
-}
-
-.mobileNav a {
-    color: white;
-    padding: 13px 0;
-    border-bottom: 1px solid rgba(255,255,255,.06);
-    font-weight: 700;
 }
 
 
@@ -195,78 +31,71 @@ header {
    ========================================================= */
 
 .hero {
-    min-height: 760px;
-
+    min-height: 720px;
+    position: relative;
     display: flex;
     align-items: center;
-
-    position: relative;
     overflow: hidden;
 
     background:
-        radial-gradient(
-            circle at 78% 40%,
-            rgba(172,227,54,.14),
-            transparent 34%
-        ),
-        linear-gradient(
-            135deg,
-            #0c110b,
-            #182116 55%,
-            #0d120c
-        );
+        radial-gradient(circle at 80% 30%, rgba(172,227,54,.13), transparent 30%),
+        linear-gradient(135deg, #10150f 0%, #172016 50%, #0d110c 100%);
 
     color: white;
 }
 
-
-/* Background glow */
-
-.hero::after {
+.hero::before {
     content: "";
-
     position: absolute;
-    width: 650px;
-    height: 650px;
+    inset: 0;
 
-    right: -220px;
-    top: 40px;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(12,16,11,.98) 0%,
+            rgba(12,16,11,.82) 45%,
+            rgba(12,16,11,.30) 100%
+        );
 
-    border-radius: 50%;
-
-    background: rgba(172,227,54,.035);
-
-    filter: blur(30px);
+    pointer-events: none;
 }
 
 
-/* HERO CONTENT */
+/* MOVED HERO CONTENT TO THE LEFT */
 
 .hero-content {
     position: relative;
     z-index: 3;
 
-    max-width: 720px;
+    max-width: 760px;
 
     padding: 100px 0;
+
+    /* Move content further left */
+    margin-left: -70px;
 }
 
 
-/* HERO LOGO */
+/* =========================================================
+   HERO LOGO
+   ========================================================= */
 
 .hero-logo {
-    width: 390px;
-    max-width: 90%;
-
-    margin-bottom: 28px;
+    width: 270px;
+    max-width: 70%;
+    height: auto;
 
     display: block;
+
+    margin-bottom: 25px;
 }
 
 
-/* PILL */
+/* =========================================================
+   HERO TEXT
+   ========================================================= */
 
-.pill {
+.hero .pill {
     display: inline-flex;
     align-items: center;
     gap: 9px;
@@ -275,114 +104,69 @@ header {
 
     border-radius: 999px;
 
-    background: rgba(172,227,54,.09);
+    background: rgba(172,227,54,.1);
     border: 1px solid rgba(172,227,54,.3);
 
-    color: var(--green);
+    color: #ace336;
 
-    font-size: 12px;
-    font-weight: 800;
+    font-size: 13px;
+    font-weight: 700;
 
+    letter-spacing: .05em;
     text-transform: uppercase;
-    letter-spacing: .08em;
 }
 
-.dot {
+.hero .dot {
     width: 8px;
     height: 8px;
 
     border-radius: 50%;
 
-    background: var(--green);
+    background: #ace336;
 
-    box-shadow: 0 0 12px var(--green);
+    box-shadow: 0 0 12px #ace336;
 }
 
-
-/* HERO TITLE */
-
 .hero h1 {
-    margin: 25px 0 18px;
+    margin: 25px 0 20px;
 
-    font-size: clamp(48px, 7vw, 82px);
+    font-size: clamp(48px, 7vw, 88px);
 
     line-height: .98;
 
-    letter-spacing: -.055em;
+    letter-spacing: -0.05em;
 }
 
 .hero h1 span {
-    color: var(--green);
+    color: #ace336;
 }
 
 .hero p {
     max-width: 650px;
 
-    color: #bfc8ba;
+    color: #c6cdc2;
 
-    font-size: 18px;
+    font-size: 19px;
+
     line-height: 1.8;
 }
 
+.hero .actions {
+    margin-top: 35px;
 
-/* BUTTONS */
-
-.actions {
     display: flex;
-    gap: 13px;
+
+    gap: 14px;
+
     flex-wrap: wrap;
-
-    margin-top: 32px;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 14px 22px;
-
-    border-radius: 10px;
-
-    font-weight: 800;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-}
-
-.btn:hover {
-    transform: translateY(-3px);
-}
-
-.btn-primary {
-    background: var(--green);
-    color: var(--dark-green);
-
-    box-shadow: 0 10px 30px rgba(172,227,54,.14);
-}
-
-.btn-primary:hover {
-    box-shadow: 0 15px 40px rgba(172,227,54,.25);
-}
-
-.btn-outline {
-    color: white;
-
-    border: 1px solid rgba(255,255,255,.2);
-
-    background: rgba(255,255,255,.04);
-}
-
-.btn-outline:hover {
-    background: rgba(255,255,255,.09);
 }
 
 
-/* HERO LARGE LOGO */
+/* =========================================================
+   HERO PLANE
+   ========================================================= */
 
-.hero-full-logo {
+.hero-plane {
     position: absolute;
 
     z-index: 1;
@@ -390,35 +174,47 @@ header {
     right: -80px;
     top: 50%;
 
-    transform: translateY(-50%);
+    transform:
+        translateY(-50%)
+        rotate(-5deg);
 
-    width: min(600px, 50vw);
+    font-size: min(35vw, 520px);
 
-    opacity: .08;
+    color: rgba(255,255,255,.025);
+
+    user-select: none;
 }
 
 
-/* FLOATING INFO */
+/* =========================================================
+   HERO FLOATING INFO
+   ========================================================= */
 
 .hero-float {
     position: absolute;
 
-    z-index: 5;
+    z-index: 4;
 
-    right: 8%;
-    bottom: 70px;
+    right: 7%;
+    bottom: 90px;
 
     padding: 20px 24px;
 
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
     border-radius: 16px;
 
-    background: rgba(15,20,13,.75);
-
-    border: 1px solid rgba(255,255,255,.1);
+    background:
+        rgba(16,20,14,.75);
 
     backdrop-filter: blur(15px);
 
-    box-shadow: 0 25px 60px rgba(0,0,0,.35);
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.35);
+
+    line-height: 1.6;
 }
 
 .hero-float strong {
@@ -431,39 +227,136 @@ header {
 
 
 /* =========================================================
-   STATS
+   BUTTONS
    ========================================================= */
 
+.btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 22px;
+
+    border-radius: 11px;
+
+    text-decoration: none;
+
+    font-weight: 750;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+.btn-primary {
+    background: #ace336;
+
+    color: #17200f;
+
+    box-shadow:
+        0 10px 30px
+        rgba(172,227,54,.15);
+}
+
+.btn-primary:hover {
+    box-shadow:
+        0 15px 40px
+        rgba(172,227,54,.25);
+}
+
+.btn-outline {
+    color: white;
+
+    border:
+        1px solid
+        rgba(255,255,255,.2);
+
+    background:
+        rgba(255,255,255,.04);
+}
+
+.btn-outline:hover {
+    background:
+        rgba(255,255,255,.09);
+}
+
+
+/* =========================================================
+   STATS STRIP
+   ========================================================= */
+
+/*
+   Changed from bright green to a dark green.
+   This makes the strip fit the overall Echo Air Group design.
+*/
+
 .stats {
-    background: var(--green);
+    background:
+        linear-gradient(
+            90deg,
+            #26351d,
+            #344a24,
+            #26351d
+        );
+
+    color: white;
+
+    border-top:
+        1px solid
+        rgba(172,227,54,.15);
+
+    border-bottom:
+        1px solid
+        rgba(172,227,54,.15);
 }
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-columns:
+        repeat(4, 1fr);
 }
 
 .stat {
-    padding: 30px 15px;
+    padding: 30px 20px;
+
     text-align: center;
+
+    border-right:
+        1px solid
+        rgba(255,255,255,.08);
 }
 
-.stat strong {
+.stat:last-child {
+    border-right: none;
+}
+
+.stat b {
     display: block;
 
     font-size: 30px;
 
     margin-bottom: 5px;
+
+    color: #ace336;
 }
 
 .stat span {
-    font-size: 12px;
-    font-weight: 800;
+    font-size: 13px;
+
+    font-weight: 700;
+
+    opacity: .85;
 
     text-transform: uppercase;
-    letter-spacing: .07em;
 
-    opacity: .7;
+    letter-spacing: .05em;
 }
 
 
@@ -471,52 +364,33 @@ header {
    GENERAL SECTIONS
    ========================================================= */
 
-.section {
+.home-section {
     padding: 110px 0;
 }
 
-.section-light {
-    background: white;
-}
-
-.section-gray {
+.home-section.alt {
     background: #f5f7f3;
 }
 
-.section-dark {
-    background: #101410;
-    color: white;
-}
-
 .section-head {
-    max-width: 750px;
+    max-width: 760px;
+
     margin-bottom: 55px;
 }
 
 .section-head.center {
-    text-align: center;
     margin-left: auto;
     margin-right: auto;
-}
 
-.eyebrow {
-    color: #6e9c1e;
-
-    font-size: 12px;
-    font-weight: 900;
-
-    text-transform: uppercase;
-    letter-spacing: .13em;
+    text-align: center;
 }
 
 .section-head h2 {
-    margin: 10px 0 18px;
-
     font-size: clamp(36px, 5vw, 58px);
 
-    line-height: 1;
+    letter-spacing: -.04em;
 
-    letter-spacing: -.045em;
+    margin: 10px 0 18px;
 }
 
 .section-head h2 span {
@@ -524,28 +398,35 @@ header {
 }
 
 .section-head p {
-    margin: 0;
-
-    color: var(--muted);
+    color: #687267;
 
     line-height: 1.8;
 
     font-size: 17px;
 }
 
-.section-dark .section-head p {
-    color: #aeb7aa;
+.eyebrow {
+    color: #6e9c1e;
+
+    font-weight: 800;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .12em;
 }
 
 
 /* =========================================================
-   EXPERIENCE
+   EXPERIENCE CARDS
    ========================================================= */
 
 .experience-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 22px;
 }
@@ -553,28 +434,37 @@ header {
 .experience-card {
     padding: 34px;
 
-    background: white;
-
-    border: 1px solid var(--border);
-
     border-radius: 20px;
 
-    box-shadow: 0 12px 35px rgba(20,30,15,.05);
+    background: white;
 
-    transition: .3s ease;
+    border:
+        1px solid
+        #e3e8df;
+
+    box-shadow:
+        0 12px 35px
+        rgba(20,30,15,.05);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
 }
 
 .experience-card:hover {
     transform: translateY(-7px);
 
-    box-shadow: 0 25px 60px rgba(20,30,15,.12);
+    box-shadow:
+        0 25px 60px
+        rgba(20,30,15,.12);
 }
 
-.icon {
+.experience-icon {
     width: 52px;
     height: 52px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -583,19 +473,18 @@ header {
     border-radius: 14px;
 
     background: #eef6df;
+
     color: #6e9c1e;
 
-    font-size: 23px;
+    font-size: 22px;
 }
 
 .experience-card h3 {
-    margin: 0 0 10px;
+    margin-bottom: 10px;
 }
 
 .experience-card p {
-    margin: 0;
-
-    color: var(--muted);
+    color: #687267;
 
     line-height: 1.7;
 }
@@ -605,46 +494,77 @@ header {
    NETWORK
    ========================================================= */
 
-.network-box {
+.network-section {
+    padding: 110px 0;
+
+    background: #101410;
+
+    color: white;
+}
+
+.network-section .section-head p {
+    color: #aeb7aa;
+}
+
+.network-image-wrapper {
+    position: relative;
+
     overflow: hidden;
 
     border-radius: 24px;
 
-    border: 1px solid rgba(255,255,255,.1);
+    border:
+        1px solid
+        rgba(255,255,255,.1);
 
-    background: #0b0f0a;
+    background: #0c100b;
 
-    box-shadow: 0 35px 90px rgba(0,0,0,.4);
+    box-shadow:
+        0 35px 90px
+        rgba(0,0,0,.45);
 }
 
 .network-image {
     width: 100%;
+    height: auto;
+
     display: block;
 
     max-height: 650px;
 
     object-fit: contain;
+
+    transition:
+        transform .6s ease;
+}
+
+.network-image-wrapper:hover
+.network-image {
+    transform: scale(1.015);
 }
 
 .network-caption {
-    padding: 22px 25px;
-
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     gap: 20px;
+
+    padding: 22px 25px;
 
     background: #151b13;
 }
 
 .network-caption strong {
     display: block;
-    margin-bottom: 5px;
+
+    margin-bottom: 4px;
 }
 
 .network-caption span {
     color: #899486;
+
     font-size: 14px;
 }
 
@@ -653,16 +573,26 @@ header {
    FLEET
    ========================================================= */
 
+.fleet-section {
+    padding: 110px 0;
+
+    background: #f5f7f3;
+}
+
 .fleet-tabs {
     display: flex;
+
     gap: 9px;
+
     flex-wrap: wrap;
 
     margin-bottom: 30px;
 }
 
 .fleet-tab {
-    border: 1px solid #dfe5dc;
+    border:
+        1px solid
+        #dfe5dc;
 
     background: white;
 
@@ -671,50 +601,76 @@ header {
     border-radius: 999px;
 
     font-weight: 700;
+
     font-size: 13px;
 
     cursor: pointer;
 
-    transition: .2s ease;
+    color: #273025;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
 }
 
 .fleet-tab:hover {
     transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(20,30,15,.08);
 }
 
 .fleet-tab.active {
-    background: var(--dark-green);
+    background: #17200f;
+
     color: white;
 
-    border-color: var(--dark-green);
+    border-color: #17200f;
+
+    box-shadow:
+        0 8px 25px
+        rgba(23,32,15,.18);
 }
 
 .fleet-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 20px;
 }
 
 .fcard {
-    overflow: hidden;
-
     background: white;
 
     border-radius: 18px;
 
-    border: 1px solid var(--border);
+    overflow: hidden;
 
-    box-shadow: 0 10px 30px rgba(20,30,15,.05);
+    border:
+        1px solid
+        #e0e6dc;
 
-    transition: .3s ease;
+    box-shadow:
+        0 10px 30px
+        rgba(20,30,15,.05);
+
+    transition:
+        opacity .35s ease,
+        transform .35s ease,
+        box-shadow .3s ease;
 }
 
 .fcard:hover {
     transform: translateY(-6px);
 
-    box-shadow: 0 25px 60px rgba(20,30,15,.13);
+    box-shadow:
+        0 25px 60px
+        rgba(20,30,15,.13);
 }
 
 .fcard.hidden {
@@ -722,33 +678,39 @@ header {
 }
 
 .fcard-visual {
+    position: relative;
+
     height: 175px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    position: relative;
-
     overflow: hidden;
 
-    background: radial-gradient(
-        circle,
-        #eef4e8,
-        #f8faf6 65%
-    );
+    background:
+        radial-gradient(
+            circle at center,
+            #eef4e8,
+            #f8faf6 65%
+        );
 }
 
-.fcard-visual img {
+.fcard-plane-img {
     width: 92%;
-    height: 190px;
+    height: 200px;
 
     object-fit: contain;
 
-    transition: transform .3s ease;
+    display: block;
+
+    transition:
+        transform .35s ease;
 }
 
-.fcard:hover .fcard-visual img {
+.fcard:hover
+.fcard-plane-img {
     transform: scale(1.04);
 }
 
@@ -758,20 +720,24 @@ header {
     top: 13px;
     left: 13px;
 
-    z-index: 2;
+    z-index: 3;
 
     padding: 6px 9px;
 
     border-radius: 7px;
 
-    background: rgba(23,32,15,.9);
+    background:
+        rgba(23,32,15,.9);
 
     color: white;
 
     font-size: 9px;
-    font-weight: 900;
+
+    font-weight: 800;
 
     text-transform: uppercase;
+
+    letter-spacing: .08em;
 }
 
 .fcard-info {
@@ -780,6 +746,8 @@ header {
 
 .fcard-info h3 {
     margin: 0 0 4px;
+
+    font-size: 19px;
 }
 
 .fcard-sub {
@@ -793,29 +761,36 @@ header {
 .fcard-specs {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
     gap: 8px;
 
     padding-top: 13px;
 
-    border-top: 1px solid #edf0eb;
+    border-top:
+        1px solid
+        #edf0eb;
 }
 
-.spec {
+.spec-row {
     display: flex;
+
     flex-direction: column;
+
     gap: 2px;
 
     font-size: 11px;
 }
 
-.spec span:first-child {
+.spec-row span:first-child {
     color: #8a9485;
 }
 
-.spec span:last-child {
+.spec-row span:last-child {
     font-weight: 700;
+
+    color: #273025;
 }
 
 
@@ -823,51 +798,76 @@ header {
    NEWS
    ========================================================= */
 
+.news-section {
+    padding: 110px 0;
+
+    background: white;
+}
+
 .news-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 22px;
 }
 
 .news-card {
-    overflow: hidden;
-
     background: white;
 
-    border: 1px solid var(--border);
+    border:
+        1px solid
+        #e0e6dc;
 
     border-radius: 20px;
 
-    box-shadow: 0 12px 35px rgba(20,30,15,.05);
+    overflow: hidden;
 
-    transition: .3s ease;
+    box-shadow:
+        0 12px 35px
+        rgba(20,30,15,.05);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
 }
 
 .news-card:hover {
     transform: translateY(-7px);
 
-    box-shadow: 0 25px 60px rgba(20,30,15,.12);
+    box-shadow:
+        0 25px 60px
+        rgba(20,30,15,.12);
 }
 
 .news-image {
-    height: 180px;
+    height: 190px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
+
+    overflow: hidden;
 
     background:
         linear-gradient(
             135deg,
             #17200f,
-            #29391d
+            #28371d
         );
 
-    color: var(--green);
+    color: #ace336;
 
     font-size: 50px;
+}
+
+.news-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
 }
 
 .news-content {
@@ -878,23 +878,28 @@ header {
     color: #6e9c1e;
 
     font-size: 11px;
-    font-weight: 900;
+
+    font-weight: 800;
 
     text-transform: uppercase;
+
+    letter-spacing: .08em;
 }
 
 .news-content h3 {
     margin: 9px 0 10px;
+
+    font-size: 21px;
 }
 
 .news-content p {
-    margin: 0;
-
-    color: var(--muted);
+    color: #687267;
 
     line-height: 1.7;
 
     font-size: 14px;
+
+    margin: 0;
 }
 
 
@@ -902,38 +907,52 @@ header {
    OPERATIONS
    ========================================================= */
 
-.operations-header {
+.operations-section {
+    padding: 110px 0;
+
+    background: #f5f7f3;
+}
+
+.map-header {
     display: flex;
 
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 
     gap: 20px;
 
-    margin-bottom: 25px;
+    margin-bottom: 22px;
 }
 
-.operations-header h2 {
+.map-header h2 {
     margin: 8px 0 5px;
 }
 
-.operations-header p {
+.map-header p {
     margin: 0;
 
-    color: var(--muted);
+    color: #687267;
 }
 
 .newsky-map {
     width: 100%;
-    height: 600px;
-
-    overflow: hidden;
+    height: 650px;
 
     border-radius: 20px;
 
-    background: #0d120c;
+    overflow: hidden;
 
-    border: 1px solid #dfe5dc;
+    background: #101410;
+
+    border:
+        1px solid
+        #dfe5dc;
+
+    box-shadow:
+        0 20px 60px
+        rgba(20,30,15,.12);
+
+    position: relative;
 }
 
 .newsky-map iframe {
@@ -941,11 +960,42 @@ header {
     height: 100%;
 
     border: 0;
+
+    display: block;
+}
+
+.newsky-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    background: #ace336;
+
+    color: #17200f;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    transition: .2s ease;
+}
+
+.newsky-button:hover {
+    transform: translateY(-2px);
+
+    opacity: .9;
 }
 
 
 /* =========================================================
-   ROUTES CTA
+   ROUTES
    ========================================================= */
 
 .routes-banner {
@@ -962,10 +1012,11 @@ header {
     color: white;
 }
 
-.routes-inner {
+.routes-banner-inner {
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     gap: 40px;
@@ -974,19 +1025,18 @@ header {
 .routes-banner h2 {
     margin: 8px 0 10px;
 
-    font-size: clamp(35px, 5vw, 55px);
-
-    letter-spacing: -.04em;
+    font-size:
+        clamp(35px, 5vw, 55px);
 }
 
 .routes-banner h2 span {
-    color: var(--green);
+    color: #ace336;
 }
 
 .routes-banner p {
-    max-width: 600px;
-
     color: #aeb7aa;
+
+    max-width: 600px;
 
     line-height: 1.7;
 }
@@ -996,10 +1046,17 @@ header {
    TEAM
    ========================================================= */
 
+.team-section {
+    padding: 110px 0;
+
+    background: #f5f7f3;
+}
+
 .team-grid {
     display: grid;
 
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns:
+        repeat(4, 1fr);
 
     gap: 20px;
 }
@@ -1007,13 +1064,17 @@ header {
 .team-card {
     overflow: hidden;
 
-    background: white;
-
-    border: 1px solid var(--border);
-
     border-radius: 18px;
 
-    box-shadow: 0 10px 30px rgba(20,30,15,.05);
+    background: white;
+
+    border:
+        1px solid
+        #e0e6dc;
+
+    box-shadow:
+        0 10px 30px
+        rgba(20,30,15,.05);
 
     transition: .3s ease;
 }
@@ -1021,21 +1082,27 @@ header {
 .team-card:hover {
     transform: translateY(-6px);
 
-    box-shadow: 0 25px 60px rgba(20,30,15,.13);
+    box-shadow:
+        0 25px 60px
+        rgba(20,30,15,.13);
 }
 
 .team-photo {
-    height: 220px;
+    height: 230px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    background: linear-gradient(
-        135deg,
-        #dce6d5,
-        #f1f5ee
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #dce6d5,
+            #f1f5ee
+        );
+
+    color: #71806d;
 
     font-size: 55px;
 }
@@ -1044,36 +1111,37 @@ header {
     padding: 20px;
 }
 
+.team-info h3 {
+    margin: 5px 0;
+}
+
 .team-role {
     color: #6e9c1e;
 
-    font-size: 11px;
-    font-weight: 900;
+    font-size: 12px;
+
+    font-weight: 800;
 
     text-transform: uppercase;
+
     letter-spacing: .08em;
 }
 
-.team-info h3 {
-    margin: 6px 0;
-}
-
 .team-info p {
-    margin: 0;
-
-    color: var(--muted);
+    color: #687267;
 
     font-size: 13px;
+
     line-height: 1.6;
 }
 
 
 /* =========================================================
-   SOCIAL SECTION
+   SOCIAL MEDIA
    ========================================================= */
 
 .social-section {
-    padding: 85px 0;
+    padding: 80px 0;
 
     background: #101410;
 
@@ -1083,13 +1151,14 @@ header {
 }
 
 .social-section h2 {
-    margin: 10px 0 15px;
+    font-size:
+        clamp(35px, 5vw, 55px);
 
-    font-size: clamp(35px, 5vw, 55px);
+    margin: 10px 0 15px;
 }
 
 .social-section h2 span {
-    color: var(--green);
+    color: #ace336;
 }
 
 .social-section p {
@@ -1106,63 +1175,86 @@ header {
     display: flex;
 
     justify-content: center;
+    align-items: center;
 
-    gap: 12px;
+    gap: 10px;
 
     flex-wrap: wrap;
 
-    margin-top: 30px;
+    margin-top: 28px;
 }
 
 .social-button {
-    min-width: 120px;
-
     display: inline-flex;
 
     align-items: center;
     justify-content: center;
 
-    gap: 9px;
+    gap: 8px;
 
-    padding: 11px 16px;
+    min-width: 105px;
 
-    border-radius: 10px;
+    padding: 9px 14px;
 
-    color: white;
+    border-radius: 9px;
+
+    text-decoration: none;
 
     font-size: 13px;
+
     font-weight: 800;
 
-    transition: .25s ease;
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
 }
 
 .social-button img {
-    width: 21px;
-    height: 21px;
+    width: 20px;
+    height: 20px;
 
     object-fit: contain;
+
+    display: block;
 }
 
 .social-button:hover {
     transform: translateY(-3px);
 }
 
-
-/* DISCORD */
-
-.discord {
+.social-discord {
     background: #5865F2;
 
-    box-shadow: 0 8px 25px rgba(88,101,242,.2);
+    color: white;
+
+    box-shadow:
+        0 7px 20px
+        rgba(88,101,242,.18);
 }
 
+.social-discord:hover {
+    box-shadow:
+        0 10px 28px
+        rgba(88,101,242,.32);
+}
 
-/* TIKTOK */
-
-.tiktok {
+.social-tiktok {
     background: #000;
 
-    border: 1px solid rgba(255,255,255,.15);
+    color: white;
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    box-shadow:
+        0 7px 20px
+        rgba(0,0,0,.25);
+}
+
+.social-tiktok:hover {
+    background: #111;
 }
 
 
@@ -1175,8 +1267,6 @@ header {
 
     text-align: center;
 
-    color: white;
-
     background:
         radial-gradient(
             circle at center,
@@ -1184,18 +1274,19 @@ header {
             transparent 45%
         ),
         #151b13;
+
+    color: white;
 }
 
 .final-cta h2 {
+    font-size:
+        clamp(40px, 6vw, 65px);
+
     margin: 10px 0 15px;
-
-    font-size: clamp(40px, 6vw, 65px);
-
-    letter-spacing: -.045em;
 }
 
 .final-cta h2 span {
-    color: var(--green);
+    color: #ace336;
 }
 
 .final-cta p {
@@ -1208,6 +1299,18 @@ header {
     line-height: 1.8;
 }
 
+.final-cta .actions {
+    margin-top: 30px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+}
+
 
 /* =========================================================
    FOOTER
@@ -1218,95 +1321,47 @@ footer {
 
     color: white;
 
-    padding: 70px 0 25px;
+    padding: 65px 0 25px;
+
+    border-top:
+        1px solid
+        rgba(172,227,54,.08);
 }
 
-.footer-top {
+.foot-top {
     display: flex;
 
     justify-content: space-between;
 
     gap: 60px;
 
-    padding-bottom: 45px;
+    padding-bottom: 40px;
 
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
 }
 
 
-/* FOOTER LOGO */
+/* FOOTER BRAND */
 
-.footer-logo {
-    width: 220px;
-    max-width: 100%;
-
-    margin-bottom: 18px;
-}
-
-.footer-description {
-    max-width: 450px;
-
-    color: #899486;
-
-    line-height: 1.7;
-
-    margin: 0;
-}
-
-
-/* FOOTER LINKS */
-
-.footer-links {
-    display: grid;
-
-    grid-template-columns: repeat(3, auto);
-
-    gap: 12px 30px;
-
-    align-content: start;
-}
-
-.footer-links a {
-    color: #aeb7aa;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    transition: color .2s ease;
-}
-
-.footer-links a:hover {
-    color: var(--green);
-}
-
-
-/* FOOTER SOCIAL */
-
-.footer-social {
-    margin-top: 28px;
-}
-
-.footer-social-title {
-    color: white;
-
-    font-size: 12px;
-    font-weight: 900;
-
-    text-transform: uppercase;
-    letter-spacing: .08em;
-
-    margin-bottom: 12px;
-}
-
-.footer-social-buttons {
+footer .brand {
     display: flex;
 
-    gap: 9px;
+    align-items: center;
 
-    flex-wrap: wrap;
+    gap: 12px;
+
+    color: white;
+
+    font-weight: 800;
+
+    text-decoration: none;
+
+    letter-spacing: .04em;
 }
 
-.footer-social-button {
+footer .brand .logo {
     width: 42px;
     height: 42px;
 
@@ -1315,20 +1370,115 @@ footer {
     align-items: center;
     justify-content: center;
 
+    border-radius: 10px;
+
+    background: #ace336;
+
+    color: #17200f;
+
+    font-weight: 900;
+}
+
+footer .brand small {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #7f897a;
+
+    font-size: 9px;
+
+    letter-spacing: .08em;
+}
+
+footer p {
+    color: #8f998a;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FOOTER NAVIGATION
+   TWO LINES
+   ========================================================= */
+
+.foot-links {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, auto);
+
+    gap:
+        14px 28px;
+
+    align-content: center;
+
+    max-width: 650px;
+}
+
+.foot-links a {
+    color: #aeb7aa;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+.foot-links a:hover {
+    color: #ace336;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   FOOTER SOCIAL BUTTONS
+   ========================================================= */
+
+.footer-social {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.footer-social a {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
     border-radius: 9px;
 
-    transition: .2s ease;
+    text-decoration: none;
+
+    transition:
+        transform .2s ease,
+        opacity .2s ease;
 }
 
-.footer-social-button img {
-    width: 22px;
-    height: 22px;
+.footer-social a:hover {
+    transform: translateY(-3px);
+
+    opacity: .9;
+}
+
+.footer-social img {
+    width: 21px;
+    height: 21px;
 
     object-fit: contain;
-}
-
-.footer-social-button:hover {
-    transform: translateY(-3px);
 }
 
 .footer-discord {
@@ -1338,36 +1488,39 @@ footer {
 .footer-tiktok {
     background: #000;
 
-    border: 1px solid rgba(255,255,255,.15);
+    border:
+        1px solid
+        rgba(255,255,255,.15);
 }
 
 
-/* COPYRIGHT */
+/* =========================================================
+   COPYRIGHT
+   ========================================================= */
 
-.footer-bottom {
+.copy {
     display: flex;
 
-    align-items: center;
     justify-content: space-between;
 
     gap: 20px;
 
-    padding-top: 22px;
+    padding-top: 25px;
 
-    color: #657060;
+    color: #697265;
 
     font-size: 11px;
 }
 
 
 /* =========================================================
-   ANIMATIONS
+   SCROLL REVEAL
    ========================================================= */
 
 .reveal {
     opacity: 0;
 
-    transform: translateY(30px);
+    transform: translateY(35px);
 
     transition:
         opacity .8s ease,
@@ -1382,111 +1535,98 @@ footer {
 
 
 /* =========================================================
-   RESPONSIVE
+   MOBILE
    ========================================================= */
 
-@media (max-width: 1050px) {
+@media (max-width: 1100px) {
 
-    .navlinks {
-        gap: 15px;
-    }
-
-    .navlinks a {
-        font-size: 12px;
-    }
-
-    .team-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .hero-full-logo {
-        opacity: .05;
+    .hero-content {
+        margin-left: 0;
     }
 
 }
 
 
-@media (max-width: 850px) {
-
-    .navlinks,
-    .register {
-        display: none;
-    }
-
-    .menu {
-        display: block;
-    }
+@media (max-width: 950px) {
 
     .experience-grid,
     .fleet-grid,
     .news-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .team-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
     .hero-float {
         display: none;
     }
 
-    .hero-full-logo {
-        width: 500px;
-
-        right: -150px;
-
-        opacity: .045;
+    .hero-plane {
+        opacity: .5;
     }
 
-    .footer-top {
+    .foot-top {
         flex-direction: column;
+    }
+
+    .foot-links {
+        grid-template-columns:
+            repeat(5, 1fr);
+
+        width: 100%;
     }
 
 }
 
 
-@media (max-width: 650px) {
-
-    .container {
-        width: min(100% - 28px, 1180px);
-    }
-
-    .nav {
-        height: 72px;
-    }
-
-    .header-logo {
-        width: 165px;
-    }
+@media (max-width: 700px) {
 
     .hero {
-        min-height: 700px;
+        min-height: 650px;
     }
 
     .hero-content {
-        padding: 75px 0;
-    }
+        padding: 80px 0;
 
-    .hero-logo {
-        width: 300px;
+        margin-left: 0;
     }
 
     .hero h1 {
-        font-size: 47px;
+        font-size: 48px;
     }
 
     .hero p {
         font-size: 16px;
     }
 
-    .hero-full-logo {
-        width: 420px;
-        right: -170px;
+    .hero-logo {
+        width: 220px;
     }
 
     .stats-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+            1fr 1fr;
     }
 
     .stat {
-        padding: 23px 10px;
+        padding: 22px 10px;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.08);
+    }
+
+    .stat:nth-child(2) {
+        border-right: none;
+    }
+
+    .stat:nth-child(3),
+    .stat:nth-child(4) {
+        border-bottom: none;
     }
 
     .experience-grid,
@@ -1496,63 +1636,103 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .section {
+    .home-section,
+    .fleet-section,
+    .network-section,
+    .operations-section,
+    .news-section,
+    .team-section {
         padding: 75px 0;
     }
 
     .network-caption {
         flex-direction: column;
+
         align-items: flex-start;
     }
 
-    .operations-header {
+    .map-header {
         flex-direction: column;
+
         align-items: flex-start;
+    }
+
+    .newsky-button {
+        width: 100%;
     }
 
     .newsky-map {
-        height: 480px;
+        height: 500px;
     }
 
-    .routes-inner {
+    .routes-banner-inner {
         flex-direction: column;
+
         align-items: flex-start;
     }
 
-    .footer-links {
-        grid-template-columns: 1fr 1fr;
+    .social-button {
+        min-width: 100px;
+
+        padding: 8px 12px;
+
+        font-size: 12px;
     }
 
-    .footer-bottom {
+    .social-button img {
+        width: 18px;
+        height: 18px;
+    }
+
+    /*
+       Footer becomes two clean rows on mobile as well.
+    */
+
+    .foot-links {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 15px 20px;
+    }
+
+    .copy {
         flex-direction: column;
-        align-items: flex-start;
+
+        gap: 8px;
     }
 
 }
 
 
 /* =========================================================
-   REDUCED MOTION
+   VERY SMALL SCREENS
    ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 420px) {
 
-    html {
-        scroll-behavior: auto;
+    .foot-links {
+        grid-template-columns: 1fr 1fr;
     }
 
-    *,
-    *::before,
-    *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat {
+        border-right: none !important;
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.08);
+    }
+
+    .stat:last-child {
+        border-bottom: none;
     }
 
 }
 
 </style>
-
 </head>
 
 
@@ -1567,14 +1747,16 @@ footer {
 
 <div class="container nav">
 
+<a class="brand" href="index.html">
 
-<a href="index.html" class="brand">
+<div class="logo">
+EA
+</div>
 
-<img
-class="header-logo"
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737685568659496/White_Text_Logo.png?ex=6a78daac&is=6a77892c&hm=c02637307e0a0d9e706461e9efaf5465e55b91d781656a792e6226f3300a0c82&=&format=webp&quality=lossless&width=1024&height=768"
-alt="Echo Air Group"
->
+<div>
+ECHO AIR GROUP
+<small>6L · ECV · CLOVER</small>
+</div>
 
 </a>
 
@@ -1582,66 +1764,47 @@ alt="Echo Air Group"
 <nav class="navlinks">
 
 <a href="index.html">Home</a>
-
 <a href="about.html">About</a>
-
-<a href="#fleet">Fleet</a>
-
+<a href="index.html#fleet">Fleet</a>
 <a href="routes.html">Routes</a>
-
 <a href="team.html">Team</a>
-
-<a href="#news">News</a>
-
+<a href="index.html#news">News</a>
 <a href="join.html">Join Us</a>
-
 <a href="manual.html">Pilot Manual</a>
-
 <a href="contact.html">Contact Us</a>
 
 </nav>
 
 
-<a href="join.html" class="register">
+<a class="register" href="join.html">
 REGISTER
 </a>
 
 
 <button
 class="menu"
-type="button"
 onclick="toggleMenu()"
-aria-label="Open navigation"
+type="button"
 >
 ☰
 </button>
 
-
 </div>
 
 
-<div class="mobileNav" id="mobileNav">
+<div id="mobileNav" class="mobileNav">
 
 <div class="container">
 
 <a href="index.html">Home</a>
-
 <a href="about.html">About</a>
-
-<a href="#fleet">Fleet</a>
-
+<a href="index.html#fleet">Fleet</a>
 <a href="routes.html">Routes</a>
-
 <a href="team.html">Team</a>
-
-<a href="#news">News</a>
-
+<a href="index.html#news">News</a>
 <a href="join.html">Join Us</a>
-
 <a href="manual.html">Pilot Manual</a>
-
 <a href="contact.html">Contact Us</a>
-
 <a href="join.html">Register</a>
 
 </div>
@@ -1649,7 +1812,6 @@ aria-label="Open navigation"
 </div>
 
 </header>
-
 
 
 <main>
@@ -1661,8 +1823,16 @@ aria-label="Open navigation"
 
 <section class="hero">
 
-
 <div class="container hero-content">
+
+
+<!-- WHITE FULL LOGO -->
+
+<img
+class="hero-logo"
+src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
+alt="Echo Air Group"
+>
 
 
 <div class="pill">
@@ -1674,13 +1844,6 @@ Virtual Airline Network
 </div>
 
 
-<img
-class="hero-logo"
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737685124321310/Green_Text_Logo.png?ex=6a78daac&is=6a77892c&hm=b5aa27719e5a05c4db3c009061e2cd23b0f616c1b48656412a4f0d8cd66e93fc&=&format=webp&quality=lossless&width=1024&height=768"
-alt="Echo Air Group"
->
-
-
 <h1>
 Fly beyond the <span>ordinary.</span>
 </h1>
@@ -1688,12 +1851,10 @@ Fly beyond the <span>ordinary.</span>
 
 <p>
 
-Echo Air Group brings together pilots from around
-the world for realistic, social and enjoyable virtual
-airline operations.
-
-Fly your favorite aircraft, explore our network and
-become part of a growing aviation community.
+Echo Air Group brings together pilots from around the world
+for realistic, social and enjoyable virtual airline operations.
+Fly your favorite aircraft, explore our network and become
+part of a growing aviation community.
 
 </p>
 
@@ -1707,7 +1868,6 @@ href="join.html"
 ✈ &nbsp; Join Echo Air Group
 </a>
 
-
 <a
 class="btn btn-outline"
 href="routes.html"
@@ -1717,18 +1877,12 @@ href="routes.html"
 
 </div>
 
-
 </div>
 
 
-<!-- Large background logo -->
-
-<img
-class="hero-full-logo"
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
-alt=""
-aria-hidden="true"
->
+<div class="hero-plane">
+✈
+</div>
 
 
 <div class="hero-float">
@@ -1751,7 +1905,6 @@ Echo Air Group Virtual Airline
 
 </div>
 
-
 </section>
 
 
@@ -1760,14 +1913,16 @@ Echo Air Group Virtual Airline
      STATS
      ===================================================== -->
 
-<section class="stats">
+<div class="stats">
 
 <div class="container stats-grid">
 
 
 <div class="stat">
 
-<strong>9+</strong>
+<b>
+9+
+</b>
 
 <span>
 Aircraft Types
@@ -1778,7 +1933,9 @@ Aircraft Types
 
 <div class="stat">
 
-<strong>3</strong>
+<b>
+3
+</b>
 
 <span>
 Main Hubs
@@ -1789,7 +1946,9 @@ Main Hubs
 
 <div class="stat">
 
-<strong>100+</strong>
+<b>
+100+
+</b>
 
 <span>
 Routes
@@ -1800,7 +1959,9 @@ Routes
 
 <div class="stat">
 
-<strong>24/7</strong>
+<b>
+24/7
+</b>
 
 <span>
 Virtual Network
@@ -1811,7 +1972,7 @@ Virtual Network
 
 </div>
 
-</section>
+</div>
 
 
 
@@ -1819,10 +1980,9 @@ Virtual Network
      WELCOME
      ===================================================== -->
 
-<section class="section section-light reveal">
+<section class="home-section reveal">
 
 <div class="container">
-
 
 <div class="section-head">
 
@@ -1836,10 +1996,9 @@ One group. <span>One passion.</span>
 
 <p>
 
-Whether you are taking your first flight or have
-thousands of hours in the simulator, Echo Air Group
-gives you a place to fly, learn and meet other
-aviation enthusiasts.
+Whether you are taking your first flight or have thousands
+of hours in the simulator, Echo Air Group gives you a place
+to fly, learn and meet other aviation enthusiasts.
 
 </p>
 
@@ -1851,7 +2010,7 @@ aviation enthusiasts.
 
 <div class="experience-card">
 
-<div class="icon">
+<div class="experience-icon">
 ✈
 </div>
 
@@ -1860,11 +2019,8 @@ Realistic Operations
 </h3>
 
 <p>
-
-Structured routes, aircraft assignments and
-NewSky-based flight logging create an immersive
-airline experience.
-
+Structured routes, aircraft assignments and NewSky-based
+flight logging create an immersive airline experience.
 </p>
 
 </div>
@@ -1872,7 +2028,7 @@ airline experience.
 
 <div class="experience-card">
 
-<div class="icon">
+<div class="experience-icon">
 ⌁
 </div>
 
@@ -1881,11 +2037,9 @@ Fly Your Way
 </h3>
 
 <p>
-
-Use Microsoft Flight Simulator 2020/2024,
-X-Plane 11 or X-Plane 12 and fly according
-to our pilot standards.
-
+Use Microsoft Flight Simulator 2020/2024, X-Plane 11
+or X-Plane 12 and fly online or offline according to
+our pilot standards.
 </p>
 
 </div>
@@ -1893,7 +2047,7 @@ to our pilot standards.
 
 <div class="experience-card">
 
-<div class="icon">
+<div class="experience-icon">
 ♧
 </div>
 
@@ -1902,11 +2056,8 @@ Community First
 </h3>
 
 <p>
-
-Join a friendly virtual aviation community,
-take part in events and grow your skills
-with fellow pilots.
-
+Join a friendly virtual aviation community, take part
+in events and grow your skills with fellow pilots.
 </p>
 
 </div>
@@ -1924,10 +2075,9 @@ with fellow pilots.
      NETWORK
      ===================================================== -->
 
-<section class="section section-dark reveal">
+<section class="network-section reveal">
 
 <div class="container">
-
 
 <div class="section-head">
 
@@ -1940,17 +2090,14 @@ Our <span>Network.</span>
 </h2>
 
 <p>
-
-Explore the network of Echo Air Group and discover
-the destinations available to our pilots.
-
+Explore the network of Echo Air Group and discover the
+destinations available to our pilots.
 </p>
 
 </div>
 
 
-<div class="network-box">
-
+<div class="network-image-wrapper">
 
 <img
 class="network-image"
@@ -1974,9 +2121,8 @@ Our virtual network and destinations
 
 </div>
 
-
 <a
-class="btn btn-primary"
+class="newsky-button"
 href="routes.html"
 >
 View All Routes
@@ -1997,12 +2143,11 @@ View All Routes
      ===================================================== -->
 
 <section
-class="section section-gray reveal"
+class="fleet-section reveal"
 id="fleet"
 >
 
 <div class="container">
-
 
 <div class="section-head">
 
@@ -2015,9 +2160,8 @@ Meet the <span>Fleet.</span>
 </h2>
 
 <p>
-
-Browse some of the aircraft operated by Echo Air Group.
-
+Browse the Echo Air Group fleet by aircraft category.
+Use the buttons below to filter the aircraft.
 </p>
 
 </div>
@@ -2027,6 +2171,7 @@ Browse some of the aircraft operated by Echo Air Group.
 
 <button
 class="fleet-tab active"
+type="button"
 onclick="filterFleet('all', this)"
 >
 All Aircraft
@@ -2034,6 +2179,7 @@ All Aircraft
 
 <button
 class="fleet-tab"
+type="button"
 onclick="filterFleet('narrow', this)"
 >
 Narrow Body
@@ -2041,6 +2187,7 @@ Narrow Body
 
 <button
 class="fleet-tab"
+type="button"
 onclick="filterFleet('regional', this)"
 >
 Regional
@@ -2048,6 +2195,7 @@ Regional
 
 <button
 class="fleet-tab"
+type="button"
 onclick="filterFleet('wide', this)"
 >
 Wide Body
@@ -2061,7 +2209,10 @@ Wide Body
 
 <!-- A319 -->
 
-<article class="fcard" data-type="narrow">
+<article
+class="fcard"
+data-type="narrow"
+>
 
 <div class="fcard-visual">
 
@@ -2070,6 +2221,7 @@ Narrow Body
 </div>
 
 <img
+class="fcard-plane-img"
 src="https://images.aircharterservice.com/global/aircraft-guide/group-charter/airbus-a319-1.jpg"
 alt="Airbus A319"
 loading="lazy"
@@ -2079,7 +2231,9 @@ loading="lazy"
 
 <div class="fcard-info">
 
-<h3>Airbus A319</h3>
+<h3>
+Airbus A319
+</h3>
 
 <p class="fcard-sub">
 Short & Medium Haul
@@ -2087,22 +2241,22 @@ Short & Medium Haul
 
 <div class="fcard-specs">
 
-<div class="spec">
+<div class="spec-row">
 <span>Range</span>
 <span>3,700 nm</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Seats</span>
 <span>144 pax</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Cruise</span>
 <span>Mach 0.78</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Engines</span>
 <span>CFM56 / V2500</span>
 </div>
@@ -2116,7 +2270,10 @@ Short & Medium Haul
 
 <!-- A320 -->
 
-<article class="fcard" data-type="narrow">
+<article
+class="fcard"
+data-type="narrow"
+>
 
 <div class="fcard-visual">
 
@@ -2125,6 +2282,7 @@ Narrow Body
 </div>
 
 <img
+class="fcard-plane-img"
 src="https://images.aircharterservice.com/global/aircraft-guide/group-charter/airbus-a320-1.jpg"
 alt="Airbus A320"
 loading="lazy"
@@ -2134,7 +2292,9 @@ loading="lazy"
 
 <div class="fcard-info">
 
-<h3>Airbus A320</h3>
+<h3>
+Airbus A320
+</h3>
 
 <p class="fcard-sub">
 Short & Medium Haul
@@ -2142,22 +2302,22 @@ Short & Medium Haul
 
 <div class="fcard-specs">
 
-<div class="spec">
+<div class="spec-row">
 <span>Range</span>
 <span>3,300 nm</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Seats</span>
 <span>180 pax</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Cruise</span>
 <span>Mach 0.78</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Engines</span>
 <span>CFM56 / V2500</span>
 </div>
@@ -2171,7 +2331,10 @@ Short & Medium Haul
 
 <!-- A320NEO -->
 
-<article class="fcard" data-type="narrow">
+<article
+class="fcard"
+data-type="narrow"
+>
 
 <div class="fcard-visual">
 
@@ -2180,6 +2343,7 @@ Narrow Body
 </div>
 
 <img
+class="fcard-plane-img"
 src="https://www.aircraft.airbus.com/sites/g/files/jlcbta126/files/styles/w1200h675/public/2025-10/Aircraft.Airbus%20Figma%20Images%20V2_A320neo.png?h=eb58b4d6&itok=m1AYlns4"
 alt="Airbus A320neo"
 loading="lazy"
@@ -2189,7 +2353,9 @@ loading="lazy"
 
 <div class="fcard-info">
 
-<h3>Airbus A320neo</h3>
+<h3>
+Airbus A320neo
+</h3>
 
 <p class="fcard-sub">
 Short & Medium Haul
@@ -2197,22 +2363,22 @@ Short & Medium Haul
 
 <div class="fcard-specs">
 
-<div class="spec">
+<div class="spec-row">
 <span>Range</span>
 <span>3,500 nm</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Seats</span>
 <span>186 pax</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Cruise</span>
 <span>Mach 0.78</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Engines</span>
 <span>LEAP-1A</span>
 </div>
@@ -2226,7 +2392,10 @@ Short & Medium Haul
 
 <!-- A321NEO -->
 
-<article class="fcard" data-type="narrow">
+<article
+class="fcard"
+data-type="narrow"
+>
 
 <div class="fcard-visual">
 
@@ -2235,6 +2404,7 @@ Narrow Body
 </div>
 
 <img
+class="fcard-plane-img"
 src="https://www.aircraft.airbus.com/sites/g/files/jlcbta126/files/styles/w1200h675/public/2025-10/Aircraft.Airbus%20Figma%20Images%20V2_A321neo_0.png?h=eb58b4d6&itok=gAu23q7j"
 alt="Airbus A321neo"
 loading="lazy"
@@ -2244,7 +2414,9 @@ loading="lazy"
 
 <div class="fcard-info">
 
-<h3>Airbus A321neo</h3>
+<h3>
+Airbus A321neo
+</h3>
 
 <p class="fcard-sub">
 Medium & Long Haul
@@ -2252,22 +2424,22 @@ Medium & Long Haul
 
 <div class="fcard-specs">
 
-<div class="spec">
+<div class="spec-row">
 <span>Range</span>
 <span>4,000 nm</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Seats</span>
 <span>220 pax</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Cruise</span>
 <span>Mach 0.78</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Engines</span>
 <span>LEAP-1A</span>
 </div>
@@ -2279,9 +2451,12 @@ Medium & Long Haul
 </article>
 
 
-<!-- 737-800 -->
+<!-- 737-700 -->
 
-<article class="fcard" data-type="narrow">
+<article
+class="fcard"
+data-type="narrow"
+>
 
 <div class="fcard-visual">
 
@@ -2290,8 +2465,9 @@ Narrow Body
 </div>
 
 <img
-src="https://aeroaffaires.fr/wp-content/uploads/2024/05/ascend-airways-boeing-737-800.jpg"
-alt="Boeing 737-800"
+class="fcard-plane-img"
+src="https://www.flugzeuginfo.net/acimages/7377bbj_kp.jpg"
+alt="Boeing 737-700"
 loading="lazy"
 >
 
@@ -2299,30 +2475,32 @@ loading="lazy"
 
 <div class="fcard-info">
 
-<h3>Boeing 737-800</h3>
+<h3>
+Boeing 737-700
+</h3>
 
 <p class="fcard-sub">
-Short & Medium Haul
+Regional & Short Haul
 </p>
 
 <div class="fcard-specs">
 
-<div class="spec">
+<div class="spec-row">
 <span>Range</span>
-<span>2,935 nm</span>
+<span>3,440 nm</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Seats</span>
-<span>174 pax</span>
+<span>128 pax</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Cruise</span>
 <span>Mach 0.79</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Engines</span>
 <span>CFM56-7B</span>
 </div>
@@ -2334,9 +2512,134 @@ Short & Medium Haul
 </article>
 
 
+<!-- 737-800 -->
+
+<article
+class="fcard"
+data-type="narrow"
+>
+
+<div class="fcard-visual">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="https://aeroaffaires.fr/wp-content/uploads/2024/05/ascend-airways-boeing-737-800.jpg"
+alt="Boeing 737-800"
+loading="lazy"
+>
+
+</div>
+
+<div class="fcard-info">
+
+<h3>
+Boeing 737-800
+</h3>
+
+<p class="fcard-sub">
+Short & Medium Haul
+</p>
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>2,935 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>174 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.79</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>CFM56-7B</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
+<!-- 737 MAX -->
+
+<article
+class="fcard"
+data-type="narrow"
+>
+
+<div class="fcard-visual">
+
+<div class="fcard-badge">
+Narrow Body
+</div>
+
+<img
+class="fcard-plane-img"
+src="https://cf-images.us-east-1.prod.boltdns.net/v1/static/800000612001/dcfb0a2e-49be-40c3-8d69-2438a13ea1db/54874523-f888-40e7-94b3-ffcf9a49a8e7/1920x1080/match/image.jpg"
+alt="Boeing 737 MAX 8"
+loading="lazy"
+>
+
+</div>
+
+<div class="fcard-info">
+
+<h3>
+Boeing 737 MAX 8
+</h3>
+
+<p class="fcard-sub">
+Medium Haul
+</p>
+
+<div class="fcard-specs">
+
+<div class="spec-row">
+<span>Range</span>
+<span>3,550 nm</span>
+</div>
+
+<div class="spec-row">
+<span>Seats</span>
+<span>178 pax</span>
+</div>
+
+<div class="spec-row">
+<span>Cruise</span>
+<span>Mach 0.79</span>
+</div>
+
+<div class="spec-row">
+<span>Engines</span>
+<span>LEAP-1B</span>
+</div>
+
+</div>
+
+</div>
+
+</article>
+
+
 <!-- E190 -->
 
-<article class="fcard" data-type="regional">
+<article
+class="fcard"
+data-type="regional"
+>
 
 <div class="fcard-visual">
 
@@ -2345,6 +2648,7 @@ Regional
 </div>
 
 <img
+class="fcard-plane-img"
 src="https://embraer.com/media/1bkhjr2u/commercial-e190-2.jpg?v=1dd145c3e09f690"
 alt="Embraer E190"
 loading="lazy"
@@ -2354,7 +2658,9 @@ loading="lazy"
 
 <div class="fcard-info">
 
-<h3>Embraer E190</h3>
+<h3>
+Embraer E190
+</h3>
 
 <p class="fcard-sub">
 Regional & Short Haul
@@ -2362,22 +2668,22 @@ Regional & Short Haul
 
 <div class="fcard-specs">
 
-<div class="spec">
+<div class="spec-row">
 <span>Range</span>
 <span>2,450 nm</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Seats</span>
 <span>100 pax</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Cruise</span>
 <span>Mach 0.82</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Engines</span>
 <span>CF34-10E</span>
 </div>
@@ -2391,7 +2697,10 @@ Regional & Short Haul
 
 <!-- A350 -->
 
-<article class="fcard" data-type="wide">
+<article
+class="fcard"
+data-type="wide"
+>
 
 <div class="fcard-visual">
 
@@ -2400,6 +2709,7 @@ Wide Body
 </div>
 
 <img
+class="fcard-plane-img"
 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSq0_OfYatAxrbUJTTgRbHrSvDvDcn8vWbMzmhJGnImA&s=10"
 alt="Airbus A350-900"
 loading="lazy"
@@ -2409,7 +2719,9 @@ loading="lazy"
 
 <div class="fcard-info">
 
-<h3>Airbus A350-900</h3>
+<h3>
+Airbus A350-900
+</h3>
 
 <p class="fcard-sub">
 Long Haul
@@ -2417,22 +2729,22 @@ Long Haul
 
 <div class="fcard-specs">
 
-<div class="spec">
+<div class="spec-row">
 <span>Range</span>
 <span>8,100 nm</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Seats</span>
 <span>325 pax</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Cruise</span>
 <span>Mach 0.85</span>
 </div>
 
-<div class="spec">
+<div class="spec-row">
 <span>Engines</span>
 <span>Trent XWB</span>
 </div>
@@ -2450,8 +2762,8 @@ Long Haul
 <div style="text-align:center;margin-top:35px">
 
 <a
-href="fleet.html"
 class="btn btn-primary"
+href="fleet.html"
 >
 View Full Fleet
 </a>
@@ -2469,12 +2781,11 @@ View Full Fleet
      ===================================================== -->
 
 <section
-class="section section-light reveal"
+class="news-section reveal"
 id="news"
 >
 
 <div class="container">
-
 
 <div class="section-head">
 
@@ -2487,11 +2798,8 @@ Latest <span>News.</span>
 </h2>
 
 <p>
-
-Stay up to date with announcements, events,
-fleet updates and everything happening inside
-Echo Air Group.
-
+Stay up to date with announcements, events, fleet updates
+and everything happening inside Echo Air Group.
 </p>
 
 </div>
@@ -2517,11 +2825,9 @@ Welcome to Echo Air Group
 </h3>
 
 <p>
-
 Echo Air Group is officially taking to the skies.
 Explore our fleet, discover our routes and become
 part of our growing virtual airline community.
-
 </p>
 
 </div>
@@ -2546,11 +2852,8 @@ New Routes Coming Soon
 </h3>
 
 <p>
-
-We are continuing to expand our network with
-new destinations and exciting opportunities
-for our pilots.
-
+We are continuing to expand our network with new
+destinations and exciting opportunities for our pilots.
 </p>
 
 </div>
@@ -2575,11 +2878,9 @@ Growing Our Community
 </h3>
 
 <p>
-
 Join our Discord community to meet other pilots,
-take part in events and stay informed about
-Echo Air Group operations.
-
+take part in events and stay informed about Echo
+Air Group operations.
 </p>
 
 </div>
@@ -2596,15 +2897,14 @@ Echo Air Group operations.
 
 
 <!-- =====================================================
-     LIVE OPERATIONS
+     FLIGHT OPERATIONS
      ===================================================== -->
 
-<section class="section section-gray reveal">
+<section class="operations-section reveal">
 
 <div class="container">
 
-
-<div class="operations-header">
+<div class="map-header">
 
 <div>
 
@@ -2624,7 +2924,7 @@ Follow Echo Air Group operations through NewSky.
 
 
 <a
-class="btn btn-primary"
+class="newsky-button"
 href="https://newsky.app/map"
 target="_blank"
 rel="noopener"
@@ -2658,8 +2958,7 @@ allowfullscreen>
 
 <section class="routes-banner reveal">
 
-<div class="container routes-inner">
-
+<div class="container routes-banner-inner">
 
 <div>
 
@@ -2672,24 +2971,20 @@ Where will you <span>fly next?</span>
 </h2>
 
 <p>
-
-Discover our route network and find your next
-destination. Whether you prefer short regional
-flights or long-haul adventures, there is always
-somewhere new to explore.
-
+Discover our route network and find your next destination.
+Whether you prefer short regional flights or long-haul
+adventures, there is always somewhere new to explore.
 </p>
 
 </div>
 
 
 <a
-href="routes.html"
 class="btn btn-primary"
+href="routes.html"
 >
 Explore Our Routes →
 </a>
-
 
 </div>
 
@@ -2701,10 +2996,9 @@ Explore Our Routes →
      TEAM
      ===================================================== -->
 
-<section class="section section-gray reveal">
+<section class="team-section reveal">
 
 <div class="container">
-
 
 <div class="section-head center">
 
@@ -2832,8 +3126,8 @@ Helping create an active, friendly and welcoming community.
 <div style="text-align:center;margin-top:35px">
 
 <a
-href="team.html"
 class="btn btn-primary"
+href="team.html"
 >
 Meet The Full Team
 </a>
@@ -2847,13 +3141,12 @@ Meet The Full Team
 
 
 <!-- =====================================================
-     COMMUNITY
+     SOCIAL MEDIA
      ===================================================== -->
 
 <section class="social-section reveal">
 
 <div class="container">
-
 
 <span class="eyebrow">
 Stay Connected
@@ -2864,11 +3157,8 @@ Join the <span>Community.</span>
 </h2>
 
 <p>
-
-Follow Echo Air Group, meet fellow pilots and
-keep up with our latest announcements, events
-and content.
-
+Follow Echo Air Group, meet fellow pilots and keep up
+with our latest announcements, events and content.
 </p>
 
 
@@ -2876,7 +3166,7 @@ and content.
 
 
 <a
-class="social-button discord"
+class="social-button social-discord"
 href="https://discord.gg/e7ePxYA24"
 target="_blank"
 rel="noopener"
@@ -2887,13 +3177,15 @@ src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoav
 alt="Discord"
 >
 
+<span>
 Discord
+</span>
 
 </a>
 
 
 <a
-class="social-button tiktok"
+class="social-button social-tiktok"
 href="https://www.tiktok.com/@echoairgroup"
 target="_blank"
 rel="noopener"
@@ -2904,7 +3196,9 @@ src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-ico
 alt="TikTok"
 >
 
+<span>
 TikTok
+</span>
 
 </a>
 
@@ -2925,7 +3219,6 @@ TikTok
 
 <div class="container">
 
-
 <span class="eyebrow">
 Ready For Departure?
 </span>
@@ -2935,15 +3228,13 @@ Your next flight starts <span>here.</span>
 </h2>
 
 <p>
-
-Join Echo Air Group and become part of a virtual
-airline built around realistic flying, great routes
-and a community of aviation enthusiasts.
-
+Join Echo Air Group and become part of a virtual airline
+built around realistic flying, great routes and a community
+of aviation enthusiasts.
 </p>
 
 
-<div class="actions" style="justify-content:center">
+<div class="actions">
 
 <a
 class="btn btn-primary"
@@ -2978,21 +3269,30 @@ Contact Us
 
 <div class="container">
 
-
-<div class="footer-top">
+<div class="foot-top">
 
 
 <div>
 
+<div class="brand">
 
-<img
-class="footer-logo"
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
-alt="Echo Air Group"
->
+<div class="logo">
+EA
+</div>
+
+<div>
+ECHO AIR GROUP
+
+<small>
+6L · ECV · CLOVER
+</small>
+
+</div>
+
+</div>
 
 
-<p class="footer-description">
+<p style="max-width:450px">
 
 Virtual aviation. Real passion.
 A community built for pilots who love
@@ -3005,16 +3305,9 @@ the world of flight simulation.
 
 <div class="footer-social">
 
-<div class="footer-social-title">
-Follow Echo Air Group
-</div>
-
-
-<div class="footer-social-buttons">
-
 
 <a
-class="footer-social-button footer-discord"
+class="footer-discord"
 href="https://discord.gg/e7ePxYA24"
 target="_blank"
 rel="noopener"
@@ -3030,7 +3323,7 @@ alt="Discord"
 
 
 <a
-class="footer-social-button footer-tiktok"
+class="footer-tiktok"
 href="https://www.tiktok.com/@echoairgroup"
 target="_blank"
 rel="noopener"
@@ -3049,39 +3342,61 @@ alt="TikTok"
 
 </div>
 
+
+<!-- =====================================================
+     FOOTER LINKS
+     TWO ROWS
+     ===================================================== -->
+
+<div class="foot-links">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="about.html">
+About
+</a>
+
+<a href="index.html#fleet">
+Fleet
+</a>
+
+<a href="routes.html">
+Routes
+</a>
+
+<a href="team.html">
+Team
+</a>
+
+<a href="index.html#news">
+News
+</a>
+
+<a href="join.html">
+Join Us
+</a>
+
+<a href="manual.html">
+Pilot Manual
+</a>
+
+<a href="contact.html">
+Contact Us
+</a>
+
+<a href="join.html">
+Register
+</a>
+
 </div>
 
 
-
-<div class="footer-links">
-
-<a href="index.html">Home</a>
-
-<a href="about.html">About</a>
-
-<a href="#fleet">Fleet</a>
-
-<a href="routes.html">Routes</a>
-
-<a href="team.html">Team</a>
-
-<a href="#news">News</a>
-
-<a href="join.html">Join Us</a>
-
-<a href="manual.html">Pilot Manual</a>
-
-<a href="contact.html">Contact Us</a>
-
-<a href="join.html">Register</a>
-
 </div>
 
 
-</div>
-
-
-<div class="footer-bottom">
+<div class="copy">
 
 <span>
 © 2026 Echo Air Group. Virtual airline.
@@ -3093,7 +3408,6 @@ Not affiliated with any real-world airline.
 
 </div>
 
-
 </div>
 
 </footer>
@@ -3104,38 +3418,10 @@ Not affiliated with any real-world airline.
      JAVASCRIPT
      ===================================================== -->
 
+<script src="script.js"></script>
+
+
 <script>
-
-
-/* =========================================================
-   MOBILE MENU
-   ========================================================= */
-
-function toggleMenu() {
-
-    const menu =
-        document.getElementById("mobileNav");
-
-    menu.classList.toggle("open");
-
-}
-
-
-/* Close mobile menu after clicking a link */
-
-document.querySelectorAll("#mobileNav a").forEach(link => {
-
-    link.addEventListener("click", () => {
-
-        document
-            .getElementById("mobileNav")
-            .classList.remove("open");
-
-    });
-
-});
-
-
 
 /* =========================================================
    FLEET FILTER
@@ -3146,13 +3432,13 @@ function filterFleet(type, button) {
     const cards =
         document.querySelectorAll(".fcard");
 
-    const buttons =
+    const tabs =
         document.querySelectorAll(".fleet-tab");
 
 
-    buttons.forEach(btn => {
+    tabs.forEach(tab => {
 
-        btn.classList.remove("active");
+        tab.classList.remove("active");
 
     });
 
@@ -3169,7 +3455,9 @@ function filterFleet(type, button) {
 
             card.classList.remove("hidden");
 
-        } else {
+        }
+
+        else {
 
             card.classList.add("hidden");
 
@@ -3180,7 +3468,6 @@ function filterFleet(type, button) {
 }
 
 
-
 /* =========================================================
    SCROLL REVEAL
    ========================================================= */
@@ -3189,7 +3476,7 @@ const revealElements =
     document.querySelectorAll(".reveal");
 
 
-const observer =
+const revealObserver =
     new IntersectionObserver(
 
         entries => {
@@ -3200,7 +3487,9 @@ const observer =
 
                     entry.target.classList.add("visible");
 
-                    observer.unobserve(entry.target);
+                    revealObserver.unobserve(
+                        entry.target
+                    );
 
                 }
 
@@ -3209,7 +3498,7 @@ const observer =
         },
 
         {
-            threshold: 0.1
+            threshold: 0.12
         }
 
     );
@@ -3217,15 +3506,118 @@ const observer =
 
 revealElements.forEach(element => {
 
-    observer.observe(element);
+    revealObserver.observe(element);
 
 });
 
+
+/* =========================================================
+   CARD ANIMATIONS
+   ========================================================= */
+
+const cards =
+    document.querySelectorAll(
+        ".experience-card, .fcard, .team-card, .news-card"
+    );
+
+
+const cardObserver =
+    new IntersectionObserver(
+
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.style.opacity = "1";
+
+                    entry.target.style.transform =
+                        "translateY(0)";
+
+                    cardObserver.unobserve(
+                        entry.target
+                    );
+
+                }
+
+            });
+
+        },
+
+        {
+            threshold: 0.08
+        }
+
+    );
+
+
+cards.forEach(card => {
+
+    card.style.opacity = "0";
+
+    card.style.transform =
+        "translateY(25px)";
+
+    card.style.transition =
+        "opacity .7s ease, transform .7s ease, box-shadow .3s ease";
+
+    cardObserver.observe(card);
+
+});
+
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+function toggleMenu() {
+
+    const mobileNav =
+        document.getElementById(
+            "mobileNav"
+        );
+
+    if (!mobileNav) return;
+
+    mobileNav.classList.toggle(
+        "open"
+    );
+
+}
+
+
+/* CLOSE MOBILE MENU */
+
+document
+.querySelectorAll("#mobileNav a")
+.forEach(link => {
+
+    link.addEventListener(
+        "click",
+        () => {
+
+            const mobileNav =
+                document.getElementById(
+                    "mobileNav"
+                );
+
+            if (mobileNav) {
+
+                mobileNav.classList.remove(
+                    "open"
+                );
+
+            }
+
+        }
+    );
+
+});
 
 </script>
 
 
 </body>
-
 </html>
 ```
