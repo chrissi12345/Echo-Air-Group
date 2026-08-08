@@ -1,1 +1,1041 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>About — Echo Air Group</title><link rel="stylesheet" href="style.css"></head><body><header><div class="container nav"><a class="brand" href="index.html"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></a><nav class="navlinks"><a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="contact.html">Contact Us</a></nav><a class="register" href="join.html">REGISTER</a><button class="menu" onclick="toggleMenu()">☰</button></div><div id="mobileNav" class="mobileNav"><div class="container"><a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="join.html">Register</a></div></div></header><main><section class="pagehero"><div class="container"><span class="pill">About Echo Air Group</span><h1>Welcome to <span>Echo.</span></h1><p>A virtual airline created around one simple idea: flight simulation is better when you share it with others.</p></div></section><section class="content-section"><div class="container"><div class="section-head"><span class="eyebrow">Multiple Languages</span><h2>Welcome aboard, <span>everywhere.</span></h2></div><div class="language-tabs"><button class="tab active" data-lang="eng" onclick="showLang('eng')">English</button><button class="tab" data-lang="nl" onclick="showLang('nl')">Nederlands</button><button class="tab" data-lang="de" onclick="showLang('de')">Deutsch</button><button class="tab" data-lang="fr" onclick="showLang('fr')">Français</button><button class="tab" data-lang="es" onclick="showLang('es')">Español</button></div><div class="lang-panel" data-lang="eng"><h3>Welcome to Echo Air Group</h3><p>We are a virtual airline for people who love aviation, flight simulation and the community around it. Our goal is to combine realistic airline operations with a relaxed and welcoming atmosphere.</p><p>From short European hops to long-haul journeys, every flight is another opportunity to explore the world from the cockpit.</p></div><div class="lang-panel" data-lang="nl" style="display:none"><h3>Welkom bij Echo Air Group</h3><p>Wij zijn een virtuele luchtvaartmaatschappij voor mensen die houden van luchtvaart, flightsimulators en een gezellige community. Ons doel is realistische airline-operaties te combineren met een ontspannen en open sfeer.</p></div><div class="lang-panel" data-lang="de" style="display:none"><h3>Willkommen bei Echo Air Group</h3><p>Wir sind eine virtuelle Fluggesellschaft für Menschen, die Luftfahrt, Flugsimulation und eine starke Community lieben. Realistische Abläufe treffen bei uns auf eine offene und entspannte Atmosphäre.</p></div><div class="lang-panel" data-lang="fr" style="display:none"><h3>Bienvenue chez Echo Air Group</h3><p>Nous sommes une compagnie aérienne virtuelle pour tous ceux qui aiment l’aviation, la simulation de vol et la communauté. Notre objectif est de proposer des opérations réalistes dans une ambiance conviviale.</p></div><div class="lang-panel" data-lang="es"><h3>Bienvenidos a Echo Air Group</h3><p>Somos una aerolínea virtual para los amantes de la aviación, la simulación de vuelo y la comunidad que los rodea. Nuestro objetivo es combinar operaciones aéreas realistas con un ambiente relajado y acogedor. Desde vuelos cortos por Europa hasta trayectos de larga distancia, cada vuelo es una nueva oportunidad para explorar el mundo desde la cabina de mando.</p></div></section><section class="dark-section"><div class="container"><div class="section-head"><span class="eyebrow">Our Identity</span><h2>6L · ECV · <span>CLOVER</span></h2><p>Echo Air Group is a fictional virtual airline for flight simulation and entertainment.</p></div></div></section></main><footer><div class="container"><div class="foot-top"><div><div class="brand"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></div><p style="max-width:450px">Virtual aviation. Real passion. A community built for pilots who love the world of flight simulation.</p></div><div class="foot-links"><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="manual.html">Pilot Manual</a><a href="join.html">Register</a></div></div><div class="copy"><span>© 2026 Echo Air Group. Virtual airline.</span><span>Not affiliated with any real-world airline.</span></div></div></footer><script src="script.js"></script></body></html>
+```html
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>About — Echo Air Group</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* =========================================================
+   ECHO AIR GROUP — ABOUT PAGE
+   ========================================================= */
+
+/* HEADER LOGO */
+
+.brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    flex-shrink: 0;
+}
+
+.brand-logo {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    display: block;
+}
+
+.brand-text {
+    margin-left: 12px;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: .04em;
+}
+
+.brand-text small {
+    display: block;
+    margin-top: 3px;
+    font-size: 9px;
+    color: #ace336;
+    letter-spacing: .08em;
+}
+
+
+/* =========================================================
+   PAGE HERO
+   ========================================================= */
+
+.pagehero {
+
+    min-height: 480px;
+
+    display: flex;
+
+    align-items: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(172,227,54,.13),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #10150f 0%,
+            #172016 50%,
+            #0d110c 100%
+        );
+
+    color: white;
+}
+
+.pagehero::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(12,16,11,.98) 0%,
+            rgba(12,16,11,.82) 55%,
+            rgba(12,16,11,.35) 100%
+        );
+
+    pointer-events: none;
+}
+
+.pagehero .container {
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.pagehero .pill {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 9px 15px;
+
+    border-radius: 999px;
+
+    background: rgba(172,227,54,.1);
+
+    border:
+        1px solid rgba(172,227,54,.3);
+
+    color: #ace336;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: .05em;
+
+    text-transform: uppercase;
+}
+
+.pagehero h1 {
+
+    margin: 25px 0 18px;
+
+    font-size:
+        clamp(48px, 7vw, 82px);
+
+    line-height: .98;
+
+    letter-spacing: -.05em;
+}
+
+.pagehero h1 span {
+
+    color: #ace336;
+}
+
+.pagehero p {
+
+    max-width: 700px;
+
+    color: #c6cdc2;
+
+    font-size: 19px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.content-section {
+
+    padding: 110px 0;
+
+    background: #f5f7f3;
+}
+
+
+/* =========================================================
+   LANGUAGE TABS
+   ========================================================= */
+
+.language-tabs {
+
+    display: flex;
+
+    gap: 9px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 30px;
+}
+
+.tab {
+
+    border:
+        1px solid #dfe5dc;
+
+    background: white;
+
+    color: #273025;
+
+    padding: 11px 18px;
+
+    border-radius: 999px;
+
+    font-weight: 700;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.tab:hover {
+
+    transform: translateY(-2px);
+}
+
+.tab.active {
+
+    background: #17200f;
+
+    color: white;
+
+    border-color: #17200f;
+}
+
+
+/* =========================================================
+   LANGUAGE PANEL
+   ========================================================= */
+
+.lang-panel {
+
+    max-width: 850px;
+
+    padding: 35px;
+
+    background: white;
+
+    border:
+        1px solid #e0e6dc;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 12px 35px rgba(20,30,15,.05);
+}
+
+.lang-panel h3 {
+
+    margin-top: 0;
+
+    margin-bottom: 15px;
+
+    font-size: 27px;
+}
+
+.lang-panel p {
+
+    color: #687267;
+
+    line-height: 1.8;
+
+    font-size: 16px;
+
+    margin-bottom: 15px;
+}
+
+.lang-panel p:last-child {
+
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   DARK SECTION
+   ========================================================= */
+
+.dark-section {
+
+    padding: 110px 0;
+
+    background: #101410;
+
+    color: white;
+}
+
+.dark-section .section-head p {
+
+    color: #aeb7aa;
+}
+
+.dark-section .section-head {
+
+    margin-bottom: 0;
+}
+
+.dark-section h2 span {
+
+    color: #ace336;
+}
+
+
+/* =========================================================
+   FOOTER LOGO
+   ========================================================= */
+
+footer .brand {
+
+    display: flex;
+
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+footer .brand-logo {
+
+    width: 70px;
+
+    height: 70px;
+
+    object-fit: contain;
+}
+
+footer .brand-text {
+
+    margin-left: 12px;
+
+    font-weight: 800;
+
+    font-size: 14px;
+
+    letter-spacing: .04em;
+}
+
+footer .brand-text small {
+
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    color: #ace336;
+
+    letter-spacing: .08em;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .pagehero {
+
+        min-height: 430px;
+    }
+
+    .content-section,
+    .dark-section {
+
+        padding: 75px 0;
+    }
+
+    .lang-panel {
+
+        padding: 25px;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .brand-logo {
+
+        width: 48px;
+
+        height: 48px;
+    }
+
+    .brand-text {
+
+        font-size: 12px;
+    }
+
+    .pagehero h1 {
+
+        font-size: 43px;
+    }
+
+    .pagehero p {
+
+        font-size: 16px;
+    }
+
+    .lang-panel {
+
+        padding: 22px;
+    }
+
+    footer .brand-logo {
+
+        width: 58px;
+
+        height: 58px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header>
+
+<div class="container nav">
+
+
+<a class="brand" href="index.html">
+
+<img
+    class="brand-logo"
+    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+    alt="Echo Air Group Logo"
+>
+
+<div class="brand-text">
+
+ECHO AIR GROUP
+
+<small>
+6L · ECV · CLOVER
+</small>
+
+</div>
+
+</a>
+
+
+<nav class="navlinks">
+
+<a href="index.html">Home</a>
+
+<a href="about.html">About</a>
+
+<a href="fleet.html">Fleet</a>
+
+<a href="routes.html">Routes</a>
+
+<a href="team.html">Team</a>
+
+<a href="join.html">Join Us</a>
+
+<a href="manual.html">Pilot Manual</a>
+
+<a href="contact.html">Contact Us</a>
+
+</nav>
+
+
+<a
+    class="register"
+    href="join.html"
+>
+REGISTER
+</a>
+
+
+<button
+    class="menu"
+    onclick="toggleMenu()"
+    type="button"
+>
+☰
+</button>
+
+</div>
+
+
+<div
+    id="mobileNav"
+    class="mobileNav"
+>
+
+<div class="container">
+
+<a href="index.html">Home</a>
+
+<a href="about.html">About</a>
+
+<a href="fleet.html">Fleet</a>
+
+<a href="routes.html">Routes</a>
+
+<a href="team.html">Team</a>
+
+<a href="join.html">Join Us</a>
+
+<a href="manual.html">Pilot Manual</a>
+
+<a href="contact.html">Contact Us</a>
+
+<a href="join.html">Register</a>
+
+</div>
+
+</div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main>
+
+
+<!-- =====================================================
+     PAGE HERO
+     ===================================================== -->
+
+<section class="pagehero">
+
+<div class="container">
+
+<span class="pill">
+About Echo Air Group
+</span>
+
+
+<h1>
+
+Welcome to
+<span>Echo.</span>
+
+</h1>
+
+
+<p>
+
+A virtual airline created around one simple idea:
+flight simulation is better when you share it with others.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LANGUAGES
+     ===================================================== -->
+
+<section class="content-section">
+
+<div class="container">
+
+
+<div class="section-head">
+
+<span class="eyebrow">
+Multiple Languages
+</span>
+
+
+<h2>
+
+Welcome aboard,
+<span>everywhere.</span>
+
+</h2>
+
+</div>
+
+
+
+<div class="language-tabs">
+
+
+<button
+    class="tab active"
+    data-lang="eng"
+    onclick="showLang('eng')"
+>
+English
+</button>
+
+
+<button
+    class="tab"
+    data-lang="nl"
+    onclick="showLang('nl')"
+>
+Nederlands
+</button>
+
+
+<button
+    class="tab"
+    data-lang="de"
+    onclick="showLang('de')"
+>
+Deutsch
+</button>
+
+
+<button
+    class="tab"
+    data-lang="fr"
+    onclick="showLang('fr')"
+>
+Français
+</button>
+
+
+<button
+    class="tab"
+    data-lang="es"
+    onclick="showLang('es')"
+>
+Español
+</button>
+
+</div>
+
+
+
+<!-- ENGLISH -->
+
+<div
+    class="lang-panel"
+    data-lang="eng"
+>
+
+<h3>
+Welcome to Echo Air Group
+</h3>
+
+<p>
+
+We are a virtual airline for people who love aviation,
+flight simulation and the community around it. Our goal
+is to combine realistic airline operations with a relaxed
+and welcoming atmosphere.
+
+</p>
+
+<p>
+
+From short European hops to long-haul journeys,
+every flight is another opportunity to explore the
+world from the cockpit.
+
+</p>
+
+</div>
+
+
+
+<!-- DUTCH -->
+
+<div
+    class="lang-panel"
+    data-lang="nl"
+    style="display:none"
+>
+
+<h3>
+Welkom bij Echo Air Group
+</h3>
+
+<p>
+
+Wij zijn een virtuele luchtvaartmaatschappij voor mensen
+die houden van luchtvaart, flightsimulators en een gezellige
+community. Ons doel is realistische airline-operaties te
+combineren met een ontspannen en open sfeer.
+
+</p>
+
+</div>
+
+
+
+<!-- GERMAN -->
+
+<div
+    class="lang-panel"
+    data-lang="de"
+    style="display:none"
+>
+
+<h3>
+Willkommen bei Echo Air Group
+</h3>
+
+<p>
+
+Wir sind eine virtuelle Fluggesellschaft für Menschen,
+die Luftfahrt, Flugsimulation und eine starke Community
+lieben. Realistische Abläufe treffen bei uns auf eine
+offene und entspannte Atmosphäre.
+
+</p>
+
+</div>
+
+
+
+<!-- FRENCH -->
+
+<div
+    class="lang-panel"
+    data-lang="fr"
+    style="display:none"
+>
+
+<h3>
+Bienvenue chez Echo Air Group
+</h3>
+
+<p>
+
+Nous sommes une compagnie aérienne virtuelle pour tous
+ceux qui aiment l’aviation, la simulation de vol et la
+communauté. Notre objectif est de proposer des opérations
+réalistes dans une ambiance conviviale.
+
+</p>
+
+</div>
+
+
+
+<!-- SPANISH -->
+
+<div
+    class="lang-panel"
+    data-lang="es"
+    style="display:none"
+>
+
+<h3>
+Bienvenidos a Echo Air Group
+</h3>
+
+<p>
+
+Somos una aerolínea virtual para los amantes de la
+aviación, la simulación de vuelo y la comunidad que
+los rodea. Nuestro objetivo es combinar operaciones
+aéreas realistas con un ambiente relajado y acogedor.
+
+</p>
+
+<p>
+
+Desde vuelos cortos por Europa hasta trayectos de
+larga distancia, cada vuelo es una nueva oportunidad
+para explorar el mundo desde la cabina de mando.
+
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     IDENTITY
+     ===================================================== -->
+
+<section class="dark-section">
+
+<div class="container">
+
+<div class="section-head">
+
+<span class="eyebrow">
+Our Identity
+</span>
+
+
+<h2>
+
+6L · ECV ·
+<span>CLOVER</span>
+
+</h2>
+
+
+<p>
+
+Echo Air Group is a fictional virtual airline
+for flight simulation and entertainment.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer>
+
+<div class="container">
+
+
+<div class="foot-top">
+
+
+<div>
+
+
+<a
+    class="brand"
+    href="index.html"
+>
+
+
+<img
+    class="brand-logo"
+    src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
+    alt="Echo Air Group Full Logo"
+>
+
+
+<div class="brand-text">
+
+ECHO AIR GROUP
+
+<small>
+6L · ECV · CLOVER
+</small>
+
+</div>
+
+</a>
+
+
+<p style="max-width:450px">
+
+Virtual aviation. Real passion.
+A community built for pilots who love
+the world of flight simulation.
+
+</p>
+
+
+</div>
+
+
+
+<!-- FOOTER LINKS -->
+
+<div class="foot-links">
+
+<a href="index.html">Home</a>
+
+<a href="about.html">About</a>
+
+<a href="fleet.html">Fleet</a>
+
+<a href="routes.html">Routes</a>
+
+<a href="team.html">Team</a>
+
+<a href="join.html">Join Us</a>
+
+<a href="manual.html">Pilot Manual</a>
+
+<a href="contact.html">Contact Us</a>
+
+<a href="join.html">Register</a>
+
+</div>
+
+
+</div>
+
+
+
+<div class="copy">
+
+<span>
+© 2026 Echo Air Group. Virtual airline.
+</span>
+
+
+<span>
+Not affiliated with any real-world airline.
+</span>
+
+</div>
+
+
+</div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
+
+<script src="script.js"></script>
+
+
+<script>
+
+/* =========================================================
+   LANGUAGE SWITCHER
+   ========================================================= */
+
+function showLang(language) {
+
+    const panels =
+        document.querySelectorAll(".lang-panel");
+
+    const tabs =
+        document.querySelectorAll(".tab");
+
+
+    panels.forEach(panel => {
+
+        if (
+            panel.dataset.lang === language
+        ) {
+
+            panel.style.display = "block";
+
+        } else {
+
+            panel.style.display = "none";
+
+        }
+
+    });
+
+
+    tabs.forEach(tab => {
+
+        if (
+            tab.dataset.lang === language
+        ) {
+
+            tab.classList.add("active");
+
+        } else {
+
+            tab.classList.remove("active");
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+function toggleMenu() {
+
+    const mobileNav =
+        document.getElementById("mobileNav");
+
+    if (!mobileNav) return;
+
+    mobileNav.classList.toggle("open");
+
+}
+
+
+document
+.querySelectorAll("#mobileNav a")
+.forEach(link => {
+
+    link.addEventListener(
+        "click",
+        () => {
+
+            const mobileNav =
+                document.getElementById("mobileNav");
+
+            if (mobileNav) {
+
+                mobileNav.classList.remove("open");
+
+            }
+
+        }
+    );
+
+});
+
+</script>
+
+
+</body>
+
+</html>
+```
