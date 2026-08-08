@@ -1,0 +1,590 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Contact Us — Echo Air Group</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* CONTACT PAGE */
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.contact-card {
+    background: #ffffff;
+    border: 1px solid #e1e6df;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.contact-card h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.contact-card > p {
+    color: #707970;
+    margin-bottom: 25px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.contact-form label {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 15px;
+    border: 1px solid #d8ded6;
+    border-radius: 10px;
+    background: #f8faf7;
+    font-family: inherit;
+    font-size: 15px;
+    color: #20251f;
+    outline: none;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    border-color: #9fcb42;
+}
+
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.contact-submit {
+    border: none;
+    padding: 14px 22px;
+    border-radius: 10px;
+    background: #ace336;
+    color: #17200f;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.contact-submit:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.contact-method {
+    padding: 20px 0;
+    border-bottom: 1px solid #e5e9e3;
+}
+
+.contact-method:last-child {
+    border-bottom: none;
+}
+
+.contact-method h3 {
+    margin: 0 0 6px;
+}
+
+.contact-method p {
+    margin: 0;
+    color: #707970;
+    line-height: 1.6;
+}
+
+.contact-method a {
+    color: #6b9820;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.contact-method a:hover {
+    text-decoration: underline;
+}
+
+.contact-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #eef5e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+.contact-success {
+    display: none;
+    margin-top: 15px;
+    padding: 14px;
+    border-radius: 10px;
+    background: #eef8df;
+    color: #426118;
+    font-weight: 600;
+}
+
+@media (max-width: 800px) {
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-card {
+        padding: 22px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+<div class="container nav">
+
+<a class="brand" href="index.html">
+
+<div class="logo">
+EA
+</div>
+
+<div>
+ECHO AIR GROUP
+<small>6L · ECV · CLOVER</small>
+</div>
+
+</a>
+
+<nav class="navlinks">
+
+<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact</a>
+
+</nav>
+
+<a class="register" href="join.html#application">
+REGISTER
+</a>
+
+<button class="menu" onclick="toggleMenu()">
+☰
+</button>
+
+</div>
+
+<div id="mobileNav" class="mobileNav">
+
+<div class="container">
+
+<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact</a> <a href="join.html#application">Register</a>
+
+</div>
+
+</div>
+
+</header>
+
+<!-- MAIN -->
+
+<main>
+
+<!-- HERO -->
+
+<section class="pagehero">
+
+<div class="container">
+
+<span class="pill">
+Get In Touch
+</span>
+
+<h1>
+Contact <span>Us.</span>
+</h1>
+
+<p>
+Have a question about Echo Air Group? We'd love to hear from you.
+</p>
+
+</div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section class="content-section">
+
+<div class="container">
+
+<div class="contact-grid">
+
+<!-- CONTACT FORM -->
+
+<div class="contact-card">
+
+<h2>
+Send us a message
+</h2>
+
+<p>
+Fill out the form below and the Echo Air Group team will get back to you.
+</p>
+
+<form
+class="contact-form"
+action="https://formsubmit.co/YOUR_EMAIL_HERE"
+method="POST"
+>
+
+<input
+type="hidden"
+name="_subject"
+value="New Echo Air Group Contact Message"
+
+>
+
+<input
+type="hidden"
+name="_captcha"
+value="false"
+
+>
+
+<input
+type="hidden"
+name="_template"
+value="table"
+
+>
+
+<div>
+
+<label for="name">
+Name
+</label>
+
+<input
+type="text"
+id="name"
+name="name"
+placeholder="Your name"
+required
+
+>
+
+</div>
+
+<div>
+
+<label for="email">
+Email
+</label>
+
+<input
+type="email"
+id="email"
+name="email"
+placeholder="[your@email.com](mailto:your@email.com)"
+required
+
+>
+
+</div>
+
+<div>
+
+<label for="subject">
+Subject
+</label>
+
+<select
+id="subject"
+name="subject"
+required
+
+>
+
+<option value="">
+Select a subject
+</option>
+
+<option value="General Question">
+General Question
+</option>
+
+<option value="Pilot Application">
+Pilot Application
+</option>
+
+<option value="Partnership">
+Partnership
+</option>
+
+<option value="Technical Issue">
+Technical Issue
+</option>
+
+<option value="Other">
+Other
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label for="message">
+Message
+</label>
+
+<textarea
+id="message"
+name="message"
+placeholder="Write your message here..."
+required
+></textarea>
+
+</div>
+
+<button
+type="submit"
+class="contact-submit"
+
+>
+
+Send Message </button>
+
+</form>
+
+</div>
+
+<!-- CONTACT INFORMATION -->
+
+<div class="contact-card">
+
+<h2>
+Contact Information
+</h2>
+
+<p>
+You can also reach the Echo Air Group team through the channels below.
+</p>
+
+<div class="contact-method">
+
+<div class="contact-icon">
+✉
+</div>
+
+<h3>
+Email
+</h3>
+
+<p>
+For general questions, partnerships and support.
+</p>
+
+<p style="margin-top:8px">
+
+<a href="mailto:YOUR_EMAIL_HERE">
+YOUR_EMAIL_HERE
+</a>
+
+</p>
+
+</div>
+
+<div class="contact-method">
+
+<div class="contact-icon">
+💬
+</div>
+
+<h3>
+Discord
+</h3>
+
+<p>
+Join our community and speak directly with other Echo Air Group pilots.
+</p>
+
+<p style="margin-top:8px">
+
+<a href="YOUR_DISCORD_LINK_HERE" target="_blank">
+Join our Discord ↗
+</a>
+
+</p>
+
+</div>
+
+<div class="contact-method">
+
+<div class="contact-icon">
+✈
+</div>
+
+<h3>
+Pilot Applications
+</h3>
+
+<p>
+Interested in flying with Echo Air Group?
+</p>
+
+<p style="margin-top:8px">
+
+<a href="join.html#application">
+Apply to join the airline →
+</a>
+
+</p>
+
+</div>
+
+<div class="contact-method">
+
+<div class="contact-icon">
+🕐
+</div>
+
+<h3>
+Response Time
+</h3>
+
+<p>
+We usually respond to messages as soon as possible. Please allow some time for a response depending on the type of request.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="dark-section">
+
+<div class="container">
+
+<div class="section-head">
+
+<span class="eyebrow">
+Echo Air Group
+</span>
+
+<h2>
+Ready to <span>fly with us?</span>
+</h2>
+
+<p>
+Join the Echo Air Group community and take to the skies with fellow flight simulation enthusiasts.
+</p>
+
+<a
+href="join.html#application"
+class="register"
+style="display:inline-block;margin-top:20px;"
+
+>
+
+JOIN ECHO AIR GROUP </a>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+
+<div class="container">
+
+<div class="foot-top">
+
+<div>
+
+<div class="brand">
+
+<div class="logo">
+EA
+</div>
+
+<div>
+ECHO AIR GROUP
+<small>6L · ECV · CLOVER</small>
+</div>
+
+</div>
+
+<p style="max-width:450px">
+
+Virtual aviation. Real passion. A community built for pilots who love the world of flight simulation.
+
+</p>
+
+</div>
+
+<div class="foot-links">
+
+<a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="manual.html">Pilot Manual</a> <a href="join.html">Register</a> <a href="contact.html">Contact</a>
+
+</div>
+
+</div>
+
+<div class="copy">
+
+<span>
+© 2026 Echo Air Group. Virtual airline.
+</span>
+
+<span>
+Not affiliated with any real-world airline.
+</span>
+
+</div>
+
+</div>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
