@@ -46,10 +46,271 @@
 
     --header-height:100px;
 }
+/* ============================================================
+   PILOT SIDEBAR
+   ============================================================ */
 
+.ranking-layout {
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) 330px;
+    gap:28px;
+    align-items:start;
+}
+
+.ranking-main {
+    min-width:0;
+}
+
+.pilot-sidebar {
+    position:sticky;
+    top:120px;
+
+    background:#fff;
+
+    border:1px solid #dfe5dc;
+    border-radius:18px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.06);
+
+    overflow:hidden;
+}
+
+.pilot-sidebar-header {
+    padding:22px 22px 18px;
+
+    border-bottom:1px solid #e8ede5;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f5f8f1 100%
+        );
+}
+
+.pilot-sidebar-header h3 {
+    margin:0 0 5px;
+
+    font-size:18px;
+}
+
+.pilot-sidebar-header p {
+    margin:0;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.5;
+}
+
+.pilot-list {
+    max-height:620px;
+
+    overflow-y:auto;
+}
+
+.pilot-list::-webkit-scrollbar {
+    width:6px;
+}
+
+.pilot-list::-webkit-scrollbar-track {
+    background:#f1f4ef;
+}
+
+.pilot-list::-webkit-scrollbar-thumb {
+    background:#cbd4c5;
+    border-radius:10px;
+}
+
+.pilot-item {
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    width:100%;
+
+    padding:14px 18px;
+
+    border:0;
+    border-bottom:1px solid #edf0eb;
+
+    background:#fff;
+
+    color:var(--text);
+
+    text-decoration:none;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.pilot-item:last-child {
+    border-bottom:0;
+}
+
+.pilot-item:hover {
+    background:#f4f8ee;
+}
+
+.pilot-position {
+    flex-shrink:0;
+
+    width:28px;
+
+    color:#899287;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    text-align:center;
+}
+
+.pilot-avatar {
+    flex-shrink:0;
+
+    width:40px;
+    height:40px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#eef5e7;
+
+    color:#58721e;
+
+    font-size:15px;
+
+    font-weight:900;
+}
+
+.pilot-info {
+    min-width:0;
+
+    flex:1;
+}
+
+.pilot-name {
+    display:block;
+
+    overflow:hidden;
+
+    color:#273025;
+
+    font-size:13px;
+    font-weight:800;
+
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.pilot-rank {
+    display:block;
+
+    margin-top:3px;
+
+    color:#899287;
+
+    font-size:10px;
+    font-weight:600;
+}
+
+.pilot-rating {
+    flex-shrink:0;
+
+    text-align:right;
+}
+
+.pilot-rating-value {
+    display:block;
+
+    color:#5c8218;
+
+    font-size:14px;
+    font-weight:900;
+}
+
+.pilot-rating-label {
+    display:block;
+
+    margin-top:2px;
+
+    color:#9aa298;
+
+    font-size:9px;
+    font-weight:700;
+
+    text-transform:uppercase;
+}
+
+.pilot-sidebar-loading,
+.pilot-sidebar-empty,
+.pilot-sidebar-error {
+    padding:30px 20px;
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    line-height:1.6;
+
+    text-align:center;
+}
+
+.pilot-sidebar-error {
+    color:#7d3434;
+}
+
+
+/* ============================================================
+   SIDEBAR RESPONSIVE
+   ============================================================ */
+
+@media(max-width:1000px) {
+
+    .ranking-layout {
+        grid-template-columns:1fr;
+    }
+
+    .pilot-sidebar {
+        position:static;
+    }
+
+    .pilot-list {
+        max-height:450px;
+    }
+
+}
+
+@media(max-width:600px) {
+
+    .pilot-sidebar-header {
+        padding:18px;
+    }
+
+    .pilot-item {
+        padding:13px 14px;
+    }
+
+}
+    
 /* ============================================================
    GLOBAL
    ============================================================ */
+    
 
 * {
     box-sizing:border-box;
@@ -1142,6 +1403,10 @@ position on the Echo Air Group leaderboard.
 
 <div class="container">
 
+<div class="ranking-layout">
+
+<div class="ranking-main">
+
 
 <!-- ========================================================
      LOGGED OUT
@@ -1665,9 +1930,13 @@ Loading…
 </div>
 
 </div>
-
+<!-- einde leaderboard panel -->
 
 </div>
+<!-- einde ranking-main -->
+
+</div>
+<!-- einde ranking-layout -->
 
 </section>
 
