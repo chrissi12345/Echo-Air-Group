@@ -1,224 +1,1531 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101410">
+<meta name="description" content="Echo Air Group — pilot ranking.">
 <title>Ranking — Echo Air Group</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
+
 <style>
-.ranking-wrap{padding:70px 0}
-.ranking-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:stretch}
-.rank-card,.panel{background:#fff;border:1px solid #dfe5dc;border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.06)}
-.rank-card{padding:30px}
-.rank-card h2{margin:0 0 8px}
-.muted{color:#687267}
-.rank-number{font-size:52px;font-weight:800;line-height:1;margin:10px 0}
-.stars{font-size:26px;letter-spacing:2px}
-.progress{height:12px;background:#e8ede5;border-radius:99px;overflow:hidden;margin:15px 0 8px}
-.progress>div{height:100%;width:0;background:#ace336;transition:width .4s ease}
-.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
-.stat{background:#f5f7f3;border-radius:12px;padding:14px}
-.stat small{display:block;color:#7b857a}.stat b{font-size:20px}
-.panel{padding:24px;margin-top:28px}
-.panel h3{margin-top:0}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
-.field input{box-sizing:border-box;width:100%;padding:12px 14px;border:1px solid #d8ded6;border-radius:10px;background:#f8faf7;font:inherit}
-.field input:focus{outline:none;border-color:#9fcb42}
-.btn{border:0;cursor:pointer}
-.message{margin-top:14px;padding:12px 14px;border-radius:10px;background:#eef5e7;color:#52604d;display:none}
-.message.error{background:#faecec;color:#7d3434}
-.table-wrap{overflow:auto}
-table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid #e8ede5}th{font-size:13px;color:#687267}
-.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#eef5e7;font-weight:700;font-size:12px}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-@media(max-width:800px){.ranking-hero{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.stat-grid{grid-template-columns:1fr 1fr}}
+
+/* ============================================================
+   VARIABLES / GLOBAL
+   ============================================================ */
+
+:root {
+    --green:#ace336;
+    --green-dark:#6e9c1e;
+    --green-soft:#eef6df;
+    --black:#090d08;
+    --dark:#101410;
+    --dark-2:#151b13;
+    --dark-3:#202b1b;
+    --white:#ffffff;
+    --light:#f5f7f3;
+    --text:#273025;
+    --muted:#687267;
+    --line:rgba(255,255,255,.09);
+    --light-line:#e0e6dc;
+    --header-height:100px;
+}
+
+* {
+    box-sizing:border-box;
+}
+
+html {
+    scroll-behavior:smooth;
+    scroll-padding-top:110px;
+}
+
+body {
+    margin:0;
+    overflow-x:hidden;
+    font-family:Inter,Arial,sans-serif;
+    color:var(--text);
+    background:var(--white);
+}
+
+body.menu-open {
+    overflow:hidden;
+}
+
+button,
+a {
+    font-family:inherit;
+}
+
+button {
+    border:0;
+}
+
+::selection {
+    background:var(--green);
+    color:var(--black);
+}
+
+img {
+    max-width:100%;
+}
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
+.container {
+    width:min(1180px,calc(100% - 50px));
+    margin:0 auto;
+}
+
+.green {
+    color:var(--green);
+}
+
+.muted {
+    color:var(--muted);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+header {
+    position:fixed;
+    inset:0 0 auto 0;
+    z-index:1000;
+    width:100%;
+    background:rgba(9,13,8,1);
+    border-bottom:1px solid rgba(255,255,255,.06);
+    transition:
+        background .3s ease,
+        backdrop-filter .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease,
+        transform .3s ease;
+}
+
+header.scrolled {
+    background:rgba(9,13,8,.82);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(172,227,54,.14);
+    box-shadow:0 8px 35px rgba(0,0,0,.25);
+}
+
+header.hide-on-scroll {
+    transform:translateY(-100%);
+}
+
+.nav {
+    min-height:var(--header-height);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.brand {
+    display:inline-flex;
+    align-items:center;
+    min-width:0;
+    flex-shrink:0;
+    color:var(--white);
+    text-decoration:none;
+}
+
+.brand-logo {
+    width:58px;
+    height:58px;
+    display:block;
+    object-fit:contain;
+    border-radius:12px;
+}
+
+.brand-text {
+    margin-left:12px;
+    color:var(--white);
+    font-size:14px;
+    font-weight:900;
+    letter-spacing:.04em;
+    line-height:1.2;
+}
+
+.brand-text small {
+    display:block;
+    margin-top:4px;
+    color:var(--green);
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.1em;
+}
+
+.navlinks {
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:20px;
+    margin-left:auto;
+}
+
+.navlinks a {
+    position:relative;
+    color:rgba(255,255,255,.9);
+    text-decoration:none;
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+    transition:color .2s ease;
+}
+
+.navlinks a::after {
+    content:"";
+    position:absolute;
+    left:0;
+    right:100%;
+    bottom:-8px;
+    height:2px;
+    background:var(--green);
+    transition:right .25s ease;
+}
+
+.navlinks a:hover,
+.navlinks a.active {
+    color:var(--green);
+}
+
+.navlinks a:hover::after,
+.navlinks a.active::after {
+    right:0;
+}
+
+.register {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 18px;
+    border-radius:10px;
+    background:var(--green);
+    color:#17200f;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:900;
+    white-space:nowrap;
+    transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.register:hover {
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px rgba(172,227,54,.25);
+}
+
+.menu {
+    display:none;
+    padding:10px 13px;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:10px;
+    background:rgba(255,255,255,.05);
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* ============================================================
+   MOBILE NAV
+   ============================================================ */
+
+.mobileNav {
+    display:none;
+    background:rgba(9,13,8,.98);
+    border-top:1px solid rgba(255,255,255,.06);
+}
+
+.mobileNav.open {
+    display:block;
+}
+
+.mobileNav .container {
+    padding:15px 0 25px;
+}
+
+.mobileNav a {
+    display:block;
+    padding:14px 0;
+    color:white;
+    text-decoration:none;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    font-size:15px;
+    font-weight:800;
+}
+
+.mobileNav a:hover {
+    color:var(--green);
+}
+
+/* ============================================================
+   PAGE HERO
+   ============================================================ */
+
+.pagehero {
+    padding:170px 0 90px;
+    background:
+        radial-gradient(circle at 80% 20%,rgba(172,227,54,.13),transparent 30%),
+        linear-gradient(135deg,#10150f 0%,#172016 50%,#0d110c 100%);
+    color:white;
+}
+
+.pagehero .pill {
+    display:inline-flex;
+    align-items:center;
+    padding:9px 15px;
+    border-radius:999px;
+    background:rgba(172,227,54,.1);
+    border:1px solid rgba(172,227,54,.3);
+    color:var(--green);
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+}
+
+.pagehero h1 {
+    margin:25px 0 18px;
+    font-size:clamp(48px,7vw,80px);
+    line-height:.98;
+    letter-spacing:-.06em;
+}
+
+.pagehero h1 span {
+    color:var(--green);
+}
+
+.pagehero p {
+    max-width:700px;
+    margin:0;
+    color:#c6cdc2;
+    font-size:17px;
+    line-height:1.8;
+}
+
+/* ============================================================
+   RANKING
+   ============================================================ */
+
+.ranking-wrap {
+    padding:70px 0;
+}
+
+.ranking-hero {
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:28px;
+    align-items:stretch;
+}
+
+.rank-card,
+.panel {
+    background:#fff;
+    border:1px solid #dfe5dc;
+    border-radius:18px;
+    box-shadow:0 12px 35px rgba(0,0,0,.06);
+}
+
+.rank-card {
+    padding:30px;
+}
+
+.rank-card h2 {
+    margin:0 0 8px;
+}
+
+.rank-number {
+    font-size:52px;
+    font-weight:800;
+    line-height:1;
+    margin:10px 0;
+}
+
+.stars {
+    font-size:26px;
+    letter-spacing:2px;
+}
+
+.progress {
+    height:12px;
+    background:#e8ede5;
+    border-radius:99px;
+    overflow:hidden;
+    margin:15px 0 8px;
+}
+
+.progress > div {
+    height:100%;
+    width:0;
+    background:#ace336;
+    transition:width .4s ease;
+}
+
+.stat-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:22px;
+}
+
+.stat {
+    background:#f5f7f3;
+    border-radius:12px;
+    padding:14px;
+}
+
+.stat small {
+    display:block;
+    color:#7b857a;
+}
+
+.stat b {
+    font-size:20px;
+}
+
+.panel {
+    padding:24px;
+    margin-top:28px;
+}
+
+.panel h3 {
+    margin-top:0;
+}
+
+.form-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.field {
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full {
+    grid-column:1/-1;
+}
+
+.field input {
+    box-sizing:border-box;
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #d8ded6;
+    border-radius:10px;
+    background:#f8faf7;
+    font:inherit;
+}
+
+.field input:focus {
+    outline:none;
+    border-color:#9fcb42;
+}
+
+.btn {
+    border:0;
+    cursor:pointer;
+}
+
+.btn-primary {
+    background:var(--green);
+    color:#17200f;
+}
+
+.message {
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:10px;
+    background:#eef5e7;
+    color:#52604d;
+    display:none;
+}
+
+.message.error {
+    background:#faecec;
+    color:#7d3434;
+}
+
+.table-wrap {
+    overflow:auto;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td {
+    text-align:left;
+    padding:13px;
+    border-bottom:1px solid #e8ede5;
+}
+
+th {
+    font-size:13px;
+    color:#687267;
+}
+
+.badge {
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:999px;
+    background:#eef5e7;
+    font-weight:700;
+    font-size:12px;
+}
+
+.actions {
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer {
+    padding:60px 0 25px;
+    background:var(--black);
+    color:white;
+}
+
+.foot-top {
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:50px;
+}
+
+footer .brand {
+    margin-bottom:18px;
+}
+
+footer p {
+    margin:0;
+    color:#8f988c;
+    line-height:1.7;
+}
+
+.foot-links {
+    display:grid;
+    grid-template-columns:repeat(3,auto);
+    gap:12px 28px;
+    max-width:600px;
+    justify-content:end;
+}
+
+.foot-links a {
+    color:#aeb7aa;
+    text-decoration:none;
+    font-size:12px;
+    font-weight:700;
+    white-space:nowrap;
+    transition:color .2s ease;
+}
+
+.foot-links a:hover {
+    color:var(--green);
+}
+
+.footer-social {
+    display:flex;
+    gap:10px;
+    margin-top:22px;
+}
+
+.footer-social a {
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1);
+    transition:transform .2s ease,background .2s ease;
+}
+
+.footer-social a:hover {
+    transform:translateY(-3px);
+    background:rgba(172,227,54,.12);
+}
+
+.footer-social img {
+    width:20px;
+    height:20px;
+    object-fit:contain;
+}
+
+.copy {
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    margin-top:40px;
+    padding-top:20px;
+    border-top:1px solid rgba(255,255,255,.08);
+    color:#687267;
+    font-size:10px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media(max-width:1200px) {
+
+    .navlinks {
+        gap:13px;
+    }
+
+    .navlinks a {
+        font-size:11px;
+    }
+
+    .register {
+        padding:11px 14px;
+        font-size:11px;
+    }
+}
+
+@media(max-width:1050px) {
+
+    .navlinks {
+        display:none;
+    }
+
+    .register {
+        display:none;
+    }
+
+    .menu {
+        display:block;
+        margin-left:auto;
+    }
+
+    .foot-links {
+        grid-template-columns:repeat(2,auto);
+        justify-content:start;
+    }
+}
+
+@media(max-width:850px) {
+
+    :root {
+        --header-height:82px;
+    }
+
+    .container {
+        width:min(100% - 32px,700px);
+    }
+
+    .ranking-hero {
+        grid-template-columns:1fr;
+    }
+
+    .form-grid {
+        grid-template-columns:1fr;
+    }
+
+    .field.full {
+        grid-column:auto;
+    }
+
+    .stat-grid {
+        grid-template-columns:1fr 1fr;
+    }
+
+    .foot-top {
+        flex-direction:column;
+    }
+
+    .copy {
+        flex-direction:column;
+    }
+
+    .pagehero {
+        padding:140px 0 70px;
+    }
+}
+
+@media(max-width:520px) {
+
+    .container {
+        width:calc(100% - 28px);
+    }
+
+    .nav {
+        min-height:76px;
+    }
+
+    .brand-logo {
+        width:48px;
+        height:48px;
+    }
+
+    .brand-text {
+        font-size:11px;
+    }
+
+    .brand-text small {
+        font-size:8px;
+    }
+
+    .pagehero h1 {
+        font-size:43px;
+    }
+
+    .stat-grid {
+        grid-template-columns:1fr;
+    }
+
+    .foot-links {
+        grid-template-columns:1fr 1fr;
+        gap:12px 25px;
+    }
+}
+
 </style>
 </head>
+
 <body>
-<header>
-<div class="container nav">
-<a class="brand" href="index.html"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></a>
-<nav class="navlinks">
-<a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="contact.html">Contact Us</a>
-</nav>
-<a class="register" href="join.html">REGISTER</a><button class="menu" onclick="toggleMenu()">☰</button>
-</div>
-<div id="mobileNav" class="mobileNav"><div class="container">
-<a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="contact.html">Contact Us</a><a href="join.html">Register</a>
-</div></div>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+
+<header id="siteHeader">
+
+    <div class="container nav">
+
+        <a class="brand" href="index.html" aria-label="Echo Air Group home">
+
+            <img
+                class="brand-logo"
+                src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+                alt="Echo Air Group Logo"
+            >
+
+            <div class="brand-text">
+                ECHO AIR GROUP
+                <small>6L · ECV · CLOVER</small>
+            </div>
+
+        </a>
+
+        <nav class="navlinks" aria-label="Primary navigation">
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="fleet.html">Fleet</a>
+            <a href="routes.html">Routes</a>
+            <a href="team.html">Team</a>
+            <a href="join.html">Join Us</a>
+            <a href="manual.html">Pilot Manual</a>
+            <a href="contact.html">Contact Us</a>
+            <a class="active" href="ranking.html">Ranking</a>
+
+        </nav>
+
+        <a class="register" href="join.html">REGISTER</a>
+
+        <button
+            class="menu"
+            id="menuButton"
+            onclick="toggleMenu()"
+            type="button"
+            aria-label="Open navigation menu"
+            aria-expanded="false"
+            aria-controls="mobileNav"
+        >☰</button>
+
+    </div>
+
+    <div id="mobileNav" class="mobileNav">
+
+        <div class="container">
+
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="fleet.html">Fleet</a>
+            <a href="routes.html">Routes</a>
+            <a href="team.html">Team</a>
+            <a href="join.html">Join Us</a>
+            <a href="manual.html">Pilot Manual</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="ranking.html">Ranking</a>
+            <a href="join.html">Register</a>
+
+        </div>
+
+    </div>
+
 </header>
 
+
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
+
 <main>
-<section class="pagehero"><div class="container">
-<span class="pill">Echo Air Group Ranking</span>
-<h1>Fly. Earn <span>Stars.</span></h1>
-<p>Your NewSky flights are synchronized automatically. Every completed flight can contribute to your Echo rank.</p>
-</div></section>
+
+<section class="pagehero">
+
+    <div class="container">
+
+        <span class="pill">Echo Air Group Ranking</span>
+
+        <h1>
+            Fly. Earn <span>Stars.</span>
+        </h1>
+
+        <p>
+            Your NewSky flights are synchronized automatically.
+            Every completed flight can contribute to your Echo rank.
+        </p>
+
+    </div>
+
+</section>
+
 
 <section class="ranking-wrap">
+
 <div class="container">
 
 <div id="loggedOut">
+
 <div class="ranking-hero">
+
 <div class="rank-card">
+
 <span class="eyebrow">Pilot Ranking</span>
+
 <h2>Build your Echo profile</h2>
-<p class="muted">Create an account or sign in, then link your NewSky pilot ID. The backend handles NewSky synchronization securely.</p>
+
+<p class="muted">
+Create an account or sign in, then link your NewSky pilot ID.
+The backend handles NewSky synchronization securely.
+</p>
+
 <div class="actions">
-<a class="btn btn-primary" href="#account">Create / Sign in</a>
+
+<a class="btn btn-primary" href="#account">
+Create / Sign in
+</a>
+
 </div>
+
 </div>
+
+
 <div class="rank-card">
+
 <span class="eyebrow">Rank system</span>
+
 <h2>Earn your way up</h2>
-<p class="muted">Stars are calculated from NewSky flight ratings. The default system awards <strong>rating × 10</strong> stars per flight.</p>
+
+<p class="muted">
+Stars are calculated from NewSky flight ratings.
+The default system awards <strong>rating × 10</strong> stars per flight.
+</p>
+
 <div class="stat-grid">
-<div class="stat"><small>First Officer</small><b>100 ⭐</b></div>
-<div class="stat"><small>Senior F/O</small><b>250 ⭐</b></div>
-<div class="stat"><small>Captain</small><b>500 ⭐</b></div>
+
+<div class="stat">
+<small>First Officer</small>
+<b>100 ⭐</b>
 </div>
+
+<div class="stat">
+<small>Senior F/O</small>
+<b>250 ⭐</b>
 </div>
+
+<div class="stat">
+<small>Captain</small>
+<b>500 ⭐</b>
 </div>
+
 </div>
+
+</div>
+
+</div>
+
+</div>
+
 
 <div id="dashboard" style="display:none">
+
 <div class="ranking-hero">
-<div class="rank-card">
-<span class="eyebrow">Your rank</span>
-<h2 id="pilotName">Pilot</h2>
-<div class="rank-number" id="rankName">Cadet</div>
-<div class="stars"><span id="stars">0</span> ⭐</div>
-<div class="progress"><div id="progressBar"></div></div>
-<p class="muted" id="progressText">0 / 100 ⭐ to First Officer</p>
-<div class="stat-grid">
-<div class="stat"><small>Flights</small><b id="flightCount">0</b></div>
-<div class="stat"><small>Average rating</small><b id="averageRating">0.00</b></div>
-<div class="stat"><small>Flight hours</small><b id="flightHours">0.0</b></div>
-</div>
-<div class="actions">
-<button class="btn btn-primary" id="syncBtn">Sync now</button>
-<button class="btn" id="logoutBtn">Log out</button>
-</div>
-<div class="message" id="dashboardMsg"></div>
-</div>
 
 <div class="rank-card">
+
+<span class="eyebrow">Your rank</span>
+
+<h2 id="pilotName">Pilot</h2>
+
+<div class="rank-number" id="rankName">
+Cadet
+</div>
+
+<div class="stars">
+<span id="stars">0</span> ⭐
+</div>
+
+<div class="progress">
+<div id="progressBar"></div>
+</div>
+
+<p class="muted" id="progressText">
+0 / 100 ⭐ to First Officer
+</p>
+
+<div class="stat-grid">
+
+<div class="stat">
+<small>Flights</small>
+<b id="flightCount">0</b>
+</div>
+
+<div class="stat">
+<small>Average rating</small>
+<b id="averageRating">0.00</b>
+</div>
+
+<div class="stat">
+<small>Flight hours</small>
+<b id="flightHours">0.0</b>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="btn btn-primary" id="syncBtn">
+Sync now
+</button>
+
+<button class="btn" id="logoutBtn">
+Log out
+</button>
+
+</div>
+
+<div class="message" id="dashboardMsg"></div>
+
+</div>
+
+
+<div class="rank-card">
+
 <span class="eyebrow">NewSky connection</span>
+
 <h2>Account linking</h2>
-<p class="muted">Link your NewSky pilot ID exactly as shown by the NewSky flight data. For safety, links are marked pending until approved by an Echo administrator.</p>
+
+<p class="muted">
+Link your NewSky pilot ID exactly as shown by the NewSky flight data.
+For safety, links are marked pending until approved by an Echo administrator.
+</p>
+
 <div class="form-grid">
-<div class="field full"><label for="newskyId">NewSky Pilot ID</label><input id="newskyId" placeholder="e.g. 664b4e4c13e9f913ec89a2e7"></div>
+
+<div class="field full">
+
+<label for="newskyId">
+NewSky Pilot ID
+</label>
+
+<input
+id="newskyId"
+placeholder="e.g. 664b4e4c13e9f913ec89a2e7"
+>
+
 </div>
-<div class="actions"><button class="btn btn-primary" id="linkBtn">Request link</button></div>
+
+</div>
+
+<div class="actions">
+
+<button class="btn btn-primary" id="linkBtn">
+Request link
+</button>
+
+</div>
+
 <div class="message" id="linkMsg"></div>
+
 </div>
+
 </div>
+
 
 <div class="panel">
+
 <h3>Recent flights</h3>
+
 <div class="table-wrap">
-<table><thead><tr><th>Date</th><th>Route</th><th>Aircraft</th><th>Rating</th><th>Stars</th></tr></thead>
-<tbody id="flightRows"><tr><td colspan="5" class="muted">No flights loaded.</td></tr></tbody></table>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Route</th>
+<th>Aircraft</th>
+<th>Rating</th>
+<th>Stars</th>
+</tr>
+
+</thead>
+
+<tbody id="flightRows">
+
+<tr>
+<td colspan="5" class="muted">
+No flights loaded.
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
 </div>
+
 </div>
+
 </div>
+
 
 <div class="panel" id="account">
+
 <h3>Account</h3>
+
 <div class="form-grid">
-<div class="field"><label for="username">Username</label><input id="username" autocomplete="username" placeholder="your username"></div>
-<div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="at least 8 characters"></div>
+
+<div class="field">
+
+<label for="username">
+Username
+</label>
+
+<input
+id="username"
+autocomplete="username"
+placeholder="your username"
+>
+
 </div>
+
+
+<div class="field">
+
+<label for="password">
+Password
+</label>
+
+<input
+id="password"
+type="password"
+autocomplete="current-password"
+placeholder="at least 8 characters"
+>
+
+</div>
+
+</div>
+
+
 <div class="actions">
-<button class="btn btn-primary" id="registerBtn">Create account</button>
-<button class="btn" id="loginBtn">Sign in</button>
+
+<button class="btn btn-primary" id="registerBtn">
+Create account
+</button>
+
+<button class="btn" id="loginBtn">
+Sign in
+</button>
+
 </div>
+
 <div class="message" id="accountMsg"></div>
+
 </div>
+
 
 <div class="panel">
+
 <h3>Echo leaderboard</h3>
+
 <div class="table-wrap">
-<table><thead><tr><th>#</th><th>Pilot</th><th>Rank</th><th>Stars</th><th>Flights</th></tr></thead>
-<tbody id="leaderRows"><tr><td colspan="5" class="muted">Loading…</td></tr></tbody></table>
-</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>#</th>
+<th>Pilot</th>
+<th>Rank</th>
+<th>Stars</th>
+<th>Flights</th>
+</tr>
+
+</thead>
+
+<tbody id="leaderRows">
+
+<tr>
+<td colspan="5" class="muted">
+Loading…
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
 </div>
 
 </div>
+
+</div>
+
 </section>
+
 </main>
 
-<footer><div class="container">
-<div class="foot-top"><div><div class="brand"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></div>
-<p style="max-width:450px">Virtual aviation. Real passion. A community built for pilots who love the world of flight simulation.</p></div>
-<div class="foot-links"><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="manual.html">Pilot Manual</a><a href="join.html">Register</a></div></div>
-<div class="copy"><span>© 2026 Echo Air Group. Virtual airline.</span><span>Not affiliated with any real-world airline.</span></div>
-</div></footer>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+
+<footer>
+
+<div class="container">
+
+<div class="foot-top">
+
+<div>
+
+<div class="brand">
+
+<img
+class="brand-logo"
+src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+alt="Echo Air Group Logo"
+>
+
+<div class="brand-text">
+
+ECHO AIR GROUP
+
+<small>6L · ECV · CLOVER</small>
+
+</div>
+
+</div>
+
+<p style="max-width:450px">
+Virtual aviation. Real passion. A community built for pilots who love the world of flight simulation.
+</p>
+
+</div>
+
+
+<div class="foot-links">
+
+<a href="about.html">About</a>
+<a href="fleet.html">Fleet</a>
+<a href="routes.html">Routes</a>
+<a href="team.html">Team</a>
+<a href="manual.html">Pilot Manual</a>
+<a href="join.html">Register</a>
+
+</div>
+
+</div>
+
+
+<div class="copy">
+
+<span>
+© 2026 Echo Air Group. Virtual airline.
+</span>
+
+<span>
+Not affiliated with any real-world airline.
+</span>
+
+</div>
+
+</div>
+
+</footer>
+
+
 <script src="script.js"></script>
+
 <script>
-const API = (window.ECHO_API_URL || '').replace(/\/$/,'') || 'http://localhost:3000/api';
-let token = localStorage.getItem('echo_token');
+
+/* ============================================================
+   API
+   ============================================================ */
+
+const API =
+    (window.ECHO_API_URL || '').replace(/\/$/,'')
+    || 'http://localhost:3000/api';
+
+let token =
+    localStorage.getItem('echo_token');
+
 
 async function api(path, options={}) {
-  const headers = {'Content-Type':'application/json', ...(options.headers||{})};
-  if(token) headers.Authorization = 'Bearer '+token;
-  const r = await fetch(API+path,{...options,headers});
-  const data = await r.json().catch(()=>({error:'Invalid server response'}));
-  if(!r.ok) throw new Error(data.error || 'Request failed');
-  return data;
+
+    const headers = {
+        'Content-Type':'application/json',
+        ...(options.headers || {})
+    };
+
+    if(token) {
+        headers.Authorization =
+            'Bearer ' + token;
+    }
+
+    const r = await fetch(
+        API + path,
+        {
+            ...options,
+            headers
+        }
+    );
+
+    const data =
+        await r.json().catch(() => ({
+            error:'Invalid server response'
+        }));
+
+    if(!r.ok) {
+        throw new Error(
+            data.error || 'Request failed'
+        );
+    }
+
+    return data;
 }
-function msg(id,text,error=false){const e=document.getElementById(id);e.textContent=text;e.style.display='block';e.classList.toggle('error',error);}
-function rankInfo(stars){
-  const ranks=[['Cadet',0],['First Officer',100],['Senior First Officer',250],['Captain',500],['Senior Captain',750],['Commander',1000]];
-  let current=ranks[0],next=null;
-  for(let i=0;i<ranks.length;i++){if(stars>=ranks[i][1]) current=ranks[i]; else {next=ranks[i];break;}}
-  return {current,next};
+
+
+/* ============================================================
+   MESSAGES
+   ============================================================ */
+
+function msg(id,text,error=false) {
+
+    const e =
+        document.getElementById(id);
+
+    e.textContent = text;
+    e.style.display = 'block';
+
+    e.classList.toggle(
+        'error',
+        error
+    );
 }
-function renderDashboard(d){
-  document.getElementById('loggedOut').style.display='none';
-  document.getElementById('account').style.display='none';
-  document.getElementById('dashboard').style.display='block';
-  document.getElementById('pilotName').textContent=d.user.displayName || d.user.username;
-  document.getElementById('rankName').textContent=d.stats.rank;
-  document.getElementById('stars').textContent=Number(d.stats.stars).toFixed(1);
-  document.getElementById('flightCount').textContent=d.stats.flightCount;
-  document.getElementById('averageRating').textContent=Number(d.stats.averageRating).toFixed(2);
-  document.getElementById('flightHours').textContent=Number(d.stats.flightHours).toFixed(1);
-  if(d.stats.nextRank){
-    const pct=Math.min(100,((d.stats.stars-d.stats.rankMin)/(d.stats.nextRank.stars-d.stats.rankMin))*100);
-    document.getElementById('progressBar').style.width=pct+'%';
-    document.getElementById('progressText').textContent=`${Number(d.stats.stars).toFixed(1)} / ${d.stats.nextRank.stars} ⭐ to ${d.stats.nextRank.name}`;
-  } else {document.getElementById('progressBar').style.width='100%';document.getElementById('progressText').textContent='Maximum rank reached';}
-  document.getElementById('newskyId').value=d.user.newskyPilotId||'';
-  const rows=d.flights||[];
-  document.getElementById('flightRows').innerHTML=rows.length?rows.map(f=>`<tr><td>${new Date(f.depTimeAct||f.depTime).toLocaleDateString()}</td><td>${f.depIcao} → ${f.arrIcao}</td><td>${f.aircraft}</td><td>${Number(f.rating).toFixed(2)}</td><td>${Number(f.stars).toFixed(1)} ⭐</td></tr>`).join(''):'<tr><td colspan="5" class="muted">No linked flights yet.</td></tr>';
+
+
+/* ============================================================
+   RANK INFO
+   ============================================================ */
+
+function rankInfo(stars) {
+
+    const ranks = [
+        ['Cadet',0],
+        ['First Officer',100],
+        ['Senior First Officer',250],
+        ['Captain',500],
+        ['Senior Captain',750],
+        ['Commander',1000]
+    ];
+
+    let current = ranks[0];
+    let next = null;
+
+    for(let i=0;i<ranks.length;i++) {
+
+        if(stars >= ranks[i][1]) {
+
+            current = ranks[i];
+
+        } else {
+
+            next = ranks[i];
+            break;
+
+        }
+
+    }
+
+    return {
+        current,
+        next
+    };
 }
-async function loadMe(){if(!token)return;try{renderDashboard(await api('/me'));}catch(e){localStorage.removeItem('echo_token');token=null;}}
+
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+
+function renderDashboard(d) {
+
+    document.getElementById(
+        'loggedOut'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'account'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'dashboard'
+    ).style.display = 'block';
+
+
+    document.getElementById(
+        'pilotName'
+    ).textContent =
+        d.user.displayName ||
+        d.user.username;
+
+
+    document.getElementById(
+        'rankName'
+    ).textContent =
+        d.stats.rank;
+
+
+    document.getElementById(
+        'stars'
+    ).textContent =
+        Number(d.stats.stars).toFixed(2);
+
+
+    document.getElementById(
+        'flightCount'
+    ).textContent =
+        d.stats.flightCount;
+
+
+    document.getElementById(
+        'averageRating'
+    ).textContent =
+        Number(
+            d.stats.averageRating
+        ).toFixed(2);
+
+
+    document.getElementById(
+        'flightHours'
+    ).textContent =
+        Number(
+            d.stats.flightHours
+        ).toFixed(1);
+
+
+    if(d.stats.nextRank) {
+
+        const pct =
+            Math.min(
+                100,
+                (
+                    (
+                        d.stats.stars -
+                        d.stats.rankMin
+                    ) /
+                    (
+                        d.stats.nextRank.stars -
+                        d.stats.rankMin
+                    )
+                ) * 100
+            );
+
+        document.getElementById(
+            'progressBar'
+        ).style.width =
+            pct + '%';
+
+
+        document.getElementById(
+            'progressText'
+        ).textContent =
+            `${Number(d.stats.stars).toFixed(2)} / ${d.stats.nextRank.stars} ⭐ to ${d.stats.nextRank.name}`;
+
+    } else {
+
+        document.getElementById(
+            'progressBar'
+        ).style.width =
+            '100%';
+
+        document.getElementById(
+            'progressText'
+        ).textContent =
+            'Maximum rank reached';
+
+    }
+
+
+    document.getElementById(
+        'newskyId'
+    ).value =
+        d.user.newskyPilotId || '';
+
+
+    const rows =
+        d.flights || [];
+
+
+    document.getElementById(
+        'flightRows'
+    ).innerHTML =
+        rows.length
+
+        ? rows.map(f => `
+            <tr>
+                <td>
+                    ${new Date(
+                        f.depTimeAct ||
+                        f.depTime
+                    ).toLocaleDateString()}
+                </td>
+
+                <td>
+                    ${f.depIcao} →
+                    ${f.arrIcao}
+                </td>
+
+                <td>
+                    ${f.aircraft}
+                </td>
+
+                <td>
+                    ${Number(
+                        f.rating
+                    ).toFixed(2)}
+                </td>
+
+                <td>
+                    ${Number(
+                        f.stars
+                    ).toFixed(2)} ⭐
+                </td>
+            </tr>
+        `).join('')
+
+        : `
+            <tr>
+                <td colspan="5" class="muted">
+                    No linked flights yet.
+                </td>
+            </tr>
+        `;
+}
+
+
+/* ============================================================
+   LOAD USER
+   ============================================================ */
+
+async function loadMe() {
+
+    if(!token) return;
+
+    try {
+
+        renderDashboard(
+            await api('/me')
+        );
+
+    } catch(e) {
+
+        localStorage.removeItem(
+            'echo_token'
+        );
+
+        token = null;
+
+    }
+
+}
+
+
+/* ============================================================
+   LEADERBOARD
+   ============================================================ */
+
 async function leaderboard() {
 
     try {
 
-        const response = await fetch(
-            "http://localhost:3000/api/ranking"
-        );
+        const response =
+            await fetch(
+                "http://localhost:3000/api/ranking"
+            );
 
-        if (!response.ok) {
-            throw new Error("Ranking request failed");
+
+        if(!response.ok) {
+
+            throw new Error(
+                "Ranking request failed"
+            );
+
         }
 
-        const data = await response.json();
 
-        const rankings = data.rankings || [];
+        const data =
+            await response.json();
+
+
+        const rankings =
+            data.rankings || [];
+
 
         const leaderRows =
-            document.getElementById("leaderRows");
+            document.getElementById(
+                "leaderRows"
+            );
 
 
-        if (!rankings.length) {
+        if(!rankings.length) {
 
             leaderRows.innerHTML =
-                "No pilots yet.";
+                `
+                <tr>
+                    <td colspan="5">
+                        No pilots yet.
+                    </td>
+                </tr>
+                `;
 
             return;
 
@@ -226,42 +1533,46 @@ async function leaderboard() {
 
 
         leaderRows.innerHTML =
-            rankings.map((pilot) => {
+            rankings.map(
+                (pilot) => {
 
-                return `
+                    return `
 
-                    <tr>
+                        <tr>
 
-                        <td>
-                            ${pilot.position}
-                        </td>
+                            <td>
+                                ${pilot.position}
+                            </td>
 
-                        <td>
-                            ${pilot.name}
-                        </td>
+                            <td>
+                                ${pilot.name}
+                            </td>
 
-                        <td>
-                            <span class="badge">
-                                ${pilot.rank}
-                            </span>
-                        </td>
+                            <td>
+                                <span class="badge">
+                                    ${pilot.rank}
+                                </span>
+                            </td>
 
-                        <td>
-                            ${Number(pilot.stars).toFixed(2)} ⭐
-                        </td>
+                            <td>
+                                ${Number(
+                                    pilot.stars
+                                ).toFixed(2)} ⭐
+                            </td>
 
-                        <td>
-                            ${pilot.flights}
-                        </td>
+                            <td>
+                                ${pilot.flights}
+                            </td>
 
-                    </tr>
+                        </tr>
 
-                `;
+                    `;
 
-            }).join("");
+                }
+            ).join("");
 
 
-    } catch (error) {
+    } catch(error) {
 
         console.error(
             "Ranking error:",
@@ -270,18 +1581,337 @@ async function leaderboard() {
 
         document.getElementById(
             "leaderRows"
-        ).innerHTML =
-            "Backend unavailable.";
+        ).innerHTML = `
+            <tr>
+                <td colspan="5">
+                    Backend unavailable.
+                </td>
+            </tr>
+        `;
 
     }
 
 }
-document.getElementById('registerBtn').onclick=async()=>{try{const d=await api('/auth/register',{method:'POST',body:JSON.stringify({username:username.value,password:password.value})});token=d.token;localStorage.setItem('echo_token',token);await loadMe();}catch(e){msg('accountMsg',e.message,true)}};
-document.getElementById('loginBtn').onclick=async()=>{try{const d=await api('/auth/login',{method:'POST',body:JSON.stringify({username:username.value,password:password.value})});token=d.token;localStorage.setItem('echo_token',token);await loadMe();}catch(e){msg('accountMsg',e.message,true)}};
-document.getElementById('logoutBtn').onclick=()=>{localStorage.removeItem('echo_token');location.reload()};
-document.getElementById('linkBtn').onclick=async()=>{try{const d=await api('/account/link',{method:'POST',body:JSON.stringify({newskyPilotId:document.getElementById('newskyId').value.trim()})});msg('linkMsg',d.message);await loadMe();}catch(e){msg('linkMsg',e.message,true)}};
-document.getElementById('syncBtn').onclick=async()=>{try{document.getElementById('syncBtn').disabled=true;const d=await api('/sync/me',{method:'POST'});msg('dashboardMsg',d.message);await loadMe();await leaderboard();}catch(e){msg('dashboardMsg',e.message,true)}finally{document.getElementById('syncBtn').disabled=false}};
-loadMe(); leaderboard();
+
+
+/* ============================================================
+   ACCOUNT
+   ============================================================ */
+
+document.getElementById(
+    'registerBtn'
+).onclick = async () => {
+
+    try {
+
+        const d =
+            await api(
+                '/auth/register',
+                {
+                    method:'POST',
+                    body:JSON.stringify({
+                        username:
+                            username.value,
+                        password:
+                            password.value
+                    })
+                }
+            );
+
+        token = d.token;
+
+        localStorage.setItem(
+            'echo_token',
+            token
+        );
+
+        await loadMe();
+
+    } catch(e) {
+
+        msg(
+            'accountMsg',
+            e.message,
+            true
+        );
+
+    }
+
+};
+
+
+document.getElementById(
+    'loginBtn'
+).onclick = async () => {
+
+    try {
+
+        const d =
+            await api(
+                '/auth/login',
+                {
+                    method:'POST',
+                    body:JSON.stringify({
+                        username:
+                            username.value,
+                        password:
+                            password.value
+                    })
+                }
+            );
+
+        token = d.token;
+
+        localStorage.setItem(
+            'echo_token',
+            token
+        );
+
+        await loadMe();
+
+    } catch(e) {
+
+        msg(
+            'accountMsg',
+            e.message,
+            true
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+   LOGOUT
+   ============================================================ */
+
+document.getElementById(
+    'logoutBtn'
+).onclick = () => {
+
+    localStorage.removeItem(
+        'echo_token'
+    );
+
+    location.reload();
+
+};
+
+
+/* ============================================================
+   NEWSKY LINK
+   ============================================================ */
+
+document.getElementById(
+    'linkBtn'
+).onclick = async () => {
+
+    try {
+
+        const d =
+            await api(
+                '/account/link',
+                {
+                    method:'POST',
+                    body:JSON.stringify({
+                        newskyPilotId:
+                            document
+                            .getElementById(
+                                'newskyId'
+                            )
+                            .value
+                            .trim()
+                    })
+                }
+            );
+
+        msg(
+            'linkMsg',
+            d.message
+        );
+
+        await loadMe();
+
+    } catch(e) {
+
+        msg(
+            'linkMsg',
+            e.message,
+            true
+        );
+
+    }
+
+};
+
+
+/* ============================================================
+   SYNC
+   ============================================================ */
+
+document.getElementById(
+    'syncBtn'
+).onclick = async () => {
+
+    try {
+
+        document.getElementById(
+            'syncBtn'
+        ).disabled = true;
+
+
+        const d =
+            await api(
+                '/sync/me',
+                {
+                    method:'POST'
+                }
+            );
+
+
+        msg(
+            'dashboardMsg',
+            d.message
+        );
+
+
+        await loadMe();
+        await leaderboard();
+
+
+    } catch(e) {
+
+        msg(
+            'dashboardMsg',
+            e.message,
+            true
+        );
+
+
+    } finally {
+
+        document.getElementById(
+            'syncBtn'
+        ).disabled = false;
+
+    }
+
+};
+
+
+/* ============================================================
+   HEADER SCROLL
+   ============================================================ */
+
+const siteHeader =
+    document.getElementById(
+        'siteHeader'
+    );
+
+
+let lastScrollY = 0;
+
+
+window.addEventListener(
+    'scroll',
+    () => {
+
+        const currentScroll =
+            window.scrollY;
+
+
+        if(currentScroll > 20) {
+
+            siteHeader.classList.add(
+                'scrolled'
+            );
+
+        } else {
+
+            siteHeader.classList.remove(
+                'scrolled'
+            );
+
+        }
+
+
+        if(
+            currentScroll > 150 &&
+            currentScroll > lastScrollY
+        ) {
+
+            siteHeader.classList.add(
+                'hide-on-scroll'
+            );
+
+        } else {
+
+            siteHeader.classList.remove(
+                'hide-on-scroll'
+            );
+
+        }
+
+
+        lastScrollY =
+            currentScroll <= 0
+                ? 0
+                : currentScroll;
+
+    }
+);
+
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+
+function toggleMenu() {
+
+    const nav =
+        document.getElementById(
+            'mobileNav'
+        );
+
+    const button =
+        document.getElementById(
+            'menuButton'
+        );
+
+
+    nav.classList.toggle(
+        'open'
+    );
+
+    document.body.classList.toggle(
+        'menu-open'
+    );
+
+
+    const isOpen =
+        nav.classList.contains(
+            'open'
+        );
+
+
+    button.setAttribute(
+        'aria-expanded',
+        isOpen
+    );
+
+}
+
+
+/* ============================================================
+   START
+   ============================================================ */
+
+loadMe();
+leaderboard();
+
 </script>
+
 </body>
 </html>
+```
