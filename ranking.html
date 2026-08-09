@@ -1,1 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ranking — Echo Air Group</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.ranking-wrap{padding:70px 0}
+.ranking-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:stretch}
+.rank-card,.panel{background:#fff;border:1px solid #dfe5dc;border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.06)}
+.rank-card{padding:30px}
+.rank-card h2{margin:0 0 8px}
+.muted{color:#687267}
+.rank-number{font-size:52px;font-weight:800;line-height:1;margin:10px 0}
+.stars{font-size:26px;letter-spacing:2px}
+.progress{height:12px;background:#e8ede5;border-radius:99px;overflow:hidden;margin:15px 0 8px}
+.progress>div{height:100%;width:0;background:#ace336;transition:width .4s ease}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+.stat{background:#f5f7f3;border-radius:12px;padding:14px}
+.stat small{display:block;color:#7b857a}.stat b{font-size:20px}
+.panel{padding:24px;margin-top:28px}
+.panel h3{margin-top:0}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
+.field input{box-sizing:border-box;width:100%;padding:12px 14px;border:1px solid #d8ded6;border-radius:10px;background:#f8faf7;font:inherit}
+.field input:focus{outline:none;border-color:#9fcb42}
+.btn{border:0;cursor:pointer}
+.message{margin-top:14px;padding:12px 14px;border-radius:10px;background:#eef5e7;color:#52604d;display:none}
+.message.error{background:#faecec;color:#7d3434}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:13px;border-bottom:1px solid #e8ede5}th{font-size:13px;color:#687267}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#eef5e7;font-weight:700;font-size:12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+@media(max-width:800px){.ranking-hero{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.stat-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="container nav">
+<a class="brand" href="index.html"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></a>
+<nav class="navlinks">
+<a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="contact.html">Contact Us</a>
+</nav>
+<a class="register" href="join.html">REGISTER</a><button class="menu" onclick="toggleMenu()">☰</button>
+</div>
+<div id="mobileNav" class="mobileNav"><div class="container">
+<a href="index.html">Home</a><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="join.html">Join Us</a><a href="manual.html">Pilot Manual</a><a href="contact.html">Contact Us</a><a href="join.html">Register</a>
+</div></div>
+</header>
 
+<main>
+<section class="pagehero"><div class="container">
+<span class="pill">Echo Air Group Ranking</span>
+<h1>Fly. Earn <span>Stars.</span></h1>
+<p>Your NewSky flights are synchronized automatically. Every completed flight can contribute to your Echo rank.</p>
+</div></section>
+
+<section class="ranking-wrap">
+<div class="container">
+
+<div id="loggedOut">
+<div class="ranking-hero">
+<div class="rank-card">
+<span class="eyebrow">Pilot Ranking</span>
+<h2>Build your Echo profile</h2>
+<p class="muted">Create an account or sign in, then link your NewSky pilot ID. The backend handles NewSky synchronization securely.</p>
+<div class="actions">
+<a class="btn btn-primary" href="#account">Create / Sign in</a>
+</div>
+</div>
+<div class="rank-card">
+<span class="eyebrow">Rank system</span>
+<h2>Earn your way up</h2>
+<p class="muted">Stars are calculated from NewSky flight ratings. The default system awards <strong>rating × 10</strong> stars per flight.</p>
+<div class="stat-grid">
+<div class="stat"><small>First Officer</small><b>100 ⭐</b></div>
+<div class="stat"><small>Senior F/O</small><b>250 ⭐</b></div>
+<div class="stat"><small>Captain</small><b>500 ⭐</b></div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="dashboard" style="display:none">
+<div class="ranking-hero">
+<div class="rank-card">
+<span class="eyebrow">Your rank</span>
+<h2 id="pilotName">Pilot</h2>
+<div class="rank-number" id="rankName">Cadet</div>
+<div class="stars"><span id="stars">0</span> ⭐</div>
+<div class="progress"><div id="progressBar"></div></div>
+<p class="muted" id="progressText">0 / 100 ⭐ to First Officer</p>
+<div class="stat-grid">
+<div class="stat"><small>Flights</small><b id="flightCount">0</b></div>
+<div class="stat"><small>Average rating</small><b id="averageRating">0.00</b></div>
+<div class="stat"><small>Flight hours</small><b id="flightHours">0.0</b></div>
+</div>
+<div class="actions">
+<button class="btn btn-primary" id="syncBtn">Sync now</button>
+<button class="btn" id="logoutBtn">Log out</button>
+</div>
+<div class="message" id="dashboardMsg"></div>
+</div>
+
+<div class="rank-card">
+<span class="eyebrow">NewSky connection</span>
+<h2>Account linking</h2>
+<p class="muted">Link your NewSky pilot ID exactly as shown by the NewSky flight data. For safety, links are marked pending until approved by an Echo administrator.</p>
+<div class="form-grid">
+<div class="field full"><label for="newskyId">NewSky Pilot ID</label><input id="newskyId" placeholder="e.g. 664b4e4c13e9f913ec89a2e7"></div>
+</div>
+<div class="actions"><button class="btn btn-primary" id="linkBtn">Request link</button></div>
+<div class="message" id="linkMsg"></div>
+</div>
+</div>
+
+<div class="panel">
+<h3>Recent flights</h3>
+<div class="table-wrap">
+<table><thead><tr><th>Date</th><th>Route</th><th>Aircraft</th><th>Rating</th><th>Stars</th></tr></thead>
+<tbody id="flightRows"><tr><td colspan="5" class="muted">No flights loaded.</td></tr></tbody></table>
+</div>
+</div>
+</div>
+
+<div class="panel" id="account">
+<h3>Account</h3>
+<div class="form-grid">
+<div class="field"><label for="username">Username</label><input id="username" autocomplete="username" placeholder="your username"></div>
+<div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="at least 8 characters"></div>
+</div>
+<div class="actions">
+<button class="btn btn-primary" id="registerBtn">Create account</button>
+<button class="btn" id="loginBtn">Sign in</button>
+</div>
+<div class="message" id="accountMsg"></div>
+</div>
+
+<div class="panel">
+<h3>Echo leaderboard</h3>
+<div class="table-wrap">
+<table><thead><tr><th>#</th><th>Pilot</th><th>Rank</th><th>Stars</th><th>Flights</th></tr></thead>
+<tbody id="leaderRows"><tr><td colspan="5" class="muted">Loading…</td></tr></tbody></table>
+</div>
+</div>
+
+</div>
+</section>
+</main>
+
+<footer><div class="container">
+<div class="foot-top"><div><div class="brand"><div class="logo">EA</div><div>ECHO AIR GROUP<small>6L · ECV · CLOVER</small></div></div>
+<p style="max-width:450px">Virtual aviation. Real passion. A community built for pilots who love the world of flight simulation.</p></div>
+<div class="foot-links"><a href="about.html">About</a><a href="fleet.html">Fleet</a><a href="routes.html">Routes</a><a href="team.html">Team</a><a href="manual.html">Pilot Manual</a><a href="join.html">Register</a></div></div>
+<div class="copy"><span>© 2026 Echo Air Group. Virtual airline.</span><span>Not affiliated with any real-world airline.</span></div>
+</div></footer>
+<script src="script.js"></script>
+<script>
+const API = (window.ECHO_API_URL || '').replace(/\/$/,'') || 'http://localhost:3000/api';
+let token = localStorage.getItem('echo_token');
+
+async function api(path, options={}) {
+  const headers = {'Content-Type':'application/json', ...(options.headers||{})};
+  if(token) headers.Authorization = 'Bearer '+token;
+  const r = await fetch(API+path,{...options,headers});
+  const data = await r.json().catch(()=>({error:'Invalid server response'}));
+  if(!r.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+function msg(id,text,error=false){const e=document.getElementById(id);e.textContent=text;e.style.display='block';e.classList.toggle('error',error);}
+function rankInfo(stars){
+  const ranks=[['Cadet',0],['First Officer',100],['Senior First Officer',250],['Captain',500],['Senior Captain',750],['Commander',1000]];
+  let current=ranks[0],next=null;
+  for(let i=0;i<ranks.length;i++){if(stars>=ranks[i][1]) current=ranks[i]; else {next=ranks[i];break;}}
+  return {current,next};
+}
+function renderDashboard(d){
+  document.getElementById('loggedOut').style.display='none';
+  document.getElementById('account').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  document.getElementById('pilotName').textContent=d.user.displayName || d.user.username;
+  document.getElementById('rankName').textContent=d.stats.rank;
+  document.getElementById('stars').textContent=Number(d.stats.stars).toFixed(1);
+  document.getElementById('flightCount').textContent=d.stats.flightCount;
+  document.getElementById('averageRating').textContent=Number(d.stats.averageRating).toFixed(2);
+  document.getElementById('flightHours').textContent=Number(d.stats.flightHours).toFixed(1);
+  if(d.stats.nextRank){
+    const pct=Math.min(100,((d.stats.stars-d.stats.rankMin)/(d.stats.nextRank.stars-d.stats.rankMin))*100);
+    document.getElementById('progressBar').style.width=pct+'%';
+    document.getElementById('progressText').textContent=`${Number(d.stats.stars).toFixed(1)} / ${d.stats.nextRank.stars} ⭐ to ${d.stats.nextRank.name}`;
+  } else {document.getElementById('progressBar').style.width='100%';document.getElementById('progressText').textContent='Maximum rank reached';}
+  document.getElementById('newskyId').value=d.user.newskyPilotId||'';
+  const rows=d.flights||[];
+  document.getElementById('flightRows').innerHTML=rows.length?rows.map(f=>`<tr><td>${new Date(f.depTimeAct||f.depTime).toLocaleDateString()}</td><td>${f.depIcao} → ${f.arrIcao}</td><td>${f.aircraft}</td><td>${Number(f.rating).toFixed(2)}</td><td>${Number(f.stars).toFixed(1)} ⭐</td></tr>`).join(''):'<tr><td colspan="5" class="muted">No linked flights yet.</td></tr>';
+}
+async function loadMe(){if(!token)return;try{renderDashboard(await api('/me'));}catch(e){localStorage.removeItem('echo_token');token=null;}}
+async function leaderboard() {
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:3000/api/ranking"
+        );
+
+        if (!response.ok) {
+            throw new Error("Ranking request failed");
+        }
+
+        const data = await response.json();
+
+        const rankings = data.rankings || [];
+
+        const leaderRows =
+            document.getElementById("leaderRows");
+
+
+        if (!rankings.length) {
+
+            leaderRows.innerHTML =
+                "No pilots yet.";
+
+            return;
+
+        }
+
+
+        leaderRows.innerHTML =
+            rankings.map((pilot) => {
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${pilot.position}
+                        </td>
+
+                        <td>
+                            ${pilot.name}
+                        </td>
+
+                        <td>
+                            <span class="badge">
+                                ${pilot.rank}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${Number(pilot.stars).toFixed(2)} ⭐
+                        </td>
+
+                        <td>
+                            ${pilot.flights}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }).join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "Ranking error:",
+            error
+        );
+
+        document.getElementById(
+            "leaderRows"
+        ).innerHTML =
+            "Backend unavailable.";
+
+    }
+
+}
+document.getElementById('registerBtn').onclick=async()=>{try{const d=await api('/auth/register',{method:'POST',body:JSON.stringify({username:username.value,password:password.value})});token=d.token;localStorage.setItem('echo_token',token);await loadMe();}catch(e){msg('accountMsg',e.message,true)}};
+document.getElementById('loginBtn').onclick=async()=>{try{const d=await api('/auth/login',{method:'POST',body:JSON.stringify({username:username.value,password:password.value})});token=d.token;localStorage.setItem('echo_token',token);await loadMe();}catch(e){msg('accountMsg',e.message,true)}};
+document.getElementById('logoutBtn').onclick=()=>{localStorage.removeItem('echo_token');location.reload()};
+document.getElementById('linkBtn').onclick=async()=>{try{const d=await api('/account/link',{method:'POST',body:JSON.stringify({newskyPilotId:document.getElementById('newskyId').value.trim()})});msg('linkMsg',d.message);await loadMe();}catch(e){msg('linkMsg',e.message,true)}};
+document.getElementById('syncBtn').onclick=async()=>{try{document.getElementById('syncBtn').disabled=true;const d=await api('/sync/me',{method:'POST'});msg('dashboardMsg',d.message);await loadMe();await leaderboard();}catch(e){msg('dashboardMsg',e.message,true)}finally{document.getElementById('syncBtn').disabled=false}};
+loadMe(); leaderboard();
+</script>
+</body>
+</html>
