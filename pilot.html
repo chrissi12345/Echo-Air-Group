@@ -1479,11 +1479,8 @@ Virtual airline.
    ============================================================ */
 
 const API =
-(
-    window.ECHO_API_URL || ''
-)
-.replace(/\/$/,'')
-|| 'http://localhost:3000/api';
+    (window.ECHO_API_URL || '').replace(/\/$/,'')
+    || 'https://echo-air-group-api.onrender.com/api';
 
 
 const params =
