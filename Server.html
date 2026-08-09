@@ -195,7 +195,87 @@ function renderDashboard(d){
   document.getElementById('flightRows').innerHTML=rows.length?rows.map(f=>`<tr><td>${new Date(f.depTimeAct||f.depTime).toLocaleDateString()}</td><td>${f.depIcao} → ${f.arrIcao}</td><td>${f.aircraft}</td><td>${Number(f.rating).toFixed(2)}</td><td>${Number(f.stars).toFixed(1)} ⭐</td></tr>`).join(''):'<tr><td colspan="5" class="muted">No linked flights yet.</td></tr>';
 }
 async function loadMe(){if(!token)return;try{renderDashboard(await api('/me'));}catch(e){localStorage.removeItem('echo_token');token=null;}}
-async function leaderboard(){try{const d=await api('/leaderboard');document.getElementById('leaderRows').innerHTML=d.rows.length?d.rows.map((x,i)=>`<tr><td>${i+1}</td><td>${x.displayName||x.username}</td><td><span class="badge">${x.rank}</span></td><td>${Number(x.stars).toFixed(1)} ⭐</td><td>${x.flightCount}</td></tr>`).join(''):'<tr><td colspan="5">No pilots yet.</td></tr>';}catch(e){document.getElementById('leaderRows').innerHTML='<tr><td colspan="5">Backend unavailable.</td></tr>';}}
+async function leaderboard() {
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:3000/api/ranking"
+        );
+
+        if (!response.ok) {
+            throw new Error("Ranking request failed");
+        }
+
+        const data = await response.json();
+
+        const rankings = data.rankings || [];
+
+        const leaderRows =
+            document.getElementById("leaderRows");
+
+
+        if (!rankings.length) {
+
+            leaderRows.innerHTML =
+                "No pilots yet.";
+
+            return;
+
+        }
+
+
+        leaderRows.innerHTML =
+            rankings.map((pilot) => {
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${pilot.position}
+                        </td>
+
+                        <td>
+                            ${pilot.name}
+                        </td>
+
+                        <td>
+                            <span class="badge">
+                                ${pilot.rank}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${Number(pilot.stars).toFixed(2)} ⭐
+                        </td>
+
+                        <td>
+                            ${pilot.flights}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }).join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "Ranking error:",
+            error
+        );
+
+        document.getElementById(
+            "leaderRows"
+        ).innerHTML =
+            "Backend unavailable.";
+
+    }
+
+}
 document.getElementById('registerBtn').onclick=async()=>{try{const d=await api('/auth/register',{method:'POST',body:JSON.stringify({username:username.value,password:password.value})});token=d.token;localStorage.setItem('echo_token',token);await loadMe();}catch(e){msg('accountMsg',e.message,true)}};
 document.getElementById('loginBtn').onclick=async()=>{try{const d=await api('/auth/login',{method:'POST',body:JSON.stringify({username:username.value,password:password.value})});token=d.token;localStorage.setItem('echo_token',token);await loadMe();}catch(e){msg('accountMsg',e.message,true)}};
 document.getElementById('logoutBtn').onclick=()=>{localStorage.removeItem('echo_token');location.reload()};
