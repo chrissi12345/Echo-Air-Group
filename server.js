@@ -1529,7 +1529,7 @@ function minDate(
 // NEWSKY BYDATE REQUEST
 // ============================================================
 
-async function getNewSkyByDatePage(
+async function getNewSkyFlightPage(
     start,
     end,
     skip = 0,
