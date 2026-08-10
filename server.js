@@ -1533,39 +1533,30 @@ async function getNewSkyFlightPage(
     start,
     end,
     skip = 0,
-    count = NEWSKY_PAGE_SIZE
+    count = 50
 ) {
-
     if (!process.env.NEWSKY_API_KEY) {
         throw new Error(
             "NEWSKY_API_KEY is not configured."
         );
     }
 
-
     const url =
         `https://newsky.app/api/airline/${NEWSKY_AIRLINE_ID}/flights/bydate`;
 
+    const startDate =
+        `${start}T00:00:00.000Z`;
+
+    const endDate =
+        `${end}T23:59:59.999Z`;
 
     console.log(
-        `NewSky request: ${start} -> ${end} | skip=${skip} | count=${count}`
+        `NewSky request: ${startDate} -> ${endDate} | skip=${skip} | count=${count}`
     );
 
-
-    console.log(
-    "NewSky API key loaded:",
-    Boolean(process.env.NEWSKY_API_KEY)
-);
-
-console.log(
-    "NewSky API key length:",
-    process.env.NEWSKY_API_KEY
-        ? process.env.NEWSKY_API_KEY.length
-        : 0
-);
-
-const response = await fetch(
-    url,
+    const response =
+        await fetch(
+            url,
             {
                 method: "POST",
 
@@ -1577,27 +1568,30 @@ const response = await fetch(
                         "application/json",
 
                     Accept:
-                        "application/json"
+                        "application/json",
+
+                    Origin:
+                        "https://newsky.app",
+
+                    Referer:
+                        "https://newsky.app/airline/ecv/manage/flights"
                 },
 
                 body:
                     JSON.stringify({
-                        skip,
                         count,
-                        start,
-                        end,
-                        includeDeleted: false
+                        end: endDate,
+                        includeDeleted: true,
+                        skip,
+                        start: startDate
                     })
             }
         );
 
-
     const text =
         await response.text();
 
-
     let data;
-
 
     try {
         data =
@@ -1609,19 +1603,16 @@ const response = await fetch(
         );
 
         throw new Error(
-            "NewSky returned an invalid JSON response."
+            "NewSky returned invalid JSON."
         );
     }
 
-
     if (!response.ok) {
-
         console.error(
             "NewSky API error:",
             response.status,
             data
         );
-
 
         throw new Error(
             data.error ||
@@ -1629,7 +1620,6 @@ const response = await fetch(
             `NewSky API returned HTTP ${response.status}`
         );
     }
-
 
     return data;
 }
