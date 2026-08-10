@@ -1457,7 +1457,7 @@ const NEWSKY_MIN_DATE =
     process.env.NEWSKY_HISTORY_START ||
     "2020-01-01";
 
-const NEWSKY_PAGE_SIZE = 100;
+const NEWSKY_PAGE_SIZE = 50;
 
 // NewSky rate limit:
 // 5 requests per 10 seconds.
@@ -1524,7 +1524,6 @@ function minDate(
         : b;
 }
 
-
 // ============================================================
 // NEWSKY BYDATE REQUEST
 // ============================================================
@@ -1544,14 +1543,31 @@ async function getNewSkyFlightPage(
     const url =
         `https://newsky.app/api/airline/${NEWSKY_AIRLINE_ID}/flights/bydate`;
 
+    // NewSky website gebruikt volledige UTC timestamps.
     const startDate =
         `${start}T00:00:00.000Z`;
 
     const endDate =
         `${end}T23:59:59.999Z`;
 
+    console.log("");
     console.log(
-        `NewSky request: ${startDate} -> ${endDate} | skip=${skip} | count=${count}`
+        "NewSky request:"
+    );
+    console.log(
+        `URL: ${url}`
+    );
+    console.log(
+        `Start: ${startDate}`
+    );
+    console.log(
+        `End: ${endDate}`
+    );
+    console.log(
+        `Skip: ${skip}`
+    );
+    console.log(
+        `Count: ${count}`
     );
 
     const response =
@@ -1561,29 +1577,30 @@ async function getNewSkyFlightPage(
                 method: "POST",
 
                 headers: {
-                    Authorization:
+                    "Authorization":
                         `Bearer ${process.env.NEWSKY_API_KEY}`,
 
                     "Content-Type":
                         "application/json",
 
-                    Accept:
-                        "application/json",
-
-                    Origin:
-                        "https://newsky.app",
-
-                    Referer:
-                        "https://newsky.app/airline/ecv/manage/flights"
+                    "Accept":
+                        "application/json"
                 },
 
                 body:
                     JSON.stringify({
-                        count,
-                        end: endDate,
-                        includeDeleted: true,
-                        skip,
-                        start: startDate
+                        count: count,
+
+                        end:
+                            endDate,
+
+                        includeDeleted:
+                            true,
+
+                        skip: skip,
+
+                        start:
+                            startDate
                     })
             }
         );
@@ -1591,17 +1608,20 @@ async function getNewSkyFlightPage(
     const text =
         await response.text();
 
+    console.log(
+        `NewSky HTTP status: ${response.status}`
+    );
+
+    console.log(
+        `NewSky response: ${text}`
+    );
+
     let data;
 
     try {
         data =
             JSON.parse(text);
     } catch {
-        console.error(
-            "Invalid JSON received from NewSky:",
-            text
-        );
-
         throw new Error(
             "NewSky returned invalid JSON."
         );
@@ -1623,7 +1643,6 @@ async function getNewSkyFlightPage(
 
     return data;
 }
-
 
 // ============================================================
 // EXTRACT FLIGHTS FROM NEWSKY RESPONSE
