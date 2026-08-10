@@ -1620,9 +1620,7 @@ function extractFlights(data) {
 // GET ONE NEWSKY PAGE
 // ============================================================
 
-async function getNewSkyFlightPage(
-    skip
-) {
+async function getNewSkyFlightPage(skip) {
     if (!process.env.NEWSKY_API_KEY) {
         throw new Error(
             "NEWSKY_API_KEY is not configured."
@@ -1631,39 +1629,34 @@ async function getNewSkyFlightPage(
 
     const body = {
         skip,
-
-        count:
-            NEWSKY_PAGE_SIZE,
-
-        includeDeleted:
-            false
+        count: NEWSKY_PAGE_SIZE,
+        includeDeleted: false
     };
 
     console.log(
         `NewSky request: skip=${skip}, count=${NEWSKY_PAGE_SIZE}`
     );
 
-    const response =
-        await fetch(
-            NEWSKY_FLIGHTS_URL,
-            {
-                method:
-                    "POST",
+    const response = await fetch(
+        NEWSKY_FLIGHTS_URL,
+        {
+            method: "POST",
 
-                headers: {
-                    Authorization:
-                        `Bearer ${process.env.NEWSKY_API_KEY}`,
+            headers: {
+                Authorization:
+                    `Bearer ${process.env.NEWSKY_API_KEY}`,
 
-                    "Content-Type":
-                        "application/json"
-                },
+                "Content-Type":
+                    "application/json",
 
-                body:
-                    JSON.stringify(
-                        body
-                    )
-            }
-        );
+                Accept:
+                    "application/json"
+            },
+
+            body:
+                JSON.stringify(body)
+        }
+    );
 
     const text =
         await response.text();
@@ -1672,10 +1665,13 @@ async function getNewSkyFlightPage(
 
     try {
         data =
-            JSON.parse(
-                text
-            );
+            JSON.parse(text);
     } catch {
+        console.error(
+            "NewSky returned non-JSON response:",
+            text.substring(0, 1000)
+        );
+
         throw new Error(
             "NewSky returned an invalid JSON response."
         );
@@ -1695,9 +1691,32 @@ async function getNewSkyFlightPage(
     }
 
     const flights =
-        extractFlights(
-            data
-        );
+        extractFlights(data);
+
+    console.log(
+        "NewSky response information:",
+        {
+            skip,
+            requested:
+                NEWSKY_PAGE_SIZE,
+
+            received:
+                flights.length,
+
+            topLevelKeys:
+                data &&
+                typeof data === "object" &&
+                !Array.isArray(data)
+                    ? Object.keys(data)
+                    : [],
+
+            pagination:
+                data?.pagination ||
+                data?.paging ||
+                data?.meta ||
+                null
+        }
+    );
 
     return {
         data,
