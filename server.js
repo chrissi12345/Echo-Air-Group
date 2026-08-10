@@ -1694,29 +1694,33 @@ async function getNewSkyFlightPage(skip) {
         extractFlights(data);
 
     console.log(
-        "NewSky response information:",
-        {
-            skip,
-            requested:
-                NEWSKY_PAGE_SIZE,
+    "NewSky response information:",
+    {
+        skip,
 
-            received:
-                flights.length,
+        requested:
+            NEWSKY_PAGE_SIZE,
 
-            topLevelKeys:
-                data &&
-                typeof data === "object" &&
-                !Array.isArray(data)
-                    ? Object.keys(data)
-                    : [],
+        received:
+            flights.length,
 
-            pagination:
-                data?.pagination ||
-                data?.paging ||
-                data?.meta ||
-                null
-        }
-    );
+        totalResults:
+            data?.totalResults ?? null,
+
+        topLevelKeys:
+            data &&
+            typeof data === "object" &&
+            !Array.isArray(data)
+                ? Object.keys(data)
+                : [],
+
+        pagination:
+            data?.pagination ||
+            data?.paging ||
+            data?.meta ||
+            null
+    }
+);
 
     return {
         data,
