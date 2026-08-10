@@ -516,253 +516,192 @@ header.hide-on-scroll {
 }
 
 
+```javascript
 /* ============================================================
    PILOT SIDEBAR
    ============================================================ */
 
-.pilot-sidebar {
+async function loadPilotSidebar() {
 
-    position:sticky;
+    const list =
+        document.getElementById('pilotList');
 
-    top:120px;
+    if (!list) return;
 
-    background:#fff;
+    try {
 
-    border:
-        1px solid #dfe5dc;
+        const data =
+            await api('/ranking');
 
-    border-radius:18px;
+        const rankings =
+            data.rankings || [];
 
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.06);
+        if (!rankings.length) {
 
-    overflow:hidden;
-}
+            list.innerHTML = `
+                <div class="pilot-sidebar-empty">
+                    No pilots found.
+                </div>
+            `;
 
-.pilot-sidebar-header {
+            return;
+        }
 
-    padding:22px 22px 18px;
+        list.innerHTML =
+            rankings.map((pilot, index) => {
 
-    border-bottom:
-        1px solid #e8ede5;
+                const stars =
+                    number(pilot.stars);
 
-    background:
+                const rank =
+                    calculateRank(stars);
 
-        linear-gradient(
-            135deg,
-            #ffffff 0%,
-            #f5f8f1 100%
+                /*
+                 * Zoek de ID van de piloot.
+                 * We ondersteunen meerdere mogelijke
+                 * backend veldnamen.
+                 */
+
+                const pilotId =
+                    pilot.id ||
+                    pilot.userId ||
+                    pilot.user_id ||
+                    pilot.pilotId ||
+                    pilot.pilot_id ||
+                    pilot._id;
+
+                const pilotName =
+                    pilot.name ||
+                    pilot.displayName ||
+                    pilot.username ||
+                    'Pilot';
+
+                /*
+                 * Eerste letter voor avatar
+                 */
+
+                const initial =
+                    pilotName
+                        .charAt(0)
+                        .toUpperCase();
+
+                /*
+                 * Als er een ID is, maak er een link van.
+                 * Daardoor opent klikken:
+                 *
+                 * pilot.html?id=ID
+                 */
+
+                if (pilotId) {
+
+                    return `
+                        <a
+                            class="pilot-item"
+                            href="pilot.html?id=${encodeURIComponent(pilotId)}"
+                        >
+
+                            <span class="pilot-position">
+                                ${index + 1}
+                            </span>
+
+                            <span class="pilot-avatar">
+                                ${escapeHtml(initial)}
+                            </span>
+
+                            <span class="pilot-info">
+
+                                <span class="pilot-name">
+                                    ${escapeHtml(pilotName)}
+                                </span>
+
+                                <span class="pilot-rank">
+                                    ${escapeHtml(rank.current.name)}
+                                </span>
+
+                            </span>
+
+                            <span class="pilot-rating">
+
+                                <span class="pilot-rating-value">
+                                    ${stars.toFixed(2)}
+                                </span>
+
+                                <span class="pilot-rating-label">
+                                    stars
+                                </span>
+
+                            </span>
+
+                        </a>
+                    `;
+
+                }
+
+                /*
+                 * Geen ID ontvangen:
+                 * dan maken we alsnog een klikbaar item,
+                 * maar zonder verkeerde URL.
+                 */
+
+                return `
+                    <div
+                        class="pilot-item"
+                        style="cursor:default;"
+                    >
+
+                        <span class="pilot-position">
+                            ${index + 1}
+                        </span>
+
+                        <span class="pilot-avatar">
+                            ${escapeHtml(initial)}
+                        </span>
+
+                        <span class="pilot-info">
+
+                            <span class="pilot-name">
+                                ${escapeHtml(pilotName)}
+                            </span>
+
+                            <span class="pilot-rank">
+                                ${escapeHtml(rank.current.name)}
+                            </span>
+
+                        </span>
+
+                        <span class="pilot-rating">
+
+                            <span class="pilot-rating-value">
+                                ${stars.toFixed(2)}
+                            </span>
+
+                            <span class="pilot-rating-label">
+                                stars
+                            </span>
+
+                        </span>
+
+                    </div>
+                `;
+
+            }).join('');
+
+    } catch(error) {
+
+        console.error(
+            'Pilot sidebar error:',
+            error
         );
+
+        list.innerHTML = `
+            <div class="pilot-sidebar-error">
+                Unable to load pilots.
+            </div>
+        `;
+
+    }
+
 }
-
-.pilot-sidebar-header h3 {
-
-    margin:0 0 5px;
-
-    font-size:18px;
-}
-
-.pilot-sidebar-header p {
-
-    margin:0;
-
-    color:var(--muted);
-
-    font-size:12px;
-
-    line-height:1.5;
-}
-
-.pilot-list {
-
-    max-height:620px;
-
-    overflow-y:auto;
-}
-
-.pilot-list::-webkit-scrollbar {
-    width:6px;
-}
-
-.pilot-list::-webkit-scrollbar-track {
-    background:#f1f4ef;
-}
-
-.pilot-list::-webkit-scrollbar-thumb {
-
-    background:#cbd4c5;
-
-    border-radius:10px;
-}
-
-.pilot-item {
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    width:100%;
-
-    padding:14px 18px;
-
-    border:0;
-
-    border-bottom:
-        1px solid #edf0eb;
-
-    background:#fff;
-
-    color:var(--text);
-
-    text-decoration:none;
-
-    text-align:left;
-
-    cursor:pointer;
-
-    transition:
-        background .2s ease,
-        transform .2s ease;
-}
-
-.pilot-item:last-child {
-    border-bottom:0;
-}
-
-.pilot-item:hover {
-    background:#f4f8ee;
-}
-
-.pilot-position {
-
-    flex-shrink:0;
-
-    width:28px;
-
-    color:#899287;
-
-    font-size:12px;
-
-    font-weight:900;
-
-    text-align:center;
-}
-
-.pilot-avatar {
-
-    flex-shrink:0;
-
-    width:40px;
-    height:40px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    border-radius:12px;
-
-    background:#eef5e7;
-
-    color:#58721e;
-
-    font-size:15px;
-
-    font-weight:900;
-}
-
-.pilot-info {
-
-    min-width:0;
-
-    flex:1;
-}
-
-.pilot-name {
-
-    display:block;
-
-    overflow:hidden;
-
-    color:#273025;
-
-    font-size:13px;
-
-    font-weight:800;
-
-    text-overflow:ellipsis;
-
-    white-space:nowrap;
-}
-
-.pilot-rank {
-
-    display:block;
-
-    margin-top:3px;
-
-    color:#899287;
-
-    font-size:10px;
-
-    font-weight:600;
-}
-
-.pilot-rating {
-
-    flex-shrink:0;
-
-    text-align:right;
-}
-
-.pilot-rating-value {
-
-    display:block;
-
-    color:#5c8218;
-
-    font-size:14px;
-
-    font-weight:900;
-}
-
-.pilot-rating-label {
-
-    display:block;
-
-    margin-top:2px;
-
-    color:#9aa298;
-
-    font-size:9px;
-
-    font-weight:700;
-
-    text-transform:uppercase;
-}
-
-.pilot-sidebar-loading,
-.pilot-sidebar-empty,
-.pilot-sidebar-error {
-
-    padding:30px 20px;
-
-    color:var(--muted);
-
-    font-size:13px;
-
-    line-height:1.6;
-
-    text-align:center;
-}
-
-.pilot-sidebar-error {
-    color:#7d3434;
-}
-
 
 /* ============================================================
    RANKING CARDS
