@@ -34,8 +34,6 @@ header {
         backdrop-filter 0.25s ease;
 }
 
-/* Header when scrolling */
-
 header.scrolled {
     background: rgba(9, 13, 8, 0.80);
 
@@ -44,8 +42,6 @@ header.scrolled {
 
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
-
-/* Prevent content from going underneath fixed header */
 
 body {
     padding-top: 80px;
@@ -61,6 +57,45 @@ body {
     width: auto;
     display: block;
     object-fit: contain;
+}
+
+
+/* =========================================================
+   MANAGER APPLICATION BUTTON
+========================================================= */
+
+.manager-register {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    background: transparent;
+    color: #ace336;
+
+    border: 1px solid #ace336;
+
+    text-decoration: none;
+
+    font-weight: 800;
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.manager-register:hover {
+    background: #ace336;
+    color: #17200f;
+
+    transform: translateY(-2px);
 }
 
 
@@ -353,6 +388,11 @@ footer p {
         gap: 8px;
     }
 
+    /* Hide desktop manager button on mobile */
+    .manager-register {
+        display: none;
+    }
+
 }
 
 
@@ -396,6 +436,9 @@ footer p {
 
 <div class="container nav">
 
+
+<!-- LOGO -->
+
 <a class="brand" href="index.html">
 
 <img
@@ -406,6 +449,8 @@ footer p {
 
 </a>
 
+
+<!-- DESKTOP NAVIGATION -->
 
 <nav class="navlinks">
 
@@ -430,10 +475,21 @@ footer p {
 </nav>
 
 
+<!-- REGISTER BUTTON -->
+
 <a class="register" href="join.html">
 REGISTER
 </a>
 
+
+<!-- MANAGER APPLICATION BUTTON -->
+
+<a class="manager-register" href="manager.html">
+MANAGER APPLICATION
+</a>
+
+
+<!-- MOBILE MENU BUTTON -->
 
 <button
     class="menu"
@@ -446,7 +502,9 @@ REGISTER
 </div>
 
 
-<!-- MOBILE NAV -->
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
 
 <div id="mobileNav" class="mobileNav">
 
@@ -471,6 +529,10 @@ REGISTER
 <a href="ranking.html">Ranking</a>
 
 <a href="join.html">Register</a>
+
+<a href="manager.html">
+Manager Application
+</a>
 
 </div>
 
@@ -765,6 +827,7 @@ Select your country
 <option>Malaysia</option>
 <option>Malta</option>
 <option>Mexico</option>
+<option>Moldova</option>
 <option>Monaco</option>
 <option>Montenegro</option>
 <option>Morocco</option>
@@ -1179,6 +1242,10 @@ Contact Us
 
 <a href="join.html">
 Register
+</a>
+
+<a href="manager.html">
+Manager Application
 </a>
 
 </div>
