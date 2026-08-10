@@ -23,7 +23,7 @@ const DB_PATH =
     path.join(__dirname, "echo.db");
 
 // ============================================================
-// ENVIRONMENT
+// ENVIRONMENTe
 // ============================================================
 
 if (!process.env.NEWSKY_API_KEY) {
