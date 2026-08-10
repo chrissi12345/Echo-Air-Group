@@ -1,6 +1,6 @@
-```html
 <!doctype html>
 <html lang="en">
+
 <head>
 
 <meta charset="utf-8">
@@ -8,25 +8,29 @@
 
 <meta name="theme-color" content="#101410">
 
-<title>Pilot Profile — Echo Air Group</title>
+<title>Pilot Ranking — Echo Air Group</title>
 
 <link
-rel="preconnect"
-href="https://fonts.googleapis.com"
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
 >
 
 <link
-rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+    crossorigin
 >
 
 <link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
 >
 
 <style>
+
+/* ============================================================
+   ROOT
+   ============================================================ */
 
 :root {
 
@@ -47,9 +51,17 @@ rel="stylesheet"
 
 }
 
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
 * {
+
     box-sizing:border-box;
+
 }
+
 
 body {
 
@@ -65,6 +77,18 @@ body {
     background:#f7f9f5;
 
 }
+
+
+a {
+
+    color:inherit;
+
+}
+
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
 
 .container {
 
@@ -102,6 +126,7 @@ header {
 
 }
 
+
 .nav {
 
     min-height:100px;
@@ -113,6 +138,7 @@ header {
     justify-content:space-between;
 
 }
+
 
 .brand {
 
@@ -126,6 +152,7 @@ header {
 
 }
 
+
 .brand-logo {
 
     width:58px;
@@ -136,6 +163,7 @@ header {
     object-fit:contain;
 
 }
+
 
 .brand-text {
 
@@ -148,6 +176,7 @@ header {
     color:white;
 
 }
+
 
 .brand-text small {
 
@@ -163,6 +192,7 @@ header {
 
 }
 
+
 .navlinks {
 
     display:flex;
@@ -170,6 +200,7 @@ header {
     gap:20px;
 
 }
+
 
 .navlinks a {
 
@@ -184,6 +215,7 @@ header {
 
 }
 
+
 .navlinks a:hover {
 
     color:var(--green);
@@ -195,19 +227,21 @@ header {
    HERO
    ============================================================ */
 
-.profile-hero {
+.hero {
 
     padding:
         160px
         0
-        65px;
+        70px;
 
     background:
+
         radial-gradient(
             circle at 80% 20%,
             rgba(172,227,54,.15),
             transparent 30%
         ),
+
         linear-gradient(
             135deg,
             #10150f,
@@ -219,104 +253,37 @@ header {
 
 }
 
-.back {
 
-    display:inline-flex;
-
-    margin-bottom:30px;
-
-    color:#aeb7aa;
-
-    text-decoration:none;
-
-    font-size:13px;
-
-    font-weight:700;
-
-}
-
-.back:hover {
-
-    color:var(--green);
-
-}
-
-.profile-head {
-
-    display:flex;
-
-    align-items:center;
-
-    gap:25px;
-
-}
-
-.avatar {
-
-    width:100px;
-    height:100px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    flex-shrink:0;
-
-    border-radius:25px;
-
-    background:
-        rgba(172,227,54,.12);
-
-    border:
-        1px solid
-        rgba(172,227,54,.3);
-
-    color:var(--green);
-
-    font-size:30px;
-
-    font-weight:900;
-
-}
-
-.profile-head h1 {
+.hero h1 {
 
     margin:0;
 
     font-size:
         clamp(
-            38px,
-            6vw,
-            62px
+            42px,
+            7vw,
+            72px
         );
 
-    letter-spacing:-.05em;
+    letter-spacing:-.055em;
 
 }
 
-.rank {
 
-    display:inline-block;
+.hero p {
 
-    margin-top:10px;
+    max-width:650px;
 
-    padding:7px 11px;
+    margin:
+        18px
+        0
+        0;
 
-    border-radius:999px;
+    color:#aeb7aa;
 
-    background:
-        rgba(172,227,54,.12);
+    font-size:14px;
 
-    border:
-        1px solid
-        rgba(172,227,54,.25);
-
-    color:var(--green);
-
-    font-size:12px;
-
-    font-weight:800;
+    line-height:1.8;
 
 }
 
@@ -328,23 +295,33 @@ header {
 main {
 
     padding:
-        50px
+        45px
         0
         90px;
 
 }
 
-.profile-grid {
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+
+.ranking-layout {
 
     display:grid;
 
     grid-template-columns:
-        1.4fr
-        .6fr;
+        1fr
+        330px;
 
     gap:25px;
 
 }
+
+
+/* ============================================================
+   CARD
+   ============================================================ */
 
 .card {
 
@@ -364,184 +341,277 @@ main {
 
 }
 
-.card h2 {
-
-    margin:
-        0
-        0
-        20px;
-
-    font-size:20px;
-
-}
-
 
 /* ============================================================
-   STATS
+   RANKING HEADER
    ============================================================ */
 
-.stats {
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:12px;
-
-}
-
-.stat {
-
-    padding:18px;
-
-    border-radius:14px;
-
-    background:var(--light);
-
-}
-
-.stat small {
-
-    display:block;
-
-    margin-bottom:7px;
-
-    color:var(--muted);
-
-    font-size:11px;
-
-}
-
-.stat strong {
-
-    font-size:25px;
-
-}
-
-
-/* ============================================================
-   RANK PROGRESS
-   ============================================================ */
-
-.rank-progress {
-
-    margin-top:25px;
-
-}
-
-.rank-progress-top {
-
-    display:flex;
-
-    justify-content:space-between;
-
-    gap:15px;
-
-    font-size:12px;
-
-    font-weight:800;
-
-}
-
-.progress {
-
-    height:13px;
-
-    margin-top:10px;
-
-    overflow:hidden;
-
-    border-radius:999px;
-
-    background:#e8ede5;
-
-}
-
-.progress div {
-
-    width:0;
-
-    height:100%;
-
-    background:var(--green);
-
-    transition:
-        width .7s ease;
-
-}
-
-.progress-text {
-
-    margin-top:8px;
-
-    color:var(--muted);
-
-    font-size:11px;
-
-}
-
-
-/* ============================================================
-   ACHIEVEMENTS
-   ============================================================ */
-
-.achievements {
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:12px;
-
-}
-
-.achievement {
+.ranking-header {
 
     display:flex;
 
     align-items:center;
 
-    gap:12px;
+    justify-content:space-between;
 
-    padding:14px;
+    gap:20px;
 
-    border-radius:14px;
-
-    background:#f5f7f3;
+    margin-bottom:20px;
 
 }
 
-.achievement-icon {
 
-    width:42px;
-    height:42px;
+.ranking-header h2 {
+
+    margin:0;
+
+    font-size:22px;
+
+}
+
+
+.ranking-count {
+
+    padding:
+        7px
+        11px;
+
+    border-radius:999px;
+
+    background:#edf4e4;
+
+    color:#58751f;
+
+    font-size:11px;
+
+    font-weight:800;
+
+}
+
+
+/* ============================================================
+   RANKING LIST
+   ============================================================ */
+
+.ranking-list {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+
+.ranking-item {
+
+    display:grid;
+
+    grid-template-columns:
+        45px
+        50px
+        1fr
+        auto;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px;
+
+    border:
+        1px solid
+        #e6ebe3;
+
+    border-radius:15px;
+
+    background:#fbfcfa;
+
+    text-decoration:none;
+
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+
+}
+
+
+.ranking-item:hover {
+
+    transform:
+        translateY(-2px);
+
+    border-color:
+        rgba(172,227,54,.7);
+
+    background:#ffffff;
+
+    box-shadow:
+        0 8px 22px
+        rgba(0,0,0,.07);
+
+}
+
+
+/* ============================================================
+   POSITION
+   ============================================================ */
+
+.ranking-position {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#7a8378;
+
+    font-size:13px;
+
+    font-weight:900;
+
+}
+
+
+.ranking-item:nth-child(1)
+.ranking-position {
+
+    color:#c49a25;
+
+}
+
+
+.ranking-item:nth-child(2)
+.ranking-position {
+
+    color:#8a9490;
+
+}
+
+
+.ranking-item:nth-child(3)
+.ranking-position {
+
+    color:#9c6c48;
+
+}
+
+
+/* ============================================================
+   AVATAR
+   ============================================================ */
+
+.ranking-avatar {
+
+    width:50px;
+    height:50px;
 
     display:flex;
 
     align-items:center;
     justify-content:center;
 
-    flex-shrink:0;
+    border-radius:14px;
 
-    border-radius:12px;
+    background:
+        rgba(172,227,54,.13);
 
-    background:#eaf4d8;
+    border:
+        1px solid
+        rgba(172,227,54,.3);
 
-    font-size:20px;
+    color:
+        #6e941e;
+
+    font-size:17px;
+
+    font-weight:900;
 
 }
 
-.achievement strong {
+
+/* ============================================================
+   PILOT INFO
+   ============================================================ */
+
+.ranking-info {
+
+    min-width:0;
+
+}
+
+
+.ranking-name {
 
     display:block;
 
-    font-size:12px;
+    overflow:hidden;
+
+    color:var(--text);
+
+    font-size:14px;
+
+    font-weight:900;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
 
 }
 
-.achievement span {
+
+.ranking-rank {
+
+    display:inline-block;
+
+    margin-top:5px;
+
+    padding:
+        4px
+        8px;
+
+    border-radius:999px;
+
+    background:#edf4e4;
+
+    color:#607b28;
+
+    font-size:9px;
+
+    font-weight:800;
+
+}
+
+
+/* ============================================================
+   STARS
+   ============================================================ */
+
+.ranking-stars {
+
+    text-align:right;
+
+}
+
+
+.ranking-stars-value {
+
+    display:block;
+
+    color:var(--text);
+
+    font-size:18px;
+
+    font-weight:900;
+
+}
+
+
+.ranking-stars-label {
 
     display:block;
 
@@ -549,236 +619,278 @@ main {
 
     color:var(--muted);
 
-    font-size:10px;
+    font-size:9px;
+
+    font-weight:700;
 
 }
 
 
 /* ============================================================
-   RATING
+   SIDEBAR
    ============================================================ */
 
-.rating-big {
+.sidebar {
 
-    text-align:center;
+    display:flex;
 
-    padding:15px;
+    flex-direction:column;
 
-}
-
-.rating-number {
-
-    font-size:58px;
-
-    font-weight:900;
-
-    line-height:1;
-
-}
-
-.rating-stars {
-
-    margin-top:8px;
-
-    color:#789c27;
-
-    font-size:22px;
-
-    letter-spacing:2px;
-
-}
-
-.rating-label {
-
-    margin-top:8px;
-
-    color:var(--muted);
-
-    font-size:11px;
+    gap:20px;
 
 }
 
 
-/* ============================================================
-   FLIGHTS
-   ============================================================ */
+.sidebar-card {
 
-.table-wrap {
-
-    overflow:auto;
-
-}
-
-table {
-
-    width:100%;
-
-    border-collapse:collapse;
-
-}
-
-th,
-td {
-
-    padding:13px;
-
-    text-align:left;
-
-    border-bottom:
-        1px solid
-        #e8ede5;
-
-}
-
-th {
-
-    color:var(--muted);
-
-    font-size:11px;
-
-}
-
-td {
-
-    font-size:12px;
-
-}
-
-
-/* ============================================================
-   COMPARE
-   ============================================================ */
-
-.compare-box {
-
-    margin-top:25px;
-
-}
-
-.compare-select {
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        auto
-        1fr;
-
-    gap:12px;
-
-    align-items:end;
-
-}
-
-.compare-select select {
-
-    width:100%;
-
-    padding:12px;
+    background:white;
 
     border:
         1px solid
-        #d8ded6;
+        var(--line);
 
-    border-radius:10px;
+    border-radius:20px;
 
-    background:#f8faf7;
+    padding:22px;
 
-    font-family:inherit;
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.06);
 
 }
 
-.vs {
 
-    padding-bottom:11px;
+.sidebar-card h2 {
 
-    color:var(--muted);
+    margin:
+        0
+        0
+        17px;
 
-    font-size:12px;
+    font-size:17px;
+
+}
+
+
+/* ============================================================
+   SIDEBAR PILOT LIST
+   ============================================================ */
+
+.pilot-list {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+}
+
+
+.pilot-item {
+
+    display:grid;
+
+    grid-template-columns:
+        25px
+        36px
+        1fr;
+
+    align-items:center;
+
+    gap:9px;
+
+    padding:9px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    transition:
+        background .15s ease;
+
+}
+
+
+.pilot-item:hover {
+
+    background:#f1f5ed;
+
+}
+
+
+.pilot-position {
+
+    text-align:center;
+
+    color:#7d857b;
+
+    font-size:10px;
 
     font-weight:900;
 
 }
 
-.compare-result {
 
-    display:none;
+.pilot-avatar {
 
-    margin-top:20px;
+    width:36px;
+    height:36px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:#edf4e4;
+
+    color:#668421;
+
+    font-size:11px;
+
+    font-weight:900;
 
 }
 
-.compare-grid {
 
-    display:grid;
+.pilot-info {
 
-    grid-template-columns:
-        1fr
-        1fr;
-
-    gap:12px;
+    min-width:0;
 
 }
 
-.compare-stat {
 
-    padding:18px;
+.pilot-name {
 
-    border-radius:14px;
+    display:block;
+
+    overflow:hidden;
+
+    color:var(--text);
+
+    font-size:11px;
+
+    font-weight:800;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+}
+
+
+.pilot-rank {
+
+    display:block;
+
+    margin-top:2px;
+
+    overflow:hidden;
+
+    color:var(--muted);
+
+    font-size:9px;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+}
+
+
+/* ============================================================
+   SIDEBAR STATES
+   ============================================================ */
+
+.pilot-sidebar-empty,
+.pilot-sidebar-error {
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:#f5f7f3;
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    line-height:1.6;
+
+}
+
+
+/* ============================================================
+   RANK GUIDE
+   ============================================================ */
+
+.rank-guide {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+
+.rank-guide-item {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:
+        10px
+        12px;
+
+    border-radius:10px;
 
     background:#f5f7f3;
 
 }
 
-.compare-stat span {
 
-    display:block;
+.rank-guide-name {
+
+    font-size:10px;
+
+    font-weight:800;
+
+}
+
+
+.rank-guide-stars {
 
     color:var(--muted);
 
     font-size:10px;
 
-}
-
-.compare-stat strong {
-
-    display:block;
-
-    margin-top:4px;
-
-    font-size:18px;
+    font-weight:700;
 
 }
 
 
 /* ============================================================
-   BUTTON
+   LOADING
    ============================================================ */
 
-.btn {
+.loading {
 
-    display:inline-flex;
+    padding:35px;
 
-    align-items:center;
-    justify-content:center;
+    text-align:center;
 
-    padding:12px 16px;
-
-    border:0;
-
-    border-radius:10px;
-
-    background:var(--green);
-
-    color:#17200f;
-
-    text-decoration:none;
+    color:var(--muted);
 
     font-size:12px;
-
-    font-weight:900;
-
-    cursor:pointer;
 
 }
 
@@ -800,11 +912,13 @@ footer {
 
 }
 
+
 footer p {
 
     color:#8f988c;
 
 }
+
 
 .copy {
 
@@ -827,19 +941,34 @@ footer p {
    RESPONSIVE
    ============================================================ */
 
-@media(max-width:900px) {
+@media(max-width:950px) {
 
     .navlinks {
+
         display:none;
+
     }
 
-    .profile-grid {
+
+    .ranking-layout {
 
         grid-template-columns:1fr;
 
     }
 
+
+    .sidebar {
+
+        display:grid;
+
+        grid-template-columns:
+            1fr
+            1fr;
+
+    }
+
 }
+
 
 @media(max-width:600px) {
 
@@ -850,39 +979,67 @@ footer p {
 
     }
 
-    .profile-head {
 
-        align-items:flex-start;
+    .hero {
 
-        flex-direction:column;
+        padding:
+            140px
+            0
+            50px;
 
     }
 
-    .stats {
+
+    main {
+
+        padding:
+            30px
+            0
+            60px;
+
+    }
+
+
+    .sidebar {
+
+        display:flex;
+
+    }
+
+
+    .ranking-item {
 
         grid-template-columns:
-            1fr;
+            35px
+            42px
+            1fr
+            auto;
+
+        gap:10px;
+
+        padding:11px;
 
     }
 
-    .achievements {
 
-        grid-template-columns:
-            1fr;
+    .ranking-avatar {
 
-    }
-
-    .compare-select {
-
-        grid-template-columns:1fr;
+        width:42px;
+        height:42px;
 
     }
 
-    .vs {
 
-        padding:0;
+    .ranking-stars-value {
 
-        text-align:center;
+        font-size:15px;
+
+    }
+
+
+    .card {
+
+        padding:20px;
 
     }
 
@@ -891,6 +1048,7 @@ footer p {
 </style>
 
 </head>
+
 
 <body>
 
@@ -903,16 +1061,18 @@ footer p {
 
 <div class="container nav">
 
+
 <a
-class="brand"
-href="index.html"
+    class="brand"
+    href="index.html"
 >
 
 <img
-class="brand-logo"
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
-alt="Echo Air Group Logo"
+    class="brand-logo"
+    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+    alt="Echo Air Group Logo"
 >
+
 
 <div class="brand-text">
 
@@ -973,47 +1133,22 @@ Ranking
 
 
 <!-- ============================================================
-     PROFILE HERO
+     HERO
      ============================================================ -->
 
-<section class="profile-hero">
+<section class="hero">
 
 <div class="container">
 
-<a
-href="ranking.html"
-class="back"
->
-← Back to Pilot Ranking
-</a>
-
-
-<div class="profile-head">
-
-<div
-class="avatar"
-id="avatar"
->
-P
-</div>
-
-
-<div>
-
-<h1 id="pilotName">
-Loading...
+<h1>
+Pilot Ranking
 </h1>
 
-<span
-class="rank"
-id="pilotRank"
->
-Loading
-</span>
-
-</div>
-
-</div>
+<p>
+See how Echo Air Group pilots are performing.
+Earn Echo Stars through completed flights, climb the ranks,
+and compete with the rest of the fleet.
+</p>
 
 </div>
 
@@ -1029,413 +1164,174 @@ Loading
 <div class="container">
 
 
-<div class="profile-grid">
+<div class="ranking-layout">
 
 
 <!-- ==========================================================
-     LEFT
+     MAIN RANKING
      ========================================================== -->
 
-<div>
-
-
 <div class="card">
 
+
+<div class="ranking-header">
+
 <h2>
-Pilot Statistics
+Echo Pilot Ranking
 </h2>
 
 
-<div class="stats">
-
-<div class="stat">
-
-<small>
-Echo Stars
-</small>
-
-<strong id="stars">
-0.00
-</strong>
-
-</div>
-
-
-<div class="stat">
-
-<small>
-Flights
-</small>
-
-<strong id="flights">
-0
-</strong>
-
-</div>
-
-
-<div class="stat">
-
-<small>
-Flight Hours
-</small>
-
-<strong id="hours">
-0.0
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="rank-progress">
-
-<div class="rank-progress-top">
-
-<span>
-Rank Progress
-</span>
-
-<span id="nextRank">
--
+<span
+    class="ranking-count"
+    id="rankingCount"
+>
+Loading...
 </span>
 
 </div>
 
 
-<div class="progress">
-
-<div id="progressBar">
-</div>
-
-</div>
-
-
 <div
-class="progress-text"
-id="progressText"
->
-Loading rank progress...
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ACHIEVEMENTS -->
-
-<div class="card">
-
-<h2>
-Achievements
-</h2>
-
-<div
-class="achievements"
-id="achievements"
+    class="ranking-list"
+    id="rankingList"
 >
 
+<div class="loading">
+Loading pilot ranking...
 </div>
 
 </div>
-
-
-<!-- RECENT FLIGHTS -->
-
-<div class="card">
-
-<h2>
-Recent Flights
-</h2>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>
-Date
-</th>
-
-<th>
-Route
-</th>
-
-<th>
-Aircraft
-</th>
-
-<th>
-Rating
-</th>
-
-<th>
-Stars
-</th>
-
-</tr>
-
-</thead>
-
-
-<tbody id="flightRows">
-
-<tr>
-
-<td
-colspan="5"
->
-Loading...
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<!-- COMPARE -->
-
-<div class="card compare-box">
-
-<h2>
-Compare Pilots
-</h2>
-
-<p
-style="
-color:#687267;
-font-size:12px;
-line-height:1.7;
-"
->
-Choose another Echo pilot and compare the most important
-statistics.
-</p>
-
-
-<div class="compare-select">
-
-<div>
-
-<label
-style="
-display:block;
-margin-bottom:7px;
-font-size:11px;
-font-weight:800;
-"
->
-This pilot
-</label>
-
-<select id="pilotOne">
-
-<option>
-Loading...
-</option>
-
-</select>
-
-</div>
-
-
-<div class="vs">
-VS
-</div>
-
-
-<div>
-
-<label
-style="
-display:block;
-margin-bottom:7px;
-font-size:11px;
-font-weight:800;
-"
->
-Compare with
-</label>
-
-<select id="pilotTwo">
-
-<option>
-Select pilot
-</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div
-style="margin-top:15px;"
->
-
-<button
-class="btn"
-onclick="comparePilots()"
->
-Compare
-</button>
-
-</div>
-
-
-<div
-class="compare-result"
-id="compareResult"
->
-
-<div
-class="compare-grid"
-id="compareGrid"
->
-</div>
-
-</div>
-
-</div>
-
 
 </div>
 
 
 <!-- ==========================================================
-     RIGHT
+     SIDEBAR
      ========================================================== -->
 
-<div>
+<aside class="sidebar">
 
 
-<div class="card">
+<!-- PILOT SIDEBAR -->
 
-<h2>
-Average Rating
-</h2>
-
-<div class="rating-big">
-
-<div
-class="rating-number"
-id="rating"
->
-0.00
-</div>
-
-<div class="rating-stars">
-★★★★★
-</div>
-
-<div class="rating-label">
-Average NewSky flight rating
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
+<div class="sidebar-card">
 
 <h2>
-Pilot Information
+Pilots
 </h2>
 
+
 <div
-style="
-display:grid;
-gap:15px;
-font-size:12px;
-"
+    class="pilot-list"
+    id="pilotList"
 >
 
-<div>
+<div class="loading">
+Loading pilots...
+</div>
 
-<span
-style="
-display:block;
-color:#687267;
-font-size:10px;
-"
->
-Pilot
+</div>
+
+</div>
+
+
+<!-- RANK GUIDE -->
+
+<div class="sidebar-card">
+
+<h2>
+Rank System
+</h2>
+
+
+<div class="rank-guide">
+
+
+<div class="rank-guide-item">
+
+<span class="rank-guide-name">
+Cadet
 </span>
 
-<strong id="infoName">
--
-</strong>
-
-</div>
-
-
-<div>
-
-<span
-style="
-display:block;
-color:#687267;
-font-size:10px;
-"
->
-Rank
+<span class="rank-guide-stars">
+0 ⭐
 </span>
 
-<strong id="infoRank">
--
-</strong>
-
 </div>
 
 
-<div>
+<div class="rank-guide-item">
 
-<span
-style="
-display:block;
-color:#687267;
-font-size:10px;
-"
->
-Member since
+<span class="rank-guide-name">
+First Officer
 </span>
 
-<strong id="memberSince">
--
-</strong>
+<span class="rank-guide-stars">
+1,000 ⭐
+</span>
+
+</div>
+
+
+<div class="rank-guide-item">
+
+<span class="rank-guide-name">
+Senior First Officer
+</span>
+
+<span class="rank-guide-stars">
+2,500 ⭐
+</span>
+
+</div>
+
+
+<div class="rank-guide-item">
+
+<span class="rank-guide-name">
+Captain
+</span>
+
+<span class="rank-guide-stars">
+5,000 ⭐
+</span>
+
+</div>
+
+
+<div class="rank-guide-item">
+
+<span class="rank-guide-name">
+Senior Captain
+</span>
+
+<span class="rank-guide-stars">
+7,500 ⭐
+</span>
+
+</div>
+
+
+<div class="rank-guide-item">
+
+<span class="rank-guide-name">
+Commander
+</span>
+
+<span class="rank-guide-stars">
+10,000 ⭐
+</span>
+
+</div>
+
 
 </div>
 
 </div>
 
-</div>
 
+</aside>
 
-<a
-href="ranking.html"
-class="btn"
-style="
-width:100%;
-"
->
-← Back to Ranking
-</a>
-
-
-</div>
 
 </div>
 
@@ -1460,6 +1356,7 @@ ECHO AIR GROUP
 Virtual aviation. Real passion.
 </p>
 
+
 <div class="copy">
 
 © 2026 Echo Air Group.
@@ -1483,16 +1380,6 @@ const API =
     || 'https://echo-air-group-api.onrender.com/api';
 
 
-const params =
-new URLSearchParams(
-    window.location.search
-);
-
-
-const pilotId =
-params.get('id');
-
-
 /* ============================================================
    API REQUEST
    ============================================================ */
@@ -1500,15 +1387,15 @@ params.get('id');
 async function api(path) {
 
     const response =
-    await fetch(
-        API + path
-    );
+        await fetch(
+            API + path
+        );
 
 
     if(!response.ok) {
 
         throw new Error(
-            'Pilot could not be loaded.'
+            `API request failed: ${response.status}`
         );
 
     }
@@ -1520,45 +1407,96 @@ async function api(path) {
 
 
 /* ============================================================
-   INITIALS
+   NUMBER HELPER
    ============================================================ */
 
-function initials(name) {
+function number(value) {
 
-    if(!name) return 'P';
+    const result =
+        Number(value);
 
-
-    return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0,2)
-    .map(
-        x =>
-        x.charAt(0)
-        .toUpperCase()
-    )
-    .join('');
+    return Number.isFinite(result)
+        ? result
+        : 0;
 
 }
 
 
 /* ============================================================
-   ESCAPE
+   ESCAPE HTML
    ============================================================ */
 
 function escapeHtml(value) {
 
     return String(value)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#039;');
+
+        .replace(
+            /&/g,
+            '&amp;'
+        )
+
+        .replace(
+            /</g,
+            '&lt;'
+        )
+
+        .replace(
+            />/g,
+            '&gt;'
+        )
+
+        .replace(
+            /"/g,
+            '&quot;'
+        )
+
+        .replace(
+            /'/g,
+            '&#039;'
+        );
 
 }
 
+
+/* ============================================================
+   INITIALS
+   ============================================================ */
+
+function initials(name) {
+
+    if(!name) {
+
+        return 'P';
+
+    }
+
+
+    return String(name)
+
+        .trim()
+
+        .split(/\s+/)
+
+        .filter(Boolean)
+
+        .slice(0,2)
+
+        .map(
+            word =>
+                word
+                    .charAt(0)
+                    .toUpperCase()
+        )
+
+        .join('') || 'P';
+
+}
+
+
 /* ============================================================
    RANKS
+   IMPORTANT:
+   These values MUST match pilot.html
    ============================================================ */
 
 const ranks = [
@@ -1596,10 +1534,14 @@ const ranks = [
 ];
 
 
+/* ============================================================
+   CALCULATE RANK
+   ============================================================ */
+
 function calculateRank(stars) {
 
     stars =
-        Number(stars) || 0;
+        number(stars);
 
 
     let current =
@@ -1629,768 +1571,558 @@ function calculateRank(stars) {
 
 
     return {
+
         current,
         next
+
     };
 
 }
 
+
 /* ============================================================
-   ACHIEVEMENTS
+   GET PILOT ID
    ============================================================ */
 
-function generateAchievements(data) {
+function getPilotId(pilot) {
 
-    const achievements = [];
+    /*
+     * Different API versions may use different
+     * names for the ID.
+     *
+     * We check them in order.
+     */
 
+    return (
 
-    const flights =
-    Number(
-        data.stats?.flightCount || 0
+        pilot.id ??
+
+        pilot.userId ??
+
+        pilot.user_id ??
+
+        pilot.pilotId ??
+
+        pilot.pilot_id ??
+
+        pilot._id
+
     );
-
-
-    const stars =
-    Number(
-        data.stats?.stars || 0
-    );
-
-
-    const rating =
-    Number(
-        data.stats?.averageRating || 0
-    );
-
-
-    if(flights >= 1) {
-
-        achievements.push({
-            icon:'🛫',
-            title:'First Flight',
-            text:'Completed your first flight'
-        });
-
-    }
-
-
-    if(flights >= 10) {
-
-        achievements.push({
-            icon:'✈️',
-            title:'Airborne',
-            text:'Completed 10 flights'
-        });
-
-    }
-
-
-    if(flights >= 50) {
-
-        achievements.push({
-            icon:'🌍',
-            title:'Frequent Flyer',
-            text:'Completed 50 flights'
-        });
-
-    }
-
-
-    if(stars >= 100) {
-
-        achievements.push({
-            icon:'⭐',
-            title:'First Officer',
-            text:'Earned 100 Echo Stars'
-        });
-
-    }
-
-
-    if(stars >= 500) {
-
-        achievements.push({
-            icon:'🏆',
-            title:'Captain',
-            text:'Earned 500 Echo Stars'
-        });
-
-    }
-
-
-    if(rating >= 9) {
-
-        achievements.push({
-            icon:'💎',
-            title:'Elite Rating',
-            text:'Average rating above 9.00'
-        });
-
-    }
-
-
-    if(!achievements.length) {
-
-        achievements.push({
-
-            icon:'🎯',
-
-            title:'Getting Started',
-
-            text:'Complete your first flight to unlock achievements'
-
-        });
-
-    }
-
-
-    return achievements;
 
 }
 
 
 /* ============================================================
-   RENDER
+   GET PILOT NAME
    ============================================================ */
 
-function renderPilot(data) {
+function getPilotName(pilot) {
 
-    const user =
-    data.user ||
-    data.pilot ||
-    data;
+    return (
 
+        pilot.displayName ||
 
-    const stats =
-    data.stats ||
-    {};
+        pilot.name ||
 
+        pilot.username ||
 
-    const name =
-    user.displayName ||
-    user.name ||
-    user.username ||
-    'Pilot';
+        pilot.user?.displayName ||
 
+        pilot.user?.name ||
 
-    const stars =
-    Number(
-        stats.stars || 0
+        pilot.user?.username ||
+
+        'Pilot'
+
     );
 
+}
 
-    const flightCount =
-    Number(
-        stats.flightCount ||
-        stats.flights ||
+
+/* ============================================================
+   GET PILOT STARS
+   ============================================================ */
+
+function getPilotStars(pilot) {
+
+    /*
+     * Support both:
+     *
+     * pilot.stars
+     *
+     * pilot.stats.stars
+     */
+
+    return number(
+
+        pilot.stars ??
+
+        pilot.echoStars ??
+
+        pilot.stats?.stars ??
+
         0
+
     );
 
-
-    const hours =
-    Number(
-        stats.flightHours ||
-        stats.hours ||
-        0
-    );
+}
 
 
-    const rating =
-    Number(
-        stats.averageRating ||
-        stats.rating ||
-        0
-    );
+/* ============================================================
+   LOAD RANKING
+   ============================================================ */
 
+async function loadRanking() {
 
-    const calculated =
-    calculateRank(stars);
-
-
-    const rank =
-    stats.rank ||
-    calculated.current.name;
-
-
-    document.title =
-    `${name} — Echo Air Group`;
-
-
-    document.getElementById(
-        'pilotName'
-    ).textContent =
-    name;
-
-
-    document.getElementById(
-        'avatar'
-    ).textContent =
-    initials(name);
-
-
-    document.getElementById(
-        'pilotRank'
-    ).textContent =
-    rank;
-
-
-    document.getElementById(
-        'stars'
-    ).textContent =
-    stars.toFixed(2);
-
-
-    document.getElementById(
-        'flights'
-    ).textContent =
-    flightCount;
-
-
-    document.getElementById(
-        'hours'
-    ).textContent =
-    hours.toFixed(1);
-
-
-    document.getElementById(
-        'rating'
-    ).textContent =
-    rating.toFixed(2);
-
-
-    document.getElementById(
-        'infoName'
-    ).textContent =
-    name;
-
-
-    document.getElementById(
-        'infoRank'
-    ).textContent =
-    rank;
-
-
-    document.getElementById(
-        'memberSince'
-    ).textContent =
-    user.createdAt
-    ? new Date(
-        user.createdAt
-      ).toLocaleDateString()
-    : 'Echo Air Group Pilot';
-
-
-    /* RANK PROGRESS */
-
-    if(calculated.next) {
-
-        const minimum =
-        calculated.current.stars;
-
-        const maximum =
-        calculated.next.stars;
-
-
-        const percentage =
-        Math.min(
-            100,
-            Math.max(
-                0,
-                (
-                    (
-                        stars -
-                        minimum
-                    ) /
-                    (
-                        maximum -
-                        minimum
-                    )
-                ) * 100
-            )
+    const rankingList =
+        document.getElementById(
+            'rankingList'
         );
 
 
+    const pilotList =
         document.getElementById(
-            'progressBar'
-        ).style.width =
-        percentage + '%';
+            'pilotList'
+        );
 
 
+    const rankingCount =
         document.getElementById(
-            'nextRank'
-        ).textContent =
-        calculated.next.name;
-
-
-        document.getElementById(
-            'progressText'
-        ).textContent =
-        `${stars.toFixed(2)} / ${
-            maximum
-        } ⭐ to ${
-            calculated.next.name
-        }`;
-
-    } else {
-
-        document.getElementById(
-            'progressBar'
-        ).style.width =
-        '100%';
-
-
-        document.getElementById(
-            'nextRank'
-        ).textContent =
-        'MAX';
-
-
-        document.getElementById(
-            'progressText'
-        ).textContent =
-        'Maximum rank reached';
-
-    }
-
-
-    /* ACHIEVEMENTS */
-
-    const achievements =
-    data.achievements ||
-    generateAchievements(data);
-
-
-    document.getElementById(
-        'achievements'
-    ).innerHTML =
-
-    achievements.map(
-        achievement => `
-
-            <div class="achievement">
-
-                <div class="achievement-icon">
-                    ${achievement.icon}
-                </div>
-
-                <div>
-
-                    <strong>
-                        ${escapeHtml(
-                            achievement.title
-                        )}
-                    </strong>
-
-                    <span>
-                        ${escapeHtml(
-                            achievement.text
-                        )}
-                    </span>
-
-                </div>
-
-            </div>
-
-        `
-    ).join('');
-
-
-    /* FLIGHTS */
-
-    const flights =
-    data.flights || [];
-
-
-    document.getElementById(
-        'flightRows'
-    ).innerHTML =
-
-    flights.length
-
-    ? flights.map(
-        flight => `
-
-            <tr>
-
-                <td>
-                    ${new Date(
-                        flight.depTimeAct ||
-                        flight.depTime
-                    ).toLocaleDateString()}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        flight.depIcao ||
-                        '-'
-                    )}
-                    →
-                    ${escapeHtml(
-                        flight.arrIcao ||
-                        '-'
-                    )}
-                </td>
-
-                <td>
-                    ${escapeHtml(
-                        flight.aircraft ||
-                        '-'
-                    )}
-                </td>
-
-                <td>
-                    ${Number(
-                        flight.rating || 0
-                    ).toFixed(2)}
-                </td>
-
-                <td>
-                    ${Number(
-                        flight.stars || 0
-                    ).toFixed(2)}
-                    ⭐
-                </td>
-
-            </tr>
-
-        `
-    ).join('')
-
-    : `
-
-        <tr>
-
-            <td colspan="5">
-                No flights available.
-            </td>
-
-        </tr>
-
-    `;
-
-}
-
-
-/* ============================================================
-   LOAD PILOT
-   ============================================================ */
-
-async function loadPilot() {
-
-    if(!pilotId) {
-
-        document.getElementById(
-            'pilotName'
-        ).textContent =
-        'Pilot not found';
-
-        return;
-
-    }
+            'rankingCount'
+        );
 
 
     try {
 
         const data =
-        await api(
-            '/pilots/' +
-            encodeURIComponent(
-                pilotId
-            )
+            await api('/ranking');
+
+
+        /*
+         * Your API returns:
+         *
+         * {
+         *     rankings: [...]
+         * }
+         */
+
+        let rankings =
+            data.rankings || [];
+
+
+        /*
+         * Make sure we always have an array.
+         */
+
+        if(!Array.isArray(rankings)) {
+
+            rankings = [];
+
+        }
+
+
+        /*
+         * Sort by Echo Stars.
+         *
+         * Highest amount of stars first.
+         *
+         * Decimal values are preserved.
+         */
+
+        rankings.sort(
+            (a,b) =>
+                getPilotStars(b) -
+                getPilotStars(a)
         );
 
 
-        renderPilot(data);
+        rankingCount.textContent =
+            `${rankings.length} pilot${
+                rankings.length === 1
+                    ? ''
+                    : 's'
+            }`;
 
 
-        await loadComparePilots();
+        if(!rankings.length) {
+
+            rankingList.innerHTML = `
+
+                <div class="loading">
+
+                    No pilots found.
+
+                </div>
+
+            `;
+
+
+            pilotList.innerHTML = `
+
+                <div class="pilot-sidebar-empty">
+
+                    No pilots found.
+
+                </div>
+
+            `;
+
+
+            return;
+
+        }
+
+
+        /* =====================================================
+           MAIN RANKING
+           ===================================================== */
+
+        rankingList.innerHTML =
+
+            rankings.map(
+                (pilot,index) => {
+
+                    const id =
+                        getPilotId(pilot);
+
+
+                    const name =
+                        getPilotName(pilot);
+
+
+                    const stars =
+                        getPilotStars(pilot);
+
+
+                    const calculated =
+                        calculateRank(stars);
+
+
+                    /*
+                     * If the API itself gives a rank,
+                     * use it. Otherwise calculate it.
+                     */
+
+                    const rank =
+                        pilot.rank ||
+                        pilot.stats?.rank ||
+                        calculated.current.name;
+
+
+                    /*
+                     * Profile URL.
+                     */
+
+                    const profileUrl =
+
+                        id !== undefined &&
+                        id !== null &&
+                        id !== ''
+
+                            ? `pilot.html?id=${
+                                encodeURIComponent(id)
+                              }`
+
+                            : '#';
+
+
+                    return `
+
+                        <a
+
+                            class="ranking-item"
+
+                            href="${profileUrl}"
+
+                            ${
+                                profileUrl === '#'
+                                    ? 'aria-disabled="true"'
+                                    : ''
+                            }
+
+                        >
+
+                            <span
+                                class="ranking-position"
+                            >
+                                ${index + 1}
+                            </span>
+
+
+                            <span
+                                class="ranking-avatar"
+                            >
+                                ${escapeHtml(
+                                    initials(name)
+                                )}
+                            </span>
+
+
+                            <span
+                                class="ranking-info"
+                            >
+
+                                <span
+                                    class="ranking-name"
+                                >
+                                    ${escapeHtml(name)}
+                                </span>
+
+
+                                <span
+                                    class="ranking-rank"
+                                >
+                                    ${escapeHtml(rank)}
+                                </span>
+
+                            </span>
+
+
+                            <span
+                                class="ranking-stars"
+                            >
+
+                                <span
+                                    class="ranking-stars-value"
+                                >
+                                    ${stars.toFixed(2)}
+                                </span>
+
+
+                                <span
+                                    class="ranking-stars-label"
+                                >
+                                    Echo Stars
+                                </span>
+
+                            </span>
+
+                        </a>
+
+                    `;
+
+                }
+
+            ).join('');
+
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        pilotList.innerHTML =
+
+            rankings.map(
+                (pilot,index) => {
+
+                    const id =
+                        getPilotId(pilot);
+
+
+                    const name =
+                        getPilotName(pilot);
+
+
+                    const stars =
+                        getPilotStars(pilot);
+
+
+                    const calculated =
+                        calculateRank(stars);
+
+
+                    const rank =
+                        pilot.rank ||
+                        pilot.stats?.rank ||
+                        calculated.current.name;
+
+
+                    /*
+                     * IMPORTANT:
+                     *
+                     * This is what makes the sidebar
+                     * pilots clickable.
+                     */
+
+                    if(
+                        id !== undefined &&
+                        id !== null &&
+                        id !== ''
+                    ) {
+
+                        return `
+
+                            <a
+
+                                class="pilot-item"
+
+                                href="pilot.html?id=${
+                                    encodeURIComponent(id)
+                                }"
+
+                            >
+
+                                <span
+                                    class="pilot-position"
+                                >
+                                    ${index + 1}
+                                </span>
+
+
+                                <span
+                                    class="pilot-avatar"
+                                >
+                                    ${escapeHtml(
+                                        initials(name)
+                                    )}
+                                </span>
+
+
+                                <span
+                                    class="pilot-info"
+                                >
+
+                                    <span
+                                        class="pilot-name"
+                                    >
+                                        ${escapeHtml(name)}
+                                    </span>
+
+
+                                    <span
+                                        class="pilot-rank"
+                                    >
+                                        ${escapeHtml(rank)}
+                                    </span>
+
+                                </span>
+
+                            </a>
+
+                        `;
+
+                    }
+
+
+                    /*
+                     * No ID = no clickable link.
+                     * This prevents broken:
+                     *
+                     * pilot.html?id=undefined
+                     */
+
+                    return `
+
+                        <div
+                            class="pilot-item"
+                            style="cursor:default;"
+                        >
+
+                            <span
+                                class="pilot-position"
+                            >
+                                ${index + 1}
+                            </span>
+
+
+                            <span
+                                class="pilot-avatar"
+                            >
+                                ${escapeHtml(
+                                    initials(name)
+                                )}
+                            </span>
+
+
+                            <span
+                                class="pilot-info"
+                            >
+
+                                <span
+                                    class="pilot-name"
+                                >
+                                    ${escapeHtml(name)}
+                                </span>
+
+
+                                <span
+                                    class="pilot-rank"
+                                >
+                                    ${escapeHtml(rank)}
+                                </span>
+
+                            </span>
+
+                        </div>
+
+                    `;
+
+                }
+
+            ).join('');
+
+
+        /*
+         * Debug information.
+         *
+         * This is useful if a pilot still doesn't open.
+         */
+
+        console.log(
+            'Loaded ranking:',
+            rankings
+        );
+
+
+        console.log(
+            'Pilot IDs:',
+            rankings.map(
+                pilot => ({
+                    name:getPilotName(pilot),
+                    id:getPilotId(pilot)
+                })
+            )
+        );
 
 
     } catch(error) {
 
         console.error(
+            'Ranking loading failed:',
             error
         );
 
 
-        document.getElementById(
-            'pilotName'
-        ).textContent =
-        'Pilot unavailable';
+        rankingCount.textContent =
+            'Error';
 
 
-        document.getElementById(
-            'pilotRank'
-        ).textContent =
-        'Error';
+        rankingList.innerHTML = `
 
-    }
+            <div class="loading">
 
-}
+                Could not load pilot ranking.
 
+                <br>
 
-/* ============================================================
-   LOAD COMPARE PILOTS
-   ============================================================ */
-
-let comparePilotsData = [];
-
-
-async function loadComparePilots() {
-
-    try {
-
-        const response =
-        await fetch(
-            API + '/ranking'
-        );
-
-
-        const data =
-        await response.json();
-
-
-        comparePilotsData =
-        data.rankings || [];
-
-
-        const one =
-        document.getElementById(
-            'pilotOne'
-        );
-
-
-        const two =
-        document.getElementById(
-            'pilotTwo'
-        );
-
-
-        one.innerHTML = '';
-        two.innerHTML =
-        '<option value="">Select pilot</option>';
-
-
-        comparePilotsData.forEach(
-            pilot => {
-
-                const id =
-                pilot.id ||
-                pilot._id ||
-                pilot.username;
-
-
-                const name =
-                pilot.name ||
-                pilot.displayName ||
-                pilot.username;
-
-
-                const option =
-                document.createElement(
-                    'option'
-                );
-
-
-                option.value =
-                id;
-
-
-                option.textContent =
-                name;
-
-
-                if(
-                    String(id) ===
-                    String(pilotId)
-                ) {
-
-                    option.selected =
-                    true;
-
-                }
-
-
-                one.appendChild(
-                    option.cloneNode(true)
-                );
-
-
-                if(
-                    String(id) !==
-                    String(pilotId)
-                ) {
-
-                    two.appendChild(
-                        option
-                    );
-
-                }
-
-            }
-        );
-
-    } catch(error) {
-
-        console.error(
-            'Compare loading failed:',
-            error
-        );
-
-    }
-
-}
-
-
-/* ============================================================
-   COMPARE
-   ============================================================ */
-
-async function comparePilots() {
-
-    const firstId =
-    document.getElementById(
-        'pilotOne'
-    ).value;
-
-
-    const secondId =
-    document.getElementById(
-        'pilotTwo'
-    ).value;
-
-
-    if(!firstId || !secondId) {
-
-        alert(
-            'Please select two pilots.'
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const first =
-        await api(
-            '/pilots/' +
-            encodeURIComponent(
-                firstId
-            )
-        );
-
-
-        const second =
-        await api(
-            '/pilots/' +
-            encodeURIComponent(
-                secondId
-            )
-        );
-
-
-        const firstName =
-        first.user?.displayName ||
-        first.user?.name ||
-        first.user?.username ||
-        'Pilot';
-
-
-        const secondName =
-        second.user?.displayName ||
-        second.user?.name ||
-        second.user?.username ||
-        'Pilot';
-
-
-        const firstStats =
-        first.stats || {};
-
-
-        const secondStats =
-        second.stats || {};
-
-
-        document.getElementById(
-            'compareGrid'
-        ).innerHTML = `
-
-            <div class="compare-stat">
-
-                <span>
-                    ${escapeHtml(firstName)}
-                </span>
-
-                <strong>
-                    ${Number(
-                        firstStats.stars || 0
-                    ).toFixed(2)}
-                    ⭐
-                </strong>
-
-                <span>
-                    ${Number(
-                        firstStats.flightCount || 0
-                    )} flights
-                </span>
-
-                <span>
-                    Avg rating:
-                    ${Number(
-                        firstStats.averageRating || 0
-                    ).toFixed(2)}
-                </span>
-
-            </div>
-
-
-            <div class="compare-stat">
-
-                <span>
-                    ${escapeHtml(secondName)}
-                </span>
-
-                <strong>
-                    ${Number(
-                        secondStats.stars || 0
-                    ).toFixed(2)}
-                    ⭐
-                </strong>
-
-                <span>
-                    ${Number(
-                        secondStats.flightCount || 0
-                    )} flights
-                </span>
-
-                <span>
-                    Avg rating:
-                    ${Number(
-                        secondStats.averageRating || 0
-                    ).toFixed(2)}
-                </span>
+                <small>
+                    Please try again later.
+                </small>
 
             </div>
 
         `;
 
 
-        document.getElementById(
-            'compareResult'
-        ).style.display =
-        'block';
+        pilotList.innerHTML = `
 
+            <div class="pilot-sidebar-error">
 
-    } catch(error) {
+                Unable to load pilots.
 
-        alert(
-            'Could not compare these pilots.'
-        );
+            </div>
 
-        console.error(
-            error
-        );
+        `;
 
     }
 
@@ -2401,10 +2133,10 @@ async function comparePilots() {
    START
    ============================================================ */
 
-loadPilot();
+loadRanking();
 
 </script>
 
 </body>
+
 </html>
-```
