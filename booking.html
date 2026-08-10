@@ -14,7 +14,27 @@
 <style>
 
 /* =========================================================
-   FIXED HEADER
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding-top: 80px;
+    background: #f4f6f2;
+    color: #20251f;
+}
+
+
+/* =========================================================
+   HEADER
 ========================================================= */
 
 header {
@@ -24,60 +44,52 @@ header {
     width: 100%;
     z-index: 9999;
 
-    background: rgba(9, 13, 8, 0.98);
+    background: rgba(9,13,8,.98);
 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 
-    transition:
-        background 0.25s ease,
-        box-shadow 0.25s ease;
+    transition: .25s ease;
 }
 
 header.scrolled {
-    background: rgba(9, 13, 8, 0.82);
-
-    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    background: rgba(9,13,8,.82);
+    box-shadow: 0 4px 25px rgba(0,0,0,.15);
 }
-
-body {
-    padding-top: 80px;
-    background: #f5f7f3;
-}
-
-
-/* =========================================================
-   HEADER LOGO
-========================================================= */
 
 .header-logo {
     height: 48px;
     width: auto;
     display: block;
-    object-fit: contain;
+}
+
+.navlinks a {
+    transition: .2s ease;
+}
+
+.navlinks a:hover {
+    color: #ace336 !important;
 }
 
 
 /* =========================================================
-   BOOKING HERO
+   HERO
 ========================================================= */
 
 .booking-hero {
-    min-height: 390px;
+    min-height: 440px;
 
     display: flex;
     align-items: center;
 
-    position: relative;
-
     background:
         linear-gradient(
             90deg,
-            rgba(9,13,8,0.97) 0%,
-            rgba(9,13,8,0.86) 45%,
-            rgba(9,13,8,0.55) 100%
+            rgba(7,11,6,.98),
+            rgba(7,11,6,.82),
+            rgba(7,11,6,.48)
         ),
-        url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2200&q=85");
+        url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2200&q=90");
 
     background-size: cover;
     background-position: center;
@@ -89,35 +101,34 @@ body {
     max-width: 850px;
 }
 
-.booking-pill {
+.hero-pill {
     display: inline-block;
 
-    padding: 7px 14px;
+    padding: 8px 15px;
 
     border-radius: 999px;
 
-    background: rgba(172,227,54,0.12);
-
-    border: 1px solid rgba(172,227,54,0.3);
-
     color: #ace336;
 
-    font-size: 12px;
-    font-weight: 800;
+    border: 1px solid rgba(172,227,54,.35);
 
-    letter-spacing: 1px;
+    background: rgba(172,227,54,.1);
+
+    font-size: 12px;
+    font-weight: 900;
 
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .booking-hero h1 {
-    margin: 18px 0 15px;
+    margin: 20px 0 16px;
 
-    font-size: clamp(48px, 6vw, 76px);
+    font-size: clamp(48px,7vw,82px);
 
-    line-height: 1;
+    line-height: .98;
 
-    letter-spacing: -2px;
+    letter-spacing: -3px;
 }
 
 .booking-hero h1 span {
@@ -125,11 +136,11 @@ body {
 }
 
 .booking-hero p {
-    max-width: 700px;
+    max-width: 720px;
 
     margin: 0;
 
-    color: #c5cbc2;
+    color: #c6ccc2;
 
     font-size: 18px;
 
@@ -138,112 +149,99 @@ body {
 
 
 /* =========================================================
-   BOOKING AREA
+   MAIN CONTAINER
 ========================================================= */
 
-.booking-section {
-    padding: 0 0 80px;
+.booking-main {
+    padding-bottom: 100px;
 }
 
 .booking-container {
-    max-width: 1150px;
-
-    margin: -105px auto 0;
+    max-width: 1180px;
+    margin: -95px auto 0;
 
     position: relative;
-
     z-index: 10;
 }
 
 
 /* =========================================================
-   BOOKING CARD
+   BOOKING SEARCH
 ========================================================= */
 
-.booking-card {
+.search-card {
     background: white;
-
-    border: 1px solid #dfe5dc;
 
     border-radius: 20px;
 
-    overflow: hidden;
+    border: 1px solid #dfe5dc;
 
-    box-shadow:
-        0 18px 50px rgba(0,0,0,0.12);
+    box-shadow: 0 20px 55px rgba(0,0,0,.14);
+
+    overflow: hidden;
 }
 
-
-/* =========================================================
-   BOOKING CARD HEADER
-========================================================= */
-
-.booking-card-header {
-    background: #090d08;
-
+.search-header {
     padding: 27px 32px;
 
-    display: flex;
+    background: #090d08;
 
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 
-    justify-content: space-between;
-
-    gap: 25px;
+    gap: 20px;
 }
 
-.booking-card-header h2 {
+.search-header h2 {
     margin: 0;
 
     color: white;
 
-    font-size: 24px;
+    font-size: 25px;
 }
 
-.booking-card-header p {
+.search-header p {
     margin: 5px 0 0;
 
-    color: #8f988c;
+    color: #899187;
 
     font-size: 14px;
 }
 
-.booking-status {
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
+.live-status {
     color: #ace336;
 
     font-size: 12px;
 
-    font-weight: 800;
+    font-weight: 900;
 
     text-transform: uppercase;
-
-    letter-spacing: .7px;
 }
 
-.status-dot {
+.live-status::before {
+    content: "";
+
+    display: inline-block;
+
     width: 8px;
     height: 8px;
+
+    margin-right: 7px;
 
     border-radius: 50%;
 
     background: #ace336;
 
-    box-shadow:
-        0 0 10px rgba(172,227,54,0.8);
+    box-shadow: 0 0 10px #ace336;
 }
 
 
 /* =========================================================
-   TRIP TYPE
+   TRIP SELECTOR
 ========================================================= */
 
-.trip-type {
+.trip-selector {
     padding: 25px 32px 0;
 
     display: flex;
@@ -251,42 +249,39 @@ body {
     gap: 28px;
 }
 
-.trip-option {
+.trip-selector label {
     display: flex;
 
     align-items: center;
 
     gap: 8px;
 
-    font-size: 14px;
+    font-weight: 800;
 
-    font-weight: 700;
+    font-size: 14px;
 
     cursor: pointer;
 }
 
-.trip-option input {
+.trip-selector input {
     accent-color: #ace336;
-
-    width: 16px;
-    height: 16px;
 }
 
 
 /* =========================================================
-   BOOKING FORM
+   SEARCH GRID
 ========================================================= */
 
-.booking-form {
+.search-form {
     padding: 25px 32px 32px;
 }
 
-.booking-grid {
+.search-grid {
     display: grid;
 
     grid-template-columns:
-        1.15fr
-        1.15fr
+        1.2fr
+        1.2fr
         1fr
         1fr
         .8fr;
@@ -303,28 +298,26 @@ body {
 }
 
 .field label {
-    font-size: 12px;
+    color: #5d6759;
 
-    font-weight: 800;
+    font-size: 11px;
 
-    color: #596356;
-
-    letter-spacing: .5px;
+    font-weight: 900;
 
     text-transform: uppercase;
+
+    letter-spacing: .6px;
 }
 
-.field select,
-.field input {
+.field input,
+.field select {
     width: 100%;
-
-    box-sizing: border-box;
 
     padding: 14px 15px;
 
-    border-radius: 10px;
-
     border: 1px solid #d7ded4;
+
+    border-radius: 10px;
 
     background: #f8faf7;
 
@@ -336,56 +329,40 @@ body {
 
     outline: none;
 
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
+    transition: .2s ease;
 }
 
-.field select:hover,
-.field input:hover {
-    background: #ffffff;
-}
-
-.field select:focus,
-.field input:focus {
+.field input:focus,
+.field select:focus {
     border-color: #9fcb42;
 
-    box-shadow:
-        0 0 0 3px rgba(172,227,54,0.12);
-
     background: white;
+
+    box-shadow:
+        0 0 0 3px rgba(172,227,54,.12);
 }
 
+.search-bottom {
+    margin-top: 18px;
 
-/* =========================================================
-   SECOND ROW
-========================================================= */
-
-.booking-extra {
-    display: grid;
-
-    grid-template-columns: 220px 220px;
-
-    gap: 14px;
-
-    margin-top: 15px;
-}
-
-
-/* =========================================================
-   SEARCH BUTTON
-========================================================= */
-
-.booking-submit {
     display: flex;
 
-    justify-content: flex-end;
+    justify-content: space-between;
 
-    margin-top: 22px;
+    align-items: flex-end;
+
+    gap: 20px;
 }
 
-.search-button {
+.search-small-grid {
+    display: grid;
+
+    grid-template-columns: 200px 200px;
+
+    gap: 14px;
+}
+
+.primary-button {
     border: none;
 
     padding: 15px 28px;
@@ -396,144 +373,219 @@ body {
 
     color: #17200f;
 
-    font-size: 15px;
-
     font-weight: 900;
+
+    font-size: 15px;
 
     cursor: pointer;
 
-    transition:
-        transform .2s ease,
-        opacity .2s ease,
-        box-shadow .2s ease;
+    transition: .2s ease;
 }
 
-.search-button:hover {
+.primary-button:hover {
     transform: translateY(-2px);
 
-    opacity: .92;
+    opacity: .9;
 
-    box-shadow:
-        0 8px 20px rgba(172,227,54,0.22);
+    box-shadow: 0 9px 22px rgba(172,227,54,.22);
 }
 
 
 /* =========================================================
-   SEARCH RESULTS
+   PROGRESS
 ========================================================= */
 
-.results {
+.progress {
     display: none;
 
-    margin-top: 45px;
+    margin-top: 35px;
+
+    background: white;
+
+    border: 1px solid #dfe5dc;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.04);
 }
 
-.results.active {
+.progress.active {
     display: block;
 }
 
-.results-header {
-    margin-bottom: 18px;
+.progress-list {
+    display: grid;
+
+    grid-template-columns: repeat(5,1fr);
+
+    gap: 10px;
 }
 
-.results-header .eyebrow {
-    color: #6b8d20;
+.progress-step {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #8a9387;
 
     font-size: 12px;
 
     font-weight: 800;
+}
 
-    letter-spacing: 1px;
+.progress-number {
+    width: 29px;
+    height: 29px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #e7ece5;
+
+    color: #697366;
+}
+
+.progress-step.active {
+    color: #35412f;
+}
+
+.progress-step.active .progress-number {
+    background: #ace336;
+
+    color: #17200f;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.booking-content {
+    margin-top: 30px;
+}
+
+.booking-section {
+    display: none;
+
+    background: white;
+
+    border: 1px solid #dfe5dc;
+
+    border-radius: 18px;
+
+    padding: 32px;
+
+    box-shadow: 0 7px 25px rgba(0,0,0,.05);
+}
+
+.booking-section.active {
+    display: block;
+}
+
+.section-title {
+    margin-bottom: 25px;
+}
+
+.section-title .eyebrow {
+    color: #729324;
+
+    font-size: 11px;
+
+    font-weight: 900;
 
     text-transform: uppercase;
+
+    letter-spacing: 1px;
 }
 
-.results-header h2 {
-    margin: 5px 0 5px;
+.section-title h2 {
+    margin: 6px 0 7px;
 
-    font-size: 30px;
+    font-size: 29px;
 }
 
-.results-header p {
+.section-title p {
     margin: 0;
 
-    color: #727b70;
+    color: #7a8377;
 
     font-size: 14px;
 }
 
 
 /* =========================================================
-   FLIGHT RESULT
+   FLIGHT RESULTS
 ========================================================= */
 
+.flight-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
 .flight-card {
-    background: white;
-
-    border: 1px solid #dfe5dc;
-
-    border-radius: 16px;
-
-    padding: 22px 25px;
-
-    margin-bottom: 14px;
-
     display: grid;
 
     grid-template-columns:
         130px
         1fr
-        150px
-        120px;
+        180px
+        145px;
 
     align-items: center;
 
     gap: 25px;
 
-    box-shadow:
-        0 5px 20px rgba(0,0,0,0.04);
+    padding: 23px;
 
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease;
+    border: 1px solid #dfe5dc;
+
+    border-radius: 14px;
+
+    background: #fff;
+
+    transition: .2s ease;
 }
 
 .flight-card:hover {
+    border-color: #b9d97c;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.07);
+
     transform: translateY(-2px);
-
-    box-shadow:
-        0 10px 28px rgba(0,0,0,0.08);
 }
 
+.flight-code {
+    color: #7b8478;
 
-/* =========================================================
-   FLIGHT NUMBER
-========================================================= */
+    font-size: 11px;
 
-.flight-number {
-    color: #737c70;
+    font-weight: 800;
 
-    font-size: 12px;
-
-    font-weight: 700;
+    text-transform: uppercase;
 }
 
-.flight-number strong {
+.flight-code strong {
     display: block;
-
-    margin-top: 5px;
 
     color: #20251f;
 
-    font-size: 18px;
+    font-size: 19px;
+
+    margin-top: 5px;
 }
 
-
-/* =========================================================
-   ROUTE
-========================================================= */
-
-.flight-route {
+.route {
     display: flex;
 
     align-items: center;
@@ -545,24 +597,20 @@ body {
 
 .airport {
     text-align: center;
-
-    min-width: 75px;
 }
 
-.airport-code {
-    color: #17200f;
+.airport strong {
+    display: block;
 
     font-size: 26px;
 
     font-weight: 900;
 }
 
-.airport-name {
-    color: #7b8478;
+.airport small {
+    color: #818a7e;
 
     font-size: 11px;
-
-    margin-top: 2px;
 }
 
 .route-line {
@@ -570,7 +618,7 @@ body {
 
     height: 1px;
 
-    background: #cfd7cc;
+    background: #cbd4c7;
 
     position: relative;
 }
@@ -583,51 +631,36 @@ body {
     left: 50%;
     top: 50%;
 
-    transform:
-        translate(-50%, -50%);
-
-    padding: 0 8px;
+    transform: translate(-50%,-50%);
 
     background: white;
 
-    color: #8da72e;
+    padding: 0 8px;
 
-    font-size: 14px;
+    color: #78952a;
 }
 
-
-/* =========================================================
-   FLIGHT DETAILS
-========================================================= */
-
-.flight-details {
+.flight-meta {
     text-align: center;
 }
 
-.flight-details strong {
+.flight-meta strong {
     display: block;
-
-    color: #20251f;
 
     font-size: 15px;
 }
 
-.flight-details span {
+.flight-meta span {
     display: block;
 
-    margin-top: 4px;
+    margin-top: 5px;
 
-    color: #7b857a;
+    color: #7d867a;
 
     font-size: 12px;
 }
 
-
-/* =========================================================
-   SELECT BUTTON
-========================================================= */
-
-.select-flight {
+.choose-flight {
     border: none;
 
     padding: 12px 20px;
@@ -638,85 +671,772 @@ body {
 
     color: #17200f;
 
-    font-size: 14px;
-
-    font-weight: 800;
+    font-weight: 900;
 
     cursor: pointer;
-
-    transition:
-        transform .2s ease,
-        opacity .2s ease;
-}
-
-.select-flight:hover {
-    transform: translateY(-2px);
-
-    opacity: .9;
 }
 
 
 /* =========================================================
-   INFORMATION
+   FARES
 ========================================================= */
 
-.booking-info {
-    padding: 70px 0 80px;
+.fare-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3,1fr);
+
+    gap: 18px;
 }
 
-.info-grid {
+.fare-card {
+    position: relative;
+
+    padding: 25px;
+
+    border: 1px solid #dce3d9;
+
+    border-radius: 15px;
+
+    background: #fff;
+}
+
+.fare-card.recommended {
+    border: 2px solid #ace336;
+}
+
+.recommended-label {
+    position: absolute;
+
+    right: 15px;
+    top: 15px;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    background: #eef5e7;
+
+    color: #66831f;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+.fare-card h3 {
+    margin: 0 0 7px;
+
+    font-size: 20px;
+}
+
+.fare-price {
+    margin-bottom: 20px;
+
+    font-size: 29px;
+
+    font-weight: 900;
+}
+
+.fare-price small {
+    color: #7c8579;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.fare-features {
+    padding: 0;
+
+    margin: 0 0 22px;
+
+    list-style: none;
+}
+
+.fare-features li {
+    padding: 8px 0;
+
+    color: #687267;
+
+    border-bottom: 1px solid #edf0eb;
+
+    font-size: 13px;
+}
+
+.fare-features li::before {
+    content: "✓";
+
+    margin-right: 8px;
+
+    color: #78a020;
+
+    font-weight: 900;
+}
+
+.fare-button {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #cfd8ca;
+
+    border-radius: 9px;
+
+    background: white;
+
+    color: #263023;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.fare-card.recommended .fare-button {
+    border-color: #ace336;
+
+    background: #ace336;
+}
+
+
+/* =========================================================
+   PASSENGER FORM
+========================================================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 17px;
+}
+
+.form-grid .full {
+    grid-column: 1/-1;
+}
+
+.form-note {
+    margin-top: 20px;
+
+    padding: 14px 16px;
+
+    border-radius: 10px;
+
+    background: #eef5e7;
+
+    color: #566351;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SEAT MAP
+========================================================= */
+
+.seat-layout {
+    display: grid;
+
+    grid-template-columns: 1fr 310px;
+
+    gap: 35px;
+}
+
+.aircraft-cabin {
+    max-width: 650px;
+
+    margin: auto;
+
+    border: 1px solid #dce3d9;
+
+    border-radius: 80px 80px 30px 30px;
+
+    padding: 65px 35px 35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #f5f7f3,
+            #ffffff,
+            #f5f7f3
+        );
+}
+
+.cockpit-label {
+    text-align: center;
+
+    margin-bottom: 25px;
+
+    color: #8a9386;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+.seat-row {
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        38px 38px
+        50px
+        38px 38px;
 
-    gap: 20px;
+    gap: 9px;
+
+    justify-content: center;
+
+    margin-bottom: 9px;
 }
 
-.info-card {
+.seat {
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid #cbd4c7;
+
+    border-radius: 8px 8px 5px 5px;
+
     background: white;
 
-    border: 1px solid #e0e6de;
+    color: #4c5849;
 
-    border-radius: 16px;
+    font-size: 10px;
 
-    padding: 27px;
+    font-weight: 800;
+
+    cursor: pointer;
 }
 
-.info-icon {
-    width: 45px;
-    height: 45px;
+.seat:hover {
+    border-color: #91b63c;
+}
+
+.seat.selected {
+    background: #ace336;
+
+    border-color: #ace336;
+
+    color: #17200f;
+}
+
+.seat.occupied {
+    background: #cbd1c8;
+
+    color: #8b9288;
+
+    cursor: not-allowed;
+
+    border-color: #cbd1c8;
+}
+
+.aisle {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #bbc3b8;
+
+    font-size: 9px;
+}
+
+.seat-summary {
+    padding: 25px;
+
+    border-radius: 14px;
+
+    background: #f5f7f3;
+
+    border: 1px solid #dfe5dc;
+}
+
+.seat-summary h3 {
+    margin-top: 0;
+}
+
+.selected-seat {
+    font-size: 30px;
+
+    font-weight: 900;
+
+    color: #719221;
+
+    margin: 10px 0;
+}
+
+
+/* =========================================================
+   EXTRAS
+========================================================= */
+
+.extra-list {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+}
+
+.extra-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    border: 1px solid #dfe5dc;
+
+    border-radius: 13px;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.extra-card:hover {
+    border-color: #b9d97c;
+}
+
+.extra-card input {
+    accent-color: #ace336;
+
+    width: 18px;
+    height: 18px;
+}
+
+.extra-info {
+    flex: 1;
+}
+
+.extra-info strong {
+    display: block;
+}
+
+.extra-info span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #7b8478;
+
+    font-size: 12px;
+}
+
+.extra-price {
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   PAYMENT
+========================================================= */
+
+.payment-grid {
+    display: grid;
+
+    grid-template-columns: 1.3fr .7fr;
+
+    gap: 25px;
+}
+
+.payment-card {
+    padding: 25px;
+
+    border: 1px solid #dfe5dc;
+
+    border-radius: 14px;
+
+    background: #fff;
+}
+
+.payment-icons {
+    display: flex;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+.payment-icon {
+    padding: 7px 10px;
+
+    border: 1px solid #d8dfd5;
+
+    border-radius: 6px;
+
+    font-size: 11px;
+
+    font-weight: 900;
+}
+
+.summary-card {
+    padding: 25px;
+
+    border-radius: 14px;
+
+    background: #090d08;
+
+    color: white;
+}
+
+.summary-card h3 {
+    margin-top: 0;
+}
+
+.summary-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 9px 0;
+
+    color: #aab1a6;
+
+    font-size: 13px;
+}
+
+.summary-total {
+    margin-top: 15px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid rgba(255,255,255,.12);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   REVIEW
+========================================================= */
+
+.review-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+}
+
+.review-card {
+    padding: 22px;
+
+    border: 1px solid #dfe5dc;
+
+    border-radius: 13px;
+
+    background: #fafbf9;
+}
+
+.review-card h3 {
+    margin: 0 0 14px;
+
+    font-size: 16px;
+}
+
+.review-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 7px 0;
+
+    gap: 20px;
+
+    font-size: 13px;
+}
+
+.review-row span:first-child {
+    color: #7a8377;
+}
+
+
+/* =========================================================
+   NAVIGATION BUTTONS
+========================================================= */
+
+.section-buttons {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 28px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #e6ebe3;
+}
+
+.secondary-button {
+    padding: 13px 21px;
+
+    border: 1px solid #d3dbd0;
+
+    border-radius: 9px;
+
+    background: white;
+
+    color: #394336;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    background: #f5f7f3;
+}
+
+
+/* =========================================================
+   CONFIRMATION
+========================================================= */
+
+.confirmation {
+    display: none;
+
+    margin-top: 30px;
+
+    background: white;
+
+    border: 1px solid #dfe5dc;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: 0 12px 40px rgba(0,0,0,.08);
+}
+
+.confirmation.active {
+    display: block;
+}
+
+.confirmation-top {
+    padding: 40px;
+
+    background: #090d08;
+
+    color: white;
+
+    text-align: center;
+}
+
+.confirm-icon {
+    width: 65px;
+    height: 65px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    border-radius: 11px;
+    margin: 0 auto 18px;
 
-    background: #eef5e7;
+    border-radius: 50%;
 
-    color: #6d8f20;
+    background: #ace336;
 
-    font-size: 20px;
+    color: #17200f;
 
-    margin-bottom: 17px;
+    font-size: 28px;
+
+    font-weight: 900;
 }
 
-.info-card h3 {
-    margin: 0 0 9px;
-
-    font-size: 18px;
-}
-
-.info-card p {
+.confirmation-top h2 {
     margin: 0;
 
-    color: #747d71;
+    font-size: 32px;
+}
+
+.confirmation-top p {
+    color: #aeb6aa;
+
+    margin-bottom: 0;
+}
+
+.ticket {
+    margin: 30px;
+
+    border: 1px solid #dce3d9;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    background: white;
+}
+
+.ticket-header {
+    padding: 22px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #f5f7f3;
+
+    border-bottom: 1px solid #dce3d9;
+}
+
+.ticket-brand {
+    font-weight: 900;
+
+    letter-spacing: .5px;
+}
+
+.ticket-brand span {
+    color: #719221;
+}
+
+.booking-reference {
+    text-align: right;
+}
+
+.booking-reference small {
+    display: block;
+
+    color: #7b8478;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+.booking-reference strong {
+    font-size: 21px;
+}
+
+.ticket-route {
+    padding: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 35px;
+
+    text-align: center;
+}
+
+.ticket-airport strong {
+    display: block;
+
+    font-size: 35px;
+
+    font-weight: 900;
+}
+
+.ticket-airport span {
+    color: #7c8579;
+
+    font-size: 11px;
+}
+
+.ticket-plane {
+    color: #7b9b29;
+
+    font-size: 24px;
+}
+
+.ticket-details {
+    display: grid;
+
+    grid-template-columns: repeat(4,1fr);
+
+    border-top: 1px solid #e0e6de;
+}
+
+.ticket-detail {
+    padding: 18px;
+
+    border-right: 1px solid #e0e6de;
+}
+
+.ticket-detail:last-child {
+    border-right: none;
+}
+
+.ticket-detail small {
+    display: block;
+
+    color: #7b8478;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+.ticket-detail strong {
+    display: block;
+
+    margin-top: 5px;
 
     font-size: 14px;
+}
 
-    line-height: 1.65;
+.barcode {
+    margin: 30px;
+
+    height: 75px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #111 0,
+            #111 2px,
+            transparent 2px,
+            transparent 5px,
+            #111 5px,
+            #111 6px,
+            transparent 6px,
+            transparent 10px
+        );
+}
+
+.ticket-note {
+    padding: 20px 30px;
+
+    color: #737d71;
+
+    border-top: 1px solid #e0e6de;
+
+    font-size: 12px;
+
+    line-height: 1.6;
 }
 
 
@@ -757,8 +1477,6 @@ footer p {
     height: 58px;
 
     object-fit: contain;
-
-    display: block;
 }
 
 .brand-text {
@@ -771,8 +1489,6 @@ footer p {
 
 .brand-text small {
     font-size: 11px;
-
-    font-weight: 600;
 
     opacity: .65;
 
@@ -794,29 +1510,16 @@ footer p {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border-radius: 10px;
 
     background: #151b13;
-
-    transition:
-        transform .2s ease,
-        background .2s ease;
-}
-
-.footer-social a:hover {
-    transform: translateY(-2px);
-
-    background: #20291d;
 }
 
 .footer-social img {
     width: 24px;
     height: 24px;
-
-    object-fit: contain;
 }
 
 .foot-links {
@@ -854,8 +1557,7 @@ footer p {
 
     padding-top: 20px;
 
-    border-top:
-        1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255,255,255,.08);
 
     color: #687066;
 
@@ -864,33 +1566,41 @@ footer p {
 
 
 /* =========================================================
-   MOBILE
+   RESPONSIVE
 ========================================================= */
 
-@media (max-width: 1000px) {
+@media(max-width:1050px) {
 
-    .booking-grid {
-        grid-template-columns:
-            1fr 1fr;
+    .search-grid {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .booking-extra {
-        grid-template-columns:
-            1fr 1fr;
+    .search-bottom {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .search-small-grid {
+        grid-template-columns: 1fr 1fr;
     }
 
     .flight-card {
         grid-template-columns:
-            120px
-            1fr
-            120px
-            110px;
+            120px 1fr 150px;
+    }
+
+    .flight-card .choose-flight {
+        grid-column: 1/-1;
+    }
+
+    .seat-layout {
+        grid-template-columns: 1fr;
     }
 
 }
 
-
-@media (max-width: 800px) {
+@media(max-width:800px) {
 
     body {
         padding-top: 70px;
@@ -901,114 +1611,166 @@ footer p {
     }
 
     .booking-hero {
-        min-height: 360px;
-    }
-
-    .booking-hero h1 {
-        font-size: 48px;
+        min-height: 380px;
     }
 
     .booking-container {
-        margin-top: -70px;
+        margin-top: -65px;
     }
 
-    .booking-card-header {
-        align-items: flex-start;
-
+    .search-header {
         flex-direction: column;
+
+        align-items: flex-start;
     }
 
-    .booking-grid {
+    .search-grid {
         grid-template-columns: 1fr;
     }
 
-    .booking-extra {
+    .search-small-grid {
         grid-template-columns: 1fr;
     }
 
-    .booking-submit {
-        justify-content: stretch;
+    .progress-list {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .search-button {
-        width: 100%;
+    .fare-grid,
+    .extra-list,
+    .payment-grid,
+    .review-grid {
+        grid-template-columns: 1fr;
     }
 
     .flight-card {
         grid-template-columns: 1fr;
 
         text-align: center;
-
-        gap: 18px;
     }
 
-    .flight-route {
+    .route {
         justify-content: center;
     }
 
-    .info-grid {
+    .form-grid {
         grid-template-columns: 1fr;
+    }
+
+    .form-grid .full {
+        grid-column: auto;
+    }
+
+    .ticket-details {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .ticket-detail:nth-child(2) {
+        border-right: none;
+    }
+
+    .ticket-detail:nth-child(-n+2) {
+        border-bottom: 1px solid #e0e6de;
     }
 
     .foot-top {
         flex-direction: column;
-
-        gap: 35px;
     }
 
     .copy {
         flex-direction: column;
-
-        gap: 8px;
     }
 
 }
 
-
-@media (max-width: 500px) {
+@media(max-width:500px) {
 
     .booking-hero h1 {
-        font-size: 39px;
+        font-size: 43px;
 
-        letter-spacing: -1px;
+        letter-spacing: -1.5px;
     }
 
     .booking-hero p {
         font-size: 15px;
     }
 
-    .booking-form {
+    .search-form,
+    .booking-section {
         padding: 22px;
     }
 
-    .trip-type {
+    .trip-selector {
         padding-left: 22px;
         padding-right: 22px;
     }
 
-    .booking-card-header {
-        padding: 23px 22px;
+    .progress-list {
+        grid-template-columns: 1fr;
     }
 
-    .route-line {
-        width: 60px;
+    .aircraft-cabin {
+        padding: 55px 10px 25px;
+    }
+
+    .seat-row {
+        grid-template-columns:
+            32px 32px
+            35px
+            32px 32px;
+    }
+
+    .seat {
+        width: 32px;
+        height: 32px;
+    }
+
+    .ticket {
+        margin: 15px;
+    }
+
+    .ticket-route {
+        gap: 15px;
+    }
+
+    .ticket-airport strong {
+        font-size: 27px;
     }
 
 }
 
 
 /* =========================================================
-   HIDE MOBILE MENU UNTIL NEEDED
+   PRINT
 ========================================================= */
 
-@media (min-width: 801px) {
+@media print {
 
-    .menu {
-        display: none;
+    body {
+        padding: 0;
+
+        background: white;
     }
 
-    .mobileNav {
+    header,
+    footer,
+    .booking-hero,
+    .search-card,
+    .progress,
+    .booking-content,
+    .confirmation-top,
+    .section-buttons {
         display: none !important;
+    }
+
+    .confirmation {
+        display: block !important;
+
+        margin: 0;
+
+        box-shadow: none;
+
+        border: none;
     }
 
 }
@@ -1040,41 +1802,7 @@ alt="Echo Air Group"
 
 <nav class="navlinks">
 
-<a href="index.html">
-Home
-</a>
-
-<a href="about.html">
-About
-</a>
-
-<a href="fleet.html">
-Fleet
-</a>
-
-<a href="routes.html">
-Routes
-</a>
-
-<a href="team.html">
-Team
-</a>
-
-<a href="join.html">
-Join Us
-</a>
-
-<a href="manual.html">
-Pilot Manual
-</a>
-
-<a href="contact.html">
-Contact Us
-</a>
-
-<a href="ranking.html">
-Ranking
-</a>
+<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a> <a href="ranking.html">Ranking</a>
 
 </nav>
 
@@ -1089,17 +1817,13 @@ BOOK A FLIGHT </a>
 <button
 class="menu"
 onclick="toggleMenu()"
-aria-label="Open navigation menu"
+aria-label="Open navigation"
 
 >
 
 ☰ </button>
 
 </div>
-
-<!-- =========================================================
-     MOBILE NAV
-========================================================= -->
 
 <div
 id="mobileNav"
@@ -1108,45 +1832,7 @@ class="mobileNav"
 
 <div class="container">
 
-<a href="index.html">
-Home
-</a>
-
-<a href="about.html">
-About
-</a>
-
-<a href="fleet.html">
-Fleet
-</a>
-
-<a href="routes.html">
-Routes
-</a>
-
-<a href="team.html">
-Team
-</a>
-
-<a href="join.html">
-Join Us
-</a>
-
-<a href="manual.html">
-Pilot Manual
-</a>
-
-<a href="contact.html">
-Contact Us
-</a>
-
-<a href="ranking.html">
-Ranking
-</a>
-
-<a href="booking.html">
-Book a Flight
-</a>
+<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a> <a href="ranking.html">Ranking</a> <a href="booking.html">Book a Flight</a>
 
 </div>
 
@@ -1164,18 +1850,18 @@ Book a Flight
 
 <div class="booking-hero-content">
 
-<span class="booking-pill">
-Echo Air Group
+<span class="hero-pill">
+Echo Air Group · Reservations
 </span>
 
 <h1>
-Book your <span>next flight.</span>
+Your journey starts <span>here.</span>
 </h1>
 
 <p>
-Choose your destination, select your travel dates and find
-your next Echo Air Group virtual journey. Experience
-airline travel from the passenger perspective.
+Search, select and book your next virtual journey with
+Echo Air Group. Choose your flight, cabin, seat and
+extras — just like a real airline booking experience.
 </p>
 
 </div>
@@ -1185,100 +1871,76 @@ airline travel from the passenger perspective.
 </section>
 
 <!-- =========================================================
-     BOOKING
+     MAIN
 ========================================================= -->
 
-<section class="booking-section">
+<main class="booking-main">
 
-<div class="container">
-
-<div class="booking-container">
+<div class="container booking-container">
 
 <!-- =========================================================
-     SEARCH CARD
+     SEARCH
 ========================================================= -->
 
-<div class="booking-card">
+<div class="search-card">
 
-<div class="booking-card-header">
+<div class="search-header">
 
 <div>
 
 <h2>
-Search flights
+Search & Book
 </h2>
 
 <p>
-Find an Echo Air Group flight for your next journey.
+Find your next Echo Air Group flight.
 </p>
 
 </div>
 
-<div class="booking-status">
-
-<span class="status-dot"></span>
-
-Flights available
-
+<div class="live-status">
+Virtual flights
 </div>
 
 </div>
 
-<!-- =========================================================
-     TRIP TYPE
-========================================================= -->
+<div class="trip-selector">
 
-<div class="trip-type">
-
-<label class="trip-option">
-
+<label>
 <input
 type="radio"
 name="tripType"
-value="roundtrip"
+value="round"
 checked
-
 >
-
 Round trip
-
 </label>
 
-<label class="trip-option">
-
+<label>
 <input
 type="radio"
 name="tripType"
 value="oneway"
-
 >
-
 One way
-
 </label>
 
 </div>
 
-<!-- =========================================================
-     SEARCH FORM
-========================================================= -->
+<div class="search-form">
 
-<div class="booking-form">
-
-<div class="booking-grid">
-
-<!-- FROM -->
+<div class="search-grid">
 
 <div class="field">
 
-<label for="from">
+<label>
 From
 </label>
 
 <select id="from">
 
 <option value="">
-Departure airport
+Select departure
 </option>
 
 <option value="LIRF">
@@ -1294,7 +1956,7 @@ Prague — LKPR
 </option>
 
 <option value="WSSS">
-Singapore Changi — WSSS
+Singapore — WSSS
 </option>
 
 <option value="KJFK">
@@ -1309,18 +1971,16 @@ Corfu — LGKR
 
 </div>
 
-<!-- TO -->
-
 <div class="field">
 
-<label for="to">
+<label>
 To
 </label>
 
 <select id="to">
 
 <option value="">
-Arrival airport
+Select destination
 </option>
 
 <option value="LIRF">
@@ -1336,7 +1996,7 @@ Prague — LKPR
 </option>
 
 <option value="WSSS">
-Singapore Changi — WSSS
+Singapore — WSSS
 </option>
 
 <option value="KJFK">
@@ -1351,73 +2011,67 @@ Corfu — LGKR
 
 </div>
 
-<!-- DEPARTURE -->
-
 <div class="field">
 
-<label for="departure">
+<label>
 Departure
 </label>
 
 <input
-id="departure"
+id="departureDate"
 type="date"
 
 >
 
 </div>
 
-<!-- RETURN -->
-
 <div
 class="field"
-id="returnField"
+id="returnDateField"
 >
 
-<label for="return">
+<label>
 Return
 </label>
 
 <input
-id="return"
+id="returnDate"
 type="date"
 
 >
 
 </div>
 
-<!-- PASSENGERS -->
-
 <div class="field">
 
-<label for="passengers">
+<label>
 Passengers
 </label>
 
 <select id="passengers">
 
 <option value="1">
-1 Passenger
+1 Adult
 </option>
 
 <option value="2">
-2 Passengers
+2 Adults
 </option>
 
 <option value="3">
-3 Passengers
+3 Adults
 </option>
 
 <option value="4">
-4 Passengers
+4 Adults
 </option>
 
 <option value="5">
-5 Passengers
+5 Adults
 </option>
 
 <option value="6">
-6 Passengers
+6 Adults
 </option>
 
 </select>
@@ -1426,29 +2080,27 @@ Passengers
 
 </div>
 
-<!-- =========================================================
-     EXTRA OPTIONS
-========================================================= -->
+<div class="search-bottom">
 
-<div class="booking-extra">
+<div class="search-small-grid">
 
 <div class="field">
 
-<label for="cabin">
-Cabin class
+<label>
+Cabin
 </label>
 
-<select id="cabin">
+<select id="searchCabin">
 
-<option>
+<option value="economy">
 Economy
 </option>
 
-<option>
+<option value="premium">
 Premium Economy
 </option>
 
-<option>
+<option value="business">
 Business Class
 </option>
 
@@ -1458,11 +2110,11 @@ Business Class
 
 <div class="field">
 
-<label for="currency">
+<label>
 Currency
 </label>
 
-<select id="currency">
+<select>
 
 <option>
 EUR — €
@@ -1482,15 +2134,9 @@ GBP — £
 
 </div>
 
-<!-- =========================================================
-     SEARCH
-========================================================= -->
-
-<div class="booking-submit">
-
 <button
-class="search-button"
-onclick="searchFlights()"
+class="primary-button"
+onclick="startBooking()"
 
 >
 
@@ -1505,35 +2151,81 @@ Search Flights ✈
 </div>
 
 <!-- =========================================================
-     RESULTS
+     PROGRESS
 ========================================================= -->
 
 <div
-class="results"
-id="results"
+class="progress"
+id="progress"
 >
 
-<div class="results-header">
+<div class="progress-list">
+
+<div class="progress-step active" id="progress1">
+<span class="progress-number">1</span>
+Flight
+</div>
+
+<div class="progress-step" id="progress2">
+<span class="progress-number">2</span>
+Fare
+</div>
+
+<div class="progress-step" id="progress3">
+<span class="progress-number">3</span>
+Passengers
+</div>
+
+<div class="progress-step" id="progress4">
+<span class="progress-number">4</span>
+Seats & Extras
+</div>
+
+<div class="progress-step" id="progress5">
+<span class="progress-number">5</span>
+Review
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+     BOOKING CONTENT
+========================================================= -->
+
+<div class="booking-content">
+
+<!-- =========================================================
+     STEP 1
+========================================================= -->
+
+<section
+class="booking-section active"
+id="step1"
+>
+
+<div class="section-title">
 
 <span class="eyebrow">
-Flight search
+Step 1 · Flight
 </span>
 
 <h2>
-Available flights
+Choose your flight
 </h2>
 
-<p id="resultText">
-Select a flight below.
+<p id="flightSearchText">
+Select one of the available flights.
 </p>
 
 </div>
 
-<!-- FLIGHT 1 -->
+<div class="flight-list">
 
 <div class="flight-card">
 
-<div class="flight-number">
+<div class="flight-code">
 
 Flight
 
@@ -1543,17 +2235,17 @@ ECV101
 
 </div>
 
-<div class="flight-route">
+<div class="route">
 
 <div class="airport">
 
-<div class="airport-code">
+<strong>
 LIRF
-</div>
+</strong>
 
-<div class="airport-name">
-Rome Fiumicino
-</div>
+<small>
+Rome
+</small>
 
 </div>
 
@@ -1561,47 +2253,43 @@ Rome Fiumicino
 
 <div class="airport">
 
-<div class="airport-code">
+<strong>
 LEBL
-</div>
+</strong>
 
-<div class="airport-name">
+<small>
 Barcelona
-</div>
+</small>
 
 </div>
 
 </div>
 
-<div class="flight-details">
+<div class="flight-meta">
 
 <strong>
-2h 00m
+08:30 → 10:30
 </strong>
 
 <span>
-Airbus A320
+2h 00m · A320
 </span>
 
 </div>
 
 <button
-class="select-flight"
-onclick="selectFlight('ECV101')"
+class="choose-flight"
+onclick="chooseFlight('ECV101','LIRF','LEBL','08:30','10:30','Airbus A320')"
 
 >
 
-Select
-
-</button>
+Select </button>
 
 </div>
 
-<!-- FLIGHT 2 -->
-
 <div class="flight-card">
 
-<div class="flight-number">
+<div class="flight-code">
 
 Flight
 
@@ -1611,17 +2299,17 @@ ECV215
 
 </div>
 
-<div class="flight-route">
+<div class="route">
 
 <div class="airport">
 
-<div class="airport-code">
+<strong>
 LEBL
-</div>
+</strong>
 
-<div class="airport-name">
+<small>
 Barcelona
-</div>
+</small>
 
 </div>
 
@@ -1629,47 +2317,43 @@ Barcelona
 
 <div class="airport">
 
-<div class="airport-code">
+<strong>
 LKPR
-</div>
+</strong>
 
-<div class="airport-name">
+<small>
 Prague
-</div>
+</small>
 
 </div>
 
 </div>
 
-<div class="flight-details">
+<div class="flight-meta">
 
 <strong>
-2h 10m
+12:15 → 14:25
 </strong>
 
 <span>
-Airbus A319
+2h 10m · A319
 </span>
 
 </div>
 
 <button
-class="select-flight"
-onclick="selectFlight('ECV215')"
+class="choose-flight"
+onclick="chooseFlight('ECV215','LEBL','LKPR','12:15','14:25','Airbus A319')"
 
 >
 
-Select
-
-</button>
+Select </button>
 
 </div>
 
-<!-- FLIGHT 3 -->
-
 <div class="flight-card">
 
-<div class="flight-number">
+<div class="flight-code">
 
 Flight
 
@@ -1679,17 +2363,17 @@ ECV330
 
 </div>
 
-<div class="flight-route">
+<div class="route">
 
 <div class="airport">
 
-<div class="airport-code">
+<strong>
 LKPR
-</div>
+</strong>
 
-<div class="airport-name">
+<small>
 Prague
-</div>
+</small>
 
 </div>
 
@@ -1697,43 +2381,37 @@ Prague
 
 <div class="airport">
 
-<div class="airport-code">
+<strong>
 LIRF
-</div>
+</strong>
 
-<div class="airport-name">
-Rome Fiumicino
-</div>
-
-</div>
+<small>
+Rome
+</small>
 
 </div>
 
-<div class="flight-details">
+</div>
+
+<div class="flight-meta">
 
 <strong>
-1h 45m
+17:20 → 19:05
 </strong>
 
 <span>
-Airbus A320neo
+1h 45m · A320neo
 </span>
 
 </div>
 
 <button
-class="select-flight"
-onclick="selectFlight('ECV330')"
+class="choose-flight"
+onclick="chooseFlight('ECV330','LKPR','LIRF','17:20','19:05','Airbus A320neo')"
 
 >
 
-Select
-
-</button>
-
-</div>
-
-</div>
+Select </button>
 
 </div>
 
@@ -1742,87 +2420,1080 @@ Select
 </section>
 
 <!-- =========================================================
-     INFORMATION
+     STEP 2
 ========================================================= -->
 
-<section class="booking-info">
+<section
+class="booking-section"
+id="step2"
+>
 
-<div class="container">
-
-<div class="section-head">
+<div class="section-title">
 
 <span class="eyebrow">
-The Echo Experience
+Step 2 · Fare
 </span>
 
 <h2>
-Your journey starts <span>here.</span>
+Choose your fare
 </h2>
 
 <p>
-A virtual airline experience designed to feel like the real thing.
+Select the travel experience that suits you.
 </p>
 
 </div>
 
-<div class="info-grid">
+<div class="fare-grid">
 
-<div class="info-card">
-
-<div class="info-icon">
-✈
-</div>
+<div class="fare-card">
 
 <h3>
-Realistic Operations
+Economy Light
 </h3>
 
-<p>
-Experience virtual flights based around realistic airline
-operations, aircraft and destinations.
-</p>
+<div class="fare-price">
+€79 <small>per passenger</small>
+</div>
+
+<ul class="fare-features">
+
+<li>
+Hand baggage
+</li>
+
+<li>
+Standard seat
+</li>
+
+<li>
+Virtual boarding pass
+</li>
+
+<li>
+No changes
+</li>
+
+</ul>
+
+<button
+class="fare-button"
+onclick="chooseFare('Economy Light',79)"
+
+>
+
+Select fare </button>
 
 </div>
 
-<div class="info-card">
+<div class="fare-card recommended">
 
-<div class="info-icon">
-◷
-</div>
+<span class="recommended-label">
+Recommended
+</span>
 
 <h3>
-Plan Your Journey
+Economy Flex
 </h3>
 
-<p>
-Choose your departure airport, destination, travel dates,
-passengers and cabin class.
-</p>
+<div class="fare-price">
+€119 <small>per passenger</small>
+</div>
+
+<ul class="fare-features">
+
+<li>
+Hand baggage
+</li>
+
+<li>
+Checked baggage
+</li>
+
+<li>
+Standard seat
+</li>
+
+<li>
+Flexible booking
+</li>
+
+</ul>
+
+<button
+class="fare-button"
+onclick="chooseFare('Economy Flex',119)"
+
+>
+
+Select fare </button>
 
 </div>
 
-<div class="info-card">
-
-<div class="info-icon">
-★
-</div>
+<div class="fare-card">
 
 <h3>
-100% Virtual
+Business
 </h3>
 
-<p>
-Tickets are part of our virtual airline experience and
-are created purely for fun and simulation.
-</p>
-
+<div class="fare-price">
+€249 <small>per passenger</small>
 </div>
+
+<ul class="fare-features">
+
+<li>
+Priority boarding
+</li>
+
+<li>
+Checked baggage
+</li>
+
+<li>
+Premium seat
+</li>
+
+<li>
+Lounge access
+</li>
+
+</ul>
+
+<button
+class="fare-button"
+onclick="chooseFare('Business Class',249)"
+
+>
+
+Select fare </button>
 
 </div>
 
 </div>
 
 </section>
+
+<!-- =========================================================
+     STEP 3
+========================================================= -->
+
+<section
+class="booking-section"
+id="step3"
+>
+
+<div class="section-title">
+
+<span class="eyebrow">
+Step 3 · Passenger
+</span>
+
+<h2>
+Passenger details
+</h2>
+
+<p>
+Enter the details for the passenger travelling on this booking.
+</p>
+
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+
+<label>
+First name
+</label>
+
+<input
+id="firstName"
+placeholder="First name"
+
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Last name
+</label>
+
+<input
+id="lastName"
+placeholder="Last name"
+
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Date of birth
+</label>
+
+<input
+id="birthDate"
+type="date"
+
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Nationality
+</label>
+
+<select id="nationality">
+
+<option value="">
+Select nationality
+</option>
+
+<option>Dutch</option>
+<option>German</option>
+<option>Belgian</option>
+<option>British</option>
+<option>French</option>
+<option>Italian</option>
+<option>Spanish</option>
+<option>American</option>
+<option>Canadian</option>
+<option>Other</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>
+Email address
+</label>
+
+<input
+id="email"
+type="email"
+placeholder="[passenger@email.com](mailto:passenger@email.com)"
+
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Phone number
+</label>
+
+<input
+id="phone"
+type="tel"
+placeholder="+31 6 12345678"
+
+>
+
+</div>
+
+<div class="field full">
+
+<label>
+Frequent Flyer / Echo Club Number
+</label>
+
+<input
+placeholder="Optional"
+
+>
+
+</div>
+
+</div>
+
+<div class="form-note">
+
+<strong>Virtual booking notice</strong><br>
+
+This booking is part of the Echo Air Group virtual airline
+experience. No real-world travel or payment will take place.
+
+</div>
+
+<div class="section-buttons">
+
+<span></span>
+
+<button
+class="primary-button"
+onclick="goToStep(4)"
+
+>
+
+Continue to seats </button>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+     STEP 4
+========================================================= -->
+
+<section
+class="booking-section"
+id="step4"
+>
+
+<div class="section-title">
+
+<span class="eyebrow">
+Step 4 · Seats & Extras
+</span>
+
+<h2>
+Choose your seat
+</h2>
+
+<p>
+Select your preferred seat for this virtual flight.
+</p>
+
+</div>
+
+<div class="seat-layout">
+
+<div class="aircraft-cabin">
+
+<div class="cockpit-label">
+Cockpit
+</div>
+
+<div id="seatMap"></div>
+
+</div>
+
+<div class="seat-summary">
+
+<h3>
+Your seat
+</h3>
+
+<div
+class="selected-seat"
+id="selectedSeat"
+>
+—
+</div>
+
+<p>
+Choose an available seat from the aircraft cabin.
+</p>
+
+<hr>
+
+<p>
+Window seats and front-row seats may have an additional
+virtual fee depending on your fare.
+</p>
+
+</div>
+
+</div>
+
+<h2 style="margin-top:45px;">
+Add extras
+</h2>
+
+<div class="extra-list">
+
+<label class="extra-card">
+
+<input
+type="checkbox"
+class="extra"
+data-price="15"
+data-name="Extra baggage"
+
+>
+
+<div class="extra-info">
+
+<strong>
+Extra baggage
+</strong>
+
+<span>
+Additional checked baggage allowance
+</span>
+
+</div>
+
+<div class="extra-price">
+€15
+</div>
+
+</label>
+
+<label class="extra-card">
+
+<input
+type="checkbox"
+class="extra"
+data-price="8"
+data-name="Priority boarding"
+
+>
+
+<div class="extra-info">
+
+<strong>
+Priority boarding
+</strong>
+
+<span>
+Board before standard passengers
+</span>
+
+</div>
+
+<div class="extra-price">
+€8
+</div>
+
+</label>
+
+<label class="extra-card">
+
+<input
+type="checkbox"
+class="extra"
+data-price="12"
+data-name="Meal"
+
+>
+
+<div class="extra-info">
+
+<strong>
+On-board meal
+</strong>
+
+<span>
+Virtual meal selection
+</span>
+
+</div>
+
+<div class="extra-price">
+€12
+</div>
+
+</label>
+
+<label class="extra-card">
+
+<input
+type="checkbox"
+class="extra"
+data-price="6"
+data-name="Wi-Fi"
+
+>
+
+<div class="extra-info">
+
+<strong>
+On-board Wi-Fi
+</strong>
+
+<span>
+Full-flight virtual Wi-Fi package
+</span>
+
+</div>
+
+<div class="extra-price">
+€6
+</div>
+
+</label>
+
+</div>
+
+<div class="section-buttons">
+
+<button
+class="secondary-button"
+onclick="goToStep(3)"
+
+>
+
+← Passenger details </button>
+
+<button
+class="primary-button"
+onclick="goToStep(5)"
+
+>
+
+Continue to payment </button>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+     STEP 5 PAYMENT
+========================================================= -->
+
+<section
+class="booking-section"
+id="step5"
+>
+
+<div class="section-title">
+
+<span class="eyebrow">
+Step 5 · Payment
+</span>
+
+<h2>
+Payment details
+</h2>
+
+<p>
+This is a virtual payment screen for the Echo Air Group experience.
+</p>
+
+</div>
+
+<div class="payment-grid">
+
+<div class="payment-card">
+
+<div class="payment-icons">
+
+<span class="payment-icon">
+VISA
+</span>
+
+<span class="payment-icon">
+MC
+</span>
+
+<span class="payment-icon">
+AMEX
+</span>
+
+</div>
+
+<div class="form-grid">
+
+<div class="field full">
+
+<label>
+Cardholder name
+</label>
+
+<input
+id="cardName"
+placeholder="Alex Carter"
+
+>
+
+</div>
+
+<div class="field full">
+
+<label>
+Card number
+</label>
+
+<input
+id="cardNumber"
+maxlength="19"
+placeholder="0000 0000 0000 0000"
+
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Expiry
+</label>
+
+<input
+placeholder="MM / YY"
+maxlength="5"
+
+>
+
+</div>
+
+<div class="field">
+
+<label>
+CVV
+</label>
+
+<input
+placeholder="123"
+maxlength="3"
+type="password"
+
+>
+
+</div>
+
+</div>
+
+<div class="form-note">
+
+<strong>Demo payment</strong><br>
+
+No payment is processed. Do not enter real payment
+information on this virtual airline website.
+
+</div>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+Booking summary
+</h3>
+
+<div class="summary-row">
+
+<span>
+Flight
+</span>
+
+<strong id="summaryFlight">
+—
+</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+Fare
+</span>
+
+<strong id="summaryFare">
+—
+</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+Seat
+</span>
+
+<strong id="summarySeat">
+—
+</strong>
+
+</div>
+
+<div class="summary-row">
+
+<span>
+Extras
+</span>
+
+<strong id="summaryExtras">
+€0
+</strong>
+
+</div>
+
+<div class="summary-total">
+
+<span>
+Total
+</span>
+
+<span id="summaryTotal">
+€0
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="section-buttons">
+
+<button
+class="secondary-button"
+onclick="goToStep(4)"
+
+>
+
+← Seats & Extras </button>
+
+<button
+class="primary-button"
+onclick="goToStep(6)"
+
+>
+
+Continue to review </button>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+     STEP 6 REVIEW
+========================================================= -->
+
+<section
+class="booking-section"
+id="step6"
+>
+
+<div class="section-title">
+
+<span class="eyebrow">
+Final step · Review
+</span>
+
+<h2>
+Review your booking
+</h2>
+
+<p>
+Check everything before creating your virtual ticket.
+</p>
+
+</div>
+
+<div class="review-grid">
+
+<div class="review-card">
+
+<h3>
+Flight
+</h3>
+
+<div class="review-row">
+<span>Flight</span>
+<strong id="reviewFlight">—</strong>
+</div>
+
+<div class="review-row">
+<span>Route</span>
+<strong id="reviewRoute">—</strong>
+</div>
+
+<div class="review-row">
+<span>Departure</span>
+<strong id="reviewTime">—</strong>
+</div>
+
+<div class="review-row">
+<span>Aircraft</span>
+<strong id="reviewAircraft">—</strong>
+</div>
+
+</div>
+
+<div class="review-card">
+
+<h3>
+Passenger
+</h3>
+
+<div class="review-row">
+<span>Name</span>
+<strong id="reviewName">—</strong>
+</div>
+
+<div class="review-row">
+<span>Email</span>
+<strong id="reviewEmail">—</strong>
+</div>
+
+<div class="review-row">
+<span>Nationality</span>
+<strong id="reviewNationality">—</strong>
+</div>
+
+</div>
+
+<div class="review-card">
+
+<h3>
+Travel options
+</h3>
+
+<div class="review-row">
+<span>Fare</span>
+<strong id="reviewFare">—</strong>
+</div>
+
+<div class="review-row">
+<span>Seat</span>
+<strong id="reviewSeat">—</strong>
+</div>
+
+<div class="review-row">
+<span>Passengers</span>
+<strong id="reviewPassengers">—</strong>
+</div>
+
+</div>
+
+<div class="review-card">
+
+<h3>
+Price
+</h3>
+
+<div class="review-row">
+<span>Base fare</span>
+<strong id="reviewBase">€0</strong>
+</div>
+
+<div class="review-row">
+<span>Extras</span>
+<strong id="reviewExtra">€0</strong>
+</div>
+
+<div class="review-row">
+<span>Total</span>
+<strong id="reviewTotal">€0</strong>
+</div>
+
+</div>
+
+</div>
+
+<div class="form-note">
+
+<strong>Ready for departure?</strong><br>
+
+By clicking "Complete Booking", you create a virtual
+Echo Air Group booking and receive a fictional boarding
+ticket for your flight simulation experience.
+
+</div>
+
+<div class="section-buttons">
+
+<button
+class="secondary-button"
+onclick="goToStep(5)"
+
+>
+
+← Payment </button>
+
+<button
+class="primary-button"
+onclick="completeBooking()"
+
+>
+
+Complete Booking ✈ </button>
+
+</div>
+
+</section>
+
+</div>
+
+<!-- =========================================================
+     CONFIRMATION
+========================================================= -->
+
+<div
+class="confirmation"
+id="confirmation"
+>
+
+<div class="confirmation-top">
+
+<div class="confirm-icon">
+✓
+</div>
+
+<h2>
+Booking confirmed!
+</h2>
+
+<p>
+Your Echo Air Group virtual ticket has been issued.
+</p>
+
+</div>
+
+<div class="ticket">
+
+<div class="ticket-header">
+
+<div class="ticket-brand">
+
+ECHO <span>AIR GROUP</span>
+
+</div>
+
+<div class="booking-reference">
+
+<small>
+Booking reference
+</small>
+
+<strong id="ticketReference">
+EAG000000
+</strong>
+
+</div>
+
+</div>
+
+<div class="ticket-route">
+
+<div class="ticket-airport">
+
+<strong id="ticketFrom">
+LIRF
+</strong>
+
+<span id="ticketFromName">
+Rome
+</span>
+
+</div>
+
+<div class="ticket-plane">
+✈
+</div>
+
+<div class="ticket-airport">
+
+<strong id="ticketTo">
+LEBL
+</strong>
+
+<span id="ticketToName">
+Barcelona
+</span>
+
+</div>
+
+</div>
+
+<div class="ticket-details">
+
+<div class="ticket-detail">
+
+<small>
+Passenger
+</small>
+
+<strong id="ticketPassenger">
+—
+</strong>
+
+</div>
+
+<div class="ticket-detail">
+
+<small>
+Flight
+</small>
+
+<strong id="ticketFlight">
+—
+</strong>
+
+</div>
+
+<div class="ticket-detail">
+
+<small>
+Date
+</small>
+
+<strong id="ticketDate">
+—
+</strong>
+
+</div>
+
+<div class="ticket-detail">
+
+<small>
+Seat
+</small>
+
+<strong id="ticketSeat">
+—
+</strong>
+
+</div>
+
+</div>
+
+<div class="barcode"></div>
+
+<div class="ticket-note">
+
+This is a fictional virtual airline ticket created for
+the Echo Air Group flight simulation experience.
+It is not valid for real-world air travel.
+
+</div>
+
+</div>
+
+<div
+style="
+display:flex;
+justify-content:center;
+gap:12px;
+padding:0 30px 30px;
+"
+>
+
+<button
+class="secondary-button"
+onclick="window.print()"
+
+>
+
+Print Ticket </button>
+
+<button
+class="primary-button"
+onclick="location.reload()"
+
+>
+
+New Booking </button>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
 
 <!-- =========================================================
      FOOTER
@@ -1833,8 +3504,6 @@ are created purely for fun and simulation.
 <div class="container">
 
 <div class="foot-top">
-
-<!-- FOOTER BRAND -->
 
 <div>
 
@@ -1870,8 +3539,6 @@ A community built for pilots who love
 the world of flight simulation.
 
 </p>
-
-<!-- SOCIAL -->
 
 <div class="footer-social">
 
@@ -1911,55 +3578,13 @@ alt="TikTok"
 
 </div>
 
-<!-- FOOTER LINKS -->
-
 <div class="foot-links">
 
-<a href="index.html">
-Home
-</a>
-
-<a href="about.html">
-About
-</a>
-
-<a href="fleet.html">
-Fleet
-</a>
-
-<a href="routes.html">
-Routes
-</a>
-
-<a href="team.html">
-Team
-</a>
-
-<a href="join.html">
-Join Us
-</a>
-
-<a href="manual.html">
-Pilot Manual
-</a>
-
-<a href="contact.html">
-Contact Us
-</a>
-
-<a href="ranking.html">
-Ranking
-</a>
-
-<a href="booking.html">
-Book a Flight
-</a>
+<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a> <a href="ranking.html">Ranking</a> <a href="booking.html">Book a Flight</a>
 
 </div>
 
 </div>
-
-<!-- COPYRIGHT -->
 
 <div class="copy">
 
@@ -1984,33 +3609,21 @@ Not affiliated with any real-world airline.
 <script>
 
 /* =========================================================
-   HEADER SCROLL
+   HEADER
 ========================================================= */
 
 const header =
 document.getElementById("siteHeader");
 
-function updateHeader() {
+window.addEventListener("scroll", () => {
 
     if (window.scrollY > 20) {
-
         header.classList.add("scrolled");
-
     } else {
-
         header.classList.remove("scrolled");
-
     }
 
-}
-
-window.addEventListener(
-    "scroll",
-    updateHeader
-);
-
-updateHeader();
-
+});
 
 
 /* =========================================================
@@ -2019,67 +3632,41 @@ updateHeader();
 
 function toggleMenu() {
 
-    const mobileNav =
+    const nav =
         document.getElementById("mobileNav");
 
-    if (mobileNav) {
-
-        mobileNav.classList.toggle("open");
-
-    }
+    nav.classList.toggle("open");
 
 }
 
 
-
 /* =========================================================
-   TRIP TYPE
+   BOOKING DATA
 ========================================================= */
 
-const tripRadios =
-document.querySelectorAll(
-    'input[name="tripType"]'
-);
+let booking = {
 
-tripRadios.forEach(
-    radio => {
+    flight: "",
+    from: "",
+    to: "",
+    departure: "",
+    time: "",
+    aircraft: "",
+    fare: "",
+    farePrice: 0,
+    seat: "",
+    passengers: 1,
+    extras: [],
+    extrasPrice: 0
 
-        radio.addEventListener(
-            "change",
-            function() {
-
-                const returnField =
-                    document.getElementById(
-                        "returnField"
-                    );
-
-                if (
-                    this.value === "oneway"
-                ) {
-
-                    returnField.style.display =
-                        "none";
-
-                } else {
-
-                    returnField.style.display =
-                        "flex";
-
-                }
-
-            }
-        );
-
-    }
-);
-
+};
 
 
 /* =========================================================
-   SEARCH FLIGHTS
+   SEARCH
 ========================================================= */
 
-function searchFlights() {
+function startBooking() {
 
     const from =
         document.getElementById("from").value;
@@ -2088,13 +3675,7 @@ function searchFlights() {
         document.getElementById("to").value;
 
     const departure =
-        document.getElementById("departure").value;
-
-    const results =
-        document.getElementById("results");
-
-    const resultText =
-        document.getElementById("resultText");
+        document.getElementById("departureDate").value;
 
 
     if (!from || !to || !departure) {
@@ -2104,33 +3685,51 @@ function searchFlights() {
         );
 
         return;
-
     }
 
 
     if (from === to) {
 
         alert(
-            "Your departure and arrival airports cannot be the same."
+            "Departure and arrival airports cannot be the same."
         );
 
         return;
-
     }
 
 
-    results.classList.add("active");
+    booking.from = from;
+    booking.to = to;
+    booking.departure = departure;
+
+    booking.passengers =
+        parseInt(
+            document.getElementById("passengers").value
+        );
 
 
-    resultText.innerText =
-        "Flights available for " +
+    document.getElementById(
+        "flightSearchText"
+    ).innerText =
+        "Available flights for " +
         from +
         " → " +
         to +
+        " on " +
+        departure +
         ".";
 
 
-    results.scrollIntoView({
+    document.getElementById(
+        "progress"
+    ).classList.add("active");
+
+
+    goToStep(1);
+
+    document.getElementById(
+        "step1"
+    ).scrollIntoView({
         behavior: "smooth",
         block: "start"
     });
@@ -2138,23 +3737,731 @@ function searchFlights() {
 }
 
 
-
 /* =========================================================
-   SELECT FLIGHT
+   FLIGHT SELECTION
 ========================================================= */
 
-function selectFlight(
-    flightNumber
+function chooseFlight(
+    number,
+    from,
+    to,
+    departure,
+    arrival,
+    aircraft
 ) {
 
-    alert(
-        "Flight " +
-        flightNumber +
-        " selected!\n\n" +
-        "The Echo Air Group virtual ticketing system is currently for entertainment and flight simulation purposes."
+    booking.flight = number;
+    booking.from = from;
+    booking.to = to;
+    booking.time =
+        departure + " → " + arrival;
+    booking.aircraft = aircraft;
+
+
+    goToStep(2);
+
+}
+
+
+/* =========================================================
+   FARE
+========================================================= */
+
+function chooseFare(
+    fare,
+    price
+) {
+
+    booking.fare = fare;
+
+    booking.farePrice =
+        price *
+        booking.passengers;
+
+
+    goToStep(3);
+
+}
+
+
+/* =========================================================
+   STEP NAVIGATION
+========================================================= */
+
+function goToStep(step) {
+
+    const sections =
+        document.querySelectorAll(
+            ".booking-section"
+        );
+
+    sections.forEach(
+        section => section.classList.remove("active")
+    );
+
+
+    const target =
+        document.getElementById(
+            "step" + step
+        );
+
+    if (target) {
+
+        target.classList.add("active");
+
+        target.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+
+
+    for (
+        let i = 1;
+        i <= 5;
+        i++
+    ) {
+
+        const progress =
+            document.getElementById(
+                "progress" + i
+            );
+
+        if (progress) {
+
+            if (i <= step) {
+
+                progress.classList.add("active");
+
+            } else {
+
+                progress.classList.remove("active");
+
+            }
+
+        }
+
+    }
+
+
+    if (step === 5) {
+
+        updateSummary();
+
+    }
+
+    if (step === 6) {
+
+        updateReview();
+
+    }
+
+}
+
+
+/* =========================================================
+   SEAT MAP
+========================================================= */
+
+const seatMap =
+document.getElementById("seatMap");
+
+
+function createSeats() {
+
+    const occupied = [
+        "2A",
+        "3C",
+        "5D",
+        "7B",
+        "9E",
+        "11A",
+        "13D"
+    ];
+
+
+    for (
+        let row = 1;
+        row <= 15;
+        row++
+    ) {
+
+        const rowElement =
+            document.createElement("div");
+
+        rowElement.className =
+            "seat-row";
+
+
+        const seats = [
+            row + "A",
+            row + "B",
+            "aisle",
+            row + "C",
+            row + "D"
+        ];
+
+
+        seats.forEach(
+            seatName => {
+
+                if (
+                    seatName === "aisle"
+                ) {
+
+                    const aisle =
+                        document.createElement("div");
+
+                    aisle.className =
+                        "aisle";
+
+                    aisle.innerText =
+                        row;
+
+                    rowElement.appendChild(
+                        aisle
+                    );
+
+                    return;
+                }
+
+
+                const seat =
+                    document.createElement(
+                        "button"
+                    );
+
+                seat.type = "button";
+
+                seat.className =
+                    "seat";
+
+                seat.innerText =
+                    seatName;
+
+                seat.dataset.seat =
+                    seatName;
+
+
+                if (
+                    occupied.includes(
+                        seatName
+                    )
+                ) {
+
+                    seat.classList.add(
+                        "occupied"
+                    );
+
+                    seat.disabled = true;
+
+                } else {
+
+                    seat.onclick =
+                        () =>
+                            selectSeat(
+                                seatName,
+                                seat
+                            );
+
+                }
+
+
+                rowElement.appendChild(
+                    seat
+                );
+
+            }
+        );
+
+
+        seatMap.appendChild(
+            rowElement
+        );
+
+    }
+
+}
+
+
+createSeats();
+
+
+/* =========================================================
+   SELECT SEAT
+========================================================= */
+
+function selectSeat(
+    seat,
+    element
+) {
+
+    document
+        .querySelectorAll(".seat.selected")
+        .forEach(
+            oldSeat =>
+                oldSeat.classList.remove(
+                    "selected"
+                )
+        );
+
+
+    element.classList.add(
+        "selected"
+    );
+
+
+    booking.seat =
+        seat;
+
+
+    document.getElementById(
+        "selectedSeat"
+    ).innerText =
+        seat;
+
+}
+
+
+/* =========================================================
+   EXTRAS
+========================================================= */
+
+document
+    .querySelectorAll(".extra")
+    .forEach(
+        checkbox => {
+
+            checkbox.addEventListener(
+                "change",
+                updateExtras
+            );
+
+        }
+    );
+
+
+function updateExtras() {
+
+    booking.extras = [];
+
+    booking.extrasPrice = 0;
+
+
+    document
+        .querySelectorAll(".extra:checked")
+        .forEach(
+            checkbox => {
+
+                booking.extras.push(
+                    checkbox.dataset.name
+                );
+
+                booking.extrasPrice +=
+                    Number(
+                        checkbox.dataset.price
+                    );
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function getTotal() {
+
+    return (
+        booking.farePrice +
+        booking.extrasPrice
     );
 
 }
+
+
+function updateSummary() {
+
+    updateExtras();
+
+
+    document.getElementById(
+        "summaryFlight"
+    ).innerText =
+        booking.flight || "—";
+
+
+    document.getElementById(
+        "summaryFare"
+    ).innerText =
+        booking.fare || "—";
+
+
+    document.getElementById(
+        "summarySeat"
+    ).innerText =
+        booking.seat || "—";
+
+
+    document.getElementById(
+        "summaryExtras"
+    ).innerText =
+        "€" +
+        booking.extrasPrice;
+
+
+    document.getElementById(
+        "summaryTotal"
+    ).innerText =
+        "€" +
+        getTotal();
+
+}
+
+
+/* =========================================================
+   REVIEW
+========================================================= */
+
+function updateReview() {
+
+    updateExtras();
+
+
+    const firstName =
+        document.getElementById(
+            "firstName"
+        ).value;
+
+    const lastName =
+        document.getElementById(
+            "lastName"
+        ).value;
+
+    const email =
+        document.getElementById(
+            "email"
+        ).value;
+
+    const nationality =
+        document.getElementById(
+            "nationality"
+        ).value;
+
+
+    if (!firstName || !lastName || !email) {
+
+        alert(
+            "Please complete the required passenger details first."
+        );
+
+        goToStep(3);
+
+        return;
+
+    }
+
+
+    if (!booking.seat) {
+
+        alert(
+            "Please select a seat before continuing."
+        );
+
+        goToStep(4);
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "reviewFlight"
+    ).innerText =
+        booking.flight;
+
+
+    document.getElementById(
+        "reviewRoute"
+    ).innerText =
+        booking.from +
+        " → " +
+        booking.to;
+
+
+    document.getElementById(
+        "reviewTime"
+    ).innerText =
+        booking.time;
+
+
+    document.getElementById(
+        "reviewAircraft"
+    ).innerText =
+        booking.aircraft;
+
+
+    document.getElementById(
+        "reviewName"
+    ).innerText =
+        firstName +
+        " " +
+        lastName;
+
+
+    document.getElementById(
+        "reviewEmail"
+    ).innerText =
+        email;
+
+
+    document.getElementById(
+        "reviewNationality"
+    ).innerText =
+        nationality || "—";
+
+
+    document.getElementById(
+        "reviewFare"
+    ).innerText =
+        booking.fare;
+
+
+    document.getElementById(
+        "reviewSeat"
+    ).innerText =
+        booking.seat;
+
+
+    document.getElementById(
+        "reviewPassengers"
+    ).innerText =
+        booking.passengers;
+
+
+    document.getElementById(
+        "reviewBase"
+    ).innerText =
+        "€" +
+        booking.farePrice;
+
+
+    document.getElementById(
+        "reviewExtra"
+    ).innerText =
+        "€" +
+        booking.extrasPrice;
+
+
+    document.getElementById(
+        "reviewTotal"
+    ).innerText =
+        "€" +
+        getTotal();
+
+}
+
+
+/* =========================================================
+   COMPLETE BOOKING
+========================================================= */
+
+function completeBooking() {
+
+    updateReview();
+
+
+    const firstName =
+        document.getElementById(
+            "firstName"
+        ).value;
+
+    const lastName =
+        document.getElementById(
+            "lastName"
+        ).value;
+
+
+    const reference =
+        "EAG" +
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        );
+
+
+    document.getElementById(
+        "ticketReference"
+    ).innerText =
+        reference;
+
+
+    document.getElementById(
+        "ticketFrom"
+    ).innerText =
+        booking.from;
+
+
+    document.getElementById(
+        "ticketTo"
+    ).innerText =
+        booking.to;
+
+
+    document.getElementById(
+        "ticketPassenger"
+    ).innerText =
+        firstName +
+        " " +
+        lastName;
+
+
+    document.getElementById(
+        "ticketFlight"
+    ).innerText =
+        booking.flight;
+
+
+    document.getElementById(
+        "ticketDate"
+    ).innerText =
+        booking.departure;
+
+
+    document.getElementById(
+        "ticketSeat"
+    ).innerText =
+        booking.seat;
+
+
+    document.getElementById(
+        "confirmation"
+    ).classList.add(
+        "active"
+    );
+
+
+    document.getElementById(
+        "confirmation"
+    ).scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+/* =========================================================
+   DEFAULT DATE
+========================================================= */
+
+const today =
+    new Date();
+
+const tomorrow =
+    new Date(
+        today.getTime() +
+        86400000
+    );
+
+function formatDate(
+    date
+) {
+
+    return date
+        .toISOString()
+        .split("T")[0];
+
+}
+
+document.getElementById(
+    "departureDate"
+).min =
+    formatDate(today);
+
+document.getElementById(
+    "departureDate"
+).value =
+    formatDate(tomorrow);
+
+document.getElementById(
+    "returnDate"
+).min =
+    formatDate(tomorrow);
+
+
+/* =========================================================
+   ROUND TRIP / ONE WAY
+========================================================= */
+
+document
+    .querySelectorAll(
+        'input[name="tripType"]'
+    )
+    .forEach(
+        radio => {
+
+            radio.addEventListener(
+                "change",
+                function() {
+
+                    const returnField =
+                        document.getElementById(
+                            "returnDateField"
+                        );
+
+                    if (
+                        this.value === "oneway"
+                    ) {
+
+                        returnField.style.display =
+                            "none";
+
+                    } else {
+
+                        returnField.style.display =
+                            "flex";
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   CARD NUMBER FORMAT
+========================================================= */
+
+document
+    .getElementById(
+        "cardNumber"
+    )
+    .addEventListener(
+        "input",
+        function() {
+
+            let value =
+                this.value
+                    .replace(/\D/g,"")
+                    .substring(0,16);
+
+            value =
+                value.replace(
+                    /(.{4})/g,
+                    "$1 "
+                );
+
+            this.value =
+                value.trim();
+
+        }
+    );
 
 </script>
 
