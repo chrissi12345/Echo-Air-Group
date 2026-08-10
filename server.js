@@ -1552,9 +1552,20 @@ async function getNewSkyFlightPage(
     );
 
 
-    const response =
-        await fetch(
-            url,
+    console.log(
+    "NewSky API key loaded:",
+    Boolean(process.env.NEWSKY_API_KEY)
+);
+
+console.log(
+    "NewSky API key length:",
+    process.env.NEWSKY_API_KEY
+        ? process.env.NEWSKY_API_KEY.length
+        : 0
+);
+
+const response = await fetch(
+    url,
             {
                 method: "POST",
 
