@@ -1,6 +1,6 @@
 <!doctype html>
-
 <html lang="en">
+
 <head>
 
 <meta charset="utf-8">
@@ -23,10 +23,6 @@
 
 <style>
 
-/* ============================================================
-   VARIABLES
-   ============================================================ */
-
 :root {
     --green:#ace336;
     --green-dark:#6e9c1e;
@@ -48,11 +44,6 @@
 
     --header-height:100px;
 }
-
-
-/* ============================================================
-   GLOBAL
-   ============================================================ */
 
 * {
     box-sizing:border-box;
@@ -415,7 +406,7 @@ header.hide-on-scroll {
 
 
 /* ============================================================
-   RANKING LAYOUT
+   RANKING
    ============================================================ */
 
 .ranking-wrap {
@@ -437,11 +428,6 @@ header.hide-on-scroll {
 .ranking-main {
     min-width:0;
 }
-
-
-/* ============================================================
-   RANKING CARDS / PANELS
-   ============================================================ */
 
 .ranking-hero {
     display:grid;
@@ -777,11 +763,6 @@ header.hide-on-scroll {
     letter-spacing:.05em;
 }
 
-
-/* ============================================================
-   PILOT SIDEBAR STATES
-   ============================================================ */
-
 .pilot-sidebar-loading,
 .pilot-sidebar-empty,
 .pilot-sidebar-error {
@@ -993,11 +974,6 @@ td {
     font-weight:700;
 }
 
-
-/* ============================================================
-   FLIGHT STATUS
-   ============================================================ */
-
 .flight-route {
     font-weight:800;
 }
@@ -1113,13 +1089,9 @@ footer p {
     border-radius:99px;
 }
 
-.pilot-list::-webkit-scrollbar-thumb:hover {
-    background:#aeb9a7;
-}
-
 
 /* ============================================================
-   RESPONSIVE — 1200PX
+   RESPONSIVE
    ============================================================ */
 
 @media(max-width:1200px) {
@@ -1137,11 +1109,6 @@ footer p {
         font-size:11px;
     }
 }
-
-
-/* ============================================================
-   RESPONSIVE — 1050PX
-   ============================================================ */
 
 @media(max-width:1050px) {
 
@@ -1169,11 +1136,6 @@ footer p {
     }
 }
 
-
-/* ============================================================
-   RESPONSIVE — 900PX
-   ============================================================ */
-
 @media(max-width:900px) {
 
     .ranking-layout {
@@ -1189,11 +1151,6 @@ footer p {
         max-height:450px;
     }
 }
-
-
-/* ============================================================
-   RESPONSIVE — 850PX
-   ============================================================ */
 
 @media(max-width:850px) {
 
@@ -1234,11 +1191,6 @@ footer p {
         padding:140px 0 70px;
     }
 }
-
-
-/* ============================================================
-   RESPONSIVE — 520PX
-   ============================================================ */
 
 @media(max-width:520px) {
 
@@ -1291,7 +1243,9 @@ footer p {
 
 </head>
 
+
 <body>
+
 
 <!-- ============================================================
      HEADER
@@ -1299,7 +1253,6 @@ footer p {
 
 <header id="siteHeader">
 
-```
 <div class="container nav">
 
     <a class="brand" href="index.html">
@@ -1372,9 +1325,9 @@ footer p {
     </div>
 
 </div>
-```
 
 </header>
+
 
 <!-- ============================================================
      MAIN
@@ -1382,13 +1335,9 @@ footer p {
 
 <main>
 
-<!-- ============================================================
-     HERO
-     ============================================================ -->
 
 <section class="pagehero">
 
-```
 <div class="container">
 
     <span class="pill">
@@ -1405,563 +1354,532 @@ footer p {
     </p>
 
 </div>
-```
 
 </section>
 
-<!-- ============================================================
-     RANKING CONTENT
-     ============================================================ -->
 
 <section class="ranking-wrap">
 
-```
 <div class="container">
 
-    <div class="ranking-layout">
+<div class="ranking-layout">
 
 
-        <!-- ==================================================
-             MAIN CONTENT
-             ================================================== -->
+<div class="ranking-main">
 
-        <div class="ranking-main">
 
+<!-- ============================================================
+     LOGGED OUT
+     ============================================================ -->
 
-            <!-- ==============================================
-                 LOGGED OUT
-                 ============================================== -->
+<div id="loggedOut">
 
-            <div id="loggedOut">
+<div class="ranking-hero">
 
-                <div class="ranking-hero">
+<div class="rank-card">
 
+    <span class="eyebrow">
+        Pilot Ranking
+    </span>
 
-                    <div class="rank-card">
+    <h2>
+        Build your Echo profile
+    </h2>
 
-                        <span class="eyebrow">
-                            Pilot Ranking
-                        </span>
+    <p class="muted">
+        Create an account or sign in to view your pilot profile,
+        link your NewSky account and synchronize your flights.
+    </p>
 
-                        <h2>
-                            Build your Echo profile
-                        </h2>
+    <div class="actions">
 
-                        <p class="muted">
-                            Create an account or sign in to view
-                            your pilot profile, link your NewSky
-                            account and synchronize your flights.
-                        </p>
-
-                        <div class="actions">
-
-                            <a
-                                class="btn btn-primary"
-                                href="#account"
-                            >
-                                Create / Sign in
-                            </a>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="rank-card">
-
-                        <span class="eyebrow">
-                            Rank system
-                        </span>
-
-                        <h2>
-                            Earn your way up
-                        </h2>
-
-                        <p class="muted">
-                            Your rank is based on your total Echo stars.
-                        </p>
-
-
-                        <div class="stat-grid">
-
-                            <div class="stat">
-
-                                <small>
-                                    Cadet
-                                </small>
-
-                                <b>
-                                    0–999.99 ⭐
-                                </b>
-
-                            </div>
-
-
-                            <div class="stat">
-
-                                <small>
-                                    First Officer
-                                </small>
-
-                                <b>
-                                    1000+ ⭐
-                                </b>
-
-                            </div>
-
-
-                            <div class="stat">
-
-                                <small>
-                                    Next ranks
-                                </small>
-
-                                <b>
-                                    Keep flying
-                                </b>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- ==============================================
-                 DASHBOARD
-                 ============================================== -->
-
-            <div
-                id="dashboard"
-                style="display:none"
-            >
-
-                <div class="ranking-hero">
-
-
-                    <!-- ======================================
-                         PILOT CARD
-                         ====================================== -->
-
-                    <div class="rank-card">
-
-                        <span class="eyebrow">
-                            Your rank
-                        </span>
-
-                        <h2 id="pilotName">
-                            Pilot
-                        </h2>
-
-
-                        <div
-                            class="rank-number"
-                            id="rankName"
-                        >
-                            Cadet
-                        </div>
-
-
-                        <div class="stars">
-
-                            <span id="stars">
-                                0.00
-                            </span>
-
-                            ⭐
-
-                        </div>
-
-
-                        <div class="progress">
-
-                            <div id="progressBar"></div>
-
-                        </div>
-
-
-                        <p
-                            class="muted"
-                            id="progressText"
-                        >
-                            0.00 / 1000.00 ⭐ to First Officer
-                        </p>
-
-
-                        <div class="stat-grid">
-
-
-                            <div class="stat">
-
-                                <small>
-                                    Flights
-                                </small>
-
-                                <b id="flightCount">
-                                    0
-                                </b>
-
-                            </div>
-
-
-                            <div class="stat">
-
-                                <small>
-                                    Average rating
-                                </small>
-
-                                <b id="averageRating">
-                                    0.00
-                                </b>
-
-                            </div>
-
-
-                            <div class="stat">
-
-                                <small>
-                                    Flight hours
-                                </small>
-
-                                <b id="flightHours">
-                                    0.0
-                                </b>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="actions">
-
-                            <button
-                                class="btn btn-primary"
-                                id="syncBtn"
-                            >
-                                Sync flights
-                            </button>
-
-
-                            <button
-                                class="btn"
-                                id="logoutBtn"
-                            >
-                                Log out
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            class="message"
-                            id="dashboardMsg"
-                        ></div>
-
-                    </div>
-
-
-                    <!-- ======================================
-                         NEWSKY
-                         ====================================== -->
-
-                    <div class="rank-card">
-
-                        <span class="eyebrow">
-                            NewSky connection
-                        </span>
-
-                        <h2>
-                            Link your NewSky pilot
-                        </h2>
-
-                        <p class="muted">
-                            Enter the <strong>NewSky Pilot ID</strong>
-                            exactly as it appears in your NewSky
-                            profile.
-                        </p>
-
-
-                        <div class="field full">
-
-                            <label for="newskyId">
-                                NewSky Pilot ID
-                            </label>
-
-                            <input
-                                id="newskyId"
-                                type="text"
-                                autocomplete="off"
-                                placeholder="Enter your NewSky Pilot ID"
-                            >
-
-                        </div>
-
-
-                        <div class="actions">
-
-                            <button
-                                class="btn btn-primary"
-                                id="linkBtn"
-                            >
-                                Link NewSky account
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            class="message"
-                            id="linkMsg"
-                        ></div>
-
-
-                        <p
-                            class="muted"
-                            style="
-                                margin-top:15px;
-                                font-size:12px;
-                                line-height:1.6;
-                            "
-                        >
-                            Your NewSky ID is saved to your Echo
-                            pilot account. After linking, use
-                            <strong>Sync flights</strong> to retrieve
-                            your latest flights.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- ==============================================
-                 ACCOUNT
-                 ============================================== -->
-
-            <div
-                class="panel"
-                id="account"
-            >
-
-                <h3>
-                    Account
-                </h3>
-
-
-                <div class="form-grid">
-
-                    <div class="field">
-
-                        <label for="username">
-                            Username
-                        </label>
-
-                        <input
-                            id="username"
-                            autocomplete="username"
-                            placeholder="your username"
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="password">
-                            Password
-                        </label>
-
-                        <input
-                            id="password"
-                            type="password"
-                            autocomplete="current-password"
-                            placeholder="at least 8 characters"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="actions">
-
-                    <button
-                        class="btn btn-primary"
-                        id="registerBtn"
-                    >
-                        Create account
-                    </button>
-
-
-                    <button
-                        class="btn"
-                        id="loginBtn"
-                    >
-                        Sign in
-                    </button>
-
-                </div>
-
-
-                <div
-                    class="message"
-                    id="accountMsg"
-                ></div>
-
-            </div>
-
-             <!-- ==============================================
-                 RECENT FLIGHTS
-                 ============================================== -->
-
-            <div class="panel">
-
-                <h3>
-                    Recent flights
-                </h3>
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>Date</th>
-                                <th>Route</th>
-                                <th>Aircraft</th>
-                                <th>Rating</th>
-                                <th>Stars</th>
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="flightRows">
-
-                            <tr>
-
-                                <td
-                                    colspan="5"
-                                    class="muted"
-                                >
-                                    No flights loaded.
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-            <!-- ==============================================
-                 LEADERBOARD
-                 ============================================== -->
-
-            <div class="panel">
-
-                <h3>
-                    Echo leaderboard
-                </h3>
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>#</th>
-                                <th>Pilot</th>
-                                <th>Rank</th>
-                                <th>Stars</th>
-                                <th>Flights</th>
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="leaderRows">
-
-                            <tr>
-
-                                <td
-                                    colspan="5"
-                                    class="muted"
-                                >
-                                    Loading…
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-
-        </div>
-        <!-- END ranking-main -->
-
-
-        <!-- ==================================================
-             PILOT SIDEBAR
-             ================================================== -->
-
-        <aside
-            class="pilot-sidebar"
-            id="pilotSidebar"
+        <a
+            class="btn btn-primary"
+            href="#account"
         >
-
-            <div class="pilot-sidebar-header">
-
-                <h3>
-                    Top Pilots
-                </h3>
-
-                <p>
-                    The highest-ranked Echo Air Group pilots.
-                </p>
-
-            </div>
-
-
-            <div
-                class="pilot-list"
-                id="pilotList"
-            >
-
-                <div class="pilot-sidebar-loading">
-                    Loading pilots…
-                </div>
-
-            </div>
-
-        </aside>
-
+            Create / Sign in
+        </a>
 
     </div>
-    <!-- END ranking-layout -->
 
 </div>
-<!-- END container -->
-```
+
+
+<div class="rank-card">
+
+    <span class="eyebrow">
+        Rank system
+    </span>
+
+    <h2>
+        Earn your way up
+    </h2>
+
+    <p class="muted">
+        Your rank is based on your total Echo stars.
+    </p>
+
+    <div class="stat-grid">
+
+        <div class="stat">
+
+            <small>
+                Cadet
+            </small>
+
+            <b>
+                0–999.99 ⭐
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                First Officer
+            </small>
+
+            <b>
+                1000+ ⭐
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                Next ranks
+            </small>
+
+            <b>
+                Keep flying
+            </b>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ============================================================
+     DASHBOARD
+     ============================================================ -->
+
+<div id="dashboard" style="display:none">
+
+<div class="ranking-hero">
+
+
+<div class="rank-card">
+
+    <span class="eyebrow">
+        Your rank
+    </span>
+
+    <h2 id="pilotName">
+        Pilot
+    </h2>
+
+    <div
+        class="rank-number"
+        id="rankName"
+    >
+        Cadet
+    </div>
+
+    <div class="stars">
+
+        <span id="stars">
+            0.00
+        </span>
+
+        ⭐
+
+    </div>
+
+    <div class="progress">
+
+        <div id="progressBar"></div>
+
+    </div>
+
+    <p
+        class="muted"
+        id="progressText"
+    >
+        0.00 / 1000.00 ⭐ to First Officer
+    </p>
+
+    <div class="stat-grid">
+
+        <div class="stat">
+
+            <small>
+                Flights
+            </small>
+
+            <b id="flightCount">
+                0
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                Average rating
+            </small>
+
+            <b id="averageRating">
+                0.00
+            </b>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                Flight hours
+            </small>
+
+            <b id="flightHours">
+                0.0
+            </b>
+
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-primary"
+            id="syncBtn"
+        >
+            Sync flights
+        </button>
+
+
+        <button
+            class="btn"
+            id="logoutBtn"
+        >
+            Log out
+        </button>
+
+    </div>
+
+
+    <div
+        class="message"
+        id="dashboardMsg"
+    ></div>
+
+</div>
+
+
+<div class="rank-card">
+
+    <span class="eyebrow">
+        NewSky connection
+    </span>
+
+    <h2>
+        Link your NewSky pilot
+    </h2>
+
+    <p class="muted">
+        Enter the <strong>NewSky Pilot ID</strong>
+        exactly as it appears in your NewSky profile.
+    </p>
+
+
+    <div class="field full">
+
+        <label for="newskyId">
+            NewSky Pilot ID
+        </label>
+
+        <input
+            id="newskyId"
+            type="text"
+            autocomplete="off"
+            placeholder="Enter your NewSky Pilot ID"
+        >
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-primary"
+            id="linkBtn"
+        >
+            Link NewSky account
+        </button>
+
+    </div>
+
+
+    <div
+        class="message"
+        id="linkMsg"
+    ></div>
+
+
+    <p
+        class="muted"
+        style="
+            margin-top:15px;
+            font-size:12px;
+            line-height:1.6;
+        "
+    >
+        Your NewSky ID is saved to your Echo pilot account.
+        After linking, use <strong>Sync flights</strong> to
+        retrieve your latest flights.
+    </p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ============================================================
+     ACCOUNT
+     ============================================================ -->
+
+<div
+    class="panel"
+    id="account"
+>
+
+<h3>
+    Account
+</h3>
+
+
+<div class="form-grid">
+
+    <div class="field">
+
+        <label for="username">
+            Username
+        </label>
+
+        <input
+            id="username"
+            autocomplete="username"
+            placeholder="your username"
+        >
+
+    </div>
+
+
+    <div class="field">
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="at least 8 characters"
+        >
+
+    </div>
+
+</div>
+
+
+<div class="actions">
+
+    <button
+        class="btn btn-primary"
+        id="registerBtn"
+    >
+        Create account
+    </button>
+
+
+    <button
+        class="btn"
+        id="loginBtn"
+    >
+        Sign in
+    </button>
+
+</div>
+
+
+<div
+    class="message"
+    id="accountMsg"
+></div>
+
+</div>
+
+
+<!-- ============================================================
+     RECENT FLIGHTS
+     ============================================================ -->
+
+<div class="panel">
+
+<h3>
+    Recent flights
+</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+    <th>Date</th>
+    <th>Route</th>
+    <th>Aircraft</th>
+    <th>Rating</th>
+    <th>Stars</th>
+</tr>
+
+</thead>
+
+
+<tbody id="flightRows">
+
+<tr>
+
+<td
+    colspan="5"
+    class="muted"
+>
+    No flights loaded.
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ============================================================
+     LEADERBOARD
+     ============================================================ -->
+
+<div class="panel">
+
+<h3>
+    Echo leaderboard
+</h3>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+    <th>#</th>
+    <th>Pilot</th>
+    <th>Rank</th>
+    <th>Stars</th>
+    <th>Flights</th>
+</tr>
+
+</thead>
+
+
+<tbody id="leaderRows">
+
+<tr>
+
+<td
+    colspan="5"
+    class="muted"
+>
+    Loading…
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+
+<aside
+    class="pilot-sidebar"
+    id="pilotSidebar"
+>
+
+<div class="pilot-sidebar-header">
+
+    <h3>
+        Top Pilots
+    </h3>
+
+    <p>
+        The highest-ranked Echo Air Group pilots.
+    </p>
+
+</div>
+
+
+<div
+    class="pilot-list"
+    id="pilotList"
+>
+
+    <div class="pilot-sidebar-loading">
+        Loading pilots…
+    </div>
+
+</div>
+
+</aside>
+
+
+</div>
+
+</div>
 
 </section>
 
 </main>
+
 
 <!-- ============================================================
      FOOTER
@@ -1969,89 +1887,120 @@ footer p {
 
 <footer>
 
-```
 <div class="container">
 
-    <div class="foot-top">
+<div class="foot-top">
 
-        <div>
+<div>
 
-            <div class="brand">
+<div class="brand">
 
-                <img
-                    class="brand-logo"
-                    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
-                    alt="Echo Air Group Logo"
-                >
+    <img
+        class="brand-logo"
+        src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+        alt="Echo Air Group Logo"
+    >
 
-                <div class="brand-text">
+    <div class="brand-text">
 
-                    ECHO AIR GROUP
+        ECHO AIR GROUP
 
-                    <small>
-                        6L · ECV · CLOVER
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <p style="max-width:450px">
-
-                Virtual aviation. Real passion. A community built
-                for pilots who love the world of flight simulation.
-
-            </p>
-
-        </div>
-
-
-        <div class="foot-links">
-
-            <a href="about.html">About</a>
-            <a href="fleet.html">Fleet</a>
-            <a href="routes.html">Routes</a>
-            <a href="team.html">Team</a>
-            <a href="manual.html">Pilot Manual</a>
-            <a href="join.html">Register</a>
-
-        </div>
-
-    </div>
-
-
-    <div class="copy">
-
-        <span>
-            © 2026 Echo Air Group. Virtual airline.
-        </span>
-
-        <span>
-            Not affiliated with any real-world airline.
-        </span>
+        <small>
+            6L · ECV · CLOVER
+        </small>
 
     </div>
 
 </div>
-```
+
+
+<p style="max-width:450px">
+
+    Virtual aviation. Real passion. A community built
+    for pilots who love the world of flight simulation.
+
+</p>
+
+</div>
+
+
+<div class="foot-links">
+
+    <a href="about.html">About</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="routes.html">Routes</a>
+    <a href="team.html">Team</a>
+    <a href="manual.html">Pilot Manual</a>
+    <a href="join.html">Register</a>
+
+</div>
+
+</div>
+
+
+<div class="copy">
+
+    <span>
+        © 2026 Echo Air Group. Virtual airline.
+    </span>
+
+    <span>
+        Not affiliated with any real-world airline.
+    </span>
+
+</div>
+
+</div>
 
 </footer>
 
+
 <script src="script.js"></script>
+
 
 <script>
 
 /* ============================================================
-   API CONFIG
+   API CONFIGURATION
    ============================================================ */
 
 const API =
-    (window.ECHO_API_URL || '').replace(/\/$/,'')
-    || 'https://echo-air-group-api.onrender.com/api';
+    'https://echo-air-group-api.onrender.com/api';
+
+
+/* ============================================================
+   TOKEN
+   ============================================================ */
 
 let token =
     localStorage.getItem('echo_token');
+
+
+/*
+ * Make sure we never accidentally send:
+ *
+ * Bearer null
+ * Bearer undefined
+ * Bearer ""
+ *
+ * Those can cause confusing 401 responses.
+ */
+
+function getAuthToken() {
+
+    const stored =
+        localStorage.getItem('echo_token');
+
+    if(
+        !stored ||
+        stored === 'null' ||
+        stored === 'undefined'
+    ) {
+        return null;
+    }
+
+    return stored.trim();
+}
 
 
 /* ============================================================
@@ -2069,47 +2018,134 @@ const newskyInput =
 
 
 /* ============================================================
-   API
+   API REQUEST
    ============================================================ */
 
 async function api(path, options = {}) {
 
+    /*
+     * Always get the newest token from localStorage.
+     * This prevents the page from using an old value.
+     */
+
+    token =
+        getAuthToken();
+
+
     const headers = {
-        'Content-Type':'application/json',
+        'Accept':'application/json',
+        ...(options.body
+            ? {'Content-Type':'application/json'}
+            : {}),
         ...(options.headers || {})
     };
 
 
+    /*
+     * Only add Authorization when a real JWT exists.
+     */
+
     if(token) {
+
         headers.Authorization =
-            'Bearer ' + token;
+            `Bearer ${token}`;
+
     }
 
 
-    const response =
-        await fetch(
-            API + path,
-            {
-                ...options,
-                headers
-            }
+    let response;
+
+
+    try {
+
+        response =
+            await fetch(
+                API + path,
+                {
+                    ...options,
+                    headers
+                }
+            );
+
+    } catch(error) {
+
+        throw new Error(
+            'Unable to connect to the Echo Air Group API.'
         );
 
+    }
 
-    const data =
-        await response
-            .json()
-            .catch(() => ({
-                error:'Invalid server response'
-            }));
 
+    /*
+     * Try to read JSON.
+     */
+
+    const text =
+        await response.text();
+
+
+    let data = {};
+
+
+    if(text) {
+
+        try {
+
+            data =
+                JSON.parse(text);
+
+        } catch {
+
+            data = {
+                message:text
+            };
+
+        }
+
+    }
+
+
+    /* ========================================================
+       AUTHENTICATION ERROR
+       ======================================================== */
+
+    if(response.status === 401) {
+
+        /*
+         * The JWT is invalid, expired or missing.
+         *
+         * Remove it so the next login creates a fresh token.
+         */
+
+        localStorage.removeItem(
+            'echo_token'
+        );
+
+        token =
+            null;
+
+
+        /*
+         * For protected requests, give a useful message.
+         */
+
+        throw new Error(
+            'Your login session has expired or is invalid. Please sign in again.'
+        );
+
+    }
+
+
+    /* ========================================================
+       OTHER API ERROR
+       ======================================================== */
 
     if(!response.ok) {
 
         throw new Error(
             data.error ||
             data.message ||
-            'Request failed'
+            `Request failed (${response.status})`
         );
 
     }
@@ -2137,13 +2173,16 @@ function showMessage(id, text, error = false) {
     element.textContent =
         text;
 
+
     element.style.display =
         'block';
+
 
     element.classList.toggle(
         'error',
         error
     );
+
 }
 
 
@@ -2167,6 +2206,7 @@ function escapeHtml(value) {
         .replaceAll('>','&gt;')
         .replaceAll('"','&quot;')
         .replaceAll("'","&#039;");
+
 }
 
 
@@ -2183,6 +2223,7 @@ function number(value, fallback = 0) {
     return Number.isFinite(n)
         ? n
         : fallback;
+
 }
 
 
@@ -2261,6 +2302,7 @@ function calculateRank(stars) {
         current,
         next
     };
+
 }
 
 
@@ -2278,7 +2320,9 @@ function getFlightValue(flight, ...keys) {
             flight[key] !== null &&
             flight[key] !== ''
         ) {
+
             return flight[key];
+
         }
 
     }
@@ -2308,7 +2352,9 @@ function getRoute(flight) {
             typeof value === 'string' ||
             typeof value === 'number'
         ) {
+
             return String(value);
+
         }
 
 
@@ -2380,12 +2426,20 @@ function getRoute(flight) {
 
 
     if(departure) {
-        return escapeHtml(departure);
+
+        return escapeHtml(
+            departure
+        );
+
     }
 
 
     if(arrival) {
-        return escapeHtml(arrival);
+
+        return escapeHtml(
+            arrival
+        );
+
     }
 
 
@@ -2466,7 +2520,11 @@ function getFlightDate(flight) {
 
 
     if(Number.isNaN(date.getTime())) {
-        return escapeHtml(raw);
+
+        return escapeHtml(
+            raw
+        );
+
     }
 
 
@@ -2478,11 +2536,12 @@ function getFlightDate(flight) {
             year:'numeric'
         }
     );
+
 }
 
 
 /* ============================================================
-   FLIGHT RATING
+   RATING
    ============================================================ */
 
 function getFlightRating(flight) {
@@ -2498,15 +2557,8 @@ function getFlightRating(flight) {
         );
 
 
-    if(
-        rating === null ||
-        rating === undefined
-    ) {
-        return 0;
-    }
-
-
     return number(rating);
+
 }
 
 
@@ -2527,6 +2579,7 @@ function getFlightStars(flight) {
 
 
     return number(stars);
+
 }
 
 
@@ -2537,7 +2590,9 @@ function getFlightStars(flight) {
 function renderFlights(flights) {
 
     const rows =
-        document.getElementById('flightRows');
+        document.getElementById(
+            'flightRows'
+        );
 
 
     if(
@@ -2557,6 +2612,7 @@ function renderFlights(flights) {
         `;
 
         return;
+
     }
 
 
@@ -2590,6 +2646,7 @@ function renderFlights(flights) {
                     </td>
 
                     <td>
+
                         <span
                             class="${
                                 rating >= 8
@@ -2599,6 +2656,7 @@ function renderFlights(flights) {
                         >
                             ${rating.toFixed(2)}
                         </span>
+
                     </td>
 
                     <td>
@@ -2609,11 +2667,12 @@ function renderFlights(flights) {
             `;
 
         }).join('');
+
 }
 
 
 /* ============================================================
-   RENDER DASHBOARD
+   DASHBOARD
    ============================================================ */
 
 function renderDashboard(data) {
@@ -2630,21 +2689,28 @@ function renderDashboard(data) {
     }
 
 
-    document.getElementById('loggedOut')
-        .style.display = 'none';
+    document.getElementById(
+        'loggedOut'
+    ).style.display = 'none';
 
-    document.getElementById('account')
-        .style.display = 'none';
 
-    document.getElementById('dashboard')
-        .style.display = 'block';
+    document.getElementById(
+        'account'
+    ).style.display = 'none';
+
+
+    document.getElementById(
+        'dashboard'
+    ).style.display = 'block';
 
 
     const user =
         data.user || {};
 
+
     const stats =
         data.stats || {};
+
 
     const flights =
         Array.isArray(data.flights)
@@ -2656,60 +2722,72 @@ function renderDashboard(data) {
         number(stats.stars);
 
 
-    document.getElementById('pilotName')
-        .textContent =
-            user.displayName ||
-            user.username ||
-            'Pilot';
+    document.getElementById(
+        'pilotName'
+    ).textContent =
+        user.displayName ||
+        user.username ||
+        'Pilot';
 
 
     const calculated =
         calculateRank(stars);
 
 
-    document.getElementById('rankName')
-        .textContent =
-            calculated.current.name;
+    document.getElementById(
+        'rankName'
+    ).textContent =
+        calculated.current.name;
 
 
-    document.getElementById('stars')
-        .textContent =
-            stars.toFixed(2);
+    document.getElementById(
+        'stars'
+    ).textContent =
+        stars.toFixed(2);
 
 
-    document.getElementById('flightCount')
-        .textContent =
-            number(
-                stats.flightCount,
-                flights.length
-            );
+    document.getElementById(
+        'flightCount'
+    ).textContent =
+        number(
+            stats.flightCount,
+            flights.length
+        );
 
 
-    document.getElementById('averageRating')
-        .textContent =
-            number(
-                stats.averageRating
-            ).toFixed(2);
+    document.getElementById(
+        'averageRating'
+    ).textContent =
+        number(
+            stats.averageRating
+        ).toFixed(2);
 
 
-    document.getElementById('flightHours')
-        .textContent =
-            number(
-                stats.flightHours
-            ).toFixed(1);
+    document.getElementById(
+        'flightHours'
+    ).textContent =
+        number(
+            stats.flightHours
+        ).toFixed(1);
 
 
     const progressBar =
-        document.getElementById('progressBar');
+        document.getElementById(
+            'progressBar'
+        );
+
 
     const progressText =
-        document.getElementById('progressText');
+        document.getElementById(
+            'progressText'
+        );
 
 
     if(calculated.next) {
 
         const currentMin =
             calculated.current.min;
+
 
         const nextMin =
             calculated.next.min;
@@ -2746,6 +2824,7 @@ function renderDashboard(data) {
         progressBar.style.width =
             '100%';
 
+
         progressText.textContent =
             'Maximum rank reached';
 
@@ -2764,7 +2843,33 @@ function renderDashboard(data) {
         newskyId;
 
 
-    renderFlights(flights);
+    renderFlights(
+        flights
+    );
+
+}
+
+
+/* ============================================================
+   SHOW LOGIN
+   ============================================================ */
+
+function showLoggedOut() {
+
+    document.getElementById(
+        'dashboard'
+    ).style.display = 'none';
+
+
+    document.getElementById(
+        'loggedOut'
+    ).style.display = 'block';
+
+
+    document.getElementById(
+        'account'
+    ).style.display = 'block';
+
 }
 
 
@@ -2774,18 +2879,16 @@ function renderDashboard(data) {
 
 async function loadMe() {
 
+    token =
+        getAuthToken();
+
+
     if(!token) {
 
-        document.getElementById('loggedOut')
-            .style.display = 'block';
+        showLoggedOut();
 
-        document.getElementById('dashboard')
-            .style.display = 'none';
+        return false;
 
-        document.getElementById('account')
-            .style.display = 'block';
-
-        return;
     }
 
 
@@ -2795,8 +2898,16 @@ async function loadMe() {
             await api('/me');
 
 
-        renderDashboard(data);
+        /*
+         * If /me succeeds, the JWT is valid.
+         */
 
+        renderDashboard(
+            data
+        );
+
+
+        return true;
 
     } catch(error) {
 
@@ -2806,24 +2917,21 @@ async function loadMe() {
         );
 
 
-        localStorage.removeItem(
-            'echo_token'
-        );
-
+        /*
+         * api() already removes the token on 401.
+         */
 
         token =
-            null;
+            getAuthToken();
 
 
-        document.getElementById('dashboard')
-            .style.display = 'none';
+        showLoggedOut();
 
-        document.getElementById('loggedOut')
-            .style.display = 'block';
 
-        document.getElementById('account')
-            .style.display = 'block';
+        return false;
+
     }
+
 }
 
 
@@ -2834,7 +2942,9 @@ async function loadMe() {
 async function loadLeaderboard() {
 
     const rows =
-        document.getElementById('leaderRows');
+        document.getElementById(
+            'leaderRows'
+        );
 
 
     try {
@@ -2844,7 +2954,9 @@ async function loadLeaderboard() {
 
 
         const rankings =
-            Array.isArray(data.rankings)
+            Array.isArray(
+                data.rankings
+            )
                 ? data.rankings
                 : [];
 
@@ -2863,63 +2975,69 @@ async function loadLeaderboard() {
             `;
 
             return;
+
         }
 
 
         rows.innerHTML =
-            rankings.map((pilot,index) => {
+            rankings.map(
+                (pilot,index) => {
 
-                const stars =
-                    number(pilot.stars);
+                    const stars =
+                        number(
+                            pilot.stars
+                        );
 
-                const rank =
-                    calculateRank(stars);
+
+                    const rank =
+                        calculateRank(
+                            stars
+                        );
 
 
-                return `
-                    <tr>
+                    return `
+                        <tr>
 
-                        <td>
-                            ${
-                                pilot.position ||
-                                index + 1
-                            }
-                        </td>
+                            <td>
+                                ${
+                                    pilot.position ||
+                                    index + 1
+                                }
+                            </td>
 
-                        <td>
-                            ${
-                                escapeHtml(
+                            <td>
+                                ${escapeHtml(
                                     pilot.name ||
                                     pilot.displayName ||
                                     pilot.username ||
                                     'Pilot'
-                                )
-                            }
-                        </td>
+                                )}
+                            </td>
 
-                        <td>
-                            <span class="badge">
-                                ${rank.current.name}
-                            </span>
-                        </td>
+                            <td>
+                                <span class="badge">
+                                    ${escapeHtml(
+                                        rank.current.name
+                                    )}
+                                </span>
+                            </td>
 
-                        <td>
-                            ${stars.toFixed(2)} ⭐
-                        </td>
+                            <td>
+                                ${stars.toFixed(2)} ⭐
+                            </td>
 
-                        <td>
-                            ${
-                                number(
+                            <td>
+                                ${number(
                                     pilot.flights ||
                                     pilot.flightCount
-                                )
-                            }
-                        </td>
+                                )}
+                            </td>
 
-                    </tr>
-                `;
+                        </tr>
+                    `;
 
-            }).join('');
+                }
+            ).join('');
 
 
     } catch(error) {
@@ -2940,7 +3058,9 @@ async function loadLeaderboard() {
                 </td>
             </tr>
         `;
+
     }
+
 }
 
 
@@ -2951,15 +3071,12 @@ async function loadLeaderboard() {
 async function loadPilotSidebar() {
 
     const list =
-        document.getElementById('pilotList');
+        document.getElementById(
+            'pilotList'
+        );
 
 
     if(!list) {
-
-        console.error(
-            'Pilot sidebar element not found.'
-        );
-
         return;
     }
 
@@ -2971,7 +3088,9 @@ async function loadPilotSidebar() {
 
 
         const rankings =
-            Array.isArray(data.rankings)
+            Array.isArray(
+                data.rankings
+            )
                 ? data.rankings
                 : [];
 
@@ -2985,62 +3104,118 @@ async function loadPilotSidebar() {
             `;
 
             return;
+
         }
 
 
         const pilots =
-            rankings.slice(0,25);
+            rankings.slice(
+                0,
+                25
+            );
 
 
         list.innerHTML =
-            pilots.map((pilot,index) => {
+            pilots.map(
+                (pilot,index) => {
 
-                const stars =
-                    number(pilot.stars);
-
-                const rank =
-                    calculateRank(stars);
-
-
-                const name =
-                    pilot.name ||
-                    pilot.displayName ||
-                    pilot.username ||
-                    'Pilot';
+                    const stars =
+                        number(
+                            pilot.stars
+                        );
 
 
-                const avatar =
-                    String(name)
-                        .trim()
-                        .charAt(0)
-                        .toUpperCase() ||
-                    'P';
+                    const rank =
+                        calculateRank(
+                            stars
+                        );
 
 
-                const position =
-                    pilot.position ||
-                    index + 1;
+                    const name =
+                        pilot.name ||
+                        pilot.displayName ||
+                        pilot.username ||
+                        'Pilot';
 
 
-                const pilotId =
-                    pilot.id ??
-                    pilot.userId ??
-                    pilot.user_id ??
-                    pilot.pilotId ??
-                    pilot.pilot_id ??
-                    pilot._id;
+                    const avatar =
+                        String(name)
+                            .trim()
+                            .charAt(0)
+                            .toUpperCase() ||
+                        'P';
 
 
-                if(
-                    pilotId !== undefined &&
-                    pilotId !== null &&
-                    pilotId !== ''
-                ) {
+                    const position =
+                        pilot.position ||
+                        index + 1;
+
+
+                    const pilotId =
+                        pilot.id ??
+                        pilot.userId ??
+                        pilot.user_id ??
+                        pilot.pilotId ??
+                        pilot.pilot_id ??
+                        pilot._id;
+
+
+                    if(
+                        pilotId !== undefined &&
+                        pilotId !== null &&
+                        pilotId !== ''
+                    ) {
+
+                        return `
+                            <a
+                                class="pilot-item"
+                                href="pilot.html?id=${encodeURIComponent(pilotId)}"
+                            >
+
+                                <div class="pilot-position">
+                                    #${escapeHtml(position)}
+                                </div>
+
+                                <div class="pilot-avatar">
+                                    ${escapeHtml(avatar)}
+                                </div>
+
+                                <div class="pilot-info">
+
+                                    <span class="pilot-name">
+                                        ${escapeHtml(name)}
+                                    </span>
+
+                                    <span class="pilot-rank">
+                                        ${escapeHtml(
+                                            rank.current.name
+                                        )}
+                                    </span>
+
+                                </div>
+
+                                <div class="pilot-rating">
+
+                                    <span class="pilot-rating-value">
+                                        ${stars.toFixed(2)}
+                                    </span>
+
+                                    <span class="pilot-rating-label">
+                                        Stars
+                                    </span>
+
+                                </div>
+
+                            </a>
+                        `;
+
+                    }
+
 
                     return `
-                        <a
+                        <div
                             class="pilot-item"
-                            href="pilot.html?id=${encodeURIComponent(pilotId)}"
+                            style="cursor:default;"
                         >
 
                             <div class="pilot-position">
@@ -3058,7 +3233,9 @@ async function loadPilotSidebar() {
                                 </span>
 
                                 <span class="pilot-rank">
-                                    ${escapeHtml(rank.current.name)}
+                                    ${escapeHtml(
+                                        rank.current.name
+                                    )}
                                 </span>
 
                             </div>
@@ -3075,53 +3252,11 @@ async function loadPilotSidebar() {
 
                             </div>
 
-                        </a>
+                        </div>
                     `;
+
                 }
-
-
-                return `
-                    <div
-                        class="pilot-item"
-                        style="cursor:default;"
-                    >
-
-                        <div class="pilot-position">
-                            #${escapeHtml(position)}
-                        </div>
-
-                        <div class="pilot-avatar">
-                            ${escapeHtml(avatar)}
-                        </div>
-
-                        <div class="pilot-info">
-
-                            <span class="pilot-name">
-                                ${escapeHtml(name)}
-                            </span>
-
-                            <span class="pilot-rank">
-                                ${escapeHtml(rank.current.name)}
-                            </span>
-
-                        </div>
-
-                        <div class="pilot-rating">
-
-                            <span class="pilot-rating-value">
-                                ${stars.toFixed(2)}
-                            </span>
-
-                            <span class="pilot-rating-label">
-                                Stars
-                            </span>
-
-                        </div>
-
-                    </div>
-                `;
-
-            }).join('');
+            ).join('');
 
 
     } catch(error) {
@@ -3137,7 +3272,9 @@ async function loadPilotSidebar() {
                 Unable to load pilots.
             </div>
         `;
+
     }
+
 }
 
 
@@ -3145,346 +3282,532 @@ async function loadPilotSidebar() {
    REGISTER
    ============================================================ */
 
-document.getElementById('registerBtn')
-    .addEventListener(
-        'click',
-        async () => {
+document
+.getElementById('registerBtn')
+.addEventListener(
+    'click',
+    async () => {
 
-            const username =
-                usernameInput.value.trim();
-
-            const password =
-                passwordInput.value;
+        const username =
+            usernameInput.value.trim();
 
 
-            if(!username || !password) {
-
-                showMessage(
-                    'accountMsg',
-                    'Please enter a username and password.',
-                    true
-                );
-
-                return;
-            }
+        const password =
+            passwordInput.value;
 
 
-            try {
+        if(
+            !username ||
+            !password
+        ) {
 
-                const data =
-                    await api(
-                        '/auth/register',
-                        {
-                            method:'POST',
+            showMessage(
+                'accountMsg',
+                'Please enter a username and password.',
+                true
+            );
 
-                            body:
-                                JSON.stringify({
-                                    username,
-                                    password
-                                })
-                        }
-                    );
-
-
-                token =
-                    data.token;
-
-
-                localStorage.setItem(
-                    'echo_token',
-                    token
-                );
-
-
-                await loadMe();
-                await loadLeaderboard();
-                await loadPilotSidebar();
-
-
-            } catch(error) {
-
-                showMessage(
-                    'accountMsg',
-                    error.message,
-                    true
-                );
-            }
+            return;
 
         }
-    );
+
+
+        const button =
+            document.getElementById(
+                'registerBtn'
+            );
+
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            'Creating…';
+
+
+        try {
+
+            const data =
+                await api(
+                    '/auth/register',
+                    {
+                        method:'POST',
+
+                        body:
+                            JSON.stringify({
+                                username,
+                                password
+                            })
+                    }
+                );
+
+
+            if(!data.token) {
+
+                throw new Error(
+                    'Registration succeeded, but the API did not return a login token.'
+                );
+
+            }
+
+
+            token =
+                data.token;
+
+
+            localStorage.setItem(
+                'echo_token',
+                token
+            );
+
+
+            showMessage(
+                'accountMsg',
+                'Account created successfully.'
+            );
+
+
+            await loadMe();
+            await loadLeaderboard();
+            await loadPilotSidebar();
+
+
+        } catch(error) {
+
+            showMessage(
+                'accountMsg',
+                error.message,
+                true
+            );
+
+
+        } finally {
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                'Create account';
+
+        }
+
+    }
+);
 
 
 /* ============================================================
    LOGIN
    ============================================================ */
 
-document.getElementById('loginBtn')
-    .addEventListener(
-        'click',
-        async () => {
+document
+.getElementById('loginBtn')
+.addEventListener(
+    'click',
+    async () => {
 
-            const username =
-                usernameInput.value.trim();
-
-            const password =
-                passwordInput.value;
+        const username =
+            usernameInput.value.trim();
 
 
-            if(!username || !password) {
-
-                showMessage(
-                    'accountMsg',
-                    'Please enter a username and password.',
-                    true
-                );
-
-                return;
-            }
+        const password =
+            passwordInput.value;
 
 
-            try {
+        if(
+            !username ||
+            !password
+        ) {
 
-                const data =
-                    await api(
-                        '/auth/login',
-                        {
-                            method:'POST',
+            showMessage(
+                'accountMsg',
+                'Please enter a username and password.',
+                true
+            );
 
-                            body:
-                                JSON.stringify({
-                                    username,
-                                    password
-                                })
-                        }
-                    );
-
-
-                token =
-                    data.token;
-
-
-                localStorage.setItem(
-                    'echo_token',
-                    token
-                );
-
-
-                await loadMe();
-                await loadLeaderboard();
-                await loadPilotSidebar();
-
-
-            } catch(error) {
-
-                showMessage(
-                    'accountMsg',
-                    error.message,
-                    true
-                );
-            }
+            return;
 
         }
-    );
+
+
+        const button =
+            document.getElementById(
+                'loginBtn'
+            );
+
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            'Signing in…';
+
+
+        try {
+
+            const data =
+                await api(
+                    '/auth/login',
+                    {
+                        method:'POST',
+
+                        body:
+                            JSON.stringify({
+                                username,
+                                password
+                            })
+                    }
+                );
+
+
+            /*
+             * Backend returns:
+             *
+             * {
+             *     message: "Login successful",
+             *     token: "..."
+             * }
+             */
+
+            if(!data.token) {
+
+                throw new Error(
+                    'Login succeeded, but the API did not return a token.'
+                );
+
+            }
+
+
+            token =
+                data.token;
+
+
+            localStorage.setItem(
+                'echo_token',
+                token
+            );
+
+
+            showMessage(
+                'accountMsg',
+                'Login successful.'
+            );
+
+
+            await loadMe();
+            await loadLeaderboard();
+            await loadPilotSidebar();
+
+
+        } catch(error) {
+
+            showMessage(
+                'accountMsg',
+                error.message,
+                true
+            );
+
+
+        } finally {
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                'Sign in';
+
+        }
+
+    }
+);
 
 
 /* ============================================================
    LOGOUT
    ============================================================ */
 
-document.getElementById('logoutBtn')
-    .addEventListener(
-        'click',
-        () => {
+document
+.getElementById('logoutBtn')
+.addEventListener(
+    'click',
+    () => {
 
-            localStorage.removeItem(
-                'echo_token'
-            );
-
-
-            token =
-                null;
+        localStorage.removeItem(
+            'echo_token'
+        );
 
 
-            location.reload();
+        token =
+            null;
 
-        }
-    );
+
+        showLoggedOut();
+
+    }
+);
 
 
 /* ============================================================
    LINK NEWSKY
    ============================================================ */
 
-document.getElementById('linkBtn')
-    .addEventListener(
-        'click',
-        async () => {
+document
+.getElementById('linkBtn')
+.addEventListener(
+    'click',
+    async () => {
 
-            const newskyPilotId =
-                newskyInput.value.trim();
-
-
-            if(!token) {
-
-                showMessage(
-                    'linkMsg',
-                    'You need to sign in before linking your NewSky account.',
-                    true
-                );
-
-                return;
-            }
+        token =
+            getAuthToken();
 
 
-            if(!newskyPilotId) {
-
-                showMessage(
-                    'linkMsg',
-                    'Please enter your NewSky Pilot ID.',
-                    true
-                );
-
-                return;
-            }
+        const newskyPilotId =
+            newskyInput.value.trim();
 
 
-            const button =
-                document.getElementById('linkBtn');
+        if(!token) {
 
+            showMessage(
+                'linkMsg',
+                'You need to sign in before linking your NewSky account.',
+                true
+            );
 
-            button.disabled =
-                true;
-
-            button.textContent =
-                'Linking…';
-
-
-            try {
-
-                const data =
-                    await api(
-                        '/account/link',
-                        {
-                            method:'POST',
-
-                            body:
-                                JSON.stringify({
-                                    newskyPilotId
-                                })
-                        }
-                    );
-
-
-                showMessage(
-                    'linkMsg',
-                    data.message ||
-                    'NewSky Pilot ID linked successfully.'
-                );
-
-
-                await loadMe();
-
-
-            } catch(error) {
-
-                console.error(
-                    'NewSky link error:',
-                    error
-                );
-
-
-                showMessage(
-                    'linkMsg',
-                    error.message ||
-                    'Unable to link NewSky account.',
-                    true
-                );
-
-
-            } finally {
-
-                button.disabled =
-                    false;
-
-                button.textContent =
-                    'Link NewSky account';
-
-            }
+            return;
 
         }
-    );
+
+
+        if(!newskyPilotId) {
+
+            showMessage(
+                'linkMsg',
+                'Please enter your NewSky Pilot ID.',
+                true
+            );
+
+            return;
+
+        }
+
+
+        const button =
+            document.getElementById(
+                'linkBtn'
+            );
+
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            'Linking…';
+
+
+        try {
+
+            const data =
+                await api(
+                    '/account/link',
+                    {
+                        method:'POST',
+
+                        body:
+                            JSON.stringify({
+                                newskyPilotId
+                            })
+                    }
+                );
+
+
+            showMessage(
+                'linkMsg',
+                data.message ||
+                'NewSky Pilot ID linked successfully.'
+            );
+
+
+            await loadMe();
+
+
+        } catch(error) {
+
+            console.error(
+                'NewSky link error:',
+                error
+            );
+
+
+            showMessage(
+                'linkMsg',
+                error.message ||
+                'Unable to link NewSky account.',
+                true
+            );
+
+
+        } finally {
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                'Link NewSky account';
+
+        }
+
+    }
+);
 
 
 /* ============================================================
-   SYNC
+   SYNC FLIGHTS
    ============================================================ */
 
-document.getElementById('syncBtn')
-    .addEventListener(
-        'click',
-        async () => {
+document
+.getElementById('syncBtn')
+.addEventListener(
+    'click',
+    async () => {
 
-            const button =
-                document.getElementById('syncBtn');
+        /*
+         * Always retrieve the current token first.
+         */
 
-
-            button.disabled =
-                true;
-
-            button.textContent =
-                'Syncing…';
+        token =
+            getAuthToken();
 
 
-            try {
+        if(!token) {
 
-                const data =
-                    await api(
-                        '/sync/me',
-                        {
-                            method:'POST'
-                        }
-                    );
+            showMessage(
+                'dashboardMsg',
+                'You are not signed in. Please sign in again.',
+                true
+            );
+
+            showLoggedOut();
+
+            return;
+
+        }
 
 
-                showMessage(
-                    'dashboardMsg',
-                    data.message ||
-                    'Flights synchronized successfully.'
+        const button =
+            document.getElementById(
+                'syncBtn'
+            );
+
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            'Syncing…';
+
+
+        showMessage(
+            'dashboardMsg',
+            'Synchronizing your NewSky flights…'
+        );
+
+
+        try {
+
+            /*
+             * IMPORTANT:
+             *
+             * This is the authenticated personal sync.
+             *
+             * POST /api/sync/me
+             *
+             * The Authorization header is automatically
+             * added by api().
+             */
+
+            const data =
+                await api(
+                    '/sync/me',
+                    {
+                        method:'POST'
+                    }
                 );
 
 
-                await loadMe();
-                await loadLeaderboard();
-                await loadPilotSidebar();
+            showMessage(
+                'dashboardMsg',
+                data.message ||
+                `Flights synchronized successfully.`
+            );
 
 
-            } catch(error) {
+            /*
+             * Reload everything after synchronization.
+             */
 
-                console.error(
-                    'Sync error:',
-                    error
-                );
+            await loadMe();
+            await loadLeaderboard();
+            await loadPilotSidebar();
+
+
+        } catch(error) {
+
+            console.error(
+                'Sync error:',
+                error
+            );
+
+
+            /*
+             * If api() received a 401, the token has already
+             * been removed from localStorage.
+             */
+
+            if(
+                !getAuthToken()
+            ) {
+
+                showLoggedOut();
 
 
                 showMessage(
-                    'dashboardMsg',
-                    error.message,
+                    'accountMsg',
+                    'Your login session is no longer valid. Please sign in again.',
                     true
                 );
 
 
-            } finally {
+            } else {
 
-                button.disabled =
-                    false;
-
-                button.textContent =
-                    'Sync flights';
+                showMessage(
+                    'dashboardMsg',
+                    error.message ||
+                    'Unable to synchronize flights.',
+                    true
+                );
 
             }
 
+
+        } finally {
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                'Sync flights';
+
         }
-    );
+
+    }
+);
 
 
 /* ============================================================
@@ -3492,7 +3815,10 @@ document.getElementById('syncBtn')
    ============================================================ */
 
 const siteHeader =
-    document.getElementById('siteHeader');
+    document.getElementById(
+        'siteHeader'
+    );
+
 
 let lastScrollY =
     0;
@@ -3555,13 +3881,21 @@ window.addEventListener(
 function toggleMenu() {
 
     const nav =
-        document.getElementById('mobileNav');
+        document.getElementById(
+            'mobileNav'
+        );
+
 
     const button =
-        document.getElementById('menuButton');
+        document.getElementById(
+            'menuButton'
+        );
 
 
-    nav.classList.toggle('open');
+    nav.classList.toggle(
+        'open'
+    );
+
 
     document.body.classList.toggle(
         'menu-open'
@@ -3569,13 +3903,16 @@ function toggleMenu() {
 
 
     const open =
-        nav.classList.contains('open');
+        nav.classList.contains(
+            'open'
+        );
 
 
     button.setAttribute(
         'aria-expanded',
         open
     );
+
 }
 
 
@@ -3583,9 +3920,24 @@ function toggleMenu() {
    START
    ============================================================ */
 
-loadMe();
-loadLeaderboard();
-loadPilotSidebar();
+(async function init() {
+
+    /*
+     * Load public ranking first.
+     */
+
+    await loadLeaderboard();
+
+    await loadPilotSidebar();
+
+
+    /*
+     * Then check the logged-in pilot.
+     */
+
+    await loadMe();
+
+})();
 
 </script>
 
