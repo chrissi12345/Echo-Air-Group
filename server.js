@@ -447,39 +447,268 @@ function getNewSkyFlightId(flight) {
 // ROUTE
 // ============================================================
 
+// ============================================================
+// AIRPORT CODE EXTRACTOR
+// ============================================================
+//
+// NewSky kan een airport als tekst of als object teruggeven.
+// Bijvoorbeeld:
+//
+// "EHAM"
+//
+// of:
+//
+// {
+//     airport: {
+//         icao: "EHAM",
+//         name: "Amsterdam Schiphol"
+//     }
+// }
+//
+// Deze functie zorgt ervoor dat we altijd alleen
+// de bruikbare airportcode opslaan.
+// ============================================================
+
+function extractAirportCode(value, depth = 0) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        depth > 6
+    ) {
+        return null;
+    }
+
+
+    // --------------------------------------------------------
+    // String
+    // --------------------------------------------------------
+
+    if (typeof value === "string") {
+
+        const text =
+            value.trim();
+
+        if (!text) {
+            return null;
+        }
+
+        return text;
+
+    }
+
+
+    // --------------------------------------------------------
+    // Number
+    // --------------------------------------------------------
+
+    if (typeof value === "number") {
+
+        return String(value);
+
+    }
+
+
+    // --------------------------------------------------------
+    // Object
+    // --------------------------------------------------------
+
+    if (
+        typeof value === "object" &&
+        !Array.isArray(value)
+    ) {
+
+        // Eerst zoeken naar de meest waarschijnlijke
+        // airport-code velden.
+
+        const directCode =
+            firstValue(
+                value,
+                [
+                    "icao",
+                    "ICAO",
+                    "icaoCode",
+                    "ICAOCode",
+                    "icao_code",
+
+                    "iata",
+                    "IATA",
+                    "iataCode",
+                    "IATACode",
+                    "iata_code",
+
+                    "airportCode",
+                    "airport_code",
+
+                    "code",
+                    "identifier"
+                ]
+            );
+
+
+        if (
+            directCode !== null &&
+            typeof directCode !== "object"
+        ) {
+
+            const code =
+                String(
+                    directCode
+                ).trim();
+
+            if (code) {
+                return code;
+            }
+
+        }
+
+
+        // Sommige NewSky-objecten hebben bijvoorbeeld:
+        //
+        // departure.airport
+        // arrival.airport
+        //
+        // Daarom zoeken we ook specifiek hierin.
+
+        const nestedAirport =
+            firstValue(
+                value,
+                [
+                    "airport",
+                    "Airport",
+                    "airportData",
+                    "airportInfo",
+                    "location"
+                ]
+            );
+
+
+        if (
+            nestedAirport !== null
+        ) {
+
+            const nestedCode =
+                extractAirportCode(
+                    nestedAirport,
+                    depth + 1
+                );
+
+            if (nestedCode) {
+                return nestedCode;
+            }
+
+        }
+
+
+        // Als het object anders opgebouwd is,
+        // doorzoek dan de overige eigenschappen.
+
+        const keys =
+            Object.keys(value);
+
+
+        for (const key of keys) {
+
+            const nestedValue =
+                value[key];
+
+
+            if (
+                nestedValue === null ||
+                nestedValue === undefined
+            ) {
+                continue;
+            }
+
+
+            if (
+                typeof nestedValue === "object"
+            ) {
+
+                const nestedCode =
+                    extractAirportCode(
+                        nestedValue,
+                        depth + 1
+                    );
+
+
+                if (nestedCode) {
+                    return nestedCode;
+                }
+
+            }
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+// ============================================================
+// DEPARTURE
+// ============================================================
+
 function getDeparture(flight) {
 
-    return firstValue(
-        flight,
-        [
-            "depIcao",
-            "departureIcao",
-            "departureICAO",
-            "dep_icao",
-            "departure",
-            "origin",
-            "from",
-            "dep"
-        ]
+    const raw =
+        firstValue(
+            flight,
+            [
+                "depIcao",
+                "departureIcao",
+                "departureICAO",
+                "dep_icao",
+
+                "departure",
+
+                "origin",
+
+                "from",
+
+                "dep"
+            ]
+        );
+
+
+    return extractAirportCode(
+        raw
     );
 
 }
 
 
+// ============================================================
+// ARRIVAL
+// ============================================================
+
 function getArrival(flight) {
 
-    return firstValue(
-        flight,
-        [
-            "arrIcao",
-            "arrivalIcao",
-            "arrivalICAO",
-            "arr_icao",
-            "arrival",
-            "destination",
-            "to",
-            "arr"
-        ]
+    const raw =
+        firstValue(
+            flight,
+            [
+                "arrIcao",
+                "arrivalIcao",
+                "arrivalICAO",
+                "arr_icao",
+
+                "arrival",
+
+                "destination",
+
+                "to",
+
+                "arr"
+            ]
+        );
+
+
+    return extractAirportCode(
+        raw
     );
 
 }
@@ -2096,45 +2325,37 @@ app.post(
                                 );
 
 
-                            insert.run(
+                          insert.run(
 
-                                req.user.id,
+    req.user.id,
 
-                                newskyId,
+    newskyId,
 
-                                departure
-                                    ? String(
-                                        departure
-                                    )
-                                    : null,
+    departure || null,
 
-                                arrival
-                                    ? String(
-                                        arrival
-                                    )
-                                    : null,
+    arrival || null,
 
-                                aircraft
-                                    ? String(
-                                        aircraft
-                                    )
-                                    : null,
+    aircraft
+        ? String(
+            aircraft
+        )
+        : null,
 
-                                rating,
+    rating,
 
-                                duration,
+    duration,
 
-                                distance,
+    distance,
 
-                                stars,
+    stars,
 
-                                depTime
-                                    ? String(
-                                        depTime
-                                    )
-                                    : null
+    depTime
+        ? String(
+            depTime
+        )
+        : null
 
-                            );
+);
 
 
                             imported++;
