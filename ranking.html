@@ -2300,10 +2300,48 @@ function getFlightValue(
 /* ============================================================
    FLIGHT ROUTE
    ============================================================ */
-
 function getRoute(flight) {
 
-    const departure =
+    function getAirportCode(value) {
+
+        if (value === null || value === undefined) {
+            return null;
+        }
+
+        // Gewone tekst, bijvoorbeeld "EHAM"
+        if (typeof value === 'string') {
+            return value;
+        }
+
+        // Getal
+        if (typeof value === 'number') {
+            return String(value);
+        }
+
+        // Object
+        if (typeof value === 'object') {
+
+            return (
+                value.icao ||
+                value.ICAO ||
+                value.icaoCode ||
+                value.ICAOCode ||
+                value.code ||
+                value.airportCode ||
+                value.iata ||
+                value.IATA ||
+                value.identifier ||
+                value.name ||
+                null
+            );
+
+        }
+
+        return null;
+    }
+
+
+    const departureRaw =
         getFlightValue(
             flight,
 
@@ -2317,7 +2355,7 @@ function getRoute(flight) {
         );
 
 
-    const arrival =
+    const arrivalRaw =
         getFlightValue(
             flight,
 
@@ -2331,35 +2369,35 @@ function getRoute(flight) {
         );
 
 
-    if(departure && arrival) {
+    const departure =
+        getAirportCode(departureRaw);
+
+
+    const arrival =
+        getAirportCode(arrivalRaw);
+
+
+    if (departure && arrival) {
 
         return `
-            ${escapeHtml(
-                departure
-            )}
+            ${escapeHtml(departure)}
             →
-            ${escapeHtml(
-                arrival
-            )}
+            ${escapeHtml(arrival)}
         `;
 
     }
 
 
-    if(departure) {
+    if (departure) {
 
-        return escapeHtml(
-            departure
-        );
+        return escapeHtml(departure);
 
     }
 
 
-    if(arrival) {
+    if (arrival) {
 
-        return escapeHtml(
-            arrival
-        );
+        return escapeHtml(arrival);
 
     }
 
