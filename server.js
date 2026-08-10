@@ -34,45 +34,26 @@ if (!process.env.NEWSKY_API_KEY) {
 
 if (!process.env.JWT_SECRET) {
     console.warn(
-        "WARNING: JWT_SECRET is missing."
+        "WARNING: JWT_SECRET is missing. Set a secure JWT_SECRET in .env"
     );
 }
 
 // ============================================================
-// NEW SKY SETTINGS
+// NEWSKY SETTINGS
 // ============================================================
-//
-// NewSky returns flights in pages.
-//
-// We deliberately do NOT use one request with count = 100
-// and stop there.
-//
-// Instead:
-//
-// page 1 -> skip 0
-// page 2 -> skip 100
-// page 3 -> skip 200
-// page 4 -> skip 300
-// ...
-//
-// until there are no more flights.
-//
-// You can increase this if Echo Air Group becomes very large.
-//
 
 const NEWSKY_PAGE_SIZE = Math.max(
     1,
-    Number(
-        process.env.NEWSKY_PAGE_SIZE || 100
-    )
+    Number(process.env.NEWSKY_PAGE_SIZE || 100)
 );
 
 const NEWSKY_MAX_PAGES = Math.max(
     1,
-    Number(
-        process.env.NEWSKY_MAX_PAGES || 1000
-    )
+    Number(process.env.NEWSKY_MAX_PAGES || 1000)
 );
+
+const NEWSKY_FLIGHTS_URL =
+    "https://newsky.app/api/airline-api/flights/recent";
 
 // ============================================================
 // DATABASE
@@ -105,6 +86,8 @@ db.exec(`
 
         newsky_id TEXT NOT NULL,
 
+        flight_number TEXT,
+
         dep_icao TEXT,
 
         arr_icao TEXT,
@@ -120,6 +103,14 @@ db.exec(`
         stars REAL DEFAULT 0,
 
         dep_time TEXT,
+
+        simulator TEXT,
+
+        penalties REAL DEFAULT 0,
+
+        revenue REAL DEFAULT 0,
+
+        balance REAL DEFAULT 0,
 
         synced_at TEXT DEFAULT CURRENT_TIMESTAMP,
 
@@ -137,9 +128,7 @@ db.exec(`
 
 function columnExists(table, column) {
     const columns = db
-        .prepare(
-            `PRAGMA table_info(${table})`
-        )
+        .prepare(`PRAGMA table_info(${table})`)
         .all();
 
     return columns.some(
@@ -147,25 +136,60 @@ function columnExists(table, column) {
     );
 }
 
-if (!columnExists("users", "display_name")) {
-    db.exec(`
-        ALTER TABLE users
-        ADD COLUMN display_name TEXT
-    `);
+function addColumnIfMissing(
+    table,
+    column,
+    definition
+) {
+    if (!columnExists(table, column)) {
+        db.exec(`
+            ALTER TABLE ${table}
+            ADD COLUMN ${column} ${definition}
+        `);
+    }
 }
 
-if (!columnExists("users", "newsky_pilot_id")) {
-    db.exec(`
-        ALTER TABLE users
-        ADD COLUMN newsky_pilot_id TEXT
-    `);
-}
+addColumnIfMissing(
+    "users",
+    "display_name",
+    "TEXT"
+);
 
-if (!columnExists("flights", "user_id")) {
-    throw new Error(
-        "The flights table does not contain user_id."
-    );
-}
+addColumnIfMissing(
+    "users",
+    "newsky_pilot_id",
+    "TEXT"
+);
+
+addColumnIfMissing(
+    "flights",
+    "flight_number",
+    "TEXT"
+);
+
+addColumnIfMissing(
+    "flights",
+    "simulator",
+    "TEXT"
+);
+
+addColumnIfMissing(
+    "flights",
+    "penalties",
+    "REAL DEFAULT 0"
+);
+
+addColumnIfMissing(
+    "flights",
+    "revenue",
+    "REAL DEFAULT 0"
+);
+
+addColumnIfMissing(
+    "flights",
+    "balance",
+    "REAL DEFAULT 0"
+);
 
 console.log(
     "Database ready:",
@@ -264,32 +288,52 @@ function round(
     ) / factor;
 }
 
-function firstValue(
-    object,
-    keys
-) {
+function cleanString(value) {
     if (
-        !object ||
-        typeof object !== "object"
+        value === null ||
+        value === undefined
     ) {
-        return null;
+        return "";
     }
 
-    for (const key of keys) {
-        if (
-            object[key] !== undefined &&
-            object[key] !== null &&
-            object[key] !== ""
-        ) {
-            return object[key];
-        }
+    return String(value).trim();
+}
+
+// ============================================================
+// NEWSKY FLIGHT ID
+// ============================================================
+
+function getNewSkyFlightId(flight) {
+    if (
+        !flight ||
+        typeof flight !== "object"
+    ) {
+        return "";
     }
 
-    return null;
+    const id =
+        flight._id ||
+        flight.id ||
+        flight.flightId ||
+        flight.flightID ||
+        flight.flight_id ||
+        flight.uuid;
+
+    return cleanString(id);
 }
 
 // ============================================================
 // NEWSKY PILOT ID
+// ============================================================
+//
+// Exact structure from NewSky:
+//
+// "pilot": {
+//     "_id": "...",
+//     "fullname": "...",
+//     "avatar": "..."
+// }
+//
 // ============================================================
 
 function getPilotId(flight) {
@@ -300,275 +344,71 @@ function getPilotId(flight) {
         return "";
     }
 
-    const direct =
-        firstValue(
-            flight,
-            [
-                "pilotId",
-                "pilotID",
-                "pilot_id",
-                "newskyPilotId",
-                "newsky_pilot_id"
-            ]
-        );
-
-    if (direct !== null) {
-        return String(
-            direct
-        ).trim();
-    }
-
     if (
         flight.pilot &&
         typeof flight.pilot === "object"
     ) {
-        const nested =
-            firstValue(
-                flight.pilot,
-                [
-                    "_id",
-                    "id",
-                    "pilotId",
-                    "pilotID",
-                    "newskyPilotId",
-                    "newsky_pilot_id"
-                ]
-            );
-
-        if (nested !== null) {
-            return String(
-                nested
-            ).trim();
-        }
+        return cleanString(
+            flight.pilot._id ||
+            flight.pilot.id
+        );
     }
 
+    return cleanString(
+        flight.pilotId ||
+        flight.pilotID ||
+        flight.pilot_id
+    );
+}
+
+// ============================================================
+// PILOT NAME
+// ============================================================
+
+function getPilotName(flight) {
     if (
-        flight.user &&
-        typeof flight.user === "object"
+        flight &&
+        flight.pilot &&
+        typeof flight.pilot === "object"
     ) {
-        const nested =
-            firstValue(
-                flight.user,
-                [
-                    "_id",
-                    "id",
-                    "pilotId",
-                    "pilotID"
-                ]
-            );
-
-        if (nested !== null) {
-            return String(
-                nested
-            ).trim();
-        }
-    }
-
-    if (
-        flight.pilotProfile &&
-        typeof flight.pilotProfile === "object"
-    ) {
-        const nested =
-            firstValue(
-                flight.pilotProfile,
-                [
-                    "_id",
-                    "id",
-                    "pilotId",
-                    "pilotID"
-                ]
-            );
-
-        if (nested !== null) {
-            return String(
-                nested
-            ).trim();
-        }
+        return cleanString(
+            flight.pilot.fullname
+        );
     }
 
     return "";
 }
 
 // ============================================================
-// NEWSKY FLIGHT ID
-// ============================================================
-
-function getNewSkyFlightId(flight) {
-    const value =
-        firstValue(
-            flight,
-            [
-                "_id",
-                "id",
-                "flightId",
-                "flightID",
-                "flight_id",
-                "uuid"
-            ]
-        );
-
-    if (value === null) {
-        return null;
-    }
-
-    return String(value).trim();
-}
-
-// ============================================================
-// AIRPORT CODE
-// ============================================================
-
-function extractAirportCode(
-    value,
-    depth = 0
-) {
-    if (
-        value === null ||
-        value === undefined ||
-        depth > 6
-    ) {
-        return null;
-    }
-
-    if (typeof value === "string") {
-        const text =
-            value.trim();
-
-        if (!text) {
-            return null;
-        }
-
-        return text;
-    }
-
-    if (typeof value === "number") {
-        return String(value);
-    }
-
-    if (
-        typeof value === "object" &&
-        !Array.isArray(value)
-    ) {
-        const directCode =
-            firstValue(
-                value,
-                [
-                    "icao",
-                    "ICAO",
-                    "icaoCode",
-                    "ICAOCode",
-                    "icao_code",
-
-                    "iata",
-                    "IATA",
-                    "iataCode",
-                    "IATACode",
-                    "iata_code",
-
-                    "airportCode",
-                    "airport_code",
-
-                    "code",
-                    "identifier"
-                ]
-            );
-
-        if (
-            directCode !== null &&
-            typeof directCode !== "object"
-        ) {
-            const code =
-                String(
-                    directCode
-                ).trim();
-
-            if (code) {
-                return code;
-            }
-        }
-
-        const nestedAirport =
-            firstValue(
-                value,
-                [
-                    "airport",
-                    "Airport",
-                    "airportData",
-                    "airportInfo",
-                    "location"
-                ]
-            );
-
-        if (
-            nestedAirport !== null
-        ) {
-            const nestedCode =
-                extractAirportCode(
-                    nestedAirport,
-                    depth + 1
-                );
-
-            if (nestedCode) {
-                return nestedCode;
-            }
-        }
-
-        for (
-            const key
-            of Object.keys(value)
-        ) {
-            const nestedValue =
-                value[key];
-
-            if (
-                nestedValue === null ||
-                nestedValue === undefined
-            ) {
-                continue;
-            }
-
-            if (
-                typeof nestedValue === "object"
-            ) {
-                const nestedCode =
-                    extractAirportCode(
-                        nestedValue,
-                        depth + 1
-                    );
-
-                if (nestedCode) {
-                    return nestedCode;
-                }
-            }
-        }
-    }
-
-    return null;
-}
-
-// ============================================================
 // DEPARTURE
+// ============================================================
+//
+// Exact NewSky structure:
+//
+// "dep": {
+//     "icao": "EDLW",
+//     "name": "...",
+//     "city": "..."
+// }
+//
 // ============================================================
 
 function getDeparture(flight) {
-    const raw =
-        firstValue(
-            flight,
-            [
-                "depIcao",
-                "departureIcao",
-                "departureICAO",
-                "dep_icao",
-
-                "departure",
-                "origin",
-                "from",
-                "dep"
-            ]
+    if (
+        flight &&
+        flight.dep &&
+        typeof flight.dep === "object"
+    ) {
+        return cleanString(
+            flight.dep.icao
         );
+    }
 
-    return extractAirportCode(
-        raw
+    return cleanString(
+        flight.depIcao ||
+        flight.departureIcao ||
+        flight.departureICAO ||
+        flight.dep_icao
     );
 }
 
@@ -577,179 +417,243 @@ function getDeparture(flight) {
 // ============================================================
 
 function getArrival(flight) {
-    const raw =
-        firstValue(
-            flight,
-            [
-                "arrIcao",
-                "arrivalIcao",
-                "arrivalICAO",
-                "arr_icao",
-
-                "arrival",
-                "destination",
-                "to",
-                "arr"
-            ]
+    if (
+        flight &&
+        flight.arr &&
+        typeof flight.arr === "object"
+    ) {
+        return cleanString(
+            flight.arr.icao
         );
+    }
 
-    return extractAirportCode(
-        raw
+    return cleanString(
+        flight.arrIcao ||
+        flight.arrivalIcao ||
+        flight.arrivalICAO ||
+        flight.arr_icao
     );
 }
 
 // ============================================================
 // AIRCRAFT
 // ============================================================
+//
+// Exact NewSky structure:
+//
+// "aircraft": {
+//     "name": "9H-EAM - IAE",
+//     "airframe": {
+//         "ident": "A320",
+//         "icao": "A320",
+//         "name": "Airbus A320"
+//     }
+// }
+//
+// We store the airframe name when available.
+// Example:
+// Airbus A320
+//
+// ============================================================
 
 function getAircraft(flight) {
-    const aircraft =
-        firstValue(
-            flight,
-            [
-                "aircraft",
-                "aircraftName",
-                "aircraftType",
-                "aircraftModel",
-                "plane",
-                "planeName",
-                "equipment",
-                "aircraftIcao",
-                "aircraftICAO",
-                "type"
-            ]
-        );
-
     if (
-        aircraft &&
-        typeof aircraft === "object"
+        flight &&
+        flight.aircraft &&
+        typeof flight.aircraft === "object"
     ) {
-        return (
-            aircraft.name ||
-            aircraft.model ||
-            aircraft.icao ||
-            aircraft.type ||
-            "Unknown aircraft"
+        if (
+            flight.aircraft.airframe &&
+            typeof flight.aircraft.airframe === "object"
+        ) {
+            return cleanString(
+                flight.aircraft.airframe.name ||
+                flight.aircraft.airframe.icao ||
+                flight.aircraft.airframe.ident
+            );
+        }
+
+        return cleanString(
+            flight.aircraft.name ||
+            flight.aircraft.model ||
+            flight.aircraft.icao
         );
     }
 
-    return (
-        aircraft ||
-        "Unknown aircraft"
+    return cleanString(
+        flight.aircraftName ||
+        flight.aircraftType ||
+        flight.aircraftModel
     );
 }
 
 // ============================================================
 // RATING
 // ============================================================
+//
+// NewSky:
+// "rating": 9.87
+//
+// ============================================================
 
 function getRating(flight) {
-    const rating =
-        firstValue(
-            flight,
-            [
-                "rating",
-                "flightRating",
-                "score",
-                "grade",
-                "performanceRating"
-            ]
-        );
-
-    return toNumber(
-        rating
+    return round(
+        toNumber(
+            flight?.rating
+        ),
+        2
     );
 }
 
 // ============================================================
 // DURATION
 // ============================================================
+//
+// IMPORTANT:
+//
+// NewSky has:
+//
+// "duration": 60
+//
+// but:
+//
+// "result": {
+//     "totals": {
+//         "time": 54
+//     }
+// }
+//
+// We use result.totals.time because this is the
+// actual flight time used for the star calculation.
+//
+// ============================================================
 
 function getDurationMinutes(flight) {
-    const value =
-        firstValue(
-            flight,
-            [
-                "duration",
-                "durationMinutes",
-                "flightDuration",
-                "minutes",
-                "flightTime"
-            ]
-        );
-
-    if (value === null) {
-        return 0;
-    }
-
     if (
-        typeof value === "string" &&
-        value.includes(":")
+        flight &&
+        flight.result &&
+        flight.result.totals
     ) {
-        const parts =
-            value
-                .split(":")
-                .map(Number);
-
-        if (parts.length === 2) {
-            return (
-                parts[0] * 60 +
-                parts[1]
+        const resultTime =
+            toNumber(
+                flight.result.totals.time,
+                NaN
             );
-        }
 
-        if (parts.length === 3) {
-            return (
-                parts[0] * 60 +
-                parts[1] +
-                parts[2] / 60
-            );
+        if (
+            Number.isFinite(
+                resultTime
+            )
+        ) {
+            return resultTime;
         }
     }
 
     return toNumber(
-        value
+        flight?.duration
     );
 }
 
 // ============================================================
 // DISTANCE
 // ============================================================
+//
+// NewSky:
+//
+// result.totals.distance
+//
+// Example:
+//
+// 279 km
+//
+// ============================================================
 
 function getDistance(flight) {
-    const value =
-        firstValue(
-            flight,
-            [
-                "distance",
-                "distanceKm",
-                "distance_km",
-                "routeDistance",
-                "distanceFlown"
-            ]
-        );
+    if (
+        flight &&
+        flight.result &&
+        flight.result.totals
+    ) {
+        const distance =
+            toNumber(
+                flight.result.totals.distance,
+                NaN
+            );
+
+        if (
+            Number.isFinite(
+                distance
+            )
+        ) {
+            return distance;
+        }
+    }
 
     return toNumber(
-        value
+        flight?.distance
     );
 }
 
 // ============================================================
-// DATE
+// FLIGHT DATE
 // ============================================================
 
 function getFlightDate(flight) {
-    return firstValue(
-        flight,
-        [
-            "depTimeAct",
-            "depTime",
-            "departureTime",
-            "departureDate",
-            "date",
-            "createdAt",
-            "flightDate"
-        ]
+    return cleanString(
+        flight?.depTimeAct ||
+        flight?.depTime ||
+        flight?.departureTime ||
+        flight?.createdAt
+    );
+}
+
+// ============================================================
+// FLIGHT NUMBER
+// ============================================================
+
+function getFlightNumber(flight) {
+    return cleanString(
+        flight?.flightNumber
+    );
+}
+
+// ============================================================
+// SIMULATOR
+// ============================================================
+
+function getSimulator(flight) {
+    return cleanString(
+        flight?.simulator
+    );
+}
+
+// ============================================================
+// PENALTIES
+// ============================================================
+
+function getPenalties(flight) {
+    return toNumber(
+        flight?.result?.totals?.penalties
+    );
+}
+
+// ============================================================
+// REVENUE
+// ============================================================
+
+function getRevenue(flight) {
+    return toNumber(
+        flight?.result?.totals?.revenue
+    );
+}
+
+// ============================================================
+// BALANCE
+// ============================================================
+
+function getBalance(flight) {
+    return toNumber(
+        flight?.result?.totals?.balance
     );
 }
 
@@ -757,22 +661,31 @@ function getFlightDate(flight) {
 // STARS
 // ============================================================
 //
-// Stars:
+// FORMULA:
 //
-// flight minutes
-// + distance / 10
-// + rating
+// Stars = actual flight minutes
+//       + distance / 10
+//       + rating
 //
-// Example:
+// Example Christian:
 //
-// 54 minutes
-// + 120 km / 10
-// + 9.87 rating
+// 54
+// + 279 / 10
+// + 9.87
 //
-// = 75.87 stars
+// = 91.77
+//
+// Example Paul:
+//
+// 855
+// + 6486 / 10
+// + 9.53
+//
+// = 1513.13
 //
 // Decimal values are preserved.
 //
+// ============================================================
 
 function calculateFlightStars(
     duration,
@@ -806,15 +719,16 @@ function calculateFlightStars(
 // FORMAT FLIGHT
 // ============================================================
 
-function formatFlight(
-    flight
-) {
+function formatFlight(flight) {
     return {
         id:
             flight.id,
 
         newskyId:
             flight.newsky_id,
+
+        flightNumber:
+            flight.flight_number,
 
         depIcao:
             flight.dep_icao,
@@ -860,6 +774,33 @@ function formatFlight(
         depTime:
             flight.dep_time,
 
+        simulator:
+            flight.simulator,
+
+        penalties:
+            round(
+                toNumber(
+                    flight.penalties
+                ),
+                2
+            ),
+
+        revenue:
+            round(
+                toNumber(
+                    flight.revenue
+                ),
+                2
+            ),
+
+        balance:
+            round(
+                toNumber(
+                    flight.balance
+                ),
+                2
+            ),
+
         syncedAt:
             flight.synced_at
     };
@@ -869,9 +810,7 @@ function formatFlight(
 // ACHIEVEMENTS
 // ============================================================
 
-function getAchievements(
-    stats
-) {
+function getAchievements(stats) {
     return [
         {
             id: "first-flight",
@@ -1020,9 +959,7 @@ function getAchievements(
 // USER STATS
 // ============================================================
 
-function getUserStats(
-    userId
-) {
+function getUserStats(userId) {
     const flights =
         db.prepare(`
             SELECT *
@@ -1031,9 +968,7 @@ function getUserStats(
             ORDER BY
                 datetime(dep_time) DESC,
                 id DESC
-        `).all(
-            userId
-        );
+        `).all(userId);
 
     const flightCount =
         flights.length;
@@ -1182,9 +1117,7 @@ function getUserStats(
 // AUTHENTICATION
 // ============================================================
 
-function createToken(
-    user
-) {
+function createToken(user) {
     return jwt.sign(
         {
             id:
@@ -1548,6 +1481,9 @@ app.get(
                 distance:
                     stats.distance,
 
+                duration:
+                    stats.duration,
+
                 flightHours:
                     stats.flightHours,
 
@@ -1614,9 +1550,7 @@ app.post(
 // EXTRACT FLIGHTS FROM NEWSKY RESPONSE
 // ============================================================
 
-function extractFlights(
-    data
-) {
+function extractFlights(data) {
     if (Array.isArray(data)) {
         return data;
     }
@@ -1697,6 +1631,7 @@ async function getNewSkyFlightPage(
 
     const body = {
         skip,
+
         count:
             NEWSKY_PAGE_SIZE,
 
@@ -1710,7 +1645,7 @@ async function getNewSkyFlightPage(
 
     const response =
         await fetch(
-            "https://newsky.app/api/airline-api/flights/recent",
+            NEWSKY_FLIGHTS_URL,
             {
                 method:
                     "POST",
@@ -1731,62 +1666,48 @@ async function getNewSkyFlightPage(
         );
 
     const text =
-    await response.text();
+        await response.text();
 
-let data;
+    let data;
 
-try {
-    data =
-        JSON.parse(
-            text
+    try {
+        data =
+            JSON.parse(
+                text
+            );
+    } catch {
+        throw new Error(
+            "NewSky returned an invalid JSON response."
         );
-} catch {
-    throw new Error(
-        "NewSky returned an invalid JSON response."
-    );
+    }
+
+    if (!response.ok) {
+        console.error(
+            "NewSky API error:",
+            data
+        );
+
+        throw new Error(
+            data.error ||
+            data.message ||
+            `NewSky API returned ${response.status}`
+        );
+    }
+
+    const flights =
+        extractFlights(
+            data
+        );
+
+    return {
+        data,
+        flights
+    };
 }
 
-console.log("NEWSKY RAW RESPONSE:");
-console.log(JSON.stringify(data, null, 2));
-
-if (!response.ok) {
-    console.error(
-        "NewSky API error:",
-        data
-    );
-
-    throw new Error(
-        data.error ||
-        data.message ||
-        `NewSky API returned ${response.status}`
-    );
-}
-
-const flights =
-    extractFlights(
-        data
-    );
-
-return {
-    data,
-    flights
-};
-}
-    
 // ============================================================
 // GET ALL NEWSKY FLIGHTS
 // ============================================================
-//
-// This is the important part.
-//
-// We keep requesting pages until:
-//
-// 1. NewSky returns zero flights
-// 2. NewSky returns fewer flights than the page size
-// 3. We reach NEWSKY_MAX_PAGES
-//
-// We also protect against the API returning the same page twice.
-//
 
 async function getAllNewSkyFlights() {
     const allFlights = [];
@@ -1798,7 +1719,7 @@ async function getAllNewSkyFlights() {
 
     let pagesFetched = 0;
 
-    let duplicatePages = 0;
+    let duplicateFlightsIgnored = 0;
 
     while (
         pagesFetched <
@@ -1845,7 +1766,7 @@ async function getAllNewSkyFlights() {
                     flightId
                 )
             ) {
-                duplicatePages++;
+                duplicateFlightsIgnored++;
                 continue;
             }
 
@@ -1862,11 +1783,6 @@ async function getAllNewSkyFlights() {
             newFlightsThisPage++;
         }
 
-        /*
-         * If NewSky returned fewer than requested,
-         * we reached the last page.
-         */
-
         if (
             flights.length <
             NEWSKY_PAGE_SIZE
@@ -1877,12 +1793,6 @@ async function getAllNewSkyFlights() {
 
             break;
         }
-
-        /*
-         * If the API returned a full page but
-         * absolutely nothing new, continuing would
-         * create an infinite loop.
-         */
 
         if (
             newFlightsThisPage === 0
@@ -1917,7 +1827,7 @@ async function getAllNewSkyFlights() {
 
         pagesFetched,
 
-        duplicatePages
+        duplicateFlightsIgnored
     };
 }
 
@@ -1944,9 +1854,7 @@ function getLinkedPilots() {
 // PILOT LOOKUP
 // ============================================================
 
-function buildPilotLookup(
-    pilots
-) {
+function buildPilotLookup(pilots) {
     const lookup =
         new Map();
 
@@ -1955,9 +1863,9 @@ function buildPilotLookup(
         of pilots
     ) {
         const pilotId =
-            String(
+            cleanString(
                 pilot.newsky_pilot_id
-            ).trim();
+            );
 
         if (!pilotId) {
             continue;
@@ -1982,6 +1890,7 @@ const upsertFlight =
         (
             user_id,
             newsky_id,
+            flight_number,
             dep_icao,
             arr_icao,
             aircraft,
@@ -1990,10 +1899,19 @@ const upsertFlight =
             distance,
             stars,
             dep_time,
+            simulator,
+            penalties,
+            revenue,
+            balance,
             synced_at
         )
         VALUES
         (
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
             ?,
             ?,
             ?,
@@ -2009,6 +1927,9 @@ const upsertFlight =
 
         ON CONFLICT(user_id, newsky_id)
         DO UPDATE SET
+
+            flight_number =
+                excluded.flight_number,
 
             dep_icao =
                 excluded.dep_icao,
@@ -2034,12 +1955,24 @@ const upsertFlight =
             dep_time =
                 excluded.dep_time,
 
+            simulator =
+                excluded.simulator,
+
+            penalties =
+                excluded.penalties,
+
+            revenue =
+                excluded.revenue,
+
+            balance =
+                excluded.balance,
+
             synced_at =
                 CURRENT_TIMESTAMP
     `);
 
 // ============================================================
-// SYNC ONE FLIGHT
+// PREPARE FLIGHT
 // ============================================================
 
 function prepareFlightForDatabase(
@@ -2089,6 +2022,31 @@ function prepareFlightForDatabase(
             flight
         );
 
+    const flightNumber =
+        getFlightNumber(
+            flight
+        );
+
+    const simulator =
+        getSimulator(
+            flight
+        );
+
+    const penalties =
+        getPenalties(
+            flight
+        );
+
+    const revenue =
+        getRevenue(
+            flight
+        );
+
+    const balance =
+        getBalance(
+            flight
+        );
+
     const stars =
         calculateFlightStars(
             duration,
@@ -2099,6 +2057,8 @@ function prepareFlightForDatabase(
     return {
         newskyId,
 
+        flightNumber,
+
         departure:
             departure ||
             null,
@@ -2108,11 +2068,8 @@ function prepareFlightForDatabase(
             null,
 
         aircraft:
-            aircraft
-                ? String(
-                    aircraft
-                )
-                : null,
+            aircraft ||
+            null,
 
         rating,
 
@@ -2123,32 +2080,24 @@ function prepareFlightForDatabase(
         stars,
 
         depTime:
-            depTime
-                ? String(
-                    depTime
-                )
-                : null
+            depTime ||
+            null,
+
+        simulator:
+            simulator ||
+            null,
+
+        penalties,
+
+        revenue,
+
+        balance
     };
 }
 
 // ============================================================
-// CENTRAL SYNC
+// FULL ECHO AIR GROUP SYNC
 // ============================================================
-//
-// THIS is now the main synchronization endpoint.
-//
-// It does NOT sync only the logged-in pilot.
-//
-// It:
-//
-// 1. Gets every linked Echo Air Group pilot
-// 2. Gets every available NewSky flight through pagination
-// 3. Reads the Pilot ID from each flight
-// 4. Finds the matching Echo user
-// 5. Saves the flight to that user's account
-//
-// Therefore the ranking can use ALL Echo Air Group flights.
-//
 
 app.post(
     "/api/sync/all",
@@ -2194,7 +2143,7 @@ app.post(
             const {
                 flights,
                 pagesFetched,
-                duplicatePages
+                duplicateFlightsIgnored
             } =
                 await getAllNewSkyFlights();
 
@@ -2226,15 +2175,6 @@ app.post(
                     0
                 );
             }
-
-            /*
-             * Use one transaction for the complete
-             * synchronization.
-             *
-             * This makes the database much faster
-             * when importing hundreds or thousands
-             * of flights.
-             */
 
             const transaction =
                 db.transaction(
@@ -2282,6 +2222,8 @@ app.post(
 
                                 prepared.newskyId,
 
+                                prepared.flightNumber,
+
                                 prepared.departure,
 
                                 prepared.arrival,
@@ -2296,7 +2238,15 @@ app.post(
 
                                 prepared.stars,
 
-                                prepared.depTime
+                                prepared.depTime,
+
+                                prepared.simulator,
+
+                                prepared.penalties,
+
+                                prepared.revenue,
+
+                                prepared.balance
                             );
 
                             imported++;
@@ -2366,7 +2316,16 @@ app.post(
                                 stats.stars,
 
                             rank:
-                                stats.rank.name
+                                stats.rank.name,
+
+                            averageRating:
+                                stats.averageRating,
+
+                            distance:
+                                stats.distance,
+
+                            flightHours:
+                                stats.flightHours
                         };
                     }
                 );
@@ -2437,8 +2396,7 @@ app.post(
 
                 totalFlightsInDatabase,
 
-                duplicateFlightsIgnored:
-                    duplicatePages,
+                duplicateFlightsIgnored,
 
                 pilots:
                     pilotResults
@@ -2460,19 +2418,8 @@ app.post(
 );
 
 // ============================================================
-// OLD PERSONAL SYNC
+// PERSONAL SYNC
 // ============================================================
-//
-// Kept for backwards compatibility.
-//
-// The frontend can still call /api/sync/me,
-// but the new recommended endpoint is:
-//
-// POST /api/sync/all
-//
-// The personal endpoint only imports flights
-// belonging to the currently logged-in pilot.
-//
 
 app.post(
     "/api/sync/me",
@@ -2480,10 +2427,9 @@ app.post(
     async (req, res) => {
         try {
             const pilotId =
-                String(
-                    req.user.newsky_pilot_id ||
-                    ""
-                ).trim();
+                cleanString(
+                    req.user.newsky_pilot_id
+                );
 
             if (!pilotId) {
                 return res.status(400).json({
@@ -2493,19 +2439,17 @@ app.post(
             }
 
             const {
-                flights
+                flights,
+                pagesFetched
             } =
                 await getAllNewSkyFlights();
 
             const pilotFlights =
                 flights.filter(
                     flight =>
-                        String(
-                            getPilotId(
-                                flight
-                            )
-                        ).trim() ===
-                        pilotId
+                        getPilotId(
+                            flight
+                        ) === pilotId
                 );
 
             let imported =
@@ -2536,6 +2480,8 @@ app.post(
 
                                 prepared.newskyId,
 
+                                prepared.flightNumber,
+
                                 prepared.departure,
 
                                 prepared.arrival,
@@ -2550,7 +2496,15 @@ app.post(
 
                                 prepared.stars,
 
-                                prepared.depTime
+                                prepared.depTime,
+
+                                prepared.simulator,
+
+                                prepared.penalties,
+
+                                prepared.revenue,
+
+                                prepared.balance
                             );
 
                             imported++;
@@ -2570,6 +2524,8 @@ app.post(
             res.json({
                 message:
                     `${imported} flight(s) found for your NewSky Pilot ID.`,
+
+                pagesFetched,
 
                 newskyFlightsReceived:
                     flights.length,
@@ -2594,7 +2550,13 @@ app.post(
                         stats.averageRating,
 
                     flightHours:
-                        stats.flightHours
+                        stats.flightHours,
+
+                    distance:
+                        stats.distance,
+
+                    rank:
+                        stats.rank.name
                 }
             });
 
@@ -2788,6 +2750,11 @@ app.get(
                         user.created_at
                 },
 
+                achievements:
+                    getAchievements(
+                        stats
+                    ),
+
                 flights:
                     stats.flights
                         .slice(0, 25)
@@ -2859,6 +2826,12 @@ app.get(
                                 averageRating:
                                     stats.averageRating,
 
+                                distance:
+                                    stats.distance,
+
+                                flightHours:
+                                    stats.flightHours,
+
                                 rank:
                                     stats.rank.name
                             };
@@ -2926,7 +2899,7 @@ app.get(
 );
 
 // ============================================================
-// DATABASE DEBUG
+// ADMIN DATABASE STATS
 // ============================================================
 
 app.get(
@@ -2950,8 +2923,13 @@ app.get(
                     SELECT
                         u.id,
                         u.username,
+                        u.display_name,
                         u.newsky_pilot_id,
-                        COUNT(f.id) AS flights
+                        COUNT(f.id) AS flights,
+                        COALESCE(
+                            SUM(f.stars),
+                            0
+                        ) AS stars
                     FROM users u
                     LEFT JOIN flights f
                         ON f.user_id = u.id
@@ -3038,7 +3016,15 @@ app.listen(
     PORT,
     () => {
         console.log(
-            `Echo Air Group backend running on port ${PORT}`
+            "================================================"
+        );
+
+        console.log(
+            "Echo Air Group backend started"
+        );
+
+        console.log(
+            `Port: ${PORT}`
         );
 
         console.log(
@@ -3051,6 +3037,10 @@ app.listen(
 
         console.log(
             `NewSky max pages: ${NEWSKY_MAX_PAGES}`
+        );
+
+        console.log(
+            "================================================"
         );
     }
 );
