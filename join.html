@@ -43,6 +43,9 @@ header.scrolled {
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
+
+/* Prevent content from going underneath fixed header */
+
 body {
     padding-top: 80px;
 }
@@ -57,45 +60,6 @@ body {
     width: auto;
     display: block;
     object-fit: contain;
-}
-
-
-/* =========================================================
-   MANAGER APPLICATION BUTTON
-========================================================= */
-
-.manager-register {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 12px 18px;
-
-    border-radius: 10px;
-
-    background: transparent;
-    color: #ace336;
-
-    border: 1px solid #ace336;
-
-    text-decoration: none;
-
-    font-weight: 800;
-    font-size: 13px;
-
-    white-space: nowrap;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.manager-register:hover {
-    background: #ace336;
-    color: #17200f;
-
-    transform: translateY(-2px);
 }
 
 
@@ -340,6 +304,11 @@ footer p {
     font-size: 15px;
 
     cursor: pointer;
+    text-decoration: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     transition:
         transform 0.2s ease,
@@ -349,6 +318,109 @@ footer p {
 .btn-primary:hover {
     transform: translateY(-2px);
     opacity: 0.9;
+}
+
+
+/* =========================================================
+   MANAGER RECRUITMENT CARD
+========================================================= */
+
+.manager-card {
+    max-width: 1000px;
+    margin: 35px auto 0;
+
+    position: relative;
+    overflow: hidden;
+
+    background: #090d08;
+
+    border: 1px solid rgba(172,227,54,0.20);
+
+    border-radius: 18px;
+
+    padding: 30px 32px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+
+/* Decorative green glow */
+
+.manager-card::before {
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    right: -80px;
+    top: -100px;
+
+    background: rgba(172,227,54,0.10);
+
+    border-radius: 50%;
+
+    filter: blur(5px);
+}
+
+
+/* Content */
+
+.manager-content {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+.manager-text {
+    max-width: 700px;
+}
+
+.manager-label {
+    display: inline-block;
+
+    margin-bottom: 10px;
+
+    color: #ace336;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.manager-card h3 {
+    margin: 0 0 10px;
+
+    color: #ffffff;
+
+    font-size: 25px;
+    line-height: 1.2;
+}
+
+.manager-card h3 span {
+    color: #ace336;
+}
+
+.manager-card p {
+    margin: 0;
+
+    color: #9da69a;
+
+    line-height: 1.65;
+
+    font-size: 14px;
+}
+
+.manager-button {
+    flex-shrink: 0;
 }
 
 
@@ -388,9 +460,17 @@ footer p {
         gap: 8px;
     }
 
-    /* Hide desktop manager button on mobile */
-    .manager-register {
-        display: none;
+    .manager-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .manager-button {
+        width: 100%;
+    }
+
+    .manager-button .btn-primary {
+        width: 100%;
     }
 
 }
@@ -418,6 +498,14 @@ footer p {
         font-size: 11px;
     }
 
+    .manager-card {
+        padding: 24px 20px;
+    }
+
+    .manager-card h3 {
+        font-size: 22px;
+    }
+
 }
 
 </style>
@@ -435,7 +523,6 @@ footer p {
 <header id="siteHeader">
 
 <div class="container nav">
-
 
 <!-- LOGO -->
 
@@ -475,21 +562,14 @@ footer p {
 </nav>
 
 
-<!-- REGISTER BUTTON -->
+<!-- REGISTER -->
 
 <a class="register" href="join.html">
 REGISTER
 </a>
 
 
-<!-- MANAGER APPLICATION BUTTON -->
-
-<a class="manager-register" href="manager.html">
-MANAGER APPLICATION
-</a>
-
-
-<!-- MOBILE MENU BUTTON -->
+<!-- MOBILE MENU -->
 
 <button
     class="menu"
@@ -502,9 +582,7 @@ MANAGER APPLICATION
 </div>
 
 
-<!-- =========================================================
-     MOBILE NAV
-========================================================= -->
+<!-- MOBILE NAV -->
 
 <div id="mobileNav" class="mobileNav">
 
@@ -529,10 +607,6 @@ MANAGER APPLICATION
 <a href="ranking.html">Ranking</a>
 
 <a href="join.html">Register</a>
-
-<a href="manager.html">
-Manager Application
-</a>
 
 </div>
 
@@ -595,7 +669,7 @@ Register
 </span>
 
 <h2>
-Application <span>Form</span>
+Pilot <span>Application</span>
 </h2>
 
 <p>
@@ -607,7 +681,7 @@ Complete the form below to start your virtual pilot application.
 
 
 <!-- =========================================================
-     FORM
+     PILOT APPLICATION FORM
 ========================================================= -->
 
 <form
@@ -827,7 +901,6 @@ Select your country
 <option>Malaysia</option>
 <option>Malta</option>
 <option>Mexico</option>
-<option>Moldova</option>
 <option>Monaco</option>
 <option>Montenegro</option>
 <option>Morocco</option>
@@ -1105,6 +1178,51 @@ Your application will be sent to the Echo Air Group recruitment email. The recru
 
 </form>
 
+
+
+<!-- =========================================================
+     MANAGER RECRUITMENT CARD
+========================================================= -->
+
+<div class="manager-card">
+
+<div class="manager-content">
+
+
+<div class="manager-text">
+
+<span class="manager-label">
+Management Recruitment
+</span>
+
+<h3>
+Want to help lead <span>Echo Air Group?</span>
+</h3>
+
+<p>
+We're not only looking for pilots. If you're motivated, reliable and have ideas to help Echo Air Group grow, you could become part of our management team. Whether you're interested in operations, recruitment, events, community management or another area, we'd love to hear from you.
+</p>
+
+</div>
+
+
+<div class="manager-button">
+
+<a
+class="btn btn-primary"
+href="manager.html"
+>
+Manager Application →
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+
 </div>
 
 </section>
@@ -1242,10 +1360,6 @@ Contact Us
 
 <a href="join.html">
 Register
-</a>
-
-<a href="manager.html">
-Manager Application
 </a>
 
 </div>
