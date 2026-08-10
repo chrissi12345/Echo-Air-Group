@@ -1557,7 +1557,6 @@ function escapeHtml(value) {
 
 }
 
-
 /* ============================================================
    RANKS
    ============================================================ */
@@ -1571,27 +1570,27 @@ const ranks = [
 
     {
         name:'First Officer',
-        stars:100
+        stars:1000
     },
 
     {
         name:'Senior First Officer',
-        stars:250
+        stars:2500
     },
 
     {
         name:'Captain',
-        stars:500
+        stars:5000
     },
 
     {
         name:'Senior Captain',
-        stars:750
+        stars:7500
     },
 
     {
         name:'Commander',
-        stars:1000
+        stars:10000
     }
 
 ];
@@ -1599,28 +1598,28 @@ const ranks = [
 
 function calculateRank(stars) {
 
+    stars =
+        Number(stars) || 0;
+
+
     let current =
-    ranks[0];
+        ranks[0];
 
     let next =
-    null;
+        null;
 
 
-    for(
-        const rank of ranks
-    ) {
+    for(const rank of ranks) {
 
-        if(
-            stars >= rank.stars
-        ) {
+        if(stars >= rank.stars) {
 
             current =
-            rank;
+                rank;
 
         } else {
 
             next =
-            rank;
+                rank;
 
             break;
 
@@ -1635,7 +1634,6 @@ function calculateRank(stars) {
     };
 
 }
-
 
 /* ============================================================
    ACHIEVEMENTS
