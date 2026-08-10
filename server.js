@@ -1731,45 +1731,47 @@ async function getNewSkyFlightPage(
         );
 
     const text =
-        await response.text();
+    await response.text();
 
-    let data;
+let data;
 
-    try {
-        data =
-            JSON.parse(
-                text
-            );
-    } catch {
-        throw new Error(
-            "NewSky returned an invalid JSON response."
+try {
+    data =
+        JSON.parse(
+            text
         );
-    }
-
-    if (!response.ok) {
-        console.error(
-            "NewSky API error:",
-            data
-        );
-
-        throw new Error(
-            data.error ||
-            data.message ||
-            `NewSky API returned ${response.status}`
-        );
-    }
-
-    const flights =
-        extractFlights(
-            data
-        );
-
-    return {
-        data,
-        flights
-    };
+} catch {
+    throw new Error(
+        "NewSky returned an invalid JSON response."
+    );
 }
 
+console.log("NEWSKY RAW RESPONSE:");
+console.log(JSON.stringify(data, null, 2));
+
+if (!response.ok) {
+    console.error(
+        "NewSky API error:",
+        data
+    );
+
+    throw new Error(
+        data.error ||
+        data.message ||
+        `NewSky API returned ${response.status}`
+    );
+}
+
+const flights =
+    extractFlights(
+        data
+    );
+
+return {
+    data,
+    flights
+};
+    
 // ============================================================
 // GET ALL NEWSKY FLIGHTS
 // ============================================================
