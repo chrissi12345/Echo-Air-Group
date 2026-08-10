@@ -1,1 +1,1559 @@
+<!doctype html>
+<html lang="en">
 
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Manager Application — Echo Air Group</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* =========================================================
+   FIXED HEADER
+========================================================= */
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+
+    background: rgba(9, 13, 8, 0.98);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    transition:
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        backdrop-filter 0.25s ease;
+}
+
+header.scrolled {
+    background: rgba(9, 13, 8, 0.80);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+body {
+    padding-top: 80px;
+}
+
+
+/* =========================================================
+   HEADER LOGO
+========================================================= */
+
+.header-logo {
+    height: 48px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   MANAGER APPLICATION BUTTON
+========================================================= */
+
+.manager-register {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    background: transparent;
+    color: #ace336;
+
+    border: 1px solid #ace336;
+
+    text-decoration: none;
+
+    font-weight: 800;
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.manager-register:hover {
+    background: #ace336;
+    color: #17200f;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MANAGER APPLICATION FORM
+========================================================= */
+
+.form-card {
+    max-width: 1000px;
+    margin: 0 auto;
+
+    background: #ffffff;
+    border: 1px solid #e1e6df;
+    border-radius: 18px;
+
+    padding: 32px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 13px 15px;
+
+    border: 1px solid #d8ded6;
+    border-radius: 10px;
+
+    background: #f8faf7;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    color: #20251f;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: #9fcb42;
+    box-shadow: 0 0 0 3px rgba(172,227,54,0.12);
+}
+
+.field textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.hint {
+    font-size: 12px;
+    color: #7b857a;
+}
+
+.application-note {
+    margin-top: 20px;
+
+    padding: 14px 16px;
+
+    border-radius: 10px;
+
+    background: #eef5e7;
+    color: #52604d;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.btn-primary {
+    border: none;
+
+    padding: 14px 22px;
+
+    border-radius: 10px;
+
+    background: #ace336;
+    color: #17200f;
+
+    font-weight: 800;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    background: #090d08;
+    color: white;
+    padding: 55px 0 25px;
+}
+
+.foot-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+}
+
+footer .brand {
+    margin-bottom: 18px;
+}
+
+footer p {
+    color: #8f988c;
+    line-height: 1.7;
+}
+
+
+/* Footer logo */
+
+.brand-logo {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    display: block;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    font-weight: 800;
+}
+
+.brand-text small {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.65;
+    margin-top: 3px;
+}
+
+
+/* Footer social buttons */
+
+.footer-social {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.footer-social a {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #151b13;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.footer-social a:hover {
+    transform: translateY(-2px);
+    background: #20291d;
+}
+
+.footer-social img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+
+/* Footer navigation */
+
+.foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 24px;
+    max-width: 450px;
+}
+
+.foot-links a {
+    color: #b9c1b5;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        color 0.2s ease;
+}
+
+.foot-links a:hover {
+    color: #ace336;
+}
+
+
+/* Footer copyright */
+
+.copy {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    margin-top: 45px;
+    padding-top: 20px;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    color: #687066;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .form-card {
+        padding: 22px;
+    }
+
+    .header-logo {
+        height: 40px;
+    }
+
+    .foot-top {
+        flex-direction: column;
+        gap: 35px;
+    }
+
+    .foot-links {
+        max-width: 100%;
+    }
+
+    .copy {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .manager-register {
+        display: none;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL SCREENS
+========================================================= */
+
+@media (max-width: 500px) {
+
+    body {
+        padding-top: 70px;
+    }
+
+    .header-logo {
+        height: 36px;
+    }
+
+    footer {
+        padding: 45px 0 20px;
+    }
+
+    .copy {
+        font-size: 11px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header id="siteHeader">
+
+<div class="container nav">
+
+
+<!-- LOGO -->
+
+<a class="brand" href="index.html">
+
+<img
+    class="header-logo"
+    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+    alt="Echo Air Group"
+>
+
+</a>
+
+
+<!-- DESKTOP NAVIGATION -->
+
+<nav class="navlinks">
+
+<a href="index.html">Home</a>
+
+<a href="about.html">About</a>
+
+<a href="fleet.html">Fleet</a>
+
+<a href="routes.html">Routes</a>
+
+<a href="team.html">Team</a>
+
+<a href="join.html">Join Us</a>
+
+<a href="manual.html">Pilot Manual</a>
+
+<a href="contact.html">Contact Us</a>
+
+<a href="ranking.html">Ranking</a>
+
+</nav>
+
+
+<!-- REGISTER -->
+
+<a class="register" href="join.html">
+REGISTER
+</a>
+
+
+<!-- MANAGER APPLICATION -->
+
+<a class="manager-register" href="manager.html">
+MANAGER APPLICATION
+</a>
+
+
+<!-- MOBILE MENU -->
+
+<button
+    class="menu"
+    onclick="toggleMenu()"
+    aria-label="Open navigation menu"
+>
+☰
+</button>
+
+</div>
+
+
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
+
+<div id="mobileNav" class="mobileNav">
+
+<div class="container">
+
+<a href="index.html">Home</a>
+
+<a href="about.html">About</a>
+
+<a href="fleet.html">Fleet</a>
+
+<a href="routes.html">Routes</a>
+
+<a href="team.html">Team</a>
+
+<a href="join.html">Join Us</a>
+
+<a href="manual.html">Pilot Manual</a>
+
+<a href="contact.html">Contact Us</a>
+
+<a href="ranking.html">Ranking</a>
+
+<a href="join.html">Register</a>
+
+<a href="manager.html">
+Manager Application
+</a>
+
+</div>
+
+</div>
+
+</header>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="pagehero">
+
+<div class="container">
+
+<span class="pill">
+Take the Next Step
+</span>
+
+<h1>
+Become an <span>Echo Manager.</span>
+</h1>
+
+<p>
+Help shape Echo Air Group, support our pilots and contribute to the future of our virtual airline.
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MANAGER APPLICATION
+========================================================= -->
+
+<section
+class="content-section"
+id="manager-application"
+style="background:#f5f7f3"
+>
+
+<div class="container">
+
+
+<div class="section-head">
+
+<span class="eyebrow">
+Management
+</span>
+
+<h2>
+Manager <span>Application</span>
+</h2>
+
+<p>
+Think you have what it takes to become part of the Echo Air Group management team? Complete the application below.
+</p>
+
+</div>
+
+
+
+<!-- =========================================================
+     FORM
+========================================================= -->
+
+<form
+class="form-card"
+action="https://formsubmit.co/echoairgrouptiktok@gmail.com"
+method="POST"
+>
+
+
+<!-- FORMSUBMIT SETTINGS -->
+
+<input
+type="hidden"
+name="_subject"
+value="New Echo Air Group Manager Application"
+>
+
+<input
+type="hidden"
+name="_captcha"
+value="false"
+>
+
+<input
+type="hidden"
+name="_template"
+value="table"
+>
+
+<input
+type="hidden"
+name="_next"
+value="https://chrissi12345.github.io/Echo-Air-Group"
+>
+
+
+<h3>
+Join the Management Team
+</h3>
+
+<p style="color:#687267">
+Please complete all required fields marked with *.
+</p>
+
+
+<div
+style="height:1px;background:#e8ede5;margin:22px 0 28px"
+></div>
+
+
+<div class="form-grid">
+
+
+<!-- FIRST NAME -->
+
+<div class="field">
+
+<label for="first_name">
+First Name *
+</label>
+
+<input
+id="first_name"
+name="First Name"
+required
+placeholder="e.g. Alex"
+>
+
+</div>
+
+
+<!-- LAST NAME -->
+
+<div class="field">
+
+<label for="last_name">
+Last Name *
+</label>
+
+<input
+id="last_name"
+name="Last Name"
+required
+placeholder="e.g. Carter"
+>
+
+</div>
+
+
+<!-- AGE -->
+
+<div class="field">
+
+<label for="age">
+Age *
+</label>
+
+<input
+id="age"
+name="Age"
+required
+type="number"
+min="1"
+placeholder="18"
+>
+
+</div>
+
+
+<!-- COUNTRY -->
+
+<div class="field">
+
+<label for="country">
+Country *
+</label>
+
+<select
+id="country"
+name="Country"
+required
+>
+
+<option value="">
+Select your country
+</option>
+
+<option>Afghanistan</option>
+<option>Albania</option>
+<option>Algeria</option>
+<option>American Samoa</option>
+<option>Andorra</option>
+<option>Angola</option>
+<option>Anguilla</option>
+<option>Antarctica</option>
+<option>Antigua and Barbuda</option>
+<option>Argentina</option>
+<option>Armenia</option>
+<option>Aruba</option>
+<option>Australia</option>
+<option>Austria</option>
+<option>Azerbaijan</option>
+<option>Bahamas</option>
+<option>Bahrain</option>
+<option>Bangladesh</option>
+<option>Barbados</option>
+<option>Belarus</option>
+<option>Belgium</option>
+<option>Belize</option>
+<option>Benin</option>
+<option>Bermuda</option>
+<option>Bhutan</option>
+<option>Bolivia</option>
+<option>Bonaire, Sint Eustatius and Saba</option>
+<option>Bosnia and Herzegovina</option>
+<option>Botswana</option>
+<option>Brazil</option>
+<option>Brunei Darussalam</option>
+<option>Bulgaria</option>
+<option>Burkina Faso</option>
+<option>Burundi</option>
+<option>Cabo Verde</option>
+<option>Cambodia</option>
+<option>Cameroon</option>
+<option>Canada</option>
+<option>Cayman Islands</option>
+<option>Chile</option>
+<option>China</option>
+<option>Colombia</option>
+<option>Costa Rica</option>
+<option>Croatia</option>
+<option>Cuba</option>
+<option>Curaçao</option>
+<option>Cyprus</option>
+<option>Czechia</option>
+<option>Denmark</option>
+<option>Djibouti</option>
+<option>Dominica</option>
+<option>Dominican Republic</option>
+<option>Ecuador</option>
+<option>Egypt</option>
+<option>El Salvador</option>
+<option>Estonia</option>
+<option>Eswatini</option>
+<option>Ethiopia</option>
+<option>Finland</option>
+<option>France</option>
+<option>Georgia</option>
+<option>Germany</option>
+<option>Ghana</option>
+<option>Gibraltar</option>
+<option>Greece</option>
+<option>Greenland</option>
+<option>Guatemala</option>
+<option>Guernsey</option>
+<option>Hungary</option>
+<option>Iceland</option>
+<option>India</option>
+<option>Indonesia</option>
+<option>Ireland</option>
+<option>Isle of Man</option>
+<option>Israel</option>
+<option>Italy</option>
+<option>Jamaica</option>
+<option>Japan</option>
+<option>Jersey</option>
+<option>Jordan</option>
+<option>Kazakhstan</option>
+<option>Kenya</option>
+<option>Kuwait</option>
+<option>Kyrgyzstan</option>
+<option>Latvia</option>
+<option>Lebanon</option>
+<option>Liechtenstein</option>
+<option>Lithuania</option>
+<option>Luxembourg</option>
+<option>Malaysia</option>
+<option>Malta</option>
+<option>Mexico</option>
+<option>Monaco</option>
+<option>Montenegro</option>
+<option>Morocco</option>
+<option>Netherlands</option>
+<option>New Zealand</option>
+<option>Nicaragua</option>
+<option>Nigeria</option>
+<option>North Macedonia</option>
+<option>Norway</option>
+<option>Oman</option>
+<option>Pakistan</option>
+<option>Panama</option>
+<option>Peru</option>
+<option>Philippines</option>
+<option>Poland</option>
+<option>Portugal</option>
+<option>Qatar</option>
+<option>Romania</option>
+<option>Saudi Arabia</option>
+<option>Serbia</option>
+<option>Singapore</option>
+<option>Slovakia</option>
+<option>Slovenia</option>
+<option>South Africa</option>
+<option>South Korea</option>
+<option>Spain</option>
+<option>Sri Lanka</option>
+<option>Sweden</option>
+<option>Switzerland</option>
+<option>Thailand</option>
+<option>Türkiye</option>
+<option>Ukraine</option>
+<option>United Arab Emirates</option>
+<option>United Kingdom</option>
+<option>United States</option>
+<option>Uruguay</option>
+<option>Uzbekistan</option>
+<option>Venezuela</option>
+<option>Vietnam</option>
+<option>Zimbabwe</option>
+
+</select>
+
+</div>
+
+
+<!-- EMAIL -->
+
+<div class="field">
+
+<label for="email">
+Email Address *
+</label>
+
+<input
+id="email"
+name="Email Address"
+required
+type="email"
+placeholder="manager@email.com"
+>
+
+</div>
+
+
+<!-- DISCORD -->
+
+<div class="field">
+
+<label for="discord">
+Discord Username *
+</label>
+
+<input
+id="discord"
+name="Discord Username"
+required
+placeholder="alex.carter"
+>
+
+</div>
+
+
+<!-- NEWSKY USERNAME -->
+
+<div class="field">
+
+<label for="newsky">
+NewSky Username *
+</label>
+
+<input
+id="newsky"
+name="NewSky Username"
+required
+placeholder="Your NewSky username"
+>
+
+</div>
+
+
+<!-- CURRENT POSITION -->
+
+<div class="field">
+
+<label for="current_position">
+Current Echo Air Group Position *
+</label>
+
+<select
+id="current_position"
+name="Current Echo Air Group Position"
+required
+>
+
+<option value="">
+Select your current position
+</option>
+
+<option>
+Pilot
+</option>
+
+<option>
+Senior Pilot
+</option>
+
+<option>
+First Officer
+</option>
+
+<option>
+Senior First Officer
+</option>
+
+<option>
+Captain
+</option>
+
+<option>
+Other
+</option>
+
+<option>
+Not currently a pilot
+</option>
+
+</select>
+
+</div>
+
+
+<!-- MANAGER DEPARTMENT -->
+
+<div class="field">
+
+<label for="department">
+Preferred Management Department *
+</label>
+
+<select
+id="department"
+name="Preferred Management Department"
+required
+>
+
+<option value="">
+Select a department
+</option>
+
+<option>
+Operations
+</option>
+
+<option>
+Flight Operations
+</option>
+
+<option>
+Human Resources
+</option>
+
+<option>
+Recruitment
+</option>
+
+<option>
+Events
+</option>
+
+<option>
+Community Management
+</option>
+
+<option>
+Social Media
+</option>
+
+<option>
+Marketing
+</option>
+
+<option>
+Training
+</option>
+
+<option>
+Fleet Management
+</option>
+
+<option>
+Route Management
+</option>
+
+<option>
+Other
+</option>
+
+</select>
+
+</div>
+
+
+<!-- EXPERIENCE -->
+
+<div class="field">
+
+<label for="management_experience">
+Management Experience *
+</label>
+
+<select
+id="management_experience"
+name="Management Experience"
+required
+>
+
+<option value="">
+Select your experience
+</option>
+
+<option>
+No previous management experience
+</option>
+
+<option>
+Some previous experience
+</option>
+
+<option>
+1+ years of experience
+</option>
+
+<option>
+2+ years of experience
+</option>
+
+<option>
+Experienced manager / administrator
+</option>
+
+</select>
+
+</div>
+
+
+<!-- FLIGHT EXPERIENCE -->
+
+<div class="field">
+
+<label for="flight_hours">
+Approximate Flight Hours *
+</label>
+
+<input
+id="flight_hours"
+name="Approximate Flight Hours"
+required
+type="number"
+min="0"
+step="1"
+placeholder="e.g. 500"
+>
+
+</div>
+
+
+<!-- NETWORK -->
+
+<div class="field">
+
+<label for="network">
+Flight Network
+</label>
+
+<select
+id="network"
+name="Flight Network"
+>
+
+<option value="">
+Select one
+</option>
+
+<option>
+VATSIM
+</option>
+
+<option>
+IVAO
+</option>
+
+<option>
+Both
+</option>
+
+<option>
+Offline
+</option>
+
+</select>
+
+</div>
+
+
+<!-- AVAILABILITY -->
+
+<div class="field">
+
+<label for="availability">
+Weekly Availability *
+</label>
+
+<select
+id="availability"
+name="Weekly Availability"
+required
+>
+
+<option value="">
+Select your availability
+</option>
+
+<option>
+Less than 2 hours
+</option>
+
+<option>
+2–5 hours
+</option>
+
+<option>
+5–10 hours
+</option>
+
+<option>
+10–15 hours
+</option>
+
+<option>
+15+ hours
+</option>
+
+</select>
+
+</div>
+
+
+<!-- TIMEZONE -->
+
+<div class="field">
+
+<label for="timezone">
+Time Zone *
+</label>
+
+<input
+id="timezone"
+name="Time Zone"
+required
+placeholder="e.g. CET / UTC+1"
+>
+
+</div>
+
+
+<!-- WHY MANAGER -->
+
+<div class="field full">
+
+<label for="reason">
+Why do you want to become a manager? *
+</label>
+
+<textarea
+id="reason"
+name="Why do you want to become a manager?"
+required
+placeholder="Tell us why you want to join the management team and what you could contribute to Echo Air Group..."
+></textarea>
+
+</div>
+
+
+<!-- EXPERIENCE -->
+
+<div class="field full">
+
+<label for="experience">
+Previous Management / Leadership Experience
+</label>
+
+<textarea
+id="experience"
+name="Previous Management or Leadership Experience"
+placeholder="Tell us about any previous experience managing teams, communities, virtual airlines, Discord servers, projects or other organizations..."
+></textarea>
+
+</div>
+
+
+<!-- IDEAS -->
+
+<div class="field full">
+
+<label for="ideas">
+What would you improve at Echo Air Group?
+</label>
+
+<textarea
+id="ideas"
+name="What would you improve at Echo Air Group?"
+placeholder="Tell us about ideas, improvements or new systems you would like to introduce..."
+></textarea>
+
+</div>
+
+
+<!-- STRENGTHS -->
+
+<div class="field full">
+
+<label for="strengths">
+What makes you suitable for management? *
+</label>
+
+<textarea
+id="strengths"
+name="What makes you suitable for management?"
+required
+placeholder="Tell us about your strengths, leadership skills, communication and what you can bring to the team..."
+></textarea>
+
+</div>
+
+
+<!-- ADDITIONAL -->
+
+<div class="field full">
+
+<label for="additional">
+Anything else you'd like us to know?
+</label>
+
+<textarea
+id="additional"
+name="Additional Information"
+placeholder="Anything else you would like the Echo Air Group management team to know..."
+></textarea>
+
+</div>
+
+
+<!-- SUBMIT -->
+
+<div class="field full">
+
+<button
+class="btn btn-primary"
+type="submit"
+>
+
+Submit Manager Application ✈
+
+</button>
+
+</div>
+
+
+</div>
+
+
+<!-- APPLICATION NOTE -->
+
+<div class="application-note">
+
+<strong>What happens next?</strong><br>
+
+Your manager application will be sent to the Echo Air Group recruitment team. The management team will review your application and, if selected, contact you through the email address or Discord username you provided.
+
+</div>
+
+
+</form>
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+<div class="container">
+
+
+<div class="foot-top">
+
+
+<!-- FOOTER BRAND -->
+
+<div>
+
+<a class="brand" href="index.html">
+
+<img
+class="brand-logo"
+src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
+alt="Echo Air Group Logo"
+>
+
+<div class="brand-text">
+
+ECHO AIR GROUP
+
+<small>
+6L · ECV · CLOVER
+</small>
+
+</div>
+
+</a>
+
+
+<p style="max-width:450px">
+
+Virtual aviation. Real passion.
+A community built for pilots who love
+the world of flight simulation.
+
+</p>
+
+
+<!-- SOCIAL BUTTONS -->
+
+<div class="footer-social">
+
+
+<a
+href="https://discord.gg/e7ePxYA24"
+target="_blank"
+rel="noopener noreferrer"
+aria-label="Discord"
+>
+
+<img
+src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
+alt="Discord"
+>
+
+</a>
+
+
+<a
+href="https://www.tiktok.com/@echoairgroup"
+target="_blank"
+rel="noopener noreferrer"
+aria-label="TikTok"
+>
+
+<img
+src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
+alt="TikTok"
+>
+
+</a>
+
+
+</div>
+
+</div>
+
+
+
+<!-- FOOTER NAVIGATION -->
+
+<div class="foot-links">
+
+<a href="index.html">
+Home
+</a>
+
+<a href="about.html">
+About
+</a>
+
+<a href="index.html#fleet">
+Fleet
+</a>
+
+<a href="routes.html">
+Routes
+</a>
+
+<a href="team.html">
+Team
+</a>
+
+<a href="index.html#news">
+News
+</a>
+
+<a href="join.html">
+Join Us
+</a>
+
+<a href="manual.html">
+Pilot Manual
+</a>
+
+<a href="contact.html">
+Contact Us
+</a>
+
+<a href="join.html">
+Register
+</a>
+
+<a href="manager.html">
+Manager Application
+</a>
+
+</div>
+
+
+</div>
+
+
+<!-- COPYRIGHT -->
+
+<div class="copy">
+
+<span>
+© 2026 Echo Air Group. Virtual airline.
+</span>
+
+<span>
+Not affiliated with any real-world airline.
+</span>
+
+</div>
+
+
+</div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     SCRIPTS
+========================================================= -->
+
+<script src="script.js"></script>
+
+
+<script>
+
+/* =========================================================
+   HEADER SCROLL EFFECT
+========================================================= */
+
+const header = document.getElementById("siteHeader");
+
+function updateHeader() {
+
+    if (window.scrollY > 20) {
+
+        header.classList.add("scrolled");
+
+    } else {
+
+        header.classList.remove("scrolled");
+
+    }
+
+}
+
+window.addEventListener("scroll", updateHeader);
+
+updateHeader();
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function toggleMenu() {
+
+    const mobileNav =
+        document.getElementById("mobileNav");
+
+    if (mobileNav) {
+
+        mobileNav.classList.toggle("open");
+
+    }
+
+}
+
+</script>
+
+
+</body>
+</html>
