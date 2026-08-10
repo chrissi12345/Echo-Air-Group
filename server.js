@@ -1472,9 +1472,7 @@ function extractFlights(data) {
 
     if (
         data &&
-        Array.isArray(
-            data.flights
-        )
+        Array.isArray(data.flights)
     ) {
         return data.flights;
     }
@@ -1482,9 +1480,7 @@ function extractFlights(data) {
     if (
         data &&
         data.data &&
-        Array.isArray(
-            data.data
-        )
+        Array.isArray(data.data)
     ) {
         return data.data;
     }
@@ -1492,18 +1488,14 @@ function extractFlights(data) {
     if (
         data &&
         data.data &&
-        Array.isArray(
-            data.data.flights
-        )
+        Array.isArray(data.data.flights)
     ) {
         return data.data.flights;
     }
 
     if (
         data &&
-        Array.isArray(
-            data.results
-        )
+        Array.isArray(data.results)
     ) {
         return data.results;
     }
@@ -1511,9 +1503,7 @@ function extractFlights(data) {
     if (
         data &&
         data.result &&
-        Array.isArray(
-            data.result
-        )
+        Array.isArray(data.result)
     ) {
         return data.result;
     }
@@ -1521,14 +1511,394 @@ function extractFlights(data) {
     if (
         data &&
         data.result &&
-        Array.isArray(
-            data.result.flights
-        )
+        Array.isArray(data.result.flights)
     ) {
         return data.result.flights;
     }
 
     return [];
+}
+
+
+// ============================================================
+// GET ONE NEWSKY FLIGHT PAGE
+// ============================================================
+
+async function getNewSkyFlightPage(skip = 0) {
+
+    // --------------------------------------------------------
+    // Check API key
+    // --------------------------------------------------------
+
+    const apiKey =
+        cleanString(
+            process.env.NEWSKY_API_KEY
+        );
+
+    if (!apiKey) {
+        throw new Error(
+            "NEWSKY_API_KEY is not configured in Render Environment Variables."
+        );
+    }
+
+
+    // --------------------------------------------------------
+    // Request body
+    // --------------------------------------------------------
+
+    const body = {
+        count:
+            NEWSKY_PAGE_SIZE,
+
+        end:
+            new Date().toISOString(),
+
+        includeDeleted:
+            true,
+
+        skip:
+            Number(skip) || 0,
+
+        start:
+            "2020-01-01T00:00:00.000Z"
+    };
+
+
+    console.log(
+        "NewSky request:",
+        JSON.stringify(body)
+    );
+
+
+    // --------------------------------------------------------
+    // API request
+    // --------------------------------------------------------
+
+    let response;
+
+    try {
+
+        response =
+            await fetch(
+                NEWSKY_FLIGHTS_URL,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        Authorization:
+                            `Bearer ${apiKey}`,
+
+                        "Content-Type":
+                            "application/json",
+
+                        Accept:
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(body)
+                }
+            );
+
+    } catch (error) {
+
+        console.error(
+            "NewSky network error:",
+            error
+        );
+
+        throw new Error(
+            `Could not connect to NewSky API: ${error.message}`
+        );
+    }
+
+
+    // --------------------------------------------------------
+    // Read response
+    // --------------------------------------------------------
+
+    const text =
+        await response.text();
+
+    let data = null;
+
+
+    try {
+
+        data =
+            JSON.parse(text);
+
+    } catch {
+
+        console.error(
+            "NewSky returned non-JSON response:",
+            text.substring(
+                0,
+                2000
+            )
+        );
+
+        throw new Error(
+            `NewSky returned an invalid JSON response (${response.status}).`
+        );
+    }
+
+
+    // --------------------------------------------------------
+    // API error
+    // --------------------------------------------------------
+
+    if (!response.ok) {
+
+        console.error(
+            "NewSky API error:",
+            {
+                status:
+                    response.status,
+
+                statusText:
+                    response.statusText,
+
+                data
+            }
+        );
+
+
+        if (
+            response.status === 401
+        ) {
+
+            throw new Error(
+                "NewSky API returned 401 Unauthorized. Check that NEWSKY_API_KEY in Render is the API key from the Echo Air Group API Access page and that the key has the 'flights' permission."
+            );
+        }
+
+
+        if (
+            response.status === 403
+        ) {
+
+            throw new Error(
+                "NewSky API returned 403 Forbidden. The API key exists, but it does not have permission to access flights."
+            );
+        }
+
+
+        throw new Error(
+            data?.error ||
+            data?.message ||
+            `NewSky API returned ${response.status}`
+        );
+    }
+
+
+    // --------------------------------------------------------
+    // Extract flights
+    // --------------------------------------------------------
+
+    const flights =
+        extractFlights(
+            data
+        );
+
+
+    console.log(
+        "NewSky response:",
+        {
+            skip:
+                Number(skip) || 0,
+
+            requested:
+                NEWSKY_PAGE_SIZE,
+
+            received:
+                flights.length
+        }
+    );
+
+
+    return {
+        data,
+        flights
+    };
+}
+
+
+// ============================================================
+// GET ALL NEWSKY FLIGHTS
+// ============================================================
+
+async function getAllNewSkyFlights() {
+
+    const allFlights = [];
+
+    const flightIds =
+        new Set();
+
+    let pagesFetched =
+        0;
+
+    let duplicateFlightsIgnored =
+        0;
+
+
+    // --------------------------------------------------------
+    // Make sure API key exists before starting
+    // --------------------------------------------------------
+
+    if (
+        !cleanString(
+            process.env.NEWSKY_API_KEY
+        )
+    ) {
+
+        throw new Error(
+            "NEWSKY_API_KEY is not configured in Render."
+        );
+    }
+
+
+    // --------------------------------------------------------
+    // Fetch pages
+    // --------------------------------------------------------
+
+    for (
+        let page = 0;
+        page < NEWSKY_MAX_PAGES;
+        page++
+    ) {
+
+        const skip =
+            page *
+            NEWSKY_PAGE_SIZE;
+
+
+        console.log(
+            `Fetching NewSky page ${page + 1}...`
+        );
+
+
+        const result =
+            await getNewSkyFlightPage(
+                skip
+            );
+
+
+        pagesFetched++;
+
+
+        const flights =
+            result.flights || [];
+
+
+        console.log(
+            `NewSky page ${page + 1}: ${flights.length} flight(s)`
+        );
+
+
+        // ----------------------------------------------------
+        // No more flights
+        // ----------------------------------------------------
+
+        if (
+            flights.length === 0
+        ) {
+
+            break;
+        }
+
+
+        // ----------------------------------------------------
+        // Add unique flights
+        // ----------------------------------------------------
+
+        for (
+            const flight
+            of flights
+        ) {
+
+            const flightId =
+                getNewSkyFlightId(
+                    flight
+                );
+
+
+            // No ID = cannot safely store it
+            if (!flightId) {
+
+                console.warn(
+                    "Skipping NewSky flight without ID:",
+                    flight
+                );
+
+                continue;
+            }
+
+
+            // Duplicate
+            if (
+                flightIds.has(
+                    flightId
+                )
+            ) {
+
+                duplicateFlightsIgnored++;
+
+                continue;
+            }
+
+
+            flightIds.add(
+                flightId
+            );
+
+
+            allFlights.push(
+                flight
+            );
+        }
+
+
+        // ----------------------------------------------------
+        // Last page
+        // ----------------------------------------------------
+
+        if (
+            flights.length <
+            NEWSKY_PAGE_SIZE
+        ) {
+
+            break;
+        }
+    }
+
+
+    // --------------------------------------------------------
+    // Result
+    // --------------------------------------------------------
+
+    console.log(
+        "NewSky download finished:",
+        {
+            pagesFetched,
+
+            totalFlights:
+                allFlights.length,
+
+            duplicateFlightsIgnored
+        }
+    );
+
+
+    return {
+        flights:
+            allFlights,
+
+        pagesFetched,
+
+        duplicateFlightsIgnored
+    };
 }
 
 // ============================================================
