@@ -1691,9 +1691,14 @@ async function getNewSkyFlightPage(skip) {
     }
 
     const flights =
-        extractFlights(data);
+    extractFlights(data);
 
-    console.log(
+console.log(
+    "NewSky raw response:",
+    JSON.stringify(data, null, 2)
+);
+
+console.log(
     "NewSky response information:",
     {
         skip,
