@@ -515,8 +515,6 @@ header.hide-on-scroll {
     min-width:0;
 }
 
-
-```javascript
 /* ============================================================
    PILOT SIDEBAR
    ============================================================ */
@@ -547,28 +545,23 @@ async function loadPilotSidebar() {
             return;
         }
 
+
         list.innerHTML =
             rankings.map((pilot, index) => {
 
-                const stars =
-                    number(pilot.stars);
-
-                const rank =
-                    calculateRank(stars);
-
                 /*
-                 * Zoek de ID van de piloot.
-                 * We ondersteunen meerdere mogelijke
-                 * backend veldnamen.
+                 * IMPORTANT:
+                 * Use the actual backend pilot/user ID.
                  */
 
                 const pilotId =
-                    pilot.id ||
-                    pilot.userId ||
-                    pilot.user_id ||
-                    pilot.pilotId ||
-                    pilot.pilot_id ||
+                    pilot.id ??
+                    pilot.userId ??
+                    pilot.user_id ??
+                    pilot.pilotId ??
+                    pilot.pilot_id ??
                     pilot._id;
+
 
                 const pilotName =
                     pilot.name ||
@@ -576,25 +569,32 @@ async function loadPilotSidebar() {
                     pilot.username ||
                     'Pilot';
 
-                /*
-                 * Eerste letter voor avatar
-                 */
+
+                const stars =
+                    number(pilot.stars);
+
+
+                const rank =
+                    calculateRank(stars);
+
 
                 const initial =
                     pilotName
                         .charAt(0)
                         .toUpperCase();
 
+
                 /*
-                 * Als er een ID is, maak er een link van.
-                 * Daardoor opent klikken:
-                 *
-                 * pilot.html?id=ID
+                 * If the backend gives us an ID,
+                 * make the entire pilot item a link.
                  */
 
-                if (pilotId) {
+                if (pilotId !== undefined &&
+                    pilotId !== null &&
+                    pilotId !== '') {
 
                     return `
+
                         <a
                             class="pilot-item"
                             href="pilot.html?id=${encodeURIComponent(pilotId)}"
@@ -604,9 +604,11 @@ async function loadPilotSidebar() {
                                 ${index + 1}
                             </span>
 
+
                             <span class="pilot-avatar">
                                 ${escapeHtml(initial)}
                             </span>
+
 
                             <span class="pilot-info">
 
@@ -619,6 +621,7 @@ async function loadPilotSidebar() {
                                 </span>
 
                             </span>
+
 
                             <span class="pilot-rating">
 
@@ -633,17 +636,20 @@ async function loadPilotSidebar() {
                             </span>
 
                         </a>
+
                     `;
 
                 }
 
+
                 /*
-                 * Geen ID ontvangen:
-                 * dan maken we alsnog een klikbaar item,
-                 * maar zonder verkeerde URL.
+                 * Fallback if the backend did not return
+                 * an ID. This prevents creating a broken
+                 * pilot.html?id=undefined link.
                  */
 
                 return `
+
                     <div
                         class="pilot-item"
                         style="cursor:default;"
@@ -653,9 +659,11 @@ async function loadPilotSidebar() {
                             ${index + 1}
                         </span>
 
+
                         <span class="pilot-avatar">
                             ${escapeHtml(initial)}
                         </span>
+
 
                         <span class="pilot-info">
 
@@ -668,6 +676,7 @@ async function loadPilotSidebar() {
                             </span>
 
                         </span>
+
 
                         <span class="pilot-rating">
 
@@ -682,9 +691,11 @@ async function loadPilotSidebar() {
                         </span>
 
                     </div>
+
                 `;
 
             }).join('');
+
 
     } catch(error) {
 
@@ -693,10 +704,13 @@ async function loadPilotSidebar() {
             error
         );
 
+
         list.innerHTML = `
+
             <div class="pilot-sidebar-error">
                 Unable to load pilots.
             </div>
+
         `;
 
     }
