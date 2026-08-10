@@ -1586,14 +1586,15 @@ async function getNewSkyFlightPage(skip = 0) {
                         "POST",
 
                     headers: {
-                        Authorization:
-                            `Bearer ${apiKey}`,
+    "X-API-Key":
+        apiKey,
 
-                        "Content-Type":
-                            "application/json",
+    "Content-Type":
+        "application/json",
 
-                        Accept:
-                            "application/json"
+    Accept:
+        "application/json"
+},
                     },
 
                     body:
