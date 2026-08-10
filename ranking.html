@@ -491,13 +491,6 @@ header.hide-on-scroll {
     padding:70px 0;
 }
 
-
-/*
-   IMPORTANT:
-   Dit is de container waarin de ranking en sidebar
-   naast elkaar komen te staan.
-*/
-
 .ranking-layout {
 
     display:grid;
@@ -515,207 +508,376 @@ header.hide-on-scroll {
     min-width:0;
 }
 
+
 /* ============================================================
    PILOT SIDEBAR
    ============================================================ */
 
-async function loadPilotSidebar() {
+.pilot-sidebar {
 
-    const list =
-        document.getElementById('pilotList');
+    position:sticky;
 
-    if (!list) return;
+    top:125px;
 
-    try {
+    min-width:0;
 
-        const data =
-            await api('/ranking');
-
-        const rankings =
-            data.rankings || [];
-
-        if (!rankings.length) {
-
-            list.innerHTML = `
-                <div class="pilot-sidebar-empty">
-                    No pilots found.
-                </div>
-            `;
-
-            return;
-        }
-
-
-        list.innerHTML =
-            rankings.map((pilot, index) => {
-
-                /*
-                 * IMPORTANT:
-                 * Use the actual backend pilot/user ID.
-                 */
-
-                const pilotId =
-                    pilot.id ??
-                    pilot.userId ??
-                    pilot.user_id ??
-                    pilot.pilotId ??
-                    pilot.pilot_id ??
-                    pilot._id;
-
-
-                const pilotName =
-                    pilot.name ||
-                    pilot.displayName ||
-                    pilot.username ||
-                    'Pilot';
-
-
-                const stars =
-                    number(pilot.stars);
-
-
-                const rank =
-                    calculateRank(stars);
-
-
-                const initial =
-                    pilotName
-                        .charAt(0)
-                        .toUpperCase();
-
-
-                /*
-                 * If the backend gives us an ID,
-                 * make the entire pilot item a link.
-                 */
-
-                if (pilotId !== undefined &&
-                    pilotId !== null &&
-                    pilotId !== '') {
-
-                    return `
-
-                        <a
-                            class="pilot-item"
-                            href="pilot.html?id=${encodeURIComponent(pilotId)}"
-                        >
-
-                            <span class="pilot-position">
-                                ${index + 1}
-                            </span>
-
-
-                            <span class="pilot-avatar">
-                                ${escapeHtml(initial)}
-                            </span>
-
-
-                            <span class="pilot-info">
-
-                                <span class="pilot-name">
-                                    ${escapeHtml(pilotName)}
-                                </span>
-
-                                <span class="pilot-rank">
-                                    ${escapeHtml(rank.current.name)}
-                                </span>
-
-                            </span>
-
-
-                            <span class="pilot-rating">
-
-                                <span class="pilot-rating-value">
-                                    ${stars.toFixed(2)}
-                                </span>
-
-                                <span class="pilot-rating-label">
-                                    stars
-                                </span>
-
-                            </span>
-
-                        </a>
-
-                    `;
-
-                }
-
-
-                /*
-                 * Fallback if the backend did not return
-                 * an ID. This prevents creating a broken
-                 * pilot.html?id=undefined link.
-                 */
-
-                return `
-
-                    <div
-                        class="pilot-item"
-                        style="cursor:default;"
-                    >
-
-                        <span class="pilot-position">
-                            ${index + 1}
-                        </span>
-
-
-                        <span class="pilot-avatar">
-                            ${escapeHtml(initial)}
-                        </span>
-
-
-                        <span class="pilot-info">
-
-                            <span class="pilot-name">
-                                ${escapeHtml(pilotName)}
-                            </span>
-
-                            <span class="pilot-rank">
-                                ${escapeHtml(rank.current.name)}
-                            </span>
-
-                        </span>
-
-
-                        <span class="pilot-rating">
-
-                            <span class="pilot-rating-value">
-                                ${stars.toFixed(2)}
-                            </span>
-
-                            <span class="pilot-rating-label">
-                                stars
-                            </span>
-
-                        </span>
-
-                    </div>
-
-                `;
-
-            }).join('');
-
-
-    } catch(error) {
-
-        console.error(
-            'Pilot sidebar error:',
-            error
+    background:
+        linear-gradient(
+            145deg,
+            #111711 0%,
+            #0c100c 100%
         );
 
+    border:
+        1px solid rgba(172,227,54,.18);
 
-        list.innerHTML = `
+    border-radius:18px;
 
-            <div class="pilot-sidebar-error">
-                Unable to load pilots.
-            </div>
+    overflow:hidden;
 
-        `;
-
-    }
-
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.14);
 }
+
+
+/* ============================================================
+   SIDEBAR HEADER
+   ============================================================ */
+
+.pilot-sidebar-header {
+
+    padding:24px 22px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #192118,
+            #101510
+        );
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+}
+
+.pilot-sidebar-header h3 {
+
+    margin:0;
+
+    color:#ffffff;
+
+    font-size:20px;
+
+    font-weight:900;
+
+    letter-spacing:-.02em;
+}
+
+.pilot-sidebar-header h3::before {
+
+    content:"";
+
+    display:inline-block;
+
+    width:8px;
+    height:8px;
+
+    margin-right:9px;
+
+    vertical-align:middle;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    box-shadow:
+        0 0 12px rgba(172,227,54,.55);
+}
+
+.pilot-sidebar-header p {
+
+    margin:8px 0 0;
+
+    color:#899287;
+
+    font-size:12px;
+
+    line-height:1.6;
+}
+
+
+/* ============================================================
+   PILOT LIST
+   ============================================================ */
+
+.pilot-list {
+
+    max-height:
+        calc(100vh - 270px);
+
+    overflow-y:auto;
+
+    scrollbar-width:thin;
+
+    scrollbar-color:
+        rgba(172,227,54,.35)
+        transparent;
+}
+
+.pilot-list::-webkit-scrollbar {
+    width:6px;
+}
+
+.pilot-list::-webkit-scrollbar-track {
+    background:transparent;
+}
+
+.pilot-list::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(172,227,54,.35);
+
+    border-radius:99px;
+}
+
+
+/* ============================================================
+   PILOT ITEM
+   ============================================================ */
+
+.pilot-item {
+
+    display:grid;
+
+    grid-template-columns:
+        32px
+        40px
+        minmax(0,1fr)
+        auto;
+
+    align-items:center;
+
+    gap:11px;
+
+    width:100%;
+
+    padding:14px 18px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.055);
+
+    background:transparent;
+
+    color:white;
+
+    text-decoration:none;
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        border-color .2s ease;
+}
+
+.pilot-item:last-child {
+    border-bottom:0;
+}
+
+a.pilot-item {
+    cursor:pointer;
+}
+
+a.pilot-item:hover {
+
+    background:
+        rgba(172,227,54,.075);
+
+    border-color:
+        rgba(172,227,54,.12);
+
+    transform:
+        translateX(3px);
+}
+
+
+/* ============================================================
+   POSITION
+   ============================================================ */
+
+.pilot-position {
+
+    color:#707a6d;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    text-align:center;
+
+    white-space:nowrap;
+}
+
+.pilot-item:nth-child(1) .pilot-position {
+    color:#ffd86b;
+}
+
+.pilot-item:nth-child(2) .pilot-position {
+    color:#cbd3d0;
+}
+
+.pilot-item:nth-child(3) .pilot-position {
+    color:#c88d58;
+}
+
+
+/* ============================================================
+   AVATAR
+   ============================================================ */
+
+.pilot-avatar {
+
+    width:40px;
+    height:40px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+
+    border:
+        1px solid rgba(172,227,54,.25);
+
+    border-radius:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #293522,
+            #172016
+        );
+
+    color:var(--green);
+
+    font-size:14px;
+
+    font-weight:900;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+
+/* ============================================================
+   PILOT INFO
+   ============================================================ */
+
+.pilot-info {
+
+    min-width:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+}
+
+.pilot-name {
+
+    overflow:hidden;
+
+    color:#ffffff;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+}
+
+.pilot-rank {
+
+    overflow:hidden;
+
+    color:#7f897b;
+
+    font-size:10px;
+
+    font-weight:600;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+}
+
+
+/* ============================================================
+   STAR RATING
+   ============================================================ */
+
+.pilot-rating {
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:2px;
+
+    min-width:55px;
+}
+
+.pilot-rating-value {
+
+    color:var(--green);
+
+    font-size:12px;
+
+    font-weight:900;
+
+    white-space:nowrap;
+}
+
+.pilot-rating-label {
+
+    color:#697266;
+
+    font-size:9px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.06em;
+}
+
+
+/* ============================================================
+   SIDEBAR STATES
+   ============================================================ */
+
+.pilot-sidebar-loading,
+.pilot-sidebar-empty,
+.pilot-sidebar-error {
+
+    padding:28px 20px;
+
+    color:#7f897b;
+
+    font-size:12px;
+
+    line-height:1.6;
+
+    text-align:center;
+}
+
+.pilot-sidebar-error {
+    color:#d88989;
+}
+
 
 /* ============================================================
    RANKING CARDS
@@ -1380,6 +1542,7 @@ footer p {
     .pilot-item {
         padding:13px 14px;
     }
+
 }
 
 </style>
@@ -3397,11 +3560,6 @@ async function loadPilotSidebar() {
                         'Pilot';
 
 
-                    /*
-                     * Use the first letter of the
-                     * pilot's name as the avatar.
-                     */
-
                     const avatar =
                         String(name)
                             .trim()
@@ -3415,9 +3573,114 @@ async function loadPilotSidebar() {
                         index + 1;
 
 
+                    const pilotId =
+
+                        pilot.id ??
+
+                        pilot.userId ??
+
+                        pilot.user_id ??
+
+                        pilot.pilotId ??
+
+                        pilot.pilot_id ??
+
+                        pilot._id;
+
+
+                    /*
+                     * Only create a link when an actual
+                     * pilot ID exists.
+                     */
+
+                    if(
+                        pilotId !== undefined &&
+                        pilotId !== null &&
+                        pilotId !== ''
+                    ) {
+
+                        return `
+
+                            <a
+                                class="pilot-item"
+                                href="pilot.html?id=${encodeURIComponent(pilotId)}"
+                            >
+
+                                <div class="pilot-position">
+
+                                    #${escapeHtml(
+                                        position
+                                    )}
+
+                                </div>
+
+
+                                <div class="pilot-avatar">
+
+                                    ${escapeHtml(
+                                        avatar
+                                    )}
+
+                                </div>
+
+
+                                <div class="pilot-info">
+
+                                    <span class="pilot-name">
+
+                                        ${escapeHtml(
+                                            name
+                                        )}
+
+                                    </span>
+
+
+                                    <span class="pilot-rank">
+
+                                        ${escapeHtml(
+                                            rank.current.name
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="pilot-rating">
+
+                                    <span class="pilot-rating-value">
+
+                                        ${stars.toFixed(2)}
+
+                                    </span>
+
+
+                                    <span class="pilot-rating-label">
+
+                                        Stars
+
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+                        `;
+
+                    }
+
+
+                    /*
+                     * Fallback if the backend does not
+                     * provide a pilot ID.
+                     */
+
                     return `
 
-                        <div class="pilot-item">
+                        <div
+                            class="pilot-item"
+                            style="cursor:default;"
+                        >
 
                             <div class="pilot-position">
 
