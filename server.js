@@ -1828,7 +1828,7 @@ async function getAllNewSkyFlights() {
 
 
             const data =
-                await getNewSkyByDatePage(
+                await getNewSkyFlightPage(
                     rangeStart,
                     rangeEnd,
                     skip,
