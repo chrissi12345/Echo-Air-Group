@@ -1542,134 +1542,111 @@ async function getNewSkyFlightPage(
     }
 
     const url =
-    "https://newsky.app/api/airline-api/flights/bydate";
-
-    // NewSky website gebruikt volledige UTC timestamps.
-    const startDate =
-        `${start}T00:00:00.000Z`;
-
-    const endDate =
-        `${end}T23:59:59.999Z`;
+        "https://newsky.app/api/airline-api/flights/bydate";
 
     console.log("");
-    console.log(
-        "NewSky request:"
-    );
-    console.log(
-        `URL: ${url}`
-    );
-    console.log(
-        `Start: ${startDate}`
-    );
-    console.log(
-        `End: ${endDate}`
-    );
-    console.log(
-        `Skip: ${skip}`
-    );
-    console.log(
-        `Count: ${count}`
-    );
-let response;
-let text;
+    console.log("NewSky request:");
+    console.log("URL:", url);
+    console.log("Start:", start);
+    console.log("End:", end);
+    console.log("Skip:", skip);
+    console.log("Count:", count);
 
-for (
-    let attempt = 1;
-    attempt <= NEWSKY_MAX_RETRIES;
-    attempt++
-) {
-    response = await fetch(
-        url,
-        {
-            method: "POST",
+    let response;
+    let text = "";
 
-            headers: {
-                Authorization:
-                    `Bearer ${process.env.NEWSKY_API_KEY}`,
+    for (
+        let attempt = 1;
+        attempt <= NEWSKY_MAX_RETRIES;
+        attempt++
+    ) {
+        response = await fetch(
+            url,
+            {
+                method: "POST",
 
-                "Content-Type":
-                    "application/json",
+                headers: {
+                    Authorization:
+                        `Bearer ${process.env.NEWSKY_API_KEY}`,
 
-                Accept:
-                    "application/json"
-            },
+                    "Content-Type":
+                        "application/json",
 
-            body: JSON.stringify({
-                skip,
-                count,
-                start,
-                end,
-                includeDeleted: false
-            })
-        }
-    );
+                    Accept:
+                        "application/json"
+                },
 
-    text = await response.text();
-
-    console.log(
-        `NewSky HTTP status: ${response.status}`
-    );
-
-    // Request succesvol
-    if (response.status !== 429) {
-        break;
-    }
-
-    // Rate limit bereikt
-    console.warn(
-        `NewSky rate limit reached. Attempt ${attempt}/${NEWSKY_MAX_RETRIES}.`
-    );
-
-    const retryAfter =
-        response.headers.get(
-            "retry-after"
+                body: JSON.stringify({
+                    skip,
+                    count,
+                    start,
+                    end,
+                    includeDeleted: false
+                })
+            }
         );
 
-    let waitTime = 10000;
+        text = await response.text();
 
-    if (retryAfter) {
-        const retrySeconds =
-            Number(retryAfter);
+        console.log(
+            `NewSky HTTP status: ${response.status}`
+        );
 
-        if (
-            Number.isFinite(
-                retrySeconds
-            )
-        ) {
-            waitTime =
-                Math.max(
-                    retrySeconds * 1000,
-                    10000
-                );
+        // Request succesvol of een andere fout dan 429
+        if (response.status !== 429) {
+            break;
         }
+
+        console.warn(
+            `NewSky rate limit reached. Attempt ${attempt}/${NEWSKY_MAX_RETRIES}.`
+        );
+
+        // Kijk of NewSky zelf Retry-After meestuurt
+        const retryAfter =
+            response.headers.get(
+                "retry-after"
+            );
+
+        let waitTime = 10000;
+
+        if (retryAfter) {
+            const retrySeconds =
+                Number(retryAfter);
+
+            if (
+                Number.isFinite(
+                    retrySeconds
+                )
+            ) {
+                waitTime =
+                    Math.max(
+                        retrySeconds * 1000,
+                        10000
+                    );
+            }
+        }
+
+        console.log(
+            `Waiting ${Math.round(
+                waitTime / 1000
+            )} seconds before retry...`
+        );
+
+        await sleep(waitTime);
     }
-
-    console.log(
-        `Waiting ${Math.round(waitTime / 1000)} seconds before retry...`
-    );
-
-    await sleep(waitTime);
-}
-
-    const text =
-        await response.text();
-
-    console.log(
-        `NewSky HTTP status: ${response.status}`
-    );
-
-    console.log(
-        `NewSky response: ${text}`
-    );
 
     let data;
 
     try {
-        data =
-            JSON.parse(text);
+        data = JSON.parse(text);
     } catch {
+        console.error(
+            "Invalid JSON received from NewSky:",
+            text
+        );
+
         throw new Error(
-            "NewSky returned invalid JSON."
+            "NewSky returned an invalid JSON response."
         );
     }
 
