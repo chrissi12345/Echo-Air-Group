@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Database = require("better-sqlite3");
 const path = require("path");
-
 const {
     Client,
     GatewayIntentBits
@@ -21,8 +20,7 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 const JWT_SECRET =
-    process.env.JWT_SECRET ||
-    "CHANGE_THIS_SECRET";
+    process.env.JWT_SECRET || "CHANGE_THIS_SECRET";
 
 const DB_PATH =
     process.env.DB_PATH ||
@@ -44,17 +42,48 @@ if (!process.env.JWT_SECRET) {
     );
 }
 
-if (!process.env.DISCORD_BOT_TOKEN) {
-    console.warn(
-        "WARNING: DISCORD_BOT_TOKEN is missing. Discord rank synchronization will not work."
-    );
-}
+// ============================================================
+// DISCORD ENVIRONMENT
+// ============================================================
 
-if (!process.env.DISCORD_GUILD_ID) {
-    console.warn(
-        "WARNING: DISCORD_GUILD_ID is missing. Discord rank synchronization will not work."
-    );
-}
+const DISCORD_BOT_TOKEN =
+    process.env.DISCORD_BOT_TOKEN || "";
+
+const DISCORD_CLIENT_ID =
+    process.env.DISCORD_CLIENT_ID || "";
+
+const DISCORD_CLIENT_SECRET =
+    process.env.DISCORD_CLIENT_SECRET || "";
+
+const DISCORD_GUILD_ID =
+    process.env.DISCORD_GUILD_ID || "";
+
+const DISCORD_REDIRECT_URI =
+    process.env.DISCORD_REDIRECT_URI || "";
+
+// ============================================================
+// DISCORD ROLE IDS
+// ============================================================
+
+const DISCORD_ROLE_IDS = {
+    "Cadet":
+        process.env.DISCORD_ROLE_CADET || "",
+
+    "First Officer":
+        process.env.DISCORD_ROLE_FIRST_OFFICER || "",
+
+    "Senior First Officer":
+        process.env.DISCORD_ROLE_SENIOR_FIRST_OFFICER || "",
+
+    "Captain":
+        process.env.DISCORD_ROLE_CAPTAIN || "",
+
+    "Senior Captain":
+        process.env.DISCORD_ROLE_SENIOR_CAPTAIN || "",
+
+    "Commander":
+        process.env.DISCORD_ROLE_COMMANDER || ""
+};
 
 // ============================================================
 // DATABASE
@@ -72,7 +101,7 @@ CREATE TABLE IF NOT EXISTS users (
     password TEXT NOT NULL,
     display_name TEXT,
     newsky_pilot_id TEXT,
-    discord_id TEXT,
+    discord_user_id TEXT,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -132,10 +161,10 @@ if (!columnExists("users", "newsky_pilot_id")) {
     `);
 }
 
-if (!columnExists("users", "discord_id")) {
+if (!columnExists("users", "discord_user_id")) {
     db.exec(`
         ALTER TABLE users
-        ADD COLUMN discord_id TEXT
+        ADD COLUMN discord_user_id TEXT
     `);
 }
 
@@ -149,104 +178,6 @@ console.log(
     "Database ready:",
     DB_PATH
 );
-
-// ============================================================
-// DISCORD BOT
-// ============================================================
-
-const discordClient = new Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers
-    ]
-});
-
-// ============================================================
-// DISCORD ROLE CONFIGURATION
-// ============================================================
-//
-// Zet de echte role IDs in je .env:
-//
-// DISCORD_ROLE_CADET=123456789
-// DISCORD_ROLE_FIRST_OFFICER=123456789
-// etc.
-// ============================================================
-
-const DISCORD_ROLE_MAP = {
-    "Cadet":
-        process.env.DISCORD_ROLE_CADET,
-
-    "First Officer":
-        process.env.DISCORD_ROLE_FIRST_OFFICER,
-
-    "Senior First Officer":
-        process.env.DISCORD_ROLE_SENIOR_FIRST_OFFICER,
-
-    "Captain":
-        process.env.DISCORD_ROLE_CAPTAIN,
-
-    "Senior Captain":
-        process.env.DISCORD_ROLE_SENIOR_CAPTAIN,
-
-    "Commander":
-        process.env.DISCORD_ROLE_COMMANDER
-};
-
-// ============================================================
-// DISCORD READY
-// ============================================================
-
-discordClient.once(
-    "ready",
-    () => {
-        console.log(
-            `Discord bot logged in as ${discordClient.user.tag}`
-        );
-
-        console.log(
-            `Discord guild ID: ${
-                process.env.DISCORD_GUILD_ID || "NOT CONFIGURED"
-            }`
-        );
-
-        console.log(
-            "Discord rank synchronization is enabled."
-        );
-    }
-);
-
-// ============================================================
-// DISCORD ERROR
-// ============================================================
-
-discordClient.on(
-    "error",
-    error => {
-        console.error(
-            "Discord client error:",
-            error
-        );
-    }
-);
-
-// ============================================================
-// LOGIN DISCORD BOT
-// ============================================================
-
-if (process.env.DISCORD_BOT_TOKEN) {
-    discordClient
-        .login(
-            process.env.DISCORD_BOT_TOKEN
-        )
-        .catch(
-            error => {
-                console.error(
-                    "Could not login Discord bot:",
-                    error
-                );
-            }
-        );
-}
 
 // ============================================================
 // RANK SYSTEM
@@ -283,7 +214,9 @@ function getRank(stars) {
     const value =
         Number(stars) || 0;
 
-    let current = RANKS[0];
+    let current =
+        RANKS[0];
+
     let next = null;
 
     for (const rank of RANKS) {
@@ -299,190 +232,6 @@ function getRank(stars) {
         current,
         next
     };
-}
-
-// ============================================================
-// DISCORD RANK SYNCHRONIZATION
-// ============================================================
-//
-// Deze functie:
-// 1. Berekent de huidige website rank
-// 2. Zoekt de Discord gebruiker
-// 3. Verwijdert alle oude Echo Air Group rank roles
-// 4. Geeft de juiste nieuwe rank role
-//
-// ============================================================
-
-async function syncDiscordRank(
-    user,
-    stars
-) {
-    try {
-        if (!user) {
-            return {
-                success: false,
-                reason: "User not found"
-            };
-        }
-
-        if (!user.discord_id) {
-            console.log(
-                `Discord sync skipped for ${user.username}: no Discord ID linked.`
-            );
-
-            return {
-                success: false,
-                reason: "No Discord ID linked"
-            };
-        }
-
-        if (
-            !process.env.DISCORD_BOT_TOKEN ||
-            !process.env.DISCORD_GUILD_ID
-        ) {
-            console.warn(
-                "Discord synchronization is not configured."
-            );
-
-            return {
-                success: false,
-                reason: "Discord not configured"
-            };
-        }
-
-        const rankData =
-            getRank(stars);
-
-        const rankName =
-            rankData.current.name;
-
-        const newRoleId =
-            DISCORD_ROLE_MAP[rankName];
-
-        if (!newRoleId) {
-            console.error(
-                `No Discord role configured for rank: ${rankName}`
-            );
-
-            return {
-                success: false,
-                reason:
-                    `No Discord role configured for ${rankName}`
-            };
-        }
-
-        if (
-            !discordClient.isReady()
-        ) {
-            console.warn(
-                "Discord bot is not ready yet."
-            );
-
-            return {
-                success: false,
-                reason:
-                    "Discord bot is not ready"
-            };
-        }
-
-        const guild =
-            await discordClient.guilds.fetch(
-                process.env.DISCORD_GUILD_ID
-            );
-
-        if (!guild) {
-            throw new Error(
-                "Discord server could not be found."
-            );
-        }
-
-        const member =
-            await guild.members.fetch(
-                user.discord_id
-            );
-
-        if (!member) {
-            throw new Error(
-                `Discord member ${user.discord_id} could not be found.`
-            );
-        }
-
-        // ====================================================
-        // REMOVE ALL OLD ECHO AIR GROUP RANK ROLES
-        // ====================================================
-
-        for (
-            const roleId
-            of Object.values(
-                DISCORD_ROLE_MAP
-            )
-        ) {
-            if (!roleId) {
-                continue;
-            }
-
-            if (
-                member.roles.cache.has(
-                    roleId
-                ) &&
-                roleId !== newRoleId
-            ) {
-                try {
-                    await member.roles.remove(
-                        roleId
-                    );
-
-                    console.log(
-                        `Removed old Discord rank role ${roleId} from ${user.username}`
-                    );
-                } catch (error) {
-                    console.error(
-                        `Could not remove Discord role ${roleId} from ${user.username}:`,
-                        error
-                    );
-                }
-            }
-        }
-
-        // ====================================================
-        // ADD CURRENT RANK ROLE
-        // ====================================================
-
-        if (
-            !member.roles.cache.has(
-                newRoleId
-            )
-        ) {
-            await member.roles.add(
-                newRoleId
-            );
-
-            console.log(
-                `Discord rank updated: ${user.username} -> ${rankName}`
-            );
-        } else {
-            console.log(
-                `Discord rank already correct: ${user.username} -> ${rankName}`
-            );
-        }
-
-        return {
-            success: true,
-            rank: rankName,
-            roleId: newRoleId
-        };
-    } catch (error) {
-        console.error(
-            `Discord rank synchronization failed for ${user.username}:`,
-            error
-        );
-
-        return {
-            success: false,
-            reason:
-                error.message
-        };
-    }
 }
 
 // ============================================================
@@ -511,9 +260,11 @@ function round(
             decimals
         );
 
-    return Math.round(
-        value * factor
-    ) / factor;
+    return (
+        Math.round(
+            value * factor
+        ) / factor
+    );
 }
 
 function firstValue(
@@ -544,9 +295,7 @@ function firstValue(
 // NEWSKY PILOT ID
 // ============================================================
 
-function getPilotId(
-    flight
-) {
+function getPilotId(flight) {
     if (
         !flight ||
         typeof flight !== "object"
@@ -1058,8 +807,7 @@ function formatFlight(
     flight
 ) {
     return {
-        id:
-            flight.id,
+        id: flight.id,
 
         newskyId:
             flight.newsky_id,
@@ -1272,16 +1020,14 @@ function getUserStats(
     userId
 ) {
     const flights =
-        db
-            .prepare(`
-                SELECT *
-                FROM flights
-                WHERE user_id = ?
-                ORDER BY
-                    datetime(dep_time) DESC,
-                    id DESC
-            `)
-            .all(userId);
+        db.prepare(`
+            SELECT *
+            FROM flights
+            WHERE user_id = ?
+            ORDER BY
+                datetime(dep_time) DESC,
+                id DESC
+        `).all(userId);
 
     const flightCount =
         flights.length;
@@ -1433,16 +1179,12 @@ function createToken(
 ) {
     return jwt.sign(
         {
-            id:
-                user.id,
-
-            username:
-                user.username
+            id: user.id,
+            username: user.username
         },
         JWT_SECRET,
         {
-            expiresIn:
-                "30d"
+            expiresIn: "30d"
         }
     );
 }
@@ -1478,13 +1220,11 @@ function authenticate(
             );
 
         const user =
-            db
-                .prepare(`
-                    SELECT *
-                    FROM users
-                    WHERE id = ?
-                `)
-                .get(decoded.id);
+            db.prepare(`
+                SELECT *
+                FROM users
+                WHERE id = ?
+            `).get(decoded.id);
 
         if (!user) {
             return res.status(401).json({
@@ -1493,8 +1233,7 @@ function authenticate(
             });
         }
 
-        req.user =
-            user;
+        req.user = user;
 
         next();
     } catch {
@@ -1503,6 +1242,331 @@ function authenticate(
                 "Invalid or expired token"
         });
     }
+}
+
+// ============================================================
+// DISCORD BOT
+// ============================================================
+
+let discordClient = null;
+let discordReady = false;
+
+async function startDiscordBot() {
+    if (!DISCORD_BOT_TOKEN) {
+        console.warn(
+            "Discord bot disabled: DISCORD_BOT_TOKEN is missing."
+        );
+
+        return;
+    }
+
+    if (!DISCORD_GUILD_ID) {
+        console.warn(
+            "Discord bot warning: DISCORD_GUILD_ID is missing."
+        );
+    }
+
+    discordClient =
+        new Client({
+            intents: [
+                GatewayIntentBits.Guilds
+            ]
+        });
+
+    discordClient.once(
+        "ready",
+        async () => {
+            discordReady = true;
+
+            console.log(
+                `Discord bot logged in as ${discordClient.user.tag}`
+            );
+
+            if (DISCORD_GUILD_ID) {
+                try {
+                    const guild =
+                        await discordClient.guilds.fetch(
+                            DISCORD_GUILD_ID
+                        );
+
+                    console.log(
+                        `Discord server connected: ${guild.name}`
+                    );
+                } catch (error) {
+                    console.error(
+                        "Could not access Discord server:",
+                        error.message
+                    );
+                }
+            }
+        }
+    );
+
+    discordClient.on(
+        "error",
+        error => {
+            console.error(
+                "Discord client error:",
+                error
+            );
+        }
+    );
+
+    try {
+        await discordClient.login(
+            DISCORD_BOT_TOKEN
+        );
+    } catch (error) {
+        console.error(
+            "Discord bot login failed:",
+            error
+        );
+
+        discordReady = false;
+    }
+}
+
+// ============================================================
+// DISCORD ROLE SYNC
+// ============================================================
+//
+// Alleen rollen worden aangepast.
+// De bot stuurt geen berichten.
+//
+// ============================================================
+
+async function syncDiscordRank(
+    userId
+) {
+    if (!discordClient) {
+        console.log(
+            "Discord role sync skipped: bot is not configured."
+        );
+
+        return {
+            success: false,
+            reason:
+                "Discord bot is not configured."
+        };
+    }
+
+    if (!discordReady) {
+        console.log(
+            "Discord role sync skipped: bot is not ready."
+        );
+
+        return {
+            success: false,
+            reason:
+                "Discord bot is not ready."
+        };
+    }
+
+    if (!DISCORD_GUILD_ID) {
+        return {
+            success: false,
+            reason:
+                "DISCORD_GUILD_ID is missing."
+        };
+    }
+
+    const user =
+        db.prepare(`
+            SELECT *
+            FROM users
+            WHERE id = ?
+        `).get(userId);
+
+    if (!user) {
+        return {
+            success: false,
+            reason:
+                "Website user not found."
+        };
+    }
+
+    if (!user.discord_user_id) {
+        console.log(
+            `Discord sync skipped for ${user.username}: Discord account not linked.`
+        );
+
+        return {
+            success: false,
+            reason:
+                "Discord account is not linked."
+        };
+    }
+
+    const stats =
+        getUserStats(
+            user.id
+        );
+
+    const rankName =
+        stats.rank.name;
+
+    const targetRoleId =
+        DISCORD_ROLE_IDS[
+            rankName
+        ];
+
+    if (!targetRoleId) {
+        console.error(
+            `No Discord role ID configured for rank "${rankName}".`
+        );
+
+        return {
+            success: false,
+            reason:
+                `No Discord role configured for ${rankName}.`
+        };
+    }
+
+    try {
+        const guild =
+            await discordClient.guilds.fetch(
+                DISCORD_GUILD_ID
+            );
+
+        let member;
+
+        try {
+            member =
+                await guild.members.fetch(
+                    user.discord_user_id
+                );
+        } catch {
+            console.warn(
+                `Discord user ${user.discord_user_id} is not in the server.`
+            );
+
+            return {
+                success: false,
+                reason:
+                    "Discord user is not a member of the server."
+            };
+        }
+
+        const rankRoleIds =
+            Object.values(
+                DISCORD_ROLE_IDS
+            ).filter(Boolean);
+
+        // ----------------------------------------------------
+        // REMOVE OLD ECHO AIR GROUP RANK ROLES
+        // ----------------------------------------------------
+
+        for (
+            const roleId
+            of rankRoleIds
+        ) {
+            if (
+                member.roles.cache.has(
+                    roleId
+                ) &&
+                roleId !== targetRoleId
+            ) {
+                try {
+                    await member.roles.remove(
+                        roleId,
+                        "Echo Air Group website rank synchronization"
+                    );
+
+                    console.log(
+                        `Removed old rank role ${roleId} from ${member.user.tag}`
+                    );
+                } catch (error) {
+                    console.error(
+                        `Could not remove Discord role ${roleId}:`,
+                        error.message
+                    );
+                }
+            }
+        }
+
+        // ----------------------------------------------------
+        // ADD CURRENT RANK ROLE
+        // ----------------------------------------------------
+
+        if (
+            !member.roles.cache.has(
+                targetRoleId
+            )
+        ) {
+            await member.roles.add(
+                targetRoleId,
+                "Echo Air Group website rank synchronization"
+            );
+
+            console.log(
+                `Added ${rankName} role to ${member.user.tag}`
+            );
+        } else {
+            console.log(
+                `${member.user.tag} already has the ${rankName} role.`
+            );
+        }
+
+        return {
+            success: true,
+            rank: rankName,
+            discordUserId:
+                user.discord_user_id,
+            roleId:
+                targetRoleId
+        };
+    } catch (error) {
+        console.error(
+            `Discord role sync error for ${user.username}:`,
+            error
+        );
+
+        return {
+            success: false,
+            reason:
+                error.message
+        };
+    }
+}
+
+// ============================================================
+// SYNC ALL DISCORD RANKS
+// ============================================================
+
+async function syncAllDiscordRanks() {
+    const users =
+        db.prepare(`
+            SELECT id
+            FROM users
+            WHERE
+                discord_user_id IS NOT NULL
+                AND TRIM(discord_user_id) != ''
+        `).all();
+
+    let success = 0;
+    let failed = 0;
+
+    for (const user of users) {
+        const result =
+            await syncDiscordRank(
+                user.id
+            );
+
+        if (result.success) {
+            success++;
+        } else {
+            failed++;
+        }
+
+        // Small delay so Discord API is not hammered.
+        await sleep(500);
+    }
+
+    return {
+        total: users.length,
+        success,
+        failed
+    };
 }
 
 // ============================================================
@@ -1520,7 +1584,9 @@ app.get(
                 DB_PATH,
 
             discordBot:
-                discordClient.isReady(),
+                discordReady
+                    ? "connected"
+                    : "not connected",
 
             time:
                 new Date().toISOString()
@@ -1537,13 +1603,11 @@ app.get(
     (req, res) => {
         res.json({
             status: "ok",
-
-            database:
-                "connected",
-
+            database: "connected",
             discordBot:
-                discordClient.isReady(),
-
+                discordReady
+                    ? "connected"
+                    : "not connected",
             time:
                 new Date().toISOString()
         });
@@ -1602,14 +1666,12 @@ app.post(
             }
 
             const existing =
-                db
-                    .prepare(`
-                        SELECT id
-                        FROM users
-                        WHERE LOWER(username) =
-                              LOWER(?)
-                    `)
-                    .get(username);
+                db.prepare(`
+                    SELECT id
+                    FROM users
+                    WHERE LOWER(username) =
+                          LOWER(?)
+                `).get(username);
 
             if (existing) {
                 return res.status(409).json({
@@ -1625,21 +1687,19 @@ app.post(
                 );
 
             const result =
-                db
-                    .prepare(`
-                        INSERT INTO users
-                        (
-                            username,
-                            password,
-                            display_name
-                        )
-                        VALUES (?, ?, ?)
-                    `)
-                    .run(
+                db.prepare(`
+                    INSERT INTO users
+                    (
                         username,
-                        passwordHash,
-                        username
-                    );
+                        password,
+                        display_name
+                    )
+                    VALUES (?, ?, ?)
+                `).run(
+                    username,
+                    passwordHash,
+                    username
+                );
 
             const user = {
                 id:
@@ -1692,14 +1752,12 @@ app.post(
                 );
 
             const user =
-                db
-                    .prepare(`
-                        SELECT *
-                        FROM users
-                        WHERE LOWER(username) =
-                              LOWER(?)
-                    `)
-                    .get(username);
+                db.prepare(`
+                    SELECT *
+                    FROM users
+                    WHERE LOWER(username) =
+                          LOWER(?)
+                `).get(username);
 
             if (!user) {
                 return res.status(401).json({
@@ -1759,12 +1817,6 @@ app.get(
                 req.user.id
             );
 
-        // Keep Discord rank synchronized
-        await syncDiscordRank(
-            req.user,
-            stats.stars
-        );
-
         res.json({
             user: {
                 id:
@@ -1781,9 +1833,14 @@ app.get(
                     req.user.newsky_pilot_id ||
                     "",
 
-                discordId:
-                    req.user.discord_id ||
-                    ""
+                discordUserId:
+                    req.user.discord_user_id ||
+                    "",
+
+                discordLinked:
+                    Boolean(
+                        req.user.discord_user_id
+                    )
             },
 
             stats: {
@@ -1831,6 +1888,572 @@ app.get(
 );
 
 // ============================================================
+// DISCORD OAUTH2 - START
+// ============================================================
+//
+// Frontend:
+//
+// window.location.href =
+// API_URL + "/api/discord/login?token=" + token;
+//
+// ============================================================
+
+app.get(
+    "/api/discord/login",
+    (req, res) => {
+        try {
+            if (
+                !DISCORD_CLIENT_ID ||
+                !DISCORD_CLIENT_SECRET ||
+                !DISCORD_REDIRECT_URI
+            ) {
+                return res.status(500).json({
+                    error:
+                        "Discord OAuth2 is not configured on the server."
+                });
+            }
+
+            const token =
+                String(
+                    req.query.token || ""
+                );
+
+            if (!token) {
+                return res.status(401).json({
+                    error:
+                        "Website login token is required."
+                });
+            }
+
+            let decoded;
+
+            try {
+                decoded =
+                    jwt.verify(
+                        token,
+                        JWT_SECRET
+                    );
+            } catch {
+                return res.status(401).json({
+                    error:
+                        "Invalid or expired website login token."
+                });
+            }
+
+            const user =
+                db.prepare(`
+                    SELECT *
+                    FROM users
+                    WHERE id = ?
+                `).get(decoded.id);
+
+            if (!user) {
+                return res.status(404).json({
+                    error:
+                        "Website user not found."
+                });
+            }
+
+            // ------------------------------------------------
+            // STATE
+            // ------------------------------------------------
+            //
+            // State is signed so the callback cannot be used
+            // to connect a Discord account to another user.
+            //
+            const state =
+                jwt.sign(
+                    {
+                        userId:
+                            user.id,
+                        purpose:
+                            "discord-oauth"
+                    },
+                    JWT_SECRET,
+                    {
+                        expiresIn:
+                            "10m"
+                    }
+                );
+
+            const params =
+                new URLSearchParams({
+                    client_id:
+                        DISCORD_CLIENT_ID,
+
+                    redirect_uri:
+                        DISCORD_REDIRECT_URI,
+
+                    response_type:
+                        "code",
+
+                    scope:
+                        "identify",
+
+                    state
+                });
+
+            const discordUrl =
+                `https://discord.com/oauth2/authorize?${params.toString()}`;
+
+            res.redirect(
+                discordUrl
+            );
+        } catch (error) {
+            console.error(
+                "Discord OAuth start error:",
+                error
+            );
+
+            res.status(500).json({
+                error:
+                    "Could not start Discord connection."
+            });
+        }
+    }
+);
+
+// ============================================================
+// DISCORD OAUTH2 - CALLBACK
+// ============================================================
+
+app.get(
+    "/api/discord/callback",
+    async (req, res) => {
+        try {
+            const {
+                code,
+                state,
+                error
+            } = req.query;
+
+            if (error) {
+                return res.status(400).send(`
+                    <html>
+                    <body style="font-family:Arial;padding:40px">
+                        <h2>Discord connection cancelled</h2>
+                        <p>You can close this window and return to Echo Air Group.</p>
+                    </body>
+                    </html>
+                `);
+            }
+
+            if (!code || !state) {
+                return res.status(400).send(`
+                    <html>
+                    <body style="font-family:Arial;padding:40px">
+                        <h2>Discord connection failed</h2>
+                        <p>Missing OAuth information.</p>
+                    </body>
+                    </html>
+                `);
+            }
+
+            let decoded;
+
+            try {
+                decoded =
+                    jwt.verify(
+                        state,
+                        JWT_SECRET
+                    );
+            } catch {
+                return res.status(400).send(`
+                    <html>
+                    <body style="font-family:Arial;padding:40px">
+                        <h2>Discord connection expired</h2>
+                        <p>Please try connecting Discord again.</p>
+                    </body>
+                    </html>
+                `);
+            }
+
+            if (
+                decoded.purpose !==
+                "discord-oauth"
+            ) {
+                return res.status(400).send(`
+                    <html>
+                    <body style="font-family:Arial;padding:40px">
+                        <h2>Invalid Discord connection</h2>
+                    </body>
+                    </html>
+                `);
+            }
+
+            const user =
+                db.prepare(`
+                    SELECT *
+                    FROM users
+                    WHERE id = ?
+                `).get(
+                    decoded.userId
+                );
+
+            if (!user) {
+                return res.status(404).send(`
+                    <html>
+                    <body style="font-family:Arial;padding:40px">
+                        <h2>Website account not found</h2>
+                    </body>
+                    </html>
+                `);
+            }
+
+            // ------------------------------------------------
+            // EXCHANGE CODE FOR DISCORD ACCESS TOKEN
+            // ------------------------------------------------
+
+            const tokenResponse =
+                await fetch(
+                    "https://discord.com/api/oauth2/token",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/x-www-form-urlencoded"
+                        },
+
+                        body:
+                            new URLSearchParams({
+                                client_id:
+                                    DISCORD_CLIENT_ID,
+
+                                client_secret:
+                                    DISCORD_CLIENT_SECRET,
+
+                                grant_type:
+                                    "authorization_code",
+
+                                code:
+                                    String(code),
+
+                                redirect_uri:
+                                    DISCORD_REDIRECT_URI
+                            })
+                    }
+                );
+
+            const tokenText =
+                await tokenResponse.text();
+
+            let tokenData;
+
+            try {
+                tokenData =
+                    JSON.parse(
+                        tokenText
+                    );
+            } catch {
+                tokenData = {};
+            }
+
+            if (
+                !tokenResponse.ok ||
+                !tokenData.access_token
+            ) {
+                console.error(
+                    "Discord OAuth token error:",
+                    tokenData
+                );
+
+                return res.status(500).send(`
+                    <html>
+                    <body style="font-family:Arial;padding:40px">
+                        <h2>Discord connection failed</h2>
+                        <p>Could not authenticate with Discord.</p>
+                    </body>
+                    </html>
+                `);
+            }
+
+            // ------------------------------------------------
+            // GET DISCORD USER
+            // ------------------------------------------------
+
+            const discordUserResponse =
+                await fetch(
+                    "https://discord.com/api/users/@me",
+                    {
+                        headers: {
+                            Authorization:
+                                `Bearer ${tokenData.access_token}`
+                        }
+                    }
+                );
+
+            const discordUser =
+                await discordUserResponse.json();
+
+            if (
+                !discordUserResponse.ok ||
+                !discordUser.id
+            ) {
+                console.error(
+                    "Discord user lookup failed:",
+                    discordUser
+                );
+
+                return res.status(500).send(`
+                    <html>
+                    <body style="font-family:Arial;padding:40px">
+                        <h2>Discord connection failed</h2>
+                        <p>Could not retrieve your Discord account.</p>
+                    </body>
+                    </html>
+                `);
+            }
+
+            // ------------------------------------------------
+            // CHECK WHETHER DISCORD ACCOUNT IS ALREADY LINKED
+            // ------------------------------------------------
+
+            const existingUser =
+                db.prepare(`
+                    SELECT id, username
+                    FROM users
+                    WHERE discord_user_id = ?
+                      AND id != ?
+                `).get(
+                    String(
+                        discordUser.id
+                    ),
+                    user.id
+                );
+
+            if (existingUser) {
+                return res.status(409).send(`
+                    <html>
+                    <body style="font-family:Arial;padding:40px">
+                        <h2>Discord account already linked</h2>
+                        <p>This Discord account is already connected to another Echo Air Group account.</p>
+                    </body>
+                    </html>
+                `);
+            }
+
+            // ------------------------------------------------
+            // SAVE DISCORD USER ID
+            // ------------------------------------------------
+
+            db.prepare(`
+                UPDATE users
+                SET discord_user_id = ?
+                WHERE id = ?
+            `).run(
+                String(
+                    discordUser.id
+                ),
+                user.id
+            );
+
+            console.log(
+                `Discord account ${discordUser.username} (${discordUser.id}) linked to website user ${user.username}.`
+            );
+
+            // ------------------------------------------------
+            // IMMEDIATELY SYNC CURRENT RANK
+            // ------------------------------------------------
+
+            const roleSync =
+                await syncDiscordRank(
+                    user.id
+                );
+
+            console.log(
+                "Initial Discord rank sync:",
+                roleSync
+            );
+
+            // ------------------------------------------------
+            // SUCCESS PAGE
+            // ------------------------------------------------
+
+            const rank =
+                getUserStats(
+                    user.id
+                ).rank.name;
+
+            const discordName =
+                discordUser.global_name ||
+                discordUser.username;
+
+            res.send(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Discord Connected</title>
+                </head>
+
+                <body style="
+                    margin:0;
+                    min-height:100vh;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    background:#f4f7f1;
+                    font-family:Arial,sans-serif;
+                ">
+
+                    <div style="
+                        background:white;
+                        padding:40px;
+                        border-radius:18px;
+                        max-width:500px;
+                        text-align:center;
+                        box-shadow:0 10px 40px rgba(0,0,0,.08);
+                    ">
+
+                        <div style="
+                            font-size:55px;
+                            margin-bottom:15px;
+                        ">✓</div>
+
+                        <h1 style="
+                            margin-bottom:10px;
+                        ">
+                            Discord connected!
+                        </h1>
+
+                        <p>
+                            Your Echo Air Group account is now connected to
+                            <strong>${escapeHtml(discordName)}</strong>.
+                        </p>
+
+                        <p>
+                            Current rank:
+                            <strong>${escapeHtml(rank)}</strong>
+                        </p>
+
+                        <p style="
+                            color:#667;
+                            font-size:14px;
+                        ">
+                            Your Discord rank role will now be synchronized
+                            automatically.
+                        </p>
+
+                        <button
+                            onclick="window.close()"
+                            style="
+                                border:0;
+                                padding:12px 22px;
+                                border-radius:10px;
+                                cursor:pointer;
+                                background:#ace336;
+                                color:#18210f;
+                                font-weight:bold;
+                            "
+                        >
+                            Close
+                        </button>
+
+                    </div>
+
+                </body>
+                </html>
+            `);
+        } catch (error) {
+            console.error(
+                "Discord OAuth callback error:",
+                error
+            );
+
+            res.status(500).send(`
+                <html>
+                <body style="font-family:Arial;padding:40px">
+                    <h2>Discord connection failed</h2>
+                    <p>An unexpected error occurred.</p>
+                </body>
+                </html>
+            `);
+        }
+    }
+);
+
+// ============================================================
+// DISCORD STATUS
+// ============================================================
+
+app.get(
+    "/api/discord/status",
+    authenticate,
+    (req, res) => {
+        const user =
+            db.prepare(`
+                SELECT discord_user_id
+                FROM users
+                WHERE id = ?
+            `).get(
+                req.user.id
+            );
+
+        res.json({
+            connected:
+                Boolean(
+                    user &&
+                    user.discord_user_id
+                ),
+
+            discordUserId:
+                user?.discord_user_id ||
+                null,
+
+            botReady:
+                discordReady
+        });
+    }
+);
+
+// ============================================================
+// MANUAL DISCORD RANK SYNC
+// ============================================================
+//
+// Handig voor testen.
+//
+// POST /api/discord/sync
+//
+// ============================================================
+
+app.post(
+    "/api/discord/sync",
+    authenticate,
+    async (req, res) => {
+        try {
+            const result =
+                await syncDiscordRank(
+                    req.user.id
+                );
+
+            if (!result.success) {
+                return res.status(400).json(
+                    result
+                );
+            }
+
+            res.json({
+                message:
+                    "Discord rank synchronized.",
+
+                ...result
+            });
+        } catch (error) {
+            console.error(
+                "Manual Discord sync error:",
+                error
+            );
+
+            res.status(500).json({
+                error:
+                    error.message
+            });
+        }
+    }
+);
+
+// ============================================================
 // LINK NEWSKY ACCOUNT
 // ============================================================
 
@@ -1871,144 +2494,6 @@ app.post(
 );
 
 // ============================================================
-// LINK DISCORD ACCOUNT
-// ============================================================
-//
-// De website kan bijvoorbeeld:
-//
-// POST /api/account/link-discord
-//
-// body:
-//
-// {
-//     "discordId": "123456789012345678"
-// }
-//
-// ============================================================
-
-app.post(
-    "/api/account/link-discord",
-    authenticate,
-    async (req, res) => {
-        try {
-            const discordId =
-                String(
-                    req.body.discordId ||
-                    ""
-                ).trim();
-
-            if (!discordId) {
-                return res.status(400).json({
-                    error:
-                        "Discord ID is required."
-                });
-            }
-
-            // Discord IDs zijn normaal gesproken
-            // 17-20 cijfers lang.
-            if (
-                !/^\d{17,20}$/.test(
-                    discordId
-                )
-            ) {
-                return res.status(400).json({
-                    error:
-                        "Invalid Discord ID."
-                });
-            }
-
-            db.prepare(`
-                UPDATE users
-                SET discord_id = ?
-                WHERE id = ?
-            `).run(
-                discordId,
-                req.user.id
-            );
-
-            const updatedUser =
-                db
-                    .prepare(`
-                        SELECT *
-                        FROM users
-                        WHERE id = ?
-                    `)
-                    .get(
-                        req.user.id
-                    );
-
-            const stats =
-                getUserStats(
-                    req.user.id
-                );
-
-            const discordSync =
-                await syncDiscordRank(
-                    updatedUser,
-                    stats.stars
-                );
-
-            res.json({
-                message:
-                    "Discord account linked successfully.",
-
-                discordId,
-
-                rank:
-                    stats.rank.name,
-
-                discordSync
-            });
-        } catch (error) {
-            console.error(
-                "Discord link error:",
-                error
-            );
-
-            res.status(500).json({
-                error:
-                    "Could not link Discord account."
-            });
-        }
-    }
-);
-
-// ============================================================
-// UNLINK DISCORD ACCOUNT
-// ============================================================
-
-app.post(
-    "/api/account/unlink-discord",
-    authenticate,
-    (req, res) => {
-        try {
-            db.prepare(`
-                UPDATE users
-                SET discord_id = NULL
-                WHERE id = ?
-            `).run(
-                req.user.id
-            );
-
-            res.json({
-                message:
-                    "Discord account unlinked successfully."
-            });
-        } catch (error) {
-            console.error(
-                "Discord unlink error:",
-                error
-            );
-
-            res.status(500).json({
-                error:
-                    "Could not unlink Discord account."
-            });
-        }
-    }
-);
-
-// ============================================================
 // NEWSKY CONFIGURATION
 // ============================================================
 
@@ -2020,12 +2505,14 @@ const NEWSKY_MIN_DATE =
     process.env.NEWSKY_HISTORY_START ||
     "2020-01-01";
 
-const NEWSKY_PAGE_SIZE = 100;
+const NEWSKY_PAGE_SIZE =
+    100;
 
 const NEWSKY_RATE_LIMIT_DELAY =
     3500;
 
-const NEWSKY_MAX_RETRIES = 5;
+const NEWSKY_MAX_RETRIES =
+    5;
 
 // ============================================================
 // SLEEP
@@ -2186,7 +2673,8 @@ async function getNewSkyFlightPage(
         );
 
         if (
-            response.status !== 429
+            response.status !==
+            429
         ) {
             break;
         }
@@ -2252,9 +2740,7 @@ async function getNewSkyFlightPage(
         );
     }
 
-    if (
-        !response.ok
-    ) {
+    if (!response.ok) {
         console.error(
             "NewSky API error:",
             response.status,
@@ -2272,7 +2758,7 @@ async function getNewSkyFlightPage(
 }
 
 // ============================================================
-// EXTRACT FLIGHTS FROM NEWSKY RESPONSE
+// EXTRACT FLIGHTS
 // ============================================================
 
 function extractFlights(
@@ -2336,11 +2822,12 @@ function extractFlights(
 }
 
 // ============================================================
-// GET ALL NEWSKY FLIGHTS
+// GET ALL ECHO AIR GROUP FLIGHTS
 // ============================================================
 
 async function getAllNewSkyFlights() {
-    const allFlights = [];
+    const allFlights =
+        [];
 
     const today =
         toDateOnly(
@@ -2352,10 +2839,12 @@ async function getAllNewSkyFlights() {
             NEWSKY_MIN_DATE
         );
 
-    let rangeNumber = 0;
+    let rangeNumber =
+        0;
 
     if (
-        rangeStart > today
+        rangeStart >
+        today
     ) {
         throw new Error(
             `NEWSKY_HISTORY_START (${rangeStart}) cannot be in the future.`
@@ -2418,7 +2907,8 @@ async function getAllNewSkyFlights() {
             page++;
 
             if (
-                allFlights.length > 0
+                allFlights.length >
+                0
             ) {
                 await sleep(
                     NEWSKY_RATE_LIMIT_DELAY
@@ -2553,20 +3043,17 @@ async function getAllNewSkyFlights() {
 
 function getLinkedPilotMap() {
     const users =
-        db
-            .prepare(`
-                SELECT
-                    id,
-                    username,
-                    display_name,
-                    newsky_pilot_id,
-                    discord_id
-                FROM users
-                WHERE
-                    newsky_pilot_id IS NOT NULL
-                    AND TRIM(newsky_pilot_id) != ''
-            `)
-            .all();
+        db.prepare(`
+            SELECT
+                id,
+                username,
+                display_name,
+                newsky_pilot_id
+            FROM users
+            WHERE
+                newsky_pilot_id IS NOT NULL
+                AND TRIM(newsky_pilot_id) != ''
+        `).all();
 
     const map =
         new Map();
@@ -2670,9 +3157,6 @@ function importAllFlights(
     const matchedPilots =
         new Set();
 
-    const affectedUserIds =
-        new Set();
-
     const transaction =
         db.transaction(
             flights => {
@@ -2703,10 +3187,6 @@ function importAllFlights(
                     }
 
                     matchedPilots.add(
-                        user.id
-                    );
-
-                    affectedUserIds.add(
                         user.id
                     );
 
@@ -2787,7 +3267,8 @@ function importAllFlights(
                         );
 
                     if (
-                        result.changes > 0
+                        result.changes >
+                        0
                     ) {
                         imported++;
                     }
@@ -2805,74 +3286,12 @@ function importAllFlights(
         skipped,
         unmatched,
         matchedPilots:
-            matchedPilots.size,
-        affectedUserIds:
-            Array.from(
-                affectedUserIds
-            )
+            matchedPilots.size
     };
 }
 
 // ============================================================
-// SYNC DISCORD ROLES FOR AFFECTED USERS
-// ============================================================
-
-async function syncAffectedDiscordRanks(
-    userIds
-) {
-    const results = [];
-
-    for (
-        const userId
-        of userIds
-    ) {
-        const user =
-            db
-                .prepare(`
-                    SELECT *
-                    FROM users
-                    WHERE id = ?
-                `)
-                .get(userId);
-
-        if (!user) {
-            continue;
-        }
-
-        const stats =
-            getUserStats(
-                user.id
-            );
-
-        const result =
-            await syncDiscordRank(
-                user,
-                stats.stars
-            );
-
-        results.push({
-            userId:
-                user.id,
-
-            username:
-                user.username,
-
-            stars:
-                stats.stars,
-
-            rank:
-                stats.rank.name,
-
-            discord:
-                result
-        });
-    }
-
-    return results;
-}
-
-// ============================================================
-// GLOBAL SYNC
+// SYNC ALL ECHO AIR GROUP FLIGHTS
 // ============================================================
 
 app.post(
@@ -2885,16 +3304,13 @@ app.post(
             );
 
             const linkedPilots =
-                db
-                    .prepare(`
-                        SELECT COUNT(*) AS count
-                        FROM users
-                        WHERE
-                            newsky_pilot_id IS NOT NULL
-                            AND TRIM(newsky_pilot_id) != ''
-                    `)
-                    .get()
-                    .count;
+                db.prepare(`
+                    SELECT COUNT(*) AS count
+                    FROM users
+                    WHERE
+                        newsky_pilot_id IS NOT NULL
+                        AND TRIM(newsky_pilot_id) != ''
+                `).get().count;
 
             if (
                 linkedPilots === 0
@@ -2913,22 +3329,22 @@ app.post(
                     allFlights
                 );
 
-            // Automatically synchronize
-            // Discord ranks after flights
-            // have been imported.
-            const discordResults =
-                await syncAffectedDiscordRanks(
-                    result.affectedUserIds
-                );
+            // ------------------------------------------------
+            // AUTOMATIC DISCORD RANK SYNC
+            // ------------------------------------------------
+
+            console.log(
+                "Starting automatic Discord rank synchronization..."
+            );
+
+            const discordResult =
+                await syncAllDiscordRanks();
 
             const totalDatabaseFlights =
-                db
-                    .prepare(`
-                        SELECT COUNT(*) AS count
-                        FROM flights
-                    `)
-                    .get()
-                    .count;
+                db.prepare(`
+                    SELECT COUNT(*) AS count
+                    FROM flights
+                `).get().count;
 
             res.json({
                 message:
@@ -2951,11 +3367,11 @@ app.post(
                 pilotsWithFlights:
                     result.matchedPilots,
 
-                discordRankSync:
-                    discordResults,
-
                 totalFlightsInDatabase:
-                    totalDatabaseFlights
+                    totalDatabaseFlights,
+
+                discordRankSync:
+                    discordResult
             });
         } catch (error) {
             console.error(
@@ -3026,23 +3442,13 @@ app.post(
                     req.user.id
                 );
 
-            // Automatically update Discord
-            // after the user's stars/rank change.
-            const freshUser =
-                db
-                    .prepare(`
-                        SELECT *
-                        FROM users
-                        WHERE id = ?
-                    `)
-                    .get(
-                        req.user.id
-                    );
+            // ------------------------------------------------
+            // AUTOMATIC DISCORD RANK SYNC
+            // ------------------------------------------------
 
-            const discordSync =
+            const discordResult =
                 await syncDiscordRank(
-                    freshUser,
-                    stats.stars
+                    req.user.id
                 );
 
             res.json({
@@ -3062,7 +3468,7 @@ app.post(
                     result.skipped,
 
                 discordRankSync:
-                    discordSync,
+                    discordResult,
 
                 stats: {
                     stars:
@@ -3100,59 +3506,6 @@ app.post(
 );
 
 // ============================================================
-// MANUAL DISCORD RANK SYNC
-// ============================================================
-//
-// Handig om vanuit de website een rank opnieuw te synchroniseren.
-// POST /api/discord/sync
-//
-// ============================================================
-
-app.post(
-    "/api/discord/sync",
-    authenticate,
-    async (req, res) => {
-        try {
-            const stats =
-                getUserStats(
-                    req.user.id
-                );
-
-            const result =
-                await syncDiscordRank(
-                    req.user,
-                    stats.stars
-                );
-
-            res.json({
-                message:
-                    "Discord rank synchronization completed.",
-
-                stars:
-                    stats.stars,
-
-                rank:
-                    stats.rank.name,
-
-                discord:
-                    result
-            });
-        } catch (error) {
-            console.error(
-                "Manual Discord sync error:",
-                error
-            );
-
-            res.status(500).json({
-                error:
-                    error.message ||
-                    "Unable to synchronize Discord rank."
-            });
-        }
-    }
-);
-
-// ============================================================
 // PILOTS
 // ============================================================
 
@@ -3161,25 +3514,23 @@ app.get(
     (req, res) => {
         try {
             const users =
-                db
-                    .prepare(`
-                        SELECT
-                            id,
-                            username,
-                            display_name,
-                            newsky_pilot_id,
-                            discord_id,
-                            created_at
-                        FROM users
-                        ORDER BY
-                            LOWER(
-                                COALESCE(
-                                    display_name,
-                                    username
-                                )
-                            ) ASC
-                    `)
-                    .all();
+                db.prepare(`
+                    SELECT
+                        id,
+                        username,
+                        display_name,
+                        newsky_pilot_id,
+                        discord_user_id,
+                        created_at
+                    FROM users
+                    ORDER BY
+                        LOWER(
+                            COALESCE(
+                                display_name,
+                                username
+                            )
+                        ) ASC
+                `).all();
 
             const pilots =
                 users.map(
@@ -3225,7 +3576,7 @@ app.get(
 
                             discordLinked:
                                 Boolean(
-                                    user.discord_id
+                                    user.discord_user_id
                                 ),
 
                             createdAt:
@@ -3276,19 +3627,17 @@ app.get(
             }
 
             const user =
-                db
-                    .prepare(`
-                        SELECT
-                            id,
-                            username,
-                            display_name,
-                            created_at
-                        FROM users
-                        WHERE id = ?
-                    `)
-                    .get(
-                        userId
-                    );
+                db.prepare(`
+                    SELECT
+                        id,
+                        username,
+                        display_name,
+                        created_at
+                    FROM users
+                    WHERE id = ?
+                `).get(
+                    userId
+                );
 
             if (!user) {
                 return res.status(404).json({
@@ -3366,15 +3715,13 @@ app.get(
     (req, res) => {
         try {
             const users =
-                db
-                    .prepare(`
-                        SELECT
-                            id,
-                            username,
-                            display_name
-                        FROM users
-                    `)
-                    .all();
+                db.prepare(`
+                    SELECT
+                        id,
+                        username,
+                        display_name
+                    FROM users
+                `).all();
 
             const rankings =
                 users
@@ -3482,45 +3829,35 @@ app.get(
     (req, res) => {
         try {
             const users =
-                db
-                    .prepare(`
-                        SELECT COUNT(*) AS count
-                        FROM users
-                    `)
-                    .get()
-                    .count;
+                db.prepare(`
+                    SELECT COUNT(*) AS count
+                    FROM users
+                `).get().count;
 
             const flights =
-                db
-                    .prepare(`
-                        SELECT COUNT(*) AS count
-                        FROM flights
-                    `)
-                    .get()
-                    .count;
+                db.prepare(`
+                    SELECT COUNT(*) AS count
+                    FROM flights
+                `).get().count;
 
             const usersWithFlights =
-                db
-                    .prepare(`
-                        SELECT
-                            u.id,
-                            u.username,
-                            u.newsky_pilot_id,
-                            u.discord_id,
-                            COUNT(f.id) AS flights
-                        FROM users u
-                        LEFT JOIN flights f
-                            ON f.user_id = u.id
-                        GROUP BY u.id
-                        ORDER BY u.id
-                    `)
-                    .all();
+                db.prepare(`
+                    SELECT
+                        u.id,
+                        u.username,
+                        u.newsky_pilot_id,
+                        u.discord_user_id,
+                        COUNT(f.id) AS flights
+                    FROM users u
+                    LEFT JOIN flights f
+                        ON f.user_id = u.id
+                    GROUP BY u.id
+                    ORDER BY u.id
+                `).all();
 
             res.json({
                 users,
-
                 flights,
-
                 usersWithFlights
             });
         } catch (error) {
@@ -3572,7 +3909,9 @@ app.use(
         if (
             res.headersSent
         ) {
-            return next(error);
+            return next(
+                error
+            );
         }
 
         res.status(500).json({
@@ -3583,12 +3922,42 @@ app.use(
 );
 
 // ============================================================
+// HTML ESCAPE
+// ============================================================
+
+function escapeHtml(
+    value
+) {
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+// ============================================================
 // START SERVER
 // ============================================================
 
 app.listen(
     PORT,
-    () => {
+    async () => {
         console.log(
             `Echo Air Group backend running on port ${PORT}`
         );
@@ -3597,16 +3966,6 @@ app.listen(
             `Database: ${DB_PATH}`
         );
 
-        console.log(
-            `Discord bot configured: ${Boolean(
-                process.env.DISCORD_BOT_TOKEN
-            )}`
-        );
-
-        console.log(
-            `Discord guild configured: ${Boolean(
-                process.env.DISCORD_GUILD_ID
-            )}`
-        );
+        await startDiscordBot();
     }
 );
