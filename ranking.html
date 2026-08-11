@@ -901,6 +901,26 @@ header.hide-on-scroll {
 
 
 /* ============================================================
+   DISCORD BUTTON
+   ============================================================ */
+
+#discordBtn {
+    background:#5865F2;
+    color:#fff;
+}
+
+#discordBtn:hover {
+    box-shadow:
+        0 8px 22px rgba(88,101,242,.25);
+}
+
+#discordBtn:disabled {
+    background:#6f7680;
+    color:#fff;
+}
+
+
+/* ============================================================
    MESSAGES
    ============================================================ */
 
@@ -1237,6 +1257,7 @@ footer p {
     .pilot-item {
         padding:13px 14px;
     }
+
 }
 
 </style>
@@ -1259,16 +1280,18 @@ footer p {
 
         <img
             class="brand-logo"
-            src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+            src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?format=webp&quality=lossless&width=768&height=768"
             alt="Echo Air Group Logo"
         >
 
         <div class="brand-text">
+
             ECHO AIR GROUP
 
             <small>
                 6L · ECV · CLOVER
             </small>
+
         </div>
 
     </a>
@@ -1562,39 +1585,44 @@ footer p {
 
     <div class="actions">
 
-    <button
-        class="btn btn-primary"
-        id="syncBtn"
-    >
-        Sync flights
-    </button>
+        <button
+            class="btn btn-primary"
+            id="syncBtn"
+            type="button"
+        >
+            Sync flights
+        </button>
 
-    <button
-        class="btn"
-        id="discordBtn"
-        type="button"
-    >
-        Connect Discord
-    </button>
 
-    <button
-        class="btn"
-        id="logoutBtn"
-        type="button"
-    >
-        Log out
-    </button>
+        <button
+            class="btn"
+            id="discordBtn"
+            type="button"
+        >
+            Connect Discord
+        </button>
 
-</div>
 
-<div
-    class="message"
-    id="discordMsg"
-></div>
+        <button
+            class="btn"
+            id="logoutBtn"
+            type="button"
+        >
+            Log out
+        </button>
+
+    </div>
+
 
     <div
         class="message"
         id="dashboardMsg"
+    ></div>
+
+
+    <div
+        class="message"
+        id="discordMsg"
     ></div>
 
 </div>
@@ -1637,6 +1665,7 @@ footer p {
         <button
             class="btn btn-primary"
             id="linkBtn"
+            type="button"
         >
             Link NewSky account
         </button>
@@ -1724,6 +1753,7 @@ footer p {
     <button
         class="btn btn-primary"
         id="registerBtn"
+        type="button"
     >
         Create account
     </button>
@@ -1732,6 +1762,7 @@ footer p {
     <button
         class="btn"
         id="loginBtn"
+        type="button"
     >
         Sign in
     </button>
@@ -1909,7 +1940,7 @@ footer p {
 
     <img
         class="brand-logo"
-        src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+        src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?format=webp&quality=lossless&width=768&height=768"
         alt="Echo Air Group Logo"
     >
 
@@ -1988,16 +2019,6 @@ let token =
     localStorage.getItem('echo_token');
 
 
-/*
- * Make sure we never accidentally send:
- *
- * Bearer null
- * Bearer undefined
- * Bearer ""
- *
- * Those can cause confusing 401 responses.
- */
-
 function getAuthToken() {
 
     const stored =
@@ -2035,11 +2056,6 @@ const newskyInput =
 
 async function api(path, options = {}) {
 
-    /*
-     * Always get the newest token from localStorage.
-     * This prevents the page from using an old value.
-     */
-
     token =
         getAuthToken();
 
@@ -2052,10 +2068,6 @@ async function api(path, options = {}) {
         ...(options.headers || {})
     };
 
-
-    /*
-     * Only add Authorization when a real JWT exists.
-     */
 
     if(token) {
 
@@ -2088,10 +2100,6 @@ async function api(path, options = {}) {
     }
 
 
-    /*
-     * Try to read JSON.
-     */
-
     const text =
         await response.text();
 
@@ -2117,17 +2125,7 @@ async function api(path, options = {}) {
     }
 
 
-    /* ========================================================
-       AUTHENTICATION ERROR
-       ======================================================== */
-
     if(response.status === 401) {
-
-        /*
-         * The JWT is invalid, expired or missing.
-         *
-         * Remove it so the next login creates a fresh token.
-         */
 
         localStorage.removeItem(
             'echo_token'
@@ -2137,20 +2135,12 @@ async function api(path, options = {}) {
             null;
 
 
-        /*
-         * For protected requests, give a useful message.
-         */
-
         throw new Error(
             'Your login session has expired or is invalid. Please sign in again.'
         );
 
     }
 
-
-    /* ========================================================
-       OTHER API ERROR
-       ======================================================== */
 
     if(!response.ok) {
 
@@ -2341,6 +2331,7 @@ function getFlightValue(flight, ...keys) {
 
 
     return null;
+
 }
 
 
@@ -2854,11 +2845,9 @@ function renderDashboard(data) {
         newskyId;
 
 
-    /*
-     * ========================================================
-     * DISCORD STATUS
-     * ========================================================
-     */
+    /* ========================================================
+       DISCORD CONNECTION STATUS
+       ======================================================== */
 
     const discordButton =
         document.getElementById(
@@ -2894,7 +2883,7 @@ function renderDashboard(data) {
             if(discordMsg) {
 
                 discordMsg.textContent =
-                    'Your Discord account is connected. Your Echo Air Group rank will be synchronized with your Discord role.';
+                    'Your Discord account is connected. Your Echo Air Group rank role will be synchronized automatically.';
 
                 discordMsg.style.display =
                     'block';
@@ -2938,6 +2927,7 @@ function renderDashboard(data) {
     );
 
 }
+
 
 /* ============================================================
    SHOW LOGIN
@@ -2987,10 +2977,6 @@ async function loadMe() {
             await api('/me');
 
 
-        /*
-         * If /me succeeds, the JWT is valid.
-         */
-
         renderDashboard(
             data
         );
@@ -3005,10 +2991,6 @@ async function loadMe() {
             error
         );
 
-
-        /*
-         * api() already removes the token on 401.
-         */
 
         token =
             getAuthToken();
@@ -3551,15 +3533,6 @@ document
                 );
 
 
-            /*
-             * Backend returns:
-             *
-             * {
-             *     message: "Login successful",
-             *     token: "..."
-             * }
-             */
-
             if(!data.token) {
 
                 throw new Error(
@@ -3612,6 +3585,160 @@ document
 
     }
 );
+
+
+/* ============================================================
+   DISCORD CONNECTION
+   ============================================================ */
+
+document
+.getElementById('discordBtn')
+.addEventListener(
+    'click',
+    () => {
+
+        const currentToken =
+            getAuthToken();
+
+
+        if(!currentToken) {
+
+            showMessage(
+                'discordMsg',
+                'You need to sign in before connecting Discord.',
+                true
+            );
+
+            return;
+
+        }
+
+
+        const button =
+            document.getElementById(
+                'discordBtn'
+            );
+
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            'Connecting…';
+
+
+        /*
+         * IMPORTANT:
+         *
+         * The user's JWT is sent to the backend.
+         *
+         * The Discord bot token is NEVER placed here.
+         *
+         * server.js handles Discord OAuth2.
+         */
+
+        window.location.href =
+            API +
+            '/discord/login?token=' +
+            encodeURIComponent(
+                currentToken
+            );
+
+    }
+);
+
+
+/* ============================================================
+   DISCORD OAUTH CALLBACK
+   ============================================================ */
+
+(function handleDiscordCallback() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    const discordStatus =
+        params.get(
+            'discord'
+        );
+
+
+    if(!discordStatus) {
+        return;
+    }
+
+
+    if(
+        discordStatus === 'connected'
+    ) {
+
+        /*
+         * Remove OAuth query parameters
+         * from the browser URL.
+         */
+
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
+
+
+        showMessage(
+            'dashboardMsg',
+            'Discord account connected successfully! Your rank role will now be synchronized.'
+        );
+
+
+        /*
+         * Reload the user so that the
+         * Discord connection status updates.
+         */
+
+        setTimeout(
+            () => {
+
+                loadMe();
+
+            },
+            500
+        );
+
+    }
+
+
+    if(
+        discordStatus === 'error'
+    ) {
+
+        const reason =
+            params.get(
+                'message'
+            );
+
+
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
+
+
+        showMessage(
+            'dashboardMsg',
+            reason
+                ? decodeURIComponent(reason)
+                : 'Unable to connect your Discord account.',
+            true
+        );
+
+    }
+
+})();
 
 
 /* ============================================================
@@ -3753,93 +3880,7 @@ document
     }
 );
 
-<script>
-/* ============================================================
-   DISCORD CONNECTION
-   ============================================================ */
 
-const discordButton =
-    document.getElementById('discordBtn');
-
-
-if (discordButton) {
-
-    discordButton.addEventListener(
-        'click',
-        async () => {
-
-            const currentToken =
-                getAuthToken();
-
-
-            if (!currentToken) {
-
-                showMessage(
-                    'discordMsg',
-                    'You need to sign in before connecting Discord.',
-                    true
-                );
-
-                return;
-
-            }
-
-
-            discordButton.disabled =
-                true;
-
-            discordButton.textContent =
-                'Connecting…';
-
-
-            try {
-
-                /*
-                 * The backend will:
-                 *
-                 * 1. Verify the JWT
-                 * 2. Start Discord OAuth2
-                 * 3. Let the user authorize the bot
-                 * 4. Save the Discord account ID
-                 * 5. Redirect back to the website
-                 */
-
-                window.location.href =
-                    API +
-                    '/discord/login?token=' +
-                    encodeURIComponent(
-                        currentToken
-                    );
-
-            } catch(error) {
-
-                console.error(
-                    'Discord connection error:',
-                    error
-                );
-
-
-                showMessage(
-                    'discordMsg',
-                    'Unable to connect Discord.',
-                    true
-                );
-
-
-                discordButton.disabled =
-                    false;
-
-                discordButton.textContent =
-                    'Connect Discord';
-
-            }
-
-        }
-    );
-
-}
-</script>
-    
 /* ============================================================
    SYNC FLIGHTS
    ============================================================ */
@@ -3849,10 +3890,6 @@ document
 .addEventListener(
     'click',
     async () => {
-
-        /*
-         * Always retrieve the current token first.
-         */
 
         token =
             getAuthToken();
@@ -3895,17 +3932,6 @@ document
 
         try {
 
-            /*
-             * IMPORTANT:
-             *
-             * This is the authenticated personal sync.
-             *
-             * POST /api/sync/me
-             *
-             * The Authorization header is automatically
-             * added by api().
-             */
-
             const data =
                 await api(
                     '/sync/me',
@@ -3918,13 +3944,9 @@ document
             showMessage(
                 'dashboardMsg',
                 data.message ||
-                `Flights synchronized successfully.`
+                'Flights synchronized successfully.'
             );
 
-
-            /*
-             * Reload everything after synchronization.
-             */
 
             await loadMe();
             await loadLeaderboard();
@@ -3938,11 +3960,6 @@ document
                 error
             );
 
-
-            /*
-             * If api() received a 401, the token has already
-             * been removed from localStorage.
-             */
 
             if(
                 !getAuthToken()
@@ -4097,18 +4114,9 @@ function toggleMenu() {
 
 (async function init() {
 
-    /*
-     * Load public ranking first.
-     */
-
     await loadLeaderboard();
 
     await loadPilotSidebar();
-
-
-    /*
-     * Then check the logged-in pilot.
-     */
 
     await loadMe();
 
