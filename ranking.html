@@ -1562,23 +1562,35 @@ footer p {
 
     <div class="actions">
 
-        <button
-            class="btn btn-primary"
-            id="syncBtn"
-        >
-            Sync flights
-        </button>
+    <button
+        class="btn btn-primary"
+        id="syncBtn"
+    >
+        Sync flights
+    </button>
 
+    <button
+        class="btn"
+        id="discordBtn"
+        type="button"
+    >
+        Connect Discord
+    </button>
 
-        <button
-            class="btn"
-            id="logoutBtn"
-        >
-            Log out
-        </button>
+    <button
+        class="btn"
+        id="logoutBtn"
+        type="button"
+    >
+        Log out
+    </button>
 
-    </div>
+</div>
 
+<div
+    class="message"
+    id="discordMsg"
+></div>
 
     <div
         class="message"
@@ -2788,7 +2800,6 @@ function renderDashboard(data) {
         const currentMin =
             calculated.current.min;
 
-
         const nextMin =
             calculated.next.min;
 
@@ -2843,12 +2854,90 @@ function renderDashboard(data) {
         newskyId;
 
 
+    /*
+     * ========================================================
+     * DISCORD STATUS
+     * ========================================================
+     */
+
+    const discordButton =
+        document.getElementById(
+            'discordBtn'
+        );
+
+
+    const discordMsg =
+        document.getElementById(
+            'discordMsg'
+        );
+
+
+    if(discordButton) {
+
+        const discordId =
+            user.discordId ||
+            user.discord_id ||
+            user.discordUserId ||
+            user.discord_user_id ||
+            null;
+
+
+        if(discordId) {
+
+            discordButton.textContent =
+                'Discord Connected';
+
+            discordButton.disabled =
+                true;
+
+
+            if(discordMsg) {
+
+                discordMsg.textContent =
+                    'Your Discord account is connected. Your Echo Air Group rank will be synchronized with your Discord role.';
+
+                discordMsg.style.display =
+                    'block';
+
+                discordMsg.classList.remove(
+                    'error'
+                );
+
+            }
+
+        } else {
+
+            discordButton.textContent =
+                'Connect Discord';
+
+            discordButton.disabled =
+                false;
+
+
+            if(discordMsg) {
+
+                discordMsg.textContent =
+                    'Connect your Discord account to receive your Echo Air Group rank role.';
+
+                discordMsg.style.display =
+                    'block';
+
+                discordMsg.classList.remove(
+                    'error'
+                );
+
+            }
+
+        }
+
+    }
+
+
     renderFlights(
         flights
     );
 
 }
-
 
 /* ============================================================
    SHOW LOGIN
@@ -3664,7 +3753,93 @@ document
     }
 );
 
+<script>
+/* ============================================================
+   DISCORD CONNECTION
+   ============================================================ */
 
+const discordButton =
+    document.getElementById('discordBtn');
+
+
+if (discordButton) {
+
+    discordButton.addEventListener(
+        'click',
+        async () => {
+
+            const currentToken =
+                getAuthToken();
+
+
+            if (!currentToken) {
+
+                showMessage(
+                    'discordMsg',
+                    'You need to sign in before connecting Discord.',
+                    true
+                );
+
+                return;
+
+            }
+
+
+            discordButton.disabled =
+                true;
+
+            discordButton.textContent =
+                'Connecting…';
+
+
+            try {
+
+                /*
+                 * The backend will:
+                 *
+                 * 1. Verify the JWT
+                 * 2. Start Discord OAuth2
+                 * 3. Let the user authorize the bot
+                 * 4. Save the Discord account ID
+                 * 5. Redirect back to the website
+                 */
+
+                window.location.href =
+                    API +
+                    '/discord/login?token=' +
+                    encodeURIComponent(
+                        currentToken
+                    );
+
+            } catch(error) {
+
+                console.error(
+                    'Discord connection error:',
+                    error
+                );
+
+
+                showMessage(
+                    'discordMsg',
+                    'Unable to connect Discord.',
+                    true
+                );
+
+
+                discordButton.disabled =
+                    false;
+
+                discordButton.textContent =
+                    'Connect Discord';
+
+            }
+
+        }
+    );
+
+}
+</script>
+    
 /* ============================================================
    SYNC FLIGHTS
    ============================================================ */
