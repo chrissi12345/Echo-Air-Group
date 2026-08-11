@@ -1541,7 +1541,7 @@ async function getNewSkyFlightPage(
     }
 
     const url =
-        `https://newsky.app/api/airline/${NEWSKY_AIRLINE_ID}/flights/bydate`;
+    "https://newsky.app/api/airline-api/flights/bydate";
 
     // NewSky website gebruikt volledige UTC timestamps.
     const startDate =
