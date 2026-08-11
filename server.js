@@ -1457,13 +1457,14 @@ const NEWSKY_MIN_DATE =
     process.env.NEWSKY_HISTORY_START ||
     "2020-01-01";
 
-const NEWSKY_PAGE_SIZE = 50;
+const NEWSKY_PAGE_SIZE = 100;
 
 // NewSky rate limit:
 // 5 requests per 10 seconds.
 //
 // 2200 ms between requests keeps us safely below that.
-const NEWSKY_RATE_LIMIT_DELAY = 2200;
+const NEWSKY_RATE_LIMIT_DELAY = 3500;
+const NEWSKY_MAX_RETRIES = 5;
 
 
 // ============================================================
@@ -1532,7 +1533,7 @@ async function getNewSkyFlightPage(
     start,
     end,
     skip = 0,
-    count = 50
+    count = NEWSKY_PAGE_SIZE
 ) {
     if (!process.env.NEWSKY_API_KEY) {
         throw new Error(
@@ -1569,41 +1570,86 @@ async function getNewSkyFlightPage(
     console.log(
         `Count: ${count}`
     );
+let response;
+let text;
 
-    const response =
-        await fetch(
-            url,
-            {
-                method: "POST",
+for (
+    let attempt = 1;
+    attempt <= NEWSKY_MAX_RETRIES;
+    attempt++
+) {
+    response = await fetch(
+        url,
+        {
+            method: "POST",
 
-                headers: {
-                    "Authorization":
-                        `Bearer ${process.env.NEWSKY_API_KEY}`,
+            headers: {
+                Authorization:
+                    `Bearer ${process.env.NEWSKY_API_KEY}`,
 
-                    "Content-Type":
-                        "application/json",
+                "Content-Type":
+                    "application/json",
 
-                    "Accept":
-                        "application/json"
-                },
+                Accept:
+                    "application/json"
+            },
 
-                body:
-                    JSON.stringify({
-                        count: count,
+            body: JSON.stringify({
+                skip,
+                count,
+                start,
+                end,
+                includeDeleted: false
+            })
+        }
+    );
 
-                        end:
-                            endDate,
+    text = await response.text();
 
-                        includeDeleted:
-                            true,
+    console.log(
+        `NewSky HTTP status: ${response.status}`
+    );
 
-                        skip: skip,
+    // Request succesvol
+    if (response.status !== 429) {
+        break;
+    }
 
-                        start:
-                            startDate
-                    })
-            }
+    // Rate limit bereikt
+    console.warn(
+        `NewSky rate limit reached. Attempt ${attempt}/${NEWSKY_MAX_RETRIES}.`
+    );
+
+    const retryAfter =
+        response.headers.get(
+            "retry-after"
         );
+
+    let waitTime = 10000;
+
+    if (retryAfter) {
+        const retrySeconds =
+            Number(retryAfter);
+
+        if (
+            Number.isFinite(
+                retrySeconds
+            )
+        ) {
+            waitTime =
+                Math.max(
+                    retrySeconds * 1000,
+                    10000
+                );
+        }
+    }
+
+    console.log(
+        `Waiting ${Math.round(waitTime / 1000)} seconds before retry...`
+    );
+
+    await sleep(waitTime);
+}
 
     const text =
         await response.text();
