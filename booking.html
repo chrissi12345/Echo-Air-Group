@@ -1,503 +1,405 @@
-=<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Book a Flight — Echo Air Group</title>
+<meta charset="UTF-8">
 
 <meta
-name="description"
-content="Book your Echo Air Group virtual flight and receive your digital boarding pass."
-
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
 >
 
-<link rel="stylesheet" href="style.css">
-
-<!-- QR CODE LIBRARY -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<title>Book a Flight — Echo Air Group</title>
 
 <style>
 
 /* =========================================================
-   ECHO AIR GROUP — BOOKING SYSTEM
+   GLOBAL
 ========================================================= */
 
 :root {
     --green: #ace336;
-    --green-dark: #17200f;
+    --green-dark: #86b52a;
     --dark: #090d08;
     --dark-2: #111711;
-    --dark-3: #182018;
     --text: #20251f;
-    --muted: #737c70;
-    --light: #f5f7f3;
+    --muted: #687267;
+    --light: #f4f7f2;
     --border: #dfe5dc;
     --white: #ffffff;
-    --danger: #c94b4b;
-    --shadow: 0 18px 50px rgba(0,0,0,0.08);
+    --danger: #d94a4a;
+    --shadow: 0 12px 35px rgba(0,0,0,0.08);
 }
 
+* {
+    box-sizing: border-box;
+}
 
-/* =========================================================
-   PAGE
-========================================================= */
+html {
+    scroll-behavior: smooth;
+}
 
 body {
-    background: #f5f7f3;
+    margin: 0;
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f4f7f2;
     color: var(--text);
-    padding-top: 80px;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
 }
 
 
 /* =========================================================
-   FIXED HEADER
+   HEADER
 ========================================================= */
 
 header {
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
     z-index: 9999;
 
-    background: rgba(9, 13, 8, 0.98);
+    background: rgba(9,13,8,0.97);
 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-
-    transition:
-        background .25s ease,
-        box-shadow .25s ease;
-}
-
-header.scrolled {
-    background: rgba(9, 13, 8, .84);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 
     box-shadow:
-        0 4px 25px rgba(0,0,0,.18);
+        0 4px 25px rgba(0,0,0,0.12);
 }
 
+.nav {
+    max-width: 1250px;
+    margin: auto;
 
-/* =========================================================
-   LOGO
-========================================================= */
+    min-height: 78px;
 
-.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    padding: 0 24px;
+}
+
+.logo {
     height: 48px;
     width: auto;
-    display: block;
-    object-fit: contain;
+}
+
+.navlinks {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.navlinks a {
+    color: #c7cec3;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+.navlinks a:hover,
+.navlinks a.active {
+    color: var(--green);
+}
+
+.nav-register {
+    background: var(--green);
+    color: #18200f;
+
+    text-decoration: none;
+
+    padding: 12px 18px;
+    border-radius: 9px;
+
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.menu {
+    display: none;
+
+    background: transparent;
+    border: none;
+
+    color: white;
+    font-size: 28px;
 }
 
 
 /* =========================================================
-   BOOKING HERO
+   HERO
 ========================================================= */
 
-.booking-hero {
-    position: relative;
-    overflow: hidden;
-
-    min-height: 430px;
+.hero {
+    min-height: 340px;
 
     display: flex;
     align-items: center;
 
     background:
-        radial-gradient(
-            circle at 80% 20%,
-            rgba(172,227,54,.18),
-            transparent 30%
+        linear-gradient(
+            rgba(9,13,8,0.82),
+            rgba(9,13,8,0.92)
         ),
-        radial-gradient(
-            circle at 15% 80%,
-            rgba(172,227,54,.08),
-            transparent 30%
-        ),
-        #090d08;
+        url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1800&q=80");
 
-    color: white;
+    background-size: cover;
+    background-position: center;
 }
 
-.booking-hero::before {
-    content: "";
+.hero-inner {
+    max-width: 1250px;
+    width: 100%;
+    margin: auto;
 
-    position: absolute;
-
-    width: 550px;
-    height: 550px;
-
-    right: -220px;
-    top: -220px;
-
-    border: 1px solid rgba(172,227,54,.12);
-
-    border-radius: 50%;
+    padding: 80px 24px;
 }
 
-.booking-hero::after {
-    content: "";
-
-    position: absolute;
-
-    width: 400px;
-    height: 400px;
-
-    right: -120px;
-    top: -120px;
-
-    border: 1px solid rgba(172,227,54,.08);
-
-    border-radius: 50%;
-}
-
-.booking-hero .container {
-    position: relative;
-    z-index: 2;
-}
-
-.booking-eyebrow {
-    display: inline-flex;
-
-    align-items: center;
-    gap: 8px;
+.hero-label {
+    display: inline-block;
 
     padding: 8px 13px;
 
     border-radius: 999px;
 
-    background: rgba(172,227,54,.1);
-
-    border: 1px solid rgba(172,227,54,.2);
-
+    background: rgba(172,227,54,0.12);
     color: var(--green);
+
+    border: 1px solid rgba(172,227,54,0.25);
 
     font-size: 12px;
     font-weight: 800;
 
-    letter-spacing: .08em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
-.booking-hero h1 {
-    margin: 20px 0 15px;
+.hero h1 {
+    margin: 18px 0 10px;
 
-    font-size: clamp(42px, 7vw, 76px);
+    color: white;
 
-    line-height: .95;
+    font-size: clamp(38px, 6vw, 70px);
 
-    letter-spacing: -.04em;
+    line-height: 1.05;
 }
 
-.booking-hero h1 span {
+.hero h1 span {
     color: var(--green);
 }
 
-.booking-hero p {
+.hero p {
     max-width: 650px;
 
-    color: #aeb7a9;
+    color: #b7c0b3;
 
     font-size: 18px;
-
     line-height: 1.7;
 }
 
 
 /* =========================================================
-   BOOKING PROGRESS
+   MAIN
 ========================================================= */
 
-.booking-progress-wrapper {
-    background: white;
+.main {
+    max-width: 1250px;
+    margin: auto;
 
-    border-bottom: 1px solid var(--border);
-}
-
-.booking-progress {
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    gap: 0;
-
-    padding: 25px 0;
-}
-
-.progress-step {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    color: #9aa297;
-
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.progress-number {
-    width: 32px;
-    height: 32px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #edf0eb;
-
-    font-size: 13px;
-}
-
-.progress-step.active {
-    color: var(--green-dark);
-}
-
-.progress-step.active .progress-number {
-    background: var(--green);
-    color: var(--green-dark);
-}
-
-.progress-line {
-    width: 70px;
-    height: 1px;
-
-    margin: 0 15px;
-
-    background: #dce2da;
+    padding: 55px 24px 100px;
 }
 
 
 /* =========================================================
-   BOOKING CONTAINER
+   BOOKING SEARCH
 ========================================================= */
 
-.booking-section {
-    padding: 60px 0 90px;
-}
-
-.booking-layout {
-    display: grid;
-
-    grid-template-columns: minmax(0, 1fr) 340px;
-
-    gap: 28px;
-
-    align-items: start;
-}
-
-
-/* =========================================================
-   CARDS
-========================================================= */
-
-.booking-card {
+.search-card {
     background: white;
-
-    border: 1px solid var(--border);
 
     border-radius: 20px;
 
     box-shadow: var(--shadow);
 
-    padding: 30px;
-}
+    border: 1px solid var(--border);
 
-.booking-card + .booking-card {
-    margin-top: 22px;
-}
+    padding: 28px;
 
-.booking-card-title {
-    display: flex;
+    margin-top: -80px;
 
-    justify-content: space-between;
-    align-items: flex-start;
-
-    gap: 20px;
-
-    margin-bottom: 25px;
-}
-
-.booking-card-title h2 {
-    margin: 0;
-
-    font-size: 24px;
-}
-
-.booking-card-title p {
-    margin: 6px 0 0;
-
-    color: var(--muted);
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   TRIP TYPE
-========================================================= */
-
-.trip-types {
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 10px;
-
-    margin-bottom: 25px;
+    position: relative;
+    z-index: 5;
 }
 
 .trip-type {
-    position: relative;
-}
-
-.trip-type input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.trip-type label {
     display: flex;
+    gap: 8px;
 
-    align-items: center;
-    justify-content: center;
+    margin-bottom: 25px;
+}
 
-    min-height: 50px;
-
+.trip-type button {
     border: 1px solid var(--border);
 
-    border-radius: 11px;
+    background: #f8faf7;
 
-    cursor: pointer;
+    padding: 10px 16px;
+
+    border-radius: 9px;
 
     font-weight: 700;
 
-    transition: .2s ease;
+    color: var(--muted);
 }
 
-.trip-type input:checked + label {
-    background: #eef7e5;
+.trip-type button.active {
+    background: var(--green);
+    color: #17200f;
 
     border-color: var(--green);
-
-    color: var(--green-dark);
 }
-
-
-/* =========================================================
-   FORM GRID
-========================================================= */
 
 .search-grid {
     display: grid;
 
     grid-template-columns:
-        minmax(180px, 1fr)
-        minmax(180px, 1fr)
-        170px
-        170px;
+        1.3fr
+        1.3fr
+        1fr
+        1fr
+        1fr
+        auto;
 
     gap: 12px;
 }
 
-.field {
-    display: flex;
-    flex-direction: column;
-
-    gap: 7px;
+.search-field {
+    position: relative;
 }
 
-.field label {
-    font-size: 12px;
+.search-field label {
+    display: block;
 
+    font-size: 11px;
     font-weight: 800;
+
+    color: #6f796c;
 
     text-transform: uppercase;
 
-    letter-spacing: .04em;
-
-    color: #667064;
+    margin-bottom: 7px;
 }
 
-.field input,
-.field select {
+.search-field select,
+.search-field input {
     width: 100%;
 
-    box-sizing: border-box;
+    min-height: 50px;
 
-    min-height: 52px;
+    padding: 0 13px;
 
-    padding: 13px 15px;
+    border:
+        1px solid var(--border);
 
-    border: 1px solid #d6ddd3;
+    border-radius: 10px;
 
-    border-radius: 11px;
-
-    background: #f8faf7;
-
-    color: var(--text);
-
-    font-family: inherit;
-
-    font-size: 14px;
+    background: #f9fbf8;
 
     outline: none;
 
-    transition: .2s ease;
+    color: var(--text);
+
+    font-size: 14px;
+    font-weight: 600;
 }
 
-.field input:focus,
-.field select:focus {
-    border-color: var(--green);
+.search-field select:focus,
+.search-field input:focus {
+    border-color: var(--green-dark);
 
     box-shadow:
-        0 0 0 3px rgba(172,227,54,.12);
-
-    background: white;
+        0 0 0 3px rgba(172,227,54,0.13);
 }
 
-
-/* =========================================================
-   SEARCH BUTTON
-========================================================= */
-
 .search-button {
-    width: 100%;
+    align-self: end;
 
-    min-height: 55px;
-
-    margin-top: 20px;
+    min-height: 50px;
 
     border: none;
 
-    border-radius: 12px;
-
     background: var(--green);
 
-    color: var(--green-dark);
+    color: #17200f;
+
+    border-radius: 10px;
+
+    padding: 0 22px;
 
     font-weight: 900;
 
-    font-size: 15px;
-
-    cursor: pointer;
-
-    transition: .2s ease;
+    transition: 0.2s;
 }
 
 .search-button:hover {
     transform: translateY(-2px);
+}
 
-    box-shadow:
-        0 8px 25px rgba(172,227,54,.25);
+
+/* =========================================================
+   SECTION TITLES
+========================================================= */
+
+.section-title {
+    margin: 55px 0 22px;
+}
+
+.section-title small {
+    color: var(--green-dark);
+
+    font-weight: 900;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+
+    font-size: 12px;
+}
+
+.section-title h2 {
+    margin: 8px 0;
+
+    font-size: 30px;
+}
+
+.section-title p {
+    margin: 0;
+
+    color: var(--muted);
 }
 
 
@@ -505,87 +407,81 @@ header.scrolled {
    FLIGHT RESULTS
 ========================================================= */
 
-.results-header {
+.flight-results {
     display: flex;
+    flex-direction: column;
 
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 20px;
-
-    margin-bottom: 18px;
+    gap: 15px;
 }
 
-.results-header h2 {
-    margin: 0;
-}
+.flight-card {
+    background: white;
 
-.results-count {
-    color: var(--muted);
-
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   FLIGHT CARD
-========================================================= */
-
-.flight-result {
-    position: relative;
-
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
 
     border-radius: 16px;
 
     padding: 22px;
 
-    margin-bottom: 14px;
+    display: grid;
 
-    background: white;
-
-    cursor: pointer;
-
-    transition:
-        transform .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease;
-}
-
-.flight-result:hover {
-    transform: translateY(-2px);
-
-    border-color: #c8d8bc;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.06);
-}
-
-.flight-result.selected {
-    border-color: var(--green);
-
-    box-shadow:
-        0 0 0 3px rgba(172,227,54,.12);
-}
-
-.flight-top {
-    display: flex;
-
-    justify-content: space-between;
+    grid-template-columns:
+        1fr
+        1fr
+        0.8fr
+        0.8fr
+        auto;
 
     gap: 20px;
 
-    margin-bottom: 20px;
+    align-items: center;
+
+    transition: 0.2s;
+}
+
+.flight-card:hover {
+    border-color: #b9d57b;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.06);
+}
+
+.flight-card.selected {
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 3px rgba(172,227,54,0.12);
+}
+
+.airline-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.airline-logo {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 10px;
+
+    background: var(--dark);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--green);
+
+    font-weight: 900;
+    font-size: 12px;
 }
 
 .flight-number {
     font-weight: 900;
-
-    color: var(--green-dark);
 }
 
-.flight-aircraft {
+.aircraft {
     color: var(--muted);
 
     font-size: 12px;
@@ -593,43 +489,12 @@ header.scrolled {
     margin-top: 4px;
 }
 
-.flight-price {
-    text-align: right;
-
-    font-size: 21px;
-
+.time {
+    font-size: 23px;
     font-weight: 900;
 }
 
-.flight-price small {
-    display: block;
-
-    color: var(--muted);
-
-    font-size: 11px;
-
-    font-weight: 600;
-}
-
-.flight-route {
-    display: grid;
-
-    grid-template-columns: 100px 1fr 100px;
-
-    align-items: center;
-
-    gap: 15px;
-}
-
-.flight-time {
-    font-size: 28px;
-
-    font-weight: 900;
-
-    letter-spacing: -.03em;
-}
-
-.flight-airport {
+.airport {
     color: var(--muted);
 
     font-size: 12px;
@@ -637,241 +502,705 @@ header.scrolled {
     margin-top: 3px;
 }
 
-.flight-line {
-    position: relative;
+.duration {
+    text-align: center;
+}
+
+.duration-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #adb6a9;
+
+    font-size: 11px;
+}
+
+.duration-line::before,
+.duration-line::after {
+    content: "";
 
     height: 1px;
 
-    background: #dce3d9;
+    background: #dce2d9;
+
+    flex: 1;
 }
 
-.flight-line::after {
-    content: "✈";
-
-    position: absolute;
-
-    left: 50%;
-
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(90deg);
-
-    background: white;
-
-    padding: 0 10px;
-
-    color: #788173;
-
-    font-size: 16px;
-}
-
-.flight-duration {
-    text-align: center;
-
-    color: var(--muted);
+.nonstop {
+    color: #6d786a;
 
     font-size: 11px;
 
-    margin-bottom: 8px;
+    margin-top: 5px;
+}
+
+.price {
+    text-align: right;
+}
+
+.price strong {
+    display: block;
+
+    font-size: 22px;
+}
+
+.price span {
+    color: var(--muted);
+
+    font-size: 11px;
 }
 
 .select-flight {
-    margin-top: 18px;
+    border: none;
 
-    width: 100%;
+    background: var(--green);
 
-    min-height: 44px;
-
-    border: 1px solid #d6ddd3;
+    color: #17200f;
 
     border-radius: 9px;
 
-    background: #f7faf5;
+    padding: 12px 18px;
 
-    font-weight: 800;
-
-    cursor: pointer;
+    font-weight: 900;
 }
 
-.flight-result.selected .select-flight {
+
+/* =========================================================
+   BOOKING WORKSPACE
+========================================================= */
+
+.workspace {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        360px;
+
+    gap: 25px;
+
+    align-items: start;
+}
+
+.left-panel {
+    min-width: 0;
+}
+
+.right-panel {
+    position: sticky;
+
+    top: 100px;
+}
+
+
+/* =========================================================
+   STEP INDICATOR
+========================================================= */
+
+.steps {
+    display: flex;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    padding: 7px;
+
+    margin-bottom: 20px;
+}
+
+.step {
+    flex: 1;
+
+    padding: 12px;
+
+    text-align: center;
+
+    color: #899286;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    border-radius: 10px;
+}
+
+.step.active {
+    background: var(--green);
+
+    color: #17200f;
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.panel {
+    display: none;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 7px 25px rgba(0,0,0,0.04);
+}
+
+.panel.active {
+    display: block;
+}
+
+.panel h3 {
+    margin-top: 0;
+
+    font-size: 24px;
+}
+
+.panel-subtitle {
+    color: var(--muted);
+
+    margin-top: -10px;
+
+    margin-bottom: 25px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   CABIN
+========================================================= */
+
+.cabin-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+}
+
+.cabin {
+    border: 2px solid var(--border);
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    text-align: left;
+
+    transition: 0.2s;
+}
+
+.cabin:hover {
+    border-color: #b7d57b;
+}
+
+.cabin.selected {
+    border-color: var(--green);
+
+    background: #f7fceF;
+}
+
+.cabin strong {
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+.cabin span {
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   SEAT MAP
+========================================================= */
+
+.seat-map-wrapper {
+    overflow-x: auto;
+
+    padding-bottom: 10px;
+}
+
+.aircraft-body {
+    width: 470px;
+
+    margin: auto;
+
+    background: #eef2eb;
+
+    border:
+        1px solid #d6ddd2;
+
+    border-radius:
+        45% 45% 20px 20px /
+        8% 8% 20px 20px;
+
+    padding: 70px 25px 35px;
+
+    position: relative;
+}
+
+.aircraft-nose {
+    position: absolute;
+
+    top: 20px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #9ba59a;
+
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.cabin-label {
+    text-align: center;
+
+    color: #7e897b;
+
+    font-size: 11px;
+
+    margin-bottom: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.1em;
+}
+
+.seat-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr)
+        35px
+        repeat(3, 1fr);
+
+    gap: 7px;
+
+    max-width: 390px;
+
+    margin: auto;
+}
+
+.seat {
+    height: 42px;
+
+    border: 1px solid #ccd4c8;
+
+    border-radius: 7px 7px 5px 5px;
+
+    background: white;
+
+    color: #5e685b;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    transition: 0.15s;
+}
+
+.seat:hover:not(.occupied):not(.blocked) {
+    transform: scale(1.05);
+
+    border-color: var(--green);
+}
+
+.seat.selected {
+    background: var(--green);
+
+    border-color: var(--green);
+
+    color: #17200f;
+}
+
+.seat.occupied {
+    background: #bbc3b9;
+
+    border-color: #bbc3b9;
+
+    color: white;
+
+    cursor: not-allowed;
+}
+
+.seat.premium {
+    border-color: #b9d27e;
+}
+
+.seat.blocked {
+    opacity: 0.25;
+
+    cursor: not-allowed;
+}
+
+.aisle {
+    pointer-events: none;
+}
+
+.seat-legend {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 18px;
+
+    margin-top: 22px;
+
+    color: #717b6e;
+
+    font-size: 11px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+.legend-box {
+    width: 18px;
+    height: 18px;
+
+    border-radius: 4px;
+
+    background: white;
+
+    border: 1px solid #ccd4c8;
+}
+
+.legend-box.selected {
     background: var(--green);
 
     border-color: var(--green);
 }
 
+.legend-box.occupied {
+    background: #bbc3b9;
 
-/* =========================================================
-   PASSENGER FORM
-========================================================= */
-
-.passenger-grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 18px;
+    border-color: #bbc3b9;
 }
 
-.passenger-grid .full {
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 17px;
+}
+
+.field.full {
     grid-column: 1 / -1;
 }
 
+.field label {
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    margin-bottom: 7px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+
+    height: 48px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: #fafcf9;
+
+    padding: 0 13px;
+
+    outline: none;
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: var(--green-dark);
+
+    box-shadow:
+        0 0 0 3px rgba(172,227,54,0.12);
+}
+
 
 /* =========================================================
-   ADDONS
+   EXTRAS
 ========================================================= */
 
-.addon {
+.extra-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.extra {
     display: flex;
 
     justify-content: space-between;
-
     align-items: center;
 
     gap: 20px;
-
-    padding: 17px;
 
     border: 1px solid var(--border);
 
     border-radius: 12px;
 
-    margin-bottom: 10px;
-
-    cursor: pointer;
-
-    transition: .2s ease;
+    padding: 16px;
 }
 
-.addon:hover {
-    border-color: #c9d5c3;
-}
-
-.addon-left {
+.extra-left {
     display: flex;
-
+    gap: 12px;
     align-items: center;
-
-    gap: 14px;
 }
 
-.addon-icon {
+.extra-icon {
     width: 42px;
     height: 42px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    background: #eef5e7;
+    background: #edf5e5;
 
-    font-size: 19px;
+    font-size: 20px;
 }
 
-.addon-title {
-    font-weight: 800;
-
-    font-size: 14px;
+.extra strong {
+    display: block;
 }
 
-.addon-description {
-    margin-top: 3px;
-
+.extra small {
     color: var(--muted);
-
-    font-size: 12px;
 }
 
-.addon-price {
-    font-weight: 900;
+.extra-price {
+    text-align: right;
+
+    white-space: nowrap;
 }
 
-.addon input {
-    width: 18px;
-    height: 18px;
+.extra-price strong {
+    display: block;
 
-    accent-color: var(--green);
+    margin-bottom: 5px;
+}
+
+.extra input {
+    width: 19px;
+    height: 19px;
 }
 
 
 /* =========================================================
-   SUMMARY SIDEBAR
+   PAYMENT
 ========================================================= */
 
-.summary-card {
-    position: sticky;
+.payment-box {
+    padding: 18px;
 
-    top: 105px;
+    border: 1px solid var(--border);
 
+    background: #fafcf9;
+
+    border-radius: 12px;
+
+    margin-bottom: 20px;
+}
+
+.payment-methods {
+    display: flex;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+.payment-method {
+    flex: 1;
+
+    border: 1px solid var(--border);
+
+    background: white;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.payment-method.selected {
+    border-color: var(--green);
+
+    background: #f5fbeE;
+}
+
+.card-fields {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+}
+
+.card-fields .full {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.actions {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: 28px;
+}
+
+.btn {
+    border: none;
+
+    border-radius: 10px;
+
+    min-height: 48px;
+
+    padding: 0 20px;
+
+    font-weight: 900;
+
+    transition: 0.2s;
+}
+
+.btn-primary {
+    background: var(--green);
+
+    color: #17200f;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #eef2ec;
+
+    color: #3f493d;
+}
+
+.btn-danger {
+    background: #ffeaea;
+
+    color: #b33434;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary {
     background: var(--dark);
 
     color: white;
 
-    border-radius: 20px;
+    border-radius: 18px;
 
-    overflow: hidden;
+    padding: 24px;
 
-    box-shadow:
-        0 20px 55px rgba(0,0,0,.16);
+    box-shadow: var(--shadow);
 }
 
-.summary-header {
-    padding: 25px;
-
-    border-bottom: 1px solid rgba(255,255,255,.08);
-}
-
-.summary-header h3 {
-    margin: 0;
+.summary h3 {
+    margin: 0 0 22px;
 
     font-size: 18px;
-}
-
-.summary-header p {
-    margin: 6px 0 0;
-
-    color: #8f998c;
-
-    font-size: 12px;
-}
-
-.summary-body {
-    padding: 25px;
 }
 
 .summary-route {
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
 
-    margin-bottom: 25px;
+    justify-content: space-between;
+
+    padding-bottom: 20px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,0.09);
 }
 
 .summary-airport {
-    font-size: 28px;
-
-    font-weight: 900;
+    text-align: center;
 }
 
-.summary-city {
-    color: #879183;
+.summary-airport strong {
+    display: block;
+
+    font-size: 30px;
+}
+
+.summary-airport span {
+    color: #899488;
 
     font-size: 11px;
-
-    margin-top: 3px;
 }
 
 .summary-arrow {
     color: var(--green);
 
-    font-size: 20px;
+    font-size: 22px;
+}
+
+.summary-details {
+    padding: 18px 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 11px;
 }
 
 .summary-row {
@@ -879,11 +1208,9 @@ header.scrolled {
 
     justify-content: space-between;
 
-    gap: 20px;
+    gap: 15px;
 
-    padding: 10px 0;
-
-    color: #a7afa4;
+    color: #a9b1a6;
 
     font-size: 13px;
 }
@@ -892,102 +1219,29 @@ header.scrolled {
     color: white;
 }
 
-.summary-divider {
-    height: 1px;
-
-    background: rgba(255,255,255,.08);
-
-    margin: 15px 0;
-}
-
 .summary-total {
+    border-top:
+        1px solid rgba(255,255,255,0.09);
+
+    padding-top: 18px;
+
     display: flex;
 
     justify-content: space-between;
 
     align-items: center;
-
-    margin-top: 12px;
 }
 
 .summary-total span {
-    color: #a7afa4;
+    color: #a9b1a6;
 
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .summary-total strong {
     color: var(--green);
 
-    font-size: 26px;
-}
-
-.book-button {
-    width: 100%;
-
-    min-height: 52px;
-
-    margin-top: 22px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: var(--green);
-
-    color: var(--green-dark);
-
-    font-weight: 900;
-
-    cursor: pointer;
-
-    transition: .2s ease;
-}
-
-.book-button:hover {
-    transform: translateY(-2px);
-}
-
-.book-button:disabled {
-    opacity: .4;
-
-    cursor: not-allowed;
-
-    transform: none;
-}
-
-
-/* =========================================================
-   PAYMENT
-========================================================= */
-
-.payment-grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 18px;
-}
-
-.payment-grid .full {
-    grid-column: 1 / -1;
-}
-
-.card-input {
-    position: relative;
-}
-
-.card-input input {
-    padding-right: 50px;
-}
-
-.card-symbol {
-    position: absolute;
-
-    right: 15px;
-    bottom: 15px;
-
-    font-size: 20px;
+    font-size: 27px;
 }
 
 
@@ -998,93 +1252,47 @@ header.scrolled {
 .confirmation {
     display: none;
 
-    padding: 80px 0 100px;
+    max-width: 850px;
+
+    margin: 60px auto;
+
+    text-align: center;
 }
 
-.confirmation.show {
+.confirmation.active {
     display: block;
 }
 
-.confirmation-card {
-    max-width: 900px;
+.success-icon {
+    width: 80px;
+    height: 80px;
 
     margin: auto;
-
-    background: white;
-
-    border: 1px solid var(--border);
-
-    border-radius: 24px;
-
-    box-shadow: var(--shadow);
-
-    overflow: hidden;
-}
-
-.confirmation-top {
-    text-align: center;
-
-    padding: 45px 30px;
-
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            rgba(172,227,54,.18),
-            transparent 50%
-        ),
-        #101610;
-    
-    color: white;
-}
-
-.success-icon {
-    width: 70px;
-    height: 70px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    margin: 0 auto 20px;
 
     border-radius: 50%;
 
     background: var(--green);
 
-    color: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    font-size: 32px;
+    font-size: 38px;
 
-    font-weight: 900;
+    box-shadow:
+        0 0 0 10px rgba(172,227,54,0.12);
 }
 
-.confirmation-top h1 {
-    margin: 0 0 10px;
+.confirmation h2 {
+    font-size: 38px;
 
-    font-size: 34px;
+    margin: 25px 0 8px;
 }
 
-.confirmation-top p {
-    margin: 0;
+.confirmation > p {
+    color: var(--muted);
 
-    color: #9da79a;
-}
-
-.booking-reference {
-    margin-top: 20px;
-
-    color: var(--green);
-
-    font-weight: 900;
-
-    font-size: 20px;
-
-    letter-spacing: .12em;
-}
-
-.confirmation-content {
-    padding: 35px;
+    line-height: 1.6;
 }
 
 
@@ -1093,129 +1301,137 @@ header.scrolled {
 ========================================================= */
 
 .boarding-pass {
-    display: grid;
+    background: white;
 
-    grid-template-columns: 1fr 220px;
+    border-radius: 20px;
 
-    min-height: 270px;
+    border: 1px solid var(--border);
 
-    border: 1px solid #dce3d9;
-
-    border-radius: 18px;
+    box-shadow: var(--shadow);
 
     overflow: hidden;
 
-    background: white;
+    margin-top: 30px;
+
+    text-align: left;
 }
 
-.boarding-main {
-    padding: 28px;
+.pass-top {
+    background: var(--dark);
 
-    position: relative;
-}
+    color: white;
 
-.boarding-main::after {
-    content: "";
+    padding: 24px 28px;
 
-    position: absolute;
-
-    top: 0;
-    right: -1px;
-
-    width: 1px;
-    height: 100%;
-
-    border-right: 2px dashed #d7ddd4;
-}
-
-.boarding-side {
     display: flex;
 
-    flex-direction: column;
+    justify-content: space-between;
 
+    align-items: center;
+}
+
+.pass-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.pass-brand-mark {
+    width: 45px;
+    height: 45px;
+
+    background: var(--green);
+
+    color: #17200f;
+
+    border-radius: 9px;
+
+    display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 20px;
-
-    background: #f7faf5;
+    font-weight: 900;
+    font-size: 11px;
 }
 
-.boarding-brand {
+.pass-brand strong {
+    display: block;
+}
+
+.pass-brand small {
+    color: #8d9989;
+}
+
+.pass-type {
+    color: var(--green);
+
+    font-weight: 900;
+
+    font-size: 12px;
+
+    letter-spacing: 0.1em;
+}
+
+.pass-main {
+    padding: 28px;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr
+        190px;
+
+    gap: 20px;
+
+    align-items: center;
+}
+
+.pass-route {
+    grid-column: 1 / 4;
+
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
-
-    margin-bottom: 25px;
+    gap: 25px;
 }
 
-.boarding-brand img {
-    width: 42px;
-    height: 42px;
-
-    object-fit: contain;
+.pass-city strong {
+    font-size: 42px;
 }
 
-.boarding-brand strong {
-    font-size: 12px;
-
-    letter-spacing: .05em;
-}
-
-.boarding-route-large {
-    display: grid;
-
-    grid-template-columns: 1fr auto 1fr;
-
-    align-items: center;
-
-    gap: 15px;
-
-    margin-bottom: 25px;
-}
-
-.boarding-airport {
-    font-size: 34px;
-
-    font-weight: 900;
-}
-
-.boarding-airport small {
+.pass-city span {
     display: block;
 
     color: var(--muted);
 
-    font-size: 11px;
+    font-size: 12px;
 
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
-.boarding-airport:last-child {
-    text-align: right;
+.pass-plane {
+    color: var(--green-dark);
+
+    font-size: 25px;
 }
 
-.boarding-plane {
-    color: #9ba399;
+.pass-info {
+    border-top:
+        1px solid #e5e9e3;
 
-    font-size: 18px;
+    padding-top: 15px;
 }
 
-.boarding-details {
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    gap: 15px;
-}
-
-.boarding-detail label {
+.pass-info small {
     display: block;
 
-    color: #879083;
+    color: #7b8579;
 
-    font-size: 9px;
+    font-size: 10px;
 
     text-transform: uppercase;
 
@@ -1224,167 +1440,140 @@ header.scrolled {
     margin-bottom: 5px;
 }
 
-.boarding-detail strong {
-    font-size: 13px;
+.pass-info strong {
+    font-size: 15px;
 }
 
-.qr-code {
+.qr-box {
+    grid-row: span 2;
+
+    text-align: center;
+
+    padding: 15px;
+
+    border-left:
+        1px dashed #d8dfd5;
+}
+
+.qr-box img {
     width: 150px;
     height: 150px;
 
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: white;
-
-    border-radius: 8px;
-}
-
-.qr-code img {
     display: block;
+
+    margin: auto;
 }
 
-.qr-label {
-    margin-top: 10px;
+.qr-box small {
+    display: block;
 
     color: #737d70;
 
-    font-size: 9px;
+    margin-top: 10px;
 
-    text-transform: uppercase;
+    font-size: 10px;
+}
 
-    font-weight: 800;
+.pass-footer {
+    border-top:
+        1px dashed #ccd4c8;
 
-    letter-spacing: .08em;
+    padding: 17px 28px;
 
-    text-align: center;
+    background: #f7f9f6;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: #6d776a;
+
+    font-size: 11px;
+}
+
+.pass-footer strong {
+    color: var(--text);
 }
 
 
 /* =========================================================
-   WALLET BUTTON
+   WALLET
 ========================================================= */
 
-.wallet-button {
-    width: 100%;
-
-    min-height: 52px;
-
+.wallet-area {
     margin-top: 20px;
 
-    border: 1px solid #d9dfd7;
+    display: flex;
 
-    border-radius: 10px;
+    justify-content: center;
 
-    background: white;
+    flex-wrap: wrap;
 
-    color: #20251f;
+    gap: 10px;
+}
+
+.wallet-button {
+    background: #111;
+
+    color: white;
+
+    border: none;
+
+    padding: 14px 20px;
+
+    border-radius: 9px;
 
     font-weight: 800;
-
-    cursor: pointer;
-
-    transition: .2s ease;
 }
 
-.wallet-button:hover {
-    background: #f3f6f1;
-
-    transform: translateY(-1px);
-}
-
-
-/* =========================================================
-   CONFIRMATION BUTTONS
-========================================================= */
-
-.confirmation-actions {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 12px;
-
-    margin-top: 25px;
-}
-
-.action-button {
-    min-height: 50px;
-
-    border-radius: 10px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-
-    border: 1px solid #d9dfd7;
-
-    background: white;
-}
-
-.action-button.primary {
-    border-color: var(--green);
-
+.download-button {
     background: var(--green);
 
-    color: var(--green-dark);
+    color: #17200f;
+
+    border: none;
+
+    padding: 14px 20px;
+
+    border-radius: 9px;
+
+    font-weight: 800;
+}
+
+.print-button {
+    background: #e9eee7;
+
+    color: #374035;
+
+    border: none;
+
+    padding: 14px 20px;
+
+    border-radius: 9px;
+
+    font-weight: 800;
 }
 
 
 /* =========================================================
-   EMPTY / HIDDEN
+   EMPTY STATE
 ========================================================= */
 
-.hidden {
-    display: none !important;
-}
+.empty {
+    background: white;
 
-.empty-results {
+    border:
+        1px dashed #ccd5c8;
+
+    border-radius: 15px;
+
+    padding: 35px;
+
     text-align: center;
-
-    padding: 45px 20px;
 
     color: var(--muted);
-}
-
-.empty-results-icon {
-    font-size: 40px;
-
-    margin-bottom: 10px;
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loading {
-    text-align: center;
-
-    padding: 50px 20px;
-}
-
-.spinner {
-    width: 35px;
-    height: 35px;
-
-    margin: 0 auto 15px;
-
-    border: 3px solid #e1e7df;
-
-    border-top-color: var(--green);
-
-    border-radius: 50%;
-
-    animation: spin .8s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 
@@ -1393,305 +1582,83 @@ header.scrolled {
 ========================================================= */
 
 footer {
-    background: #090d08;
+    background: var(--dark);
 
     color: white;
 
-    padding: 55px 0 25px;
+    padding: 60px 24px 25px;
 }
 
-.foot-top {
+.footer-inner {
+    max-width: 1250px;
+
+    margin: auto;
+
     display: flex;
 
     justify-content: space-between;
-
-    align-items: flex-start;
 
     gap: 50px;
 }
 
-footer p {
-    color: #8f988c;
+.footer-brand h3 {
+    margin: 0 0 8px;
+
+    color: var(--green);
+}
+
+.footer-brand p {
+    max-width: 450px;
+
+    color: #879185;
 
     line-height: 1.7;
 }
 
-.brand-logo {
-    width: 58px;
-    height: 58px;
-
-    object-fit: contain;
-}
-
-.brand-text {
-    display: flex;
-
-    flex-direction: column;
-
-    font-weight: 800;
-}
-
-.brand-text small {
-    font-size: 11px;
-
-    font-weight: 600;
-
-    opacity: .65;
-
-    margin-top: 3px;
-}
-
-.footer-social {
-    display: flex;
-
-    gap: 12px;
-
-    margin-top: 20px;
-}
-
-.footer-social a {
-    width: 42px;
-    height: 42px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 10px;
-
-    background: #151b13;
-
-    transition: .2s ease;
-}
-
-.footer-social a:hover {
-    transform: translateY(-2px);
-
-    background: #20291d;
-}
-
-.footer-social img {
-    width: 24px;
-    height: 24px;
-
-    object-fit: contain;
-}
-
-.foot-links {
+.footer-links {
     display: flex;
 
     flex-wrap: wrap;
 
-    gap: 14px 24px;
+    gap: 15px 25px;
 
     max-width: 450px;
 }
 
-.foot-links a {
-    color: #b9c1b5;
+.footer-links a {
+    color: #aab3a7;
 
     text-decoration: none;
 
-    font-size: 14px;
-
-    font-weight: 600;
+    font-size: 13px;
 }
 
-.foot-links a:hover {
+.footer-links a:hover {
     color: var(--green);
 }
 
-.copy {
-    display: flex;
+.copyright {
+    max-width: 1250px;
 
-    justify-content: space-between;
-
-    gap: 20px;
-
-    margin-top: 45px;
+    margin: 40px auto 0;
 
     padding-top: 20px;
 
-    border-top: 1px solid rgba(255,255,255,.08);
+    border-top:
+        1px solid rgba(255,255,255,0.08);
 
-    color: #687066;
+    color: #687266;
 
-    font-size: 12px;
+    font-size: 11px;
+
+    display: flex;
+
+    justify-content: space-between;
 }
 
 
 /* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width: 1050px) {
-
-    .booking-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .summary-card {
-        position: static;
-    }
-
-    .search-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-}
-
-@media(max-width: 800px) {
-
-    .booking-progress {
-        overflow-x: auto;
-
-        justify-content: flex-start;
-
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .progress-line {
-        width: 35px;
-
-        margin: 0 8px;
-    }
-
-    .progress-step {
-        white-space: nowrap;
-    }
-
-    .search-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .passenger-grid,
-    .payment-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .passenger-grid .full,
-    .payment-grid .full {
-        grid-column: auto;
-    }
-
-    .boarding-pass {
-        grid-template-columns: 1fr;
-    }
-
-    .boarding-main::after {
-        display: none;
-    }
-
-    .boarding-main {
-        border-bottom: 2px dashed #d7ddd4;
-    }
-
-    .boarding-details {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .confirmation-actions {
-        grid-template-columns: 1fr;
-    }
-
-    .foot-top {
-        flex-direction: column;
-    }
-
-}
-
-@media(max-width: 500px) {
-
-    body {
-        padding-top: 70px;
-    }
-
-    .header-logo {
-        height: 36px;
-    }
-
-    .booking-hero {
-        min-height: 390px;
-    }
-
-    .booking-card {
-        padding: 20px;
-    }
-
-    .flight-route {
-        grid-template-columns: 70px 1fr 70px;
-    }
-
-    .flight-time {
-        font-size: 22px;
-    }
-
-    .boarding-route-large {
-        gap: 8px;
-    }
-
-    .boarding-airport {
-        font-size: 27px;
-    }
-
-    .confirmation-content {
-        padding: 20px;
-    }
-
-}
-
-
-/* =========================================================
-   PRINT
-========================================================= */
-
-@media print {
-
-    body {
-        background: white;
-        padding: 0;
-    }
-
-    header,
-    footer,
-    .booking-hero,
-    .booking-progress-wrapper,
-    .confirmation-actions,
-    .wallet-button {
-        display: none !important;
-    }
-
-    .confirmation {
-        display: block !important;
-
-        padding: 0;
-    }
-
-    .confirmation-card {
-        box-shadow: none;
-
-        border: none;
-    }
-
-    .confirmation-top {
-        background: white;
-
-        color: black;
-
-        padding: 20px;
-    }
-
-    .confirmation-top p {
-        color: #555;
-    }
-
-}
-
-
-/* =========================================================
-   NOTIFICATION
+   TOAST
 ========================================================= */
 
 .toast {
@@ -1700,117 +1667,45 @@ footer p {
     right: 25px;
     bottom: 25px;
 
-    z-index: 20000;
-
-    max-width: 360px;
-
-    padding: 15px 18px;
-
-    background: #101610;
+    background: var(--dark);
 
     color: white;
 
-    border-left: 4px solid var(--green);
+    padding: 15px 20px;
 
     border-radius: 10px;
 
-    box-shadow: 0 15px 40px rgba(0,0,0,.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 
-    transform: translateY(130px);
+    transform:
+        translateY(100px);
 
     opacity: 0;
 
     pointer-events: none;
 
-    transition: .3s ease;
+    transition: 0.3s;
+
+    z-index: 10000;
 
     font-size: 13px;
-
-    line-height: 1.5;
 }
 
 .toast.show {
-    transform: translateY(0);
+    transform:
+        translateY(0);
 
     opacity: 1;
 }
 
 
 /* =========================================================
-   HEADER FALLBACK
+   MOBILE
 ========================================================= */
 
-.navlinks {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
+@media(max-width:1000px) {
 
-.navlinks a {
-    color: white;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.navlinks a:hover {
-    color: var(--green);
-}
-
-.register {
-    background: var(--green);
-    color: var(--green-dark);
-
-    text-decoration: none;
-
-    padding: 11px 16px;
-
-    border-radius: 9px;
-
-    font-size: 12px;
-
-    font-weight: 900;
-}
-
-.menu {
-    display: none;
-
-    border: none;
-
-    background: transparent;
-
-    color: white;
-
-    font-size: 25px;
-
-    cursor: pointer;
-}
-
-.mobileNav {
-    display: none;
-}
-
-.mobileNav.open {
-    display: block;
-}
-
-.mobileNav .container {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    padding: 20px 0;
-}
-
-.mobileNav a {
-    color: white;
-    text-decoration: none;
-    font-weight: 700;
-}
-
-@media(max-width: 950px) {
-
-    .navlinks,
-    .register {
+    .navlinks {
         display: none;
     }
 
@@ -1818,40 +1713,178 @@ footer p {
         display: block;
     }
 
+    .search-grid {
+        grid-template-columns:
+            1fr 1fr 1fr;
+    }
+
+    .search-button {
+        grid-column: 1 / -1;
+    }
+
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .right-panel {
+        position: static;
+    }
+
+    .flight-card {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 15px;
+    }
+
+    .price {
+        text-align: left;
+    }
+
+    .pass-main {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .pass-route {
+        grid-column: 1 / -1;
+    }
+
+    .qr-box {
+        grid-column: 1 / -1;
+
+        grid-row: auto;
+
+        border-left: none;
+
+        border-top:
+            1px dashed #ccd4c8;
+
+        padding-top: 25px;
+    }
+
 }
 
+@media(max-width:700px) {
 
-/* =========================================================
-   CONTAINER
-========================================================= */
+    .nav {
+        padding: 0 17px;
+    }
 
-.container {
-    width: min(1180px, calc(100% - 40px));
+    .nav-register {
+        display: none;
+    }
 
-    margin: 0 auto;
+    .hero-inner {
+        padding: 60px 18px;
+    }
+
+    .main {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .search-card {
+        margin-top: -50px;
+
+        padding: 18px;
+    }
+
+    .search-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .trip-type {
+        flex-wrap: wrap;
+    }
+
+    .flight-card {
+        grid-template-columns: 1fr;
+
+        text-align: center;
+    }
+
+    .airline-info {
+        justify-content: center;
+    }
+
+    .price {
+        text-align: center;
+    }
+
+    .duration-line {
+        max-width: 250px;
+
+        margin: auto;
+    }
+
+    .cabin-options {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .aircraft-body {
+        width: 430px;
+    }
+
+    .pass-main {
+        grid-template-columns: 1fr;
+    }
+
+    .pass-route {
+        flex-wrap: wrap;
+    }
+
+    .pass-info {
+        border-top:
+            1px solid #e5e9e3;
+    }
+
+    .pass-footer {
+        flex-direction: column;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+    }
+
+    .copyright {
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <!-- =========================================================
      HEADER
 ========================================================= -->
 
-<header id="siteHeader">
+<header>
 
-<div class="container nav">
+<div class="nav">
 
-<a class="brand" href="index.html">
+<a href="index.html">
 
 <img
-class="header-logo"
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
-alt="Echo Air Group"
-
+    class="logo"
+    src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?format=webp&quality=lossless&width=768&height=768"
+    alt="Echo Air Group"
 >
 
 </a>
@@ -1859,974 +1892,1127 @@ alt="Echo Air Group"
 <nav class="navlinks">
 
 <a href="index.html">Home</a>
-
 <a href="about.html">About</a>
-
 <a href="fleet.html">Fleet</a>
-
 <a href="routes.html">Routes</a>
-
 <a href="team.html">Team</a>
-
 <a href="join.html">Join Us</a>
-
 <a href="manual.html">Pilot Manual</a>
-
-<a href="contact.html">Contact Us</a>
-
+<a href="contact.html">Contact</a>
 <a href="ranking.html">Ranking</a>
+<a href="booking.html" class="active">Book</a>
 
 </nav>
 
-<a class="register" href="booking.html">
-BOOK A FLIGHT
+<a
+    class="nav-register"
+    href="join.html"
+>
+JOIN US
 </a>
 
 <button
-class="menu"
-onclick="toggleMenu()"
-aria-label="Open navigation menu"
-
+    class="menu"
+    onclick="mobileMenu()"
 >
-
-☰ </button>
-
-</div>
-
-<div id="mobileNav" class="mobileNav">
-
-<div class="container">
-
-<a href="index.html">Home</a> <a href="about.html">About</a> <a href="fleet.html">Fleet</a> <a href="routes.html">Routes</a> <a href="team.html">Team</a> <a href="join.html">Join Us</a> <a href="manual.html">Pilot Manual</a> <a href="contact.html">Contact Us</a> <a href="ranking.html">Ranking</a> <a href="booking.html">Book a Flight</a>
-
-</div>
+☰
+</button>
 
 </div>
 
 </header>
 
+
 <!-- =========================================================
      HERO
 ========================================================= -->
 
-<section class="booking-hero">
+<section class="hero">
 
-<div class="container">
+<div class="hero-inner">
 
-<span class="booking-eyebrow">
-✈ Echo Air Group Virtual Booking
+<span class="hero-label">
+Echo Air Group · Reservations
 </span>
 
 <h1>
-Your journey.<br>
-<span>Your way.</span>
+Book your <span>flight.</span>
 </h1>
 
 <p>
-Book a virtual flight with Echo Air Group. Choose your route,
-select your flight, enter your passenger details and receive
-your digital boarding pass instantly.
+Experience the Echo Air Group booking system.
+Choose your route, select your flight and seat,
+add extras and receive your own digital boarding pass.
 </p>
 
 </div>
 
 </section>
 
-<!-- =========================================================
-     PROGRESS
-========================================================= -->
-
-<div class="booking-progress-wrapper">
-
-<div class="container">
-
-<div class="booking-progress">
-
-<div class="progress-step active" id="progress1">
-
-<span class="progress-number">
-1
-</span>
-
-Search
-
-</div>
-
-<div class="progress-line"></div>
-
-<div class="progress-step" id="progress2">
-
-<span class="progress-number">
-2
-</span>
-
-Passengers
-
-</div>
-
-<div class="progress-line"></div>
-
-<div class="progress-step" id="progress3">
-
-<span class="progress-number">
-3
-</span>
-
-Payment
-
-</div>
-
-<div class="progress-line"></div>
-
-<div class="progress-step" id="progress4">
-
-<span class="progress-number">
-4
-</span>
-
-Confirmation
-
-</div>
-
-</div>
-
-</div>
-
-</div>
 
 <!-- =========================================================
-     BOOKING SYSTEM
+     MAIN
 ========================================================= -->
 
-<main id="bookingSystem">
+<main class="main">
 
-<section class="booking-section">
 
-<div class="container">
-
-<div class="booking-layout">
-
-<!-- =====================================================
-     MAIN CONTENT
-===================================================== -->
-
-<div>
-
-<!-- =====================================================
+<!-- =========================================================
      SEARCH
-===================================================== -->
+========================================================= -->
 
-<div class="booking-card">
-
-<div class="booking-card-title">
-
-<div>
-
-<h2>
-Search flights
-</h2>
-
-<p>
-Find your next Echo Air Group journey.
-</p>
-
-</div>
-
-</div>
-
-<div class="trip-types">
+<section class="search-card">
 
 <div class="trip-type">
 
-<input
-type="radio"
-name="tripType"
-id="roundTrip"
-value="round"
-checked
-
+<button
+    class="active"
+    id="roundTripButton"
+    onclick="setTripType('roundtrip')"
 >
+Round trip
+</button>
 
-<label for="roundTrip">
-↔ Round trip
-</label>
-
-</div>
-
-<div class="trip-type">
-
-<input
-type="radio"
-name="tripType"
-id="oneWay"
-value="oneway"
-
+<button
+    id="oneWayButton"
+    onclick="setTripType('oneway')"
 >
-
-<label for="oneWay">
-→ One way
-</label>
+One way
+</button>
 
 </div>
 
-</div>
 
 <div class="search-grid">
 
-<div class="field">
 
-<label for="origin">
+<div class="search-field">
+
+<label>
 From
 </label>
 
-<select id="origin">
+<select id="from">
 
 <option value="LIRF">
-Rome (Fiumicino) — LIRF
+Rome Fiumicino (LIRF)
 </option>
 
 <option value="LEBL">
-Barcelona — LEBL
+Barcelona (LEBL)
 </option>
 
 <option value="LKPR">
-Prague — LKPR
-</option>
-
-<option value="EGLL">
-London Heathrow — EGLL
-</option>
-
-<option value="EDDF">
-Frankfurt — EDDF
+Prague (LKPR)
 </option>
 
 <option value="EHAM">
-Amsterdam — EHAM
+Amsterdam (EHAM)
+</option>
+
+<option value="EDDF">
+Frankfurt (EDDF)
+</option>
+
+<option value="LOWW">
+Vienna (LOWW)
 </option>
 
 <option value="LGKR">
-Corfu — LGKR
+Corfu (LGKR)
 </option>
 
 <option value="LGAV">
-Athens — LGAV
+Athens (LGAV)
 </option>
 
-<option value="WSSS">
-Singapore — WSSS
+<option value="LIRN">
+Naples (LIRN)
+</option>
+
+<option value="LIMC">
+Milan Malpensa (LIMC)
+</option>
+
+<option value="LFPG">
+Paris Charles de Gaulle (LFPG)
+</option>
+
+<option value="EGLL">
+London Heathrow (EGLL)
 </option>
 
 <option value="KJFK">
-New York JFK — KJFK
+New York JFK (KJFK)
+</option>
+
+<option value="WSSS">
+Singapore Changi (WSSS)
 </option>
 
 </select>
 
 </div>
 
-<div class="field">
 
-<label for="destination">
+<div class="search-field">
+
+<label>
 To
 </label>
 
-<select id="destination">
+<select id="to">
 
 <option value="LEBL">
-Barcelona — LEBL
+Barcelona (LEBL)
 </option>
 
 <option value="LIRF">
-Rome (Fiumicino) — LIRF
+Rome Fiumicino (LIRF)
 </option>
 
 <option value="LKPR">
-Prague — LKPR
-</option>
-
-<option value="EGLL">
-London Heathrow — EGLL
-</option>
-
-<option value="EDDF">
-Frankfurt — EDDF
+Prague (LKPR)
 </option>
 
 <option value="EHAM">
-Amsterdam — EHAM
+Amsterdam (EHAM)
+</option>
+
+<option value="EDDF">
+Frankfurt (EDDF)
+</option>
+
+<option value="LOWW">
+Vienna (LOWW)
 </option>
 
 <option value="LGKR">
-Corfu — LGKR
+Corfu (LGKR)
 </option>
 
 <option value="LGAV">
-Athens — LGAV
+Athens (LGAV)
 </option>
 
-<option value="WSSS">
-Singapore — WSSS
+<option value="LIRN">
+Naples (LIRN)
+</option>
+
+<option value="LIMC">
+Milan Malpensa (LIMC)
+</option>
+
+<option value="LFPG">
+Paris Charles de Gaulle (LFPG)
+</option>
+
+<option value="EGLL">
+London Heathrow (EGLL)
 </option>
 
 <option value="KJFK">
-New York JFK — KJFK
+New York JFK (KJFK)
+</option>
+
+<option value="WSSS">
+Singapore Changi (WSSS)
 </option>
 
 </select>
 
 </div>
 
-<div class="field">
 
-<label for="departureDate">
+<div class="search-field">
+
+<label>
 Departure
 </label>
 
 <input
-type="date"
-id="departureDate"
-
+    id="departureDate"
+    type="date"
 >
 
 </div>
 
-<div class="field" id="returnDateField">
 
-<label for="returnDate">
+<div
+    class="search-field"
+    id="returnField"
+>
+
+<label>
 Return
 </label>
 
 <input
-type="date"
-id="returnDate"
-
+    id="returnDate"
+    type="date"
 >
 
 </div>
 
-<div class="field">
 
-<label for="passengers">
+<div class="search-field">
+
+<label>
 Passengers
 </label>
 
 <select id="passengers">
 
-<option value="1">1 passenger</option>
-<option value="2">2 passengers</option>
-<option value="3">3 passengers</option>
-<option value="4">4 passengers</option>
-<option value="5">5 passengers</option>
-<option value="6">6 passengers</option>
+<option value="1">1 Passenger</option>
+<option value="2">2 Passengers</option>
+<option value="3">3 Passengers</option>
+<option value="4">4 Passengers</option>
+<option value="5">5 Passengers</option>
+<option value="6">6 Passengers</option>
+<option value="7">7 Passengers</option>
+<option value="8">8 Passengers</option>
 
 </select>
 
 </div>
 
-<div class="field">
-
-<label for="cabin">
-Cabin
-</label>
-
-<select id="cabin">
-
-<option value="economy">
-Economy
-</option>
-
-<option value="premium">
-Premium Economy
-</option>
-
-<option value="business">
-Business
-</option>
-
-</select>
-
-</div>
-
-</div>
 
 <button
-class="search-button"
-onclick="searchFlights()"
-
+    class="search-button"
+    onclick="searchFlights()"
 >
+SEARCH
+</button>
 
-SEARCH FLIGHTS → </button>
 
 </div>
 
-<!-- =====================================================
-     RESULTS
-===================================================== -->
+</section>
+
+
+<!-- =========================================================
+     FLIGHTS
+========================================================= -->
 
 <div
-class="booking-card"
-id="resultsCard"
+    id="flightSection"
+    style="display:none"
 >
 
-<div class="results-header">
+<div class="section-title">
 
-<div>
+<small>
+1 · Select your flight
+</small>
 
 <h2>
 Available flights
 </h2>
 
-<span
-class="results-count"
-id="resultsCount"
-
->
-
-Search for a flight to see availability. </span>
-
-</div>
-
-</div>
-
-<div id="flightResults">
-
-<div class="empty-results">
-
-<div class="empty-results-icon">
-✈
-</div>
-
-<strong>
-Choose your route and date
-</strong>
-
 <p>
-Your available Echo Air Group flights will appear here.
+Choose the departure that works best for you.
 </p>
 
 </div>
 
-</div>
-
-</div>
-
-<!-- =====================================================
-     PASSENGER DETAILS
-===================================================== -->
 
 <div
-class="booking-card hidden"
-id="passengerCard"
+    class="flight-results"
+    id="flightResults"
+>
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     BOOKING WORKSPACE
+========================================================= -->
+
+<div
+    id="bookingWorkspace"
+    class="workspace"
+    style="display:none"
 >
 
-<div class="booking-card-title">
 
-<div>
+<div class="left-panel">
 
-<h2>
-Passenger details
-</h2>
 
-<p>
-Enter the details exactly as they should appear on the boarding pass.
+<div class="steps">
+
+<div
+    class="step active"
+    id="stepIndicator1"
+>
+1 · Flight
+</div>
+
+<div
+    class="step"
+    id="stepIndicator2"
+>
+2 · Seat
+</div>
+
+<div
+    class="step"
+    id="stepIndicator3"
+>
+3 · Passenger
+</div>
+
+<div
+    class="step"
+    id="stepIndicator4"
+>
+4 · Extras
+</div>
+
+<div
+    class="step"
+    id="stepIndicator5"
+>
+5 · Payment
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     STEP 1
+===================================================== -->
+
+<section
+    class="panel active"
+    id="panel1"
+>
+
+<h3>
+Flight selected
+</h3>
+
+<p class="panel-subtitle">
+Your selected Echo Air Group flight is shown below.
 </p>
 
+<div id="selectedFlightDetails"></div>
+
+<div class="actions">
+
+<button
+    class="btn btn-secondary"
+    onclick="changeFlight()"
+>
+Change flight
+</button>
+
+<button
+    class="btn btn-primary"
+    onclick="goStep(2)"
+>
+Choose seat →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     STEP 2
+===================================================== -->
+
+<section
+    class="panel"
+    id="panel2"
+>
+
+<h3>
+Choose your seat
+</h3>
+
+<p class="panel-subtitle">
+Select an available seat. Green seats are selected,
+grey seats are already occupied.
+</p>
+
+
+<div class="cabin-options">
+
+
+<button
+    class="cabin selected"
+    id="economyCabin"
+    onclick="selectCabin('Economy')"
+>
+
+<strong>
+Economy
+</strong>
+
+<span>
+Standard seat
+</span>
+
+</button>
+
+
+<button
+    class="cabin"
+    id="premiumCabin"
+    onclick="selectCabin('Premium Economy')"
+>
+
+<strong>
+Premium Economy
+</strong>
+
+<span>
+Extra legroom · +€35
+</span>
+
+</button>
+
+
+<button
+    class="cabin"
+    id="businessCabin"
+    onclick="selectCabin('Business')"
+>
+
+<strong>
+Business Class
+</strong>
+
+<span>
+Luxury seating · +€120
+</span>
+
+</button>
+
+</div>
+
+
+<div class="seat-map-wrapper">
+
+<div class="aircraft-body">
+
+<div class="aircraft-nose">
+ECHO AIR GROUP · FRONT
+</div>
+
+<div class="cabin-label">
+A320 Cabin
+</div>
+
+<div
+    class="seat-grid"
+    id="seatGrid"
+>
 </div>
 
 </div>
 
-<div class="passenger-grid">
+</div>
+
+
+<div class="seat-legend">
+
+<div class="legend-item">
+
+<span class="legend-box"></span>
+
+Available
+
+</div>
+
+<div class="legend-item">
+
+<span class="legend-box selected"></span>
+
+Selected
+
+</div>
+
+<div class="legend-item">
+
+<span class="legend-box occupied"></span>
+
+Occupied
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+    class="btn btn-secondary"
+    onclick="goStep(1)"
+>
+← Back
+</button>
+
+<button
+    class="btn btn-primary"
+    onclick="validateSeat()"
+>
+Continue →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     STEP 3
+===================================================== -->
+
+<section
+    class="panel"
+    id="panel3"
+>
+
+<h3>
+Passenger information
+</h3>
+
+<p class="panel-subtitle">
+Enter the details that will appear on your booking.
+</p>
+
+
+<div class="form-grid">
+
 
 <div class="field">
 
-<label for="passengerFirst">
+<label>
 First name *
 </label>
 
 <input
-id="passengerFirst"
-placeholder="Alex"
-required
-
+    id="firstName"
+    placeholder="Christian"
 >
-
 </div>
+
 
 <div class="field">
 
-<label for="passengerLast">
+<label>
 Last name *
 </label>
 
 <input
-id="passengerLast"
-placeholder="Carter"
-required
-
+    id="lastName"
+    placeholder="Ohms"
 >
-
 </div>
+
 
 <div class="field">
 
-<label for="passengerEmail">
-Email address *
-</label>
-
-<input
-id="passengerEmail"
-type="email"
-placeholder="[alex@email.com](mailto:alex@email.com)"
-required
-
->
-
-</div>
-
-<div class="field">
-
-<label for="passengerDob">
+<label>
 Date of birth *
 </label>
 
 <input
-id="passengerDob"
-type="date"
-required
-
+    id="dob"
+    type="date"
 >
-
 </div>
+
 
 <div class="field">
 
-<label for="passengerCountry">
+<label>
 Nationality *
 </label>
 
-<select id="passengerCountry">
+<select id="nationality">
 
 <option value="">
-Select country
+Select nationality
 </option>
 
 <option>Netherlands</option>
 <option>Germany</option>
 <option>Belgium</option>
 <option>France</option>
-<option>United Kingdom</option>
 <option>Spain</option>
 <option>Italy</option>
-<option>Portugal</option>
+<option>United Kingdom</option>
+<option>United States</option>
+<option>Canada</option>
 <option>Greece</option>
+<option>Portugal</option>
 <option>Austria</option>
 <option>Switzerland</option>
 <option>Poland</option>
-<option>Czechia</option>
-<option>United States</option>
-<option>Canada</option>
-<option>Other</option>
+<option>Czech Republic</option>
 
 </select>
 
 </div>
 
+
 <div class="field">
 
-<label for="passengerPhone">
+<label>
+Email *
+</label>
+
+<input
+    id="email"
+    type="email"
+    placeholder="passenger@email.com"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
 Phone number
 </label>
 
 <input
-id="passengerPhone"
-type="tel"
-placeholder="+31 6 12345678"
-
+    id="phone"
+    type="tel"
+    placeholder="+31 6 12345678"
 >
 
 </div>
+
 
 <div class="field full">
 
-<label for="specialRequest">
-Special request
+<label>
+Frequent flyer / Echo Rewards number
 </label>
 
 <input
-id="specialRequest"
-placeholder="Wheelchair assistance, birthday, special meal, etc."
-
+    id="frequentFlyer"
+    placeholder="Optional"
 >
 
 </div>
 
 </div>
 
-<div style="margin-top:25px">
+
+<div class="actions">
+
+<button
+    class="btn btn-secondary"
+    onclick="goStep(2)"
+>
+← Back
+</button>
+
+<button
+    class="btn btn-primary"
+    onclick="validatePassenger()"
+>
+Continue →
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     STEP 4
+===================================================== -->
+
+<section
+    class="panel"
+    id="panel4"
+>
 
 <h3>
-Optional extras
+Customize your journey
 </h3>
 
-<p style="color:#737c70;font-size:13px">
-Make your virtual journey even more realistic.
+<p class="panel-subtitle">
+Add optional services to your Echo Air Group booking.
 </p>
 
-<label class="addon">
 
-<div class="addon-left">
+<div class="extra-list">
 
-<div class="addon-icon">
+
+<label class="extra">
+
+<div class="extra-left">
+
+<div class="extra-icon">
 🧳
 </div>
 
 <div>
 
-<div class="addon-title">
+<strong>
 Checked baggage
-</div>
+</strong>
 
-<div class="addon-description">
-One virtual checked bag up to 23 kg.
-</div>
-
-</div>
+<small>
+1 × 23 kg checked bag
+</small>
 
 </div>
 
-<div>
+</div>
 
-<span class="addon-price">
-€25
-</span>
+<div class="extra-price">
+
+<strong>
+€35
+</strong>
 
 <input
-type="checkbox"
-class="addon-checkbox"
-data-price="25"
-data-name="Checked baggage"
-
+    type="checkbox"
+    id="bagExtra"
+    onchange="calculateTotal()"
 >
 
 </div>
 
 </label>
 
-<label class="addon">
 
-<div class="addon-left">
+<label class="extra">
 
-<div class="addon-icon">
-💺
+<div class="extra-left">
+
+<div class="extra-icon">
+🍽️
 </div>
 
 <div>
 
-<div class="addon-title">
-Preferred seat
-</div>
+<strong>
+On-board meal
+</strong>
 
-<div class="addon-description">
-Choose a preferred seat during your virtual flight.
-</div>
-
-</div>
+<small>
+Hot meal + drink
+</small>
 
 </div>
 
-<div>
+</div>
 
-<span class="addon-price">
-€12
-</span>
+<div class="extra-price">
+
+<strong>
+€18
+</strong>
 
 <input
-type="checkbox"
-class="addon-checkbox"
-data-price="12"
-data-name="Preferred seat"
-
+    type="checkbox"
+    id="mealExtra"
+    onchange="calculateTotal()"
 >
 
 </div>
 
 </label>
 
-<label class="addon">
 
-<div class="addon-left">
+<label class="extra">
 
-<div class="addon-icon">
-📡
+<div class="extra-left">
+
+<div class="extra-icon">
+📶
 </div>
 
 <div>
 
-<div class="addon-title">
-Inflight Wi-Fi
-</div>
+<strong>
+On-board Wi-Fi
+</strong>
 
-<div class="addon-description">
-Virtual onboard connectivity.
-</div>
-
-</div>
+<small>
+Full-flight internet access
+</small>
 
 </div>
 
-<div>
+</div>
 
-<span class="addon-price">
-€8
-</span>
+<div class="extra-price">
+
+<strong>
+€9
+</strong>
 
 <input
-type="checkbox"
-class="addon-checkbox"
-data-price="8"
-data-name="Inflight Wi-Fi"
-
+    type="checkbox"
+    id="wifiExtra"
+    onchange="calculateTotal()"
 >
 
 </div>
 
 </label>
 
+
+<label class="extra">
+
+<div class="extra-left">
+
+<div class="extra-icon">
+🛡️
 </div>
+
+<div>
+
+<strong>
+Travel protection
+</strong>
+
+<small>
+Flexible booking protection
+</small>
+
+</div>
+
+</div>
+
+<div class="extra-price">
+
+<strong>
+€15
+</strong>
+
+<input
+    type="checkbox"
+    id="insuranceExtra"
+    onchange="calculateTotal()"
+>
+
+</div>
+
+</label>
+
+
+</div>
+
+
+<div class="actions">
 
 <button
-class="search-button"
-onclick="continueToPayment()"
-
+    class="btn btn-secondary"
+    onclick="goStep(3)"
 >
+← Back
+</button>
 
-CONTINUE TO PAYMENT → </button>
+<button
+    class="btn btn-primary"
+    onclick="goStep(5)"
+>
+Continue to payment →
+</button>
 
 </div>
+
+</section>
+
 
 <!-- =====================================================
-     PAYMENT
+     STEP 5
 ===================================================== -->
 
-<div
-class="booking-card hidden"
-id="paymentCard"
+<section
+    class="panel"
+    id="panel5"
 >
 
-<div class="booking-card-title">
-
-<div>
-
-<h2>
+<h3>
 Payment
-</h2>
+</h3>
 
-<p>
-This is a virtual airline booking for simulation purposes.
+<p class="panel-subtitle">
+This is a virtual airline demonstration booking.
+No real payment will be processed.
 </p>
 
-</div>
 
-</div>
+<div class="payment-box">
 
-<div
-style="
-padding:15px;
-border-radius:10px;
-background:#eef5e7;
-color:#52604d;
-font-size:13px;
-line-height:1.6;
-margin-bottom:25px;
-"
+
+<div class="payment-methods">
+
+<button
+    class="payment-method selected"
 >
+💳 Card
+</button>
 
-<strong>Virtual booking notice</strong><br>
+<button
+    class="payment-method"
+>
+ Apple Pay
+</button>
 
-Echo Air Group is a virtual airline. No real-world
-flight ticket or payment is issued by this website.
-The payment details below are simulated for the
-virtual booking experience.
+<button
+    class="payment-method"
+>
+PayPal
+</button>
 
 </div>
 
-<div class="payment-grid">
+
+<div class="card-fields">
+
 
 <div class="field full">
 
-<label for="cardName">
+<label>
 Cardholder name
 </label>
 
 <input
-id="cardName"
-placeholder="Alex Carter"
-
+    id="cardName"
+    placeholder="CARDHOLDER NAME"
 >
 
 </div>
 
-<div class="field">
 
-<label for="cardNumber">
+<div class="field full">
+
+<label>
 Card number
 </label>
 
-<div class="card-input">
-
 <input
-id="cardNumber"
-inputmode="numeric"
-maxlength="19"
-placeholder="4242 4242 4242 4242"
-
+    id="cardNumber"
+    maxlength="19"
+    placeholder="1234 5678 9012 3456"
 >
 
-<span class="card-symbol">
-💳
-</span>
-
 </div>
 
-</div>
 
 <div class="field">
 
-<label for="cardExpiry">
+<label>
 Expiry
 </label>
 
 <input
-id="cardExpiry"
-maxlength="5"
-placeholder="MM/YY"
-
+    id="expiry"
+    placeholder="MM/YY"
 >
 
 </div>
 
+
 <div class="field">
 
-<label for="cardCvv">
+<label>
 CVV
 </label>
 
 <input
-id="cardCvv"
-maxlength="4"
-inputmode="numeric"
-placeholder="123"
-
+    id="cvv"
+    maxlength="4"
+    placeholder="123"
 >
 
 </div>
 
-<div class="field full">
-
-<label for="paymentMethod">
-Payment method
-</label>
-
-<select id="paymentMethod">
-
-<option>
-Credit / Debit Card
-</option>
-
-<option>
-PayPal
-</option>
-
-<option>
-Apple Pay
-</option>
-
-<option>
-Google Pay
-</option>
-
-</select>
 
 </div>
 
 </div>
+
+
+<div class="actions">
 
 <button
-class="search-button"
-onclick="completeBooking()"
-
+    class="btn btn-secondary"
+    onclick="goStep(4)"
 >
+← Back
+</button>
 
-CONFIRM VIRTUAL BOOKING → </button>
+<button
+    class="btn btn-primary"
+    onclick="completeBooking()"
+>
+Complete booking ✈
+</button>
 
 </div>
 
+</section>
+
+
 </div>
+
 
 <!-- =====================================================
      SUMMARY
 ===================================================== -->
 
-<aside class="summary-card">
+<aside class="right-panel">
 
-<div class="summary-header">
+<div class="summary">
 
 <h3>
 Your trip
 </h3>
 
-<p>
-Echo Air Group
-</p>
-
-</div>
-
-<div class="summary-body">
 
 <div class="summary-route">
 
-<div>
+<div class="summary-airport">
 
-<div
-class="summary-airport"
-id="summaryOrigin"
->
-—
-</div>
+<strong id="summaryFrom">
+---
+</strong>
 
-<div
-class="summary-city"
-id="summaryOriginCity"
->
-Select route
-</div>
+<span id="summaryFromName">
+Select flight
+</span>
 
 </div>
+
 
 <div class="summary-arrow">
-→
+✈
 </div>
 
-<div style="text-align:right">
 
-<div
-class="summary-airport"
-id="summaryDestination"
->
-—
-</div>
+<div class="summary-airport">
 
-<div
-class="summary-city"
-id="summaryDestinationCity"
->
-Select route
-</div>
+<strong id="summaryTo">
+---
+</strong>
+
+<span id="summaryToName">
+Select flight
+</span>
 
 </div>
 
 </div>
+
+
+<div class="summary-details">
+
 
 <div class="summary-row">
 
@@ -2835,10 +3021,11 @@ Flight
 </span>
 
 <strong id="summaryFlight">
-—
+---
 </strong>
 
 </div>
+
 
 <div class="summary-row">
 
@@ -2847,10 +3034,37 @@ Date
 </span>
 
 <strong id="summaryDate">
-—
+---
 </strong>
 
 </div>
+
+
+<div class="summary-row">
+
+<span>
+Departure
+</span>
+
+<strong id="summaryDeparture">
+---
+</strong>
+
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Arrival
+</span>
+
+<strong id="summaryArrival">
+---
+</strong>
+
+</div>
+
 
 <div class="summary-row">
 
@@ -2864,43 +3078,34 @@ Economy
 
 </div>
 
-<div class="summary-row">
-
-<span>
-Passengers
-</span>
-
-<strong id="summaryPassengers">
-1
-</strong>
-
-</div>
-
-<div class="summary-divider"></div>
 
 <div class="summary-row">
 
 <span>
-Base fare
+Seat
 </span>
 
-<strong id="summaryBase">
-€0
+<strong id="summarySeat">
+Not selected
 </strong>
 
 </div>
+
 
 <div class="summary-row">
 
 <span>
-Extras
+Passenger
 </span>
 
-<strong id="summaryExtras">
-€0
+<strong id="summaryPassenger">
+Not entered
 </strong>
 
 </div>
+
+</div>
+
 
 <div class="summary-total">
 
@@ -2914,314 +3119,310 @@ Total
 
 </div>
 
-<button
-class="book-button"
-id="summaryContinue"
-disabled
-onclick="showPassengerForm()"
-
->
-
-CONTINUE </button>
-
 </div>
 
 </aside>
 
-</div>
 
 </div>
 
-</section>
-
-</main>
 
 <!-- =========================================================
      CONFIRMATION
 ========================================================= -->
 
 <section
-class="confirmation"
-id="confirmationSection"
+    class="confirmation"
+    id="confirmation"
 >
-
-<div class="container">
-
-<div class="confirmation-card">
-
-<div class="confirmation-top">
 
 <div class="success-icon">
 ✓
 </div>
 
-<h1>
-Booking confirmed!
-</h1>
-
-<p>
-Your Echo Air Group virtual journey is ready.
-</p>
-
-<div
-class="booking-reference"
-id="confirmationReference"
->
-EAG000000
-</div>
-
-</div>
-
-<div class="confirmation-content">
-
 <h2>
-Digital Boarding Pass
+Booking confirmed!
 </h2>
 
-<p style="color:#737c70">
-
-Present this boarding pass during your virtual flight.
-You can also print it or save it as an image.
-
+<p>
+Your Echo Air Group flight has been successfully booked.
+Your digital boarding pass is ready below.
 </p>
 
-<div class="boarding-pass">
 
-<div class="boarding-main">
+<div class="boarding-pass" id="boardingPass">
 
-<div class="boarding-brand">
 
-<img
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
-alt="Echo Air Group"
+<div class="pass-top">
 
->
+<div class="pass-brand">
+
+<div class="pass-brand-mark">
+EAG
+</div>
+
+<div>
 
 <strong>
 ECHO AIR GROUP
 </strong>
 
-</div>
-
-<div class="boarding-route-large">
-
-<div>
-
-<div
-class="boarding-airport"
-id="boardingOrigin"
->
-LIRF
-</div>
-
-<small
-id="boardingOriginName"
-
->
-
-Rome </small>
-
-</div>
-
-<div class="boarding-plane">
-✈
-</div>
-
-<div>
-
-<div
-class="boarding-airport"
-id="boardingDestination"
->
-LEBL
-</div>
-
-<small
-id="boardingDestinationName"
-
->
-
-Barcelona </small>
+<small>
+6L · CLOVER
+</small>
 
 </div>
 
 </div>
 
-<div class="boarding-details">
 
-<div class="boarding-detail">
+<div class="pass-type">
+BOARDING PASS
+</div>
 
-<label>
+</div>
+
+
+<div class="pass-main">
+
+
+<div class="pass-route">
+
+<div class="pass-city">
+
+<strong id="passFrom">
+AMS
+</strong>
+
+<span id="passFromName">
+Amsterdam
+</span>
+
+</div>
+
+
+<div class="pass-plane">
+✈ ───────── ✈
+</div>
+
+
+<div class="pass-city">
+
+<strong id="passTo">
+ROM
+</strong>
+
+<span id="passToName">
+Rome
+</span>
+
+</div>
+
+</div>
+
+
+<div class="pass-info">
+
+<small>
 Passenger
-</label>
+</small>
 
-<strong id="boardingPassenger">
-—
+<strong id="passPassenger">
+Christian Ohms
 </strong>
 
 </div>
 
-<div class="boarding-detail">
 
-<label>
+<div class="pass-info">
+
+<small>
 Flight
-</label>
+</small>
 
-<strong id="boardingFlight">
-—
+<strong id="passFlight">
+ECV000
 </strong>
 
 </div>
 
-<div class="boarding-detail">
 
-<label>
+<div class="pass-info">
+
+<small>
 Date
-</label>
+</small>
 
-<strong id="boardingDate">
-—
+<strong id="passDate">
+11 Aug 2026
 </strong>
 
 </div>
 
-<div class="boarding-detail">
 
-<label>
-Cabin
-</label>
+<div class="pass-info">
 
-<strong id="boardingCabin">
-—
+<small>
+Departure
+</small>
+
+<strong id="passDeparture">
+10:00
 </strong>
 
 </div>
 
-<div class="boarding-detail">
 
-<label>
-Boarding
-</label>
+<div class="pass-info">
 
-<strong id="boardingTime">
-—
-</strong>
-
-</div>
-
-<div class="boarding-detail">
-
-<label>
-Gate
-</label>
-
-<strong id="boardingGate">
-—
-</strong>
-
-</div>
-
-<div class="boarding-detail">
-
-<label>
+<small>
 Seat
-</label>
+</small>
 
-<strong id="boardingSeat">
-—
+<strong id="passSeat">
+12A
 </strong>
 
 </div>
 
-<div class="boarding-detail">
 
-<label>
-Booking
-</label>
+<div class="pass-info">
 
-<strong id="boardingReference">
-—
+<small>
+Cabin
+</small>
+
+<strong id="passCabin">
+Economy
 </strong>
 
 </div>
 
-</div>
+
+<div class="pass-info">
+
+<small>
+Booking reference
+</small>
+
+<strong id="passBooking">
+EAG123ABC
+</strong>
 
 </div>
 
-<div class="boarding-side">
 
-<div
-id="qrcode"
-class="qr-code"
+<div class="qr-box">
+
+<img
+    id="qrCode"
+    alt="Boarding pass QR code"
 >
-</div>
 
-<div class="qr-label">
-Scan boarding pass
-</div>
-
-</div>
+<small>
+SCAN AT BOARDING
+</small>
 
 </div>
+
+
+</div>
+
+
+<div class="pass-footer">
+
+<div>
+
+<strong>
+Boarding
+</strong>
+
+<br>
+
+<span id="passBoarding">
+30 minutes before departure
+</span>
+
+</div>
+
+
+<div>
+
+<strong>
+Gate
+</strong>
+
+<br>
+
+<span id="passGate">
+TBA
+</span>
+
+</div>
+
+
+<div>
+
+<strong>
+Zone
+</strong>
+
+<br>
+
+<span id="passZone">
+3
+</span>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="wallet-area">
+
 
 <button
-class="wallet-button"
-onclick="addToGoogleWallet()"
-
+    class="download-button"
+    onclick="downloadBoardingPass()"
 >
+⬇ Download boarding pass
+</button>
 
-▣   Add to Google Wallet </button>
-
-<div class="confirmation-actions">
 
 <button
-class="action-button primary"
-onclick="window.print()"
-
+    class="print-button"
+    onclick="printBoardingPass()"
 >
+🖨 Print boarding pass
+</button>
 
-PRINT BOARDING PASS </button>
 
 <button
-class="action-button"
-onclick="downloadBoardingPass()"
-
+    class="wallet-button"
+    onclick="addToGoogleWallet()"
 >
-
-SAVE BOARDING PASS </button>
+▣ Add to Google Wallet
+</button>
 
 </div>
 
-<div
-style="
-margin-top:25px;
-padding:18px;
-border-radius:12px;
-background:#f5f7f3;
-font-size:12px;
-line-height:1.6;
-color:#687267;
-"
+
+<button
+    class="btn btn-secondary"
+    style="margin-top:25px"
+    onclick="newBooking()"
 >
-
-<strong style="color:#20251f">
-Important
-</strong><br>
-
-This is a virtual airline boarding pass created for
-Echo Air Group flight simulation. It is not valid for
-real-world air travel.
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+Book another flight
+</button>
 
 </section>
+
+
+</main>
+
 
 <!-- =========================================================
      FOOTER
@@ -3229,136 +3430,71 @@ real-world air travel.
 
 <footer>
 
-<div class="container">
+<div class="footer-inner">
 
-<div class="foot-top">
 
-<div>
+<div class="footer-brand">
 
-<a class="brand" href="index.html">
-
-<img
-class="brand-logo"
-src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
-alt="Echo Air Group Logo"
-
->
-
-<div class="brand-text">
-
+<h3>
 ECHO AIR GROUP
+</h3>
 
-<small>
-6L · ECV · CLOVER
-</small>
-
-</div>
-
-</a>
-
-<p style="max-width:450px">
-
+<p>
 Virtual aviation. Real passion.
 A community built for pilots who love
 the world of flight simulation.
-
 </p>
 
-<div class="footer-social">
-
-<a
-href="https://discord.gg/e7ePxYA24"
-target="_blank"
-rel="noopener noreferrer"
-aria-label="Discord"
-
->
-
-<img
-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
-alt="Discord"
-
->
-
-</a>
-
-<a
-href="https://www.tiktok.com/@echoairgroup"
-target="_blank"
-rel="noopener noreferrer"
-aria-label="TikTok"
-
->
-
-<img
-src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
-alt="TikTok"
-
->
-
-</a>
-
 </div>
 
-</div>
 
-<div class="foot-links">
+<div class="footer-links">
 
 <a href="index.html">Home</a>
-
 <a href="about.html">About</a>
-
 <a href="fleet.html">Fleet</a>
-
 <a href="routes.html">Routes</a>
-
 <a href="team.html">Team</a>
-
 <a href="join.html">Join Us</a>
-
 <a href="manual.html">Pilot Manual</a>
-
-<a href="contact.html">Contact Us</a>
-
+<a href="contact.html">Contact</a>
 <a href="ranking.html">Ranking</a>
-
 <a href="booking.html">Book a Flight</a>
 
 </div>
 
+
 </div>
 
-<div class="copy">
+
+<div class="copyright">
 
 <span>
-© 2026 Echo Air Group. Virtual airline.
+© 2026 Echo Air Group
 </span>
 
 <span>
-Not affiliated with any real-world airline.
+Virtual airline · Not affiliated with any real-world airline
 </span>
-
-</div>
 
 </div>
 
 </footer>
 
-<!-- =========================================================
-     TOAST
-========================================================= -->
 
 <div
-id="toast"
-class="toast"
+    class="toast"
+    id="toast"
 >
 </div>
+
 
 <!-- =========================================================
      JAVASCRIPT
 ========================================================= -->
 
 <script>
+
 
 /* =========================================================
    AIRPORT DATABASE
@@ -3367,77 +3503,305 @@ class="toast"
 const airports = {
 
     LIRF: {
-        city: "Rome",
-        name: "Fiumicino",
-        country: "Italy"
+        code: "FCO",
+        name: "Rome Fiumicino",
+        city: "Rome"
     },
 
     LEBL: {
-        city: "Barcelona",
-        name: "El Prat",
-        country: "Spain"
+        code: "BCN",
+        name: "Barcelona",
+        city: "Barcelona"
     },
 
     LKPR: {
-        city: "Prague",
-        name: "Václav Havel",
-        country: "Czechia"
-    },
-
-    EGLL: {
-        city: "London",
-        name: "Heathrow",
-        country: "United Kingdom"
-    },
-
-    EDDF: {
-        city: "Frankfurt",
-        name: "Frankfurt Airport",
-        country: "Germany"
+        code: "PRG",
+        name: "Prague",
+        city: "Prague"
     },
 
     EHAM: {
-        city: "Amsterdam",
-        name: "Schiphol",
-        country: "Netherlands"
+        code: "AMS",
+        name: "Amsterdam",
+        city: "Amsterdam"
+    },
+
+    EDDF: {
+        code: "FRA",
+        name: "Frankfurt",
+        city: "Frankfurt"
+    },
+
+    LOWW: {
+        code: "VIE",
+        name: "Vienna",
+        city: "Vienna"
     },
 
     LGKR: {
-        city: "Corfu",
-        name: "Ioannis Kapodistrias",
-        country: "Greece"
+        code: "CFU",
+        name: "Corfu",
+        city: "Corfu"
     },
 
     LGAV: {
-        city: "Athens",
-        name: "Eleftherios Venizelos",
-        country: "Greece"
+        code: "ATH",
+        name: "Athens",
+        city: "Athens"
     },
 
-    WSSS: {
-        city: "Singapore",
-        name: "Changi",
-        country: "Singapore"
+    LIRN: {
+        code: "NAP",
+        name: "Naples",
+        city: "Naples"
+    },
+
+    LIMC: {
+        code: "MXP",
+        name: "Milan",
+        city: "Milan"
+    },
+
+    LFPG: {
+        code: "CDG",
+        name: "Paris",
+        city: "Paris"
+    },
+
+    EGLL: {
+        code: "LHR",
+        name: "London",
+        city: "London"
     },
 
     KJFK: {
-        city: "New York",
-        name: "John F. Kennedy",
-        country: "United States"
+        code: "JFK",
+        name: "New York",
+        city: "New York"
+    },
+
+    WSSS: {
+        code: "SIN",
+        name: "Singapore",
+        city: "Singapore"
     }
 
 };
 
 
 /* =========================================================
+   FLIGHT DATABASE
+========================================================= */
+
+const flightDatabase = [
+
+    {
+        from: "EHAM",
+        to: "LIRF",
+        flights: [
+            ["ECV201", "07:20", "09:35", "2h 15m", "A320", 129],
+            ["ECV203", "11:45", "14:00", "2h 15m", "A21N", 145],
+            ["ECV205", "16:30", "18:45", "2h 15m", "A320", 139],
+            ["ECV207", "20:10", "22:25", "2h 15m", "B737-800", 125]
+        ]
+    },
+
+    {
+        from: "LIRF",
+        to: "EHAM",
+        flights: [
+            ["ECV202", "08:15", "10:35", "2h 20m", "A320", 132],
+            ["ECV204", "12:30", "14:50", "2h 20m", "A21N", 148],
+            ["ECV206", "17:15", "19:35", "2h 20m", "A320", 142],
+            ["ECV208", "21:00", "23:20", "2h 20m", "B737-800", 128]
+        ]
+    },
+
+    {
+        from: "LEBL",
+        to: "LIRF",
+        flights: [
+            ["ECV301", "06:50", "08:40", "1h 50m", "A319", 99],
+            ["ECV303", "10:25", "12:15", "1h 50m", "A320", 109],
+            ["ECV305", "14:40", "16:30", "1h 50m", "A21N", 115],
+            ["ECV307", "19:20", "21:10", "1h 50m", "A320", 105]
+        ]
+    },
+
+    {
+        from: "LIRF",
+        to: "LEBL",
+        flights: [
+            ["ECV302", "08:10", "10:05", "1h 55m", "A319", 101],
+            ["ECV304", "11:50", "13:45", "1h 55m", "A320", 111],
+            ["ECV306", "15:25", "17:20", "1h 55m", "A21N", 117],
+            ["ECV308", "20:10", "22:05", "1h 55m", "A320", 107]
+        ]
+    },
+
+    {
+        from: "LIRF",
+        to: "LKPR",
+        flights: [
+            ["ECV401", "07:15", "08:55", "1h 40m", "A320", 105],
+            ["ECV403", "13:20", "15:00", "1h 40m", "A319", 98],
+            ["ECV405", "18:45", "20:25", "1h 40m", "A21N", 112]
+        ]
+    },
+
+    {
+        from: "LKPR",
+        to: "LIRF",
+        flights: [
+            ["ECV402", "09:45", "11:25", "1h 40m", "A320", 108],
+            ["ECV404", "15:55", "17:35", "1h 40m", "A319", 101],
+            ["ECV406", "21:15", "22:55", "1h 40m", "A21N", 115]
+        ]
+    },
+
+    {
+        from: "EHAM",
+        to: "LEBL",
+        flights: [
+            ["ECV501", "06:40", "08:55", "2h 15m", "A320", 119],
+            ["ECV503", "12:15", "14:30", "2h 15m", "A21N", 129],
+            ["ECV505", "17:50", "20:05", "2h 15m", "A320", 124]
+        ]
+    },
+
+    {
+        from: "LEBL",
+        to: "EHAM",
+        flights: [
+            ["ECV502", "09:40", "12:00", "2h 20m", "A320", 122],
+            ["ECV504", "15:15", "17:35", "2h 20m", "A21N", 132],
+            ["ECV506", "20:50", "23:10", "2h 20m", "A320", 127]
+        ]
+    },
+
+    {
+        from: "LGAV",
+        to: "LIRF",
+        flights: [
+            ["ECV601", "07:00", "08:50", "1h 50m", "A320", 115],
+            ["ECV603", "12:40", "14:30", "1h 50m", "A21N", 125],
+            ["ECV605", "18:10", "20:00", "1h 50m", "A320", 119]
+        ]
+    },
+
+    {
+        from: "LIRF",
+        to: "LGAV",
+        flights: [
+            ["ECV602", "09:40", "11:30", "1h 50m", "A320", 118],
+            ["ECV604", "15:20", "17:10", "1h 50m", "A21N", 128],
+            ["ECV606", "20:50", "22:40", "1h 50m", "A320", 122]
+        ]
+    },
+
+    {
+        from: "LIRF",
+        to: "LGKR",
+        flights: [
+            ["ECV701", "08:00", "09:20", "1h 20m", "A319", 89],
+            ["ECV703", "13:45", "15:05", "1h 20m", "A320", 95],
+            ["ECV705", "18:30", "19:50", "1h 20m", "A21N", 102]
+        ]
+    },
+
+    {
+        from: "LGKR",
+        to: "LIRF",
+        flights: [
+            ["ECV702", "10:10", "11:30", "1h 20m", "A319", 92],
+            ["ECV704", "15:55", "17:15", "1h 20m", "A320", 98],
+            ["ECV706", "20:40", "22:00", "1h 20m", "A21N", 105]
+        ]
+    },
+
+    {
+        from: "EHAM",
+        to: "LFPG",
+        flights: [
+            ["ECV801", "07:15", "08:40", "1h 25m", "A320", 99],
+            ["ECV803", "12:20", "13:45", "1h 25m", "A319", 95],
+            ["ECV805", "18:15", "19:40", "1h 25m", "A21N", 108]
+        ]
+    },
+
+    {
+        from: "LFPG",
+        to: "EHAM",
+        flights: [
+            ["ECV802", "09:30", "10:55", "1h 25m", "A320", 102],
+            ["ECV804", "15:00", "16:25", "1h 25m", "A319", 98],
+            ["ECV806", "20:30", "21:55", "1h 25m", "A21N", 111]
+        ]
+    },
+
+    {
+        from: "EGLL",
+        to: "EHAM",
+        flights: [
+            ["ECV901", "06:55", "09:15", "1h 20m", "A320", 109],
+            ["ECV903", "12:10", "14:30", "1h 20m", "A21N", 119],
+            ["ECV905", "18:40", "21:00", "1h 20m", "A320", 114]
+        ]
+    },
+
+    {
+        from: "EHAM",
+        to: "EGLL",
+        flights: [
+            ["ECV902", "09:50", "10:10", "1h 20m", "A320", 112],
+            ["ECV904", "15:25", "15:45", "1h 20m", "A21N", 122],
+            ["ECV906", "21:45", "22:05", "1h 20m", "A320", 117]
+        ]
+    },
+
+    {
+        from: "KJFK",
+        to: "EHAM",
+        flights: [
+            ["ECV1001", "17:30", "06:20", "7h 50m", "A350-900", 499],
+            ["ECV1003", "21:15", "10:05", "7h 50m", "A350-900", 529]
+        ]
+    },
+
+    {
+        from: "EHAM",
+        to: "KJFK",
+        flights: [
+            ["ECV1002", "11:20", "13:55", "8h 35m", "A350-900", 519],
+            ["ECV1004", "15:40", "18:15", "8h 35m", "A350-900", 549]
+        ]
+    },
+
+    {
+        from: "WSSS",
+        to: "KJFK",
+        flights: [
+            ["ECV1101", "10:30", "17:20", "17h 50m", "A350-900", 899],
+            ["ECV1103", "23:15", "06:05", "17h 50m", "A350-900", 949]
+        ]
+    }
+
+];
+
+
+/* =========================================================
    STATE
 ========================================================= */
 
+let tripType = "roundtrip";
+
 let selectedFlight = null;
 
-let currentBooking = null;
+let selectedSeat = null;
 
-let generatedFlights = [];
+let selectedCabin = "Economy";
+
+let bookingReference = null;
 
 
 /* =========================================================
@@ -3452,71 +3816,41 @@ tomorrow.setDate(today.getDate() + 1);
 
 const dayAfter = new Date(today);
 
-dayAfter.setDate(today.getDate() + 2);
+dayAfter.setDate(today.getDate() + 8);
+
+document.getElementById("departureDate").value =
+    formatDateInput(tomorrow);
+
+document.getElementById("returnDate").value =
+    formatDateInput(dayAfter);
+
+document.getElementById("departureDate").min =
+    formatDateInput(today);
+
+document.getElementById("returnDate").min =
+    formatDateInput(tomorrow);
 
 
-function dateInputValue(date) {
+/* =========================================================
+   DATE FUNCTIONS
+========================================================= */
+
+function formatDateInput(date) {
 
     return date.toISOString().split("T")[0];
 
 }
 
-document.getElementById("departureDate").value =
-    dateInputValue(tomorrow);
+function formatDateReadable(dateString) {
 
-document.getElementById("returnDate").value =
-    dateInputValue(dayAfter);
+    if (!dateString) return "---";
 
-document.getElementById("departureDate").min =
-    dateInputValue(today);
-
-document.getElementById("returnDate").min =
-    dateInputValue(tomorrow);
-
-
-/* =========================================================
-   TRIP TYPE
-========================================================= */
-
-document.querySelectorAll(
-    'input[name="tripType"]'
-).forEach(input => {
-
-    input.addEventListener("change", () => {
-
-        const returnField =
-            document.getElementById("returnDateField");
-
-        if (input.value === "oneway") {
-
-            returnField.classList.add("hidden");
-
-        } else {
-
-            returnField.classList.remove("hidden");
-
-        }
-
-    });
-
-});
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function formatDate(dateString) {
-
-    if (!dateString) return "—";
-
-    const date = new Date(dateString + "T12:00:00");
+    const date = new Date(dateString + "T00:00:00");
 
     return date.toLocaleDateString(
         "en-GB",
         {
-            weekday: "short",
-            day: "numeric",
+            day: "2-digit",
             month: "short",
             year: "numeric"
         }
@@ -3525,38 +3859,40 @@ function formatDate(dateString) {
 }
 
 
-function randomItem(array) {
+/* =========================================================
+   TRIP TYPE
+========================================================= */
 
-    return array[
-        Math.floor(
-            Math.random() * array.length
-        )
-    ];
+function setTripType(type) {
 
-}
+    tripType = type;
 
+    const roundButton =
+        document.getElementById("roundTripButton");
 
-function formatPrice(value) {
+    const oneButton =
+        document.getElementById("oneWayButton");
 
-    return "€" + value.toFixed(2);
+    const returnField =
+        document.getElementById("returnField");
 
-}
+    if (type === "roundtrip") {
 
+        roundButton.classList.add("active");
 
-function showToast(message) {
+        oneButton.classList.remove("active");
 
-    const toast =
-        document.getElementById("toast");
+        returnField.style.display = "block";
 
-    toast.textContent = message;
+    } else {
 
-    toast.classList.add("show");
+        oneButton.classList.add("active");
 
-    setTimeout(() => {
+        roundButton.classList.remove("active");
 
-        toast.classList.remove("show");
+        returnField.style.display = "none";
 
-    }, 3500);
+    }
 
 }
 
@@ -3567,19 +3903,19 @@ function showToast(message) {
 
 function searchFlights() {
 
-    const origin =
-        document.getElementById("origin").value;
+    const from =
+        document.getElementById("from").value;
 
-    const destination =
-        document.getElementById("destination").value;
+    const to =
+        document.getElementById("to").value;
 
     const departure =
         document.getElementById("departureDate").value;
 
-    if (origin === destination) {
+    if (from === to) {
 
         showToast(
-            "Please choose a different departure and destination airport."
+            "Departure and destination cannot be the same."
         );
 
         return;
@@ -3596,331 +3932,187 @@ function searchFlights() {
 
     }
 
-    const results =
-        document.getElementById("flightResults");
-
-    results.innerHTML = `
-
-        <div class="loading">
-
-            <div class="spinner"></div>
-
-            <strong>
-                Searching Echo Air Group flights...
-            </strong>
-
-            <p style="color:#737c70;font-size:13px">
-                Checking available virtual schedules.
-            </p>
-
-        </div>
-
-    `;
-
-
-    setTimeout(() => {
-
-        generateFlights();
-
-    }, 700);
-
-}
-
-
-/* =========================================================
-   GENERATE REAL DIFFERENT ROUTES
-========================================================= */
-
-function generateFlights() {
-
-    const origin =
-        document.getElementById("origin").value;
-
-    const destination =
-        document.getElementById("destination").value;
-
-    const departure =
-        document.getElementById("departureDate").value;
-
-    const cabin =
-        document.getElementById("cabin").value;
-
-    const passengers =
-        parseInt(
-            document.getElementById("passengers").value
+    const route =
+        flightDatabase.find(
+            item =>
+                item.from === from &&
+                item.to === to
         );
 
 
-    const aircraftPool = [
-
-        {
-            type: "Airbus A320",
-            code: "A320",
-            base: 109
-        },
-
-        {
-            type: "Airbus A321neo",
-            code: "A21N",
-            base: 129
-        },
-
-        {
-            type: "Airbus A319",
-            code: "A319",
-            base: 99
-        },
-
-        {
-            type: "Boeing 737-800",
-            code: "B738",
-            base: 119
-        },
-
-        {
-            type: "Boeing 737 MAX 8",
-            code: "B38M",
-            base: 125
-        },
-
-        {
-            type: "Embraer E190",
-            code: "E190",
-            base: 89
-        }
-
-    ];
-
-
-    const times = [
-
-        ["06:20","08:35"],
-        ["08:15","10:30"],
-        ["10:45","13:00"],
-        ["13:20","15:35"],
-        ["16:10","18:25"],
-        ["18:40","20:55"],
-        ["21:15","23:30"]
-
-    ];
-
-
-    const routes = [];
-
-    for (let i = 0; i < 5; i++) {
-
-        const aircraft =
-            aircraftPool[i];
-
-        const time =
-            times[i + 1];
-
-        let multiplier = 1;
-
-        if (cabin === "premium") {
-
-            multiplier = 1.45;
-
-        }
-
-        if (cabin === "business") {
-
-            multiplier = 2.15;
-
-        }
-
-
-        const price =
-            Math.round(
-                aircraft.base *
-                multiplier *
-                (0.90 + Math.random() * 0.25)
-            );
-
-
-        routes.push({
-
-            flight:
-                "ECV" +
-                String(
-                    Math.floor(
-                        100 +
-                        Math.random() * 899
-                    )
-                ),
-
-            origin,
-
-            destination,
-
-            date: departure,
-
-            departureTime: time[0],
-
-            arrivalTime: time[1],
-
-            aircraft: aircraft.type,
-
-            aircraftCode: aircraft.code,
-
-            price,
-
-            duration:
-                randomItem([
-                    "2h 15m",
-                    "2h 25m",
-                    "2h 40m",
-                    "2h 55m",
-                    "3h 10m"
-                ]),
-
-            gate:
-                randomItem([
-                    "A12",
-                    "A18",
-                    "B04",
-                    "B17",
-                    "C06",
-                    "C21"
-                ])
-
-        });
-
-    }
-
-
-    generatedFlights = routes;
-
-    renderFlights(routes);
-
-    updateSummaryBase();
-
-}
-
-
-/* =========================================================
-   RENDER FLIGHTS
-========================================================= */
-
-function renderFlights(flights) {
-
-    const container =
+    const results =
         document.getElementById("flightResults");
 
-    const count =
-        document.getElementById("resultsCount");
-
-    count.textContent =
-        `${flights.length} flights available`;
+    results.innerHTML = "";
 
 
-    container.innerHTML = "";
+    if (!route) {
 
+        results.innerHTML = `
 
-    flights.forEach((flight, index) => {
+            <div class="empty">
 
-        const card =
-            document.createElement("div");
+                <strong>
+                No scheduled Echo Air Group flights
+                </strong>
 
-        card.className =
-            "flight-result";
+                <br><br>
 
+                We currently don't have a published
+                schedule for this route.
 
-        card.innerHTML = `
+                <br>
 
-            <div class="flight-top">
-
-                <div>
-
-                    <div class="flight-number">
-                        ${flight.flight}
-                    </div>
-
-                    <div class="flight-aircraft">
-                        ${flight.aircraft}
-                    </div>
-
-                </div>
-
-                <div class="flight-price">
-
-                    ${formatPrice(flight.price)}
-
-                    <small>
-                        per passenger
-                    </small>
-
-                </div>
+                Try another airport combination.
 
             </div>
-
-
-            <div class="flight-route">
-
-                <div>
-
-                    <div class="flight-time">
-                        ${flight.departureTime}
-                    </div>
-
-                    <div class="flight-airport">
-                        ${flight.origin}
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <div class="flight-duration">
-                        ${flight.duration}
-                    </div>
-
-                    <div class="flight-line"></div>
-
-                </div>
-
-
-                <div style="text-align:right">
-
-                    <div class="flight-time">
-                        ${flight.arrivalTime}
-                    </div>
-
-                    <div class="flight-airport">
-                        ${flight.destination}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <button
-                class="select-flight"
-                type="button"
-            >
-                SELECT FLIGHT
-            </button>
 
         `;
 
+    } else {
 
-        card.addEventListener(
-            "click",
-            () => {
+        route.flights.forEach(
+            (flight, index) => {
 
-                selectFlight(
-                    flight,
-                    card
-                );
+                const [
+                    number,
+                    departureTime,
+                    arrivalTime,
+                    duration,
+                    aircraft,
+                    price
+                ] = flight;
+
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "flight-card";
+
+
+                card.innerHTML = `
+
+                    <div class="airline-info">
+
+                        <div class="airline-logo">
+                            EAG
+                        </div>
+
+                        <div>
+
+                            <div class="flight-number">
+                                Echo Air Group
+                            </div>
+
+                            <div class="aircraft">
+                                ${number} · ${aircraft}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="time">
+                            ${departureTime}
+                        </div>
+
+                        <div class="airport">
+                            ${airports[from].code}
+                            ·
+                            ${airports[from].city}
+                        </div>
+
+                    </div>
+
+
+                    <div class="duration">
+
+                        <div class="duration-line">
+                            ${duration}
+                        </div>
+
+                        <div class="nonstop">
+                            Non-stop
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="time">
+                            ${arrivalTime}
+                        </div>
+
+                        <div class="airport">
+                            ${airports[to].code}
+                            ·
+                            ${airports[to].city}
+                        </div>
+
+                    </div>
+
+
+                    <div class="price">
+
+                        <strong>
+                            €${price}
+                        </strong>
+
+                        <span>
+                            per passenger
+                        </span>
+
+                        <br>
+
+                        <button
+                            class="select-flight"
+                            onclick="selectFlight(
+                                '${number}',
+                                '${departureTime}',
+                                '${arrivalTime}',
+                                '${duration}',
+                                '${aircraft}',
+                                ${price},
+                                '${from}',
+                                '${to}'
+                            )"
+                        >
+                            Select
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                results.appendChild(card);
 
             }
         );
 
+    }
 
-        container.appendChild(card);
 
+    document.getElementById(
+        "flightSection"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "bookingWorkspace"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "flightSection"
+    ).scrollIntoView({
+        behavior: "smooth",
+        block: "start"
     });
 
 }
@@ -3930,34 +4122,720 @@ function renderFlights(flights) {
    SELECT FLIGHT
 ========================================================= */
 
-function selectFlight(flight, element) {
+function selectFlight(
+    number,
+    departure,
+    arrival,
+    duration,
+    aircraft,
+    price,
+    from,
+    to
+) {
 
-    document.querySelectorAll(
-        ".flight-result"
-    ).forEach(card => {
+    selectedFlight = {
 
-        card.classList.remove("selected");
+        number,
+        departure,
+        arrival,
+        duration,
+        aircraft,
+        price,
+        from,
+        to,
 
-    });
+        date:
+            document.getElementById(
+                "departureDate"
+            ).value
+
+    };
 
 
-    element.classList.add("selected");
+    selectedSeat = null;
 
-
-    selectedFlight = flight;
-
-
-    document.getElementById(
-        "summaryContinue"
-    ).disabled = false;
+    selectedCabin = "Economy";
 
 
     updateSummary();
 
+    updateSelectedFlightDetails();
 
-    showToast(
-        `${flight.flight} selected — ${airports[flight.origin].city} to ${airports[flight.destination].city}`
-    );
+    generateSeats();
+
+
+    document.getElementById(
+        "bookingWorkspace"
+    ).style.display = "grid";
+
+
+    document.getElementById(
+        "bookingWorkspace"
+    ).scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+
+    goStep(1);
+
+}
+
+
+/* =========================================================
+   SELECTED FLIGHT DETAILS
+========================================================= */
+
+function updateSelectedFlightDetails() {
+
+    if (!selectedFlight) return;
+
+    const from =
+        airports[selectedFlight.from];
+
+    const to =
+        airports[selectedFlight.to];
+
+
+    document.getElementById(
+        "selectedFlightDetails"
+    ).innerHTML = `
+
+        <div
+            style="
+                background:#f7f9f6;
+                border:1px solid #e0e6dc;
+                border-radius:12px;
+                padding:20px;
+            "
+        >
+
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    gap:20px;
+                    flex-wrap:wrap;
+                "
+            >
+
+                <div>
+
+                    <small
+                        style="
+                            color:#7b8578;
+                            font-weight:800;
+                        "
+                    >
+                        ${selectedFlight.number}
+                    </small>
+
+                    <h3 style="margin:7px 0">
+                        ${from.city}
+                        →
+                        ${to.city}
+                    </h3>
+
+                    <div
+                        style="
+                            color:#687267;
+                            font-size:13px;
+                        "
+                    >
+                        ${formatDateReadable(
+                            selectedFlight.date
+                        )}
+                        ·
+                        ${selectedFlight.aircraft}
+                    </div>
+
+                </div>
+
+
+                <div
+                    style="
+                        display:flex;
+                        gap:25px;
+                        align-items:center;
+                    "
+                >
+
+                    <div>
+
+                        <strong
+                            style="
+                                font-size:25px;
+                            "
+                        >
+                            ${selectedFlight.departure}
+                        </strong>
+
+                        <small
+                            style="
+                                display:block;
+                                color:#758073;
+                            "
+                        >
+                            ${from.code}
+                        </small>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            color:#9aa397;
+                        "
+                    >
+                        ─── ✈ ───
+                    </div>
+
+
+                    <div>
+
+                        <strong
+                            style="
+                                font-size:25px;
+                            "
+                        >
+                            ${selectedFlight.arrival}
+                        </strong>
+
+                        <small
+                            style="
+                                display:block;
+                                color:#758073;
+                            "
+                        >
+                            ${to.code}
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   CHANGE FLIGHT
+========================================================= */
+
+function changeFlight() {
+
+    document.getElementById(
+        "flightSection"
+    ).scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   CABIN
+========================================================= */
+
+function selectCabin(cabin) {
+
+    selectedCabin = cabin;
+
+    selectedSeat = null;
+
+
+    document
+        .querySelectorAll(".cabin")
+        .forEach(
+            button =>
+                button.classList.remove(
+                    "selected"
+                )
+        );
+
+
+    if (cabin === "Economy") {
+
+        document
+            .getElementById("economyCabin")
+            .classList.add("selected");
+
+    }
+
+    if (cabin === "Premium Economy") {
+
+        document
+            .getElementById("premiumCabin")
+            .classList.add("selected");
+
+    }
+
+    if (cabin === "Business") {
+
+        document
+            .getElementById("businessCabin")
+            .classList.add("selected");
+
+    }
+
+
+    generateSeats();
+
+    calculateTotal();
+
+    updateSummary();
+
+}
+
+
+/* =========================================================
+   GENERATE SEAT MAP
+========================================================= */
+
+function generateSeats() {
+
+    const grid =
+        document.getElementById("seatGrid");
+
+    grid.innerHTML = "";
+
+
+    let rows = 24;
+
+
+    for (
+        let row = 1;
+        row <= rows;
+        row++
+    ) {
+
+
+        const seats =
+            ["A","B","C"];
+
+
+        seats.forEach(
+            letter =>
+                createSeat(
+                    row,
+                    letter,
+                    grid
+                )
+        );
+
+
+        const aisle =
+            document.createElement("div");
+
+        aisle.className = "aisle";
+
+        grid.appendChild(aisle);
+
+
+        ["D","E","F"].forEach(
+            letter =>
+                createSeat(
+                    row,
+                    letter,
+                    grid
+                )
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CREATE SEAT
+========================================================= */
+
+function createSeat(
+    row,
+    letter,
+    grid
+) {
+
+    const button =
+        document.createElement("button");
+
+    const seat =
+        `${row}${letter}`;
+
+    button.className =
+        "seat";
+
+
+    if (
+        selectedCabin === "Premium Economy" &&
+        row > 6
+    ) {
+
+        button.classList.add("blocked");
+
+        button.disabled = true;
+
+    }
+
+
+    if (
+        selectedCabin === "Business" &&
+        row > 4
+    ) {
+
+        button.classList.add("blocked");
+
+        button.disabled = true;
+
+    }
+
+
+    if (
+        selectedCabin === "Economy" &&
+        row <= 4
+    ) {
+
+        button.classList.add("blocked");
+
+        button.disabled = true;
+
+    }
+
+
+    if (
+        selectedCabin === "Premium Economy" &&
+        row >= 5 &&
+        row <= 6
+    ) {
+
+        button.classList.add("premium");
+
+    }
+
+
+    /*
+       Deterministic occupied seats.
+       This means the seat map changes depending
+       on the flight rather than always looking identical.
+    */
+
+    let occupied =
+        false;
+
+
+    if (selectedFlight) {
+
+        const code =
+            selectedFlight.number
+                .replace("ECV","");
+
+
+        const numeric =
+            parseInt(code);
+
+
+        occupied =
+            (
+                row * 7 +
+                letter.charCodeAt(0) +
+                numeric
+            ) % 11 === 0;
+
+    }
+
+
+    if (occupied) {
+
+        button.classList.add(
+            "occupied"
+        );
+
+        button.disabled = true;
+
+    }
+
+
+    button.textContent = seat;
+
+
+    button.onclick =
+        function() {
+
+            document
+                .querySelectorAll(".seat.selected")
+                .forEach(
+                    s =>
+                        s.classList.remove(
+                            "selected"
+                        )
+                );
+
+
+            button.classList.add(
+                "selected"
+            );
+
+
+            selectedSeat = seat;
+
+
+            updateSummary();
+
+        };
+
+
+    grid.appendChild(button);
+
+}
+
+
+/* =========================================================
+   VALIDATE SEAT
+========================================================= */
+
+function validateSeat() {
+
+    if (!selectedSeat) {
+
+        showToast(
+            "Please select a seat first."
+        );
+
+        return;
+
+    }
+
+    goStep(3);
+
+}
+
+
+/* =========================================================
+   VALIDATE PASSENGER
+========================================================= */
+
+function validatePassenger() {
+
+    const first =
+        document.getElementById(
+            "firstName"
+        ).value.trim();
+
+    const last =
+        document.getElementById(
+            "lastName"
+        ).value.trim();
+
+    const dob =
+        document.getElementById(
+            "dob"
+        ).value;
+
+    const nationality =
+        document.getElementById(
+            "nationality"
+        ).value;
+
+    const email =
+        document.getElementById(
+            "email"
+        ).value.trim();
+
+
+    if (
+        !first ||
+        !last ||
+        !dob ||
+        !nationality ||
+        !email
+    ) {
+
+        showToast(
+            "Please complete all required passenger fields."
+        );
+
+        return;
+
+    }
+
+
+    updateSummary();
+
+    goStep(4);
+
+}
+
+
+/* =========================================================
+   STEP NAVIGATION
+========================================================= */
+
+function goStep(step) {
+
+    document
+        .querySelectorAll(".panel")
+        .forEach(
+            panel =>
+                panel.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const target =
+        document.getElementById(
+            "panel" + step
+        );
+
+
+    if (target) {
+
+        target.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(".step")
+        .forEach(
+            indicator =>
+                indicator.classList.remove(
+                    "active"
+                )
+        );
+
+
+    const indicator =
+        document.getElementById(
+            "stepIndicator" + step
+        );
+
+
+    if (indicator) {
+
+        indicator.classList.add(
+            "active"
+        );
+
+    }
+
+
+    updateSummary();
+
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+function calculateTotal() {
+
+    if (!selectedFlight) return;
+
+
+    let price =
+        selectedFlight.price;
+
+
+    const passengerCount =
+        parseInt(
+            document.getElementById(
+                "passengers"
+            ).value
+        );
+
+
+    price *= passengerCount;
+
+
+    if (
+        selectedCabin ===
+        "Premium Economy"
+    ) {
+
+        price +=
+            35 * passengerCount;
+
+    }
+
+
+    if (
+        selectedCabin ===
+        "Business"
+    ) {
+
+        price +=
+            120 * passengerCount;
+
+    }
+
+
+    if (
+        document.getElementById(
+            "bagExtra"
+        ).checked
+    ) {
+
+        price +=
+            35 * passengerCount;
+
+    }
+
+
+    if (
+        document.getElementById(
+            "mealExtra"
+        ).checked
+    ) {
+
+        price +=
+            18 * passengerCount;
+
+    }
+
+
+    if (
+        document.getElementById(
+            "wifiExtra"
+        ).checked
+    ) {
+
+        price +=
+            9 * passengerCount;
+
+    }
+
+
+    if (
+        document.getElementById(
+            "insuranceExtra"
+        ).checked
+    ) {
+
+        price +=
+            15 * passengerCount;
+
+    }
+
+
+    document.getElementById(
+        "summaryTotal"
+    ).textContent =
+        "€" +
+        price.toLocaleString(
+            "en-US"
+        );
+
+
+    return price;
 
 }
 
@@ -3966,341 +4844,102 @@ function selectFlight(flight, element) {
    SUMMARY
 ========================================================= */
 
-function updateSummaryBase() {
-
-    const origin =
-        document.getElementById("origin").value;
-
-    const destination =
-        document.getElementById("destination").value;
-
-
-    document.getElementById(
-        "summaryOrigin"
-    ).textContent = origin;
-
-
-    document.getElementById(
-        "summaryDestination"
-    ).textContent = destination;
-
-
-    document.getElementById(
-        "summaryOriginCity"
-    ).textContent =
-        airports[origin].city;
-
-
-    document.getElementById(
-        "summaryDestinationCity"
-    ).textContent =
-        airports[destination].city;
-
-}
-
-
 function updateSummary() {
 
-    if (!selectedFlight) {
-
-        updateSummaryBase();
-
-        return;
-
-    }
+    if (!selectedFlight) return;
 
 
-    const passengers =
-        parseInt(
-            document.getElementById("passengers").value
-        );
+    const from =
+        airports[selectedFlight.from];
 
-
-    const cabin =
-        document.getElementById("cabin").value;
-
-
-    let cabinName = "Economy";
-
-    if (cabin === "premium") {
-
-        cabinName =
-            "Premium Economy";
-
-    }
-
-    if (cabin === "business") {
-
-        cabinName =
-            "Business";
-
-    }
-
-
-    const base =
-        selectedFlight.price *
-        passengers;
+    const to =
+        airports[selectedFlight.to];
 
 
     document.getElementById(
-        "summaryOrigin"
+        "summaryFrom"
     ).textContent =
-        selectedFlight.origin;
+        from.code;
 
 
     document.getElementById(
-        "summaryDestination"
+        "summaryFromName"
     ).textContent =
-        selectedFlight.destination;
+        from.city;
 
 
     document.getElementById(
-        "summaryOriginCity"
+        "summaryTo"
     ).textContent =
-        airports[selectedFlight.origin].city;
+        to.code;
 
 
     document.getElementById(
-        "summaryDestinationCity"
+        "summaryToName"
     ).textContent =
-        airports[selectedFlight.destination].city;
+        to.city;
 
 
     document.getElementById(
         "summaryFlight"
     ).textContent =
-        selectedFlight.flight;
+        selectedFlight.number;
 
 
     document.getElementById(
         "summaryDate"
     ).textContent =
-        formatDate(selectedFlight.date);
+        formatDateReadable(
+            selectedFlight.date
+        );
+
+
+    document.getElementById(
+        "summaryDeparture"
+    ).textContent =
+        selectedFlight.departure;
+
+
+    document.getElementById(
+        "summaryArrival"
+    ).textContent =
+        selectedFlight.arrival;
 
 
     document.getElementById(
         "summaryCabin"
     ).textContent =
-        cabinName;
+        selectedCabin;
 
 
     document.getElementById(
-        "summaryPassengers"
+        "summarySeat"
     ).textContent =
-        passengers;
+        selectedSeat ||
+        "Not selected";
+
+
+    const first =
+        document.getElementById(
+            "firstName"
+        ).value;
+
+
+    const last =
+        document.getElementById(
+            "lastName"
+        ).value;
 
 
     document.getElementById(
-        "summaryBase"
+        "summaryPassenger"
     ).textContent =
-        formatPrice(base);
+        first || last
+            ? `${first} ${last}`.trim()
+            : "Not entered";
 
 
-    updateTotal();
-
-}
-
-
-/* =========================================================
-   UPDATE TOTAL
-========================================================= */
-
-function updateTotal() {
-
-    if (!selectedFlight) return;
-
-
-    const passengers =
-        parseInt(
-            document.getElementById("passengers").value
-        );
-
-
-    const base =
-        selectedFlight.price *
-        passengers;
-
-
-    let extras = 0;
-
-
-    document.querySelectorAll(
-        ".addon-checkbox"
-    ).forEach(checkbox => {
-
-        if (checkbox.checked) {
-
-            extras +=
-                parseFloat(
-                    checkbox.dataset.price
-                );
-
-        }
-
-    });
-
-
-    const total =
-        base + extras;
-
-
-    document.getElementById(
-        "summaryExtras"
-    ).textContent =
-        formatPrice(extras);
-
-
-    document.getElementById(
-        "summaryTotal"
-    ).textContent =
-        formatPrice(total);
-
-}
-
-
-document.getElementById(
-    "passengers"
-).addEventListener(
-    "change",
-    updateSummary
-);
-
-
-document.getElementById(
-    "cabin"
-).addEventListener(
-    "change",
-    () => {
-
-        if (selectedFlight) {
-
-            updateSummary();
-
-        }
-
-    }
-);
-
-
-document.querySelectorAll(
-    ".addon-checkbox"
-).forEach(
-    checkbox => {
-
-        checkbox.addEventListener(
-            "change",
-            updateTotal
-        );
-
-    }
-);
-
-
-/* =========================================================
-   SHOW PASSENGER FORM
-========================================================= */
-
-function showPassengerForm() {
-
-    if (!selectedFlight) {
-
-        showToast(
-            "Please select a flight first."
-        );
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "passengerCard"
-    ).classList.remove("hidden");
-
-
-    document.getElementById(
-        "passengerCard"
-    ).scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-
-
-    document.getElementById(
-        "progress2"
-    ).classList.add("active");
-
-}
-
-
-/* =========================================================
-   CONTINUE TO PAYMENT
-========================================================= */
-
-function continueToPayment() {
-
-    const required = [
-
-        "passengerFirst",
-        "passengerLast",
-        "passengerEmail",
-        "passengerDob"
-
-    ];
-
-
-    for (const id of required) {
-
-        const element =
-            document.getElementById(id);
-
-
-        if (!element.value.trim()) {
-
-            element.focus();
-
-            showToast(
-                "Please complete all required passenger fields."
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    if (
-        !document.getElementById(
-            "passengerCountry"
-        ).value
-    ) {
-
-        showToast(
-            "Please select your nationality."
-        );
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "paymentCard"
-    ).classList.remove("hidden");
-
-
-    document.getElementById(
-        "paymentCard"
-    ).scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-
-
-    document.getElementById(
-        "progress3"
-    ).classList.add("active");
+    calculateTotal();
 
 }
 
@@ -4311,28 +4950,36 @@ function continueToPayment() {
 
 function completeBooking() {
 
-    const first =
+    const cardName =
         document.getElementById(
-            "passengerFirst"
+            "cardName"
+        ).value.trim();
+
+    const cardNumber =
+        document.getElementById(
+            "cardNumber"
+        ).value.trim();
+
+    const expiry =
+        document.getElementById(
+            "expiry"
+        ).value.trim();
+
+    const cvv =
+        document.getElementById(
+            "cvv"
         ).value.trim();
 
 
-    const last =
-        document.getElementById(
-            "passengerLast"
-        ).value.trim();
-
-
-    const email =
-        document.getElementById(
-            "passengerEmail"
-        ).value.trim();
-
-
-    if (!first || !last || !email) {
+    if (
+        !cardName ||
+        !cardNumber ||
+        !expiry ||
+        !cvv
+    ) {
 
         showToast(
-            "Please complete the passenger details."
+            "Please complete the payment fields."
         );
 
         return;
@@ -4340,93 +4987,65 @@ function completeBooking() {
     }
 
 
-    const reference =
+    bookingReference =
         generateBookingReference();
 
 
-    const seat =
-        generateSeat();
-
-
-    const boardingTime =
-        calculateBoardingTime(
-            selectedFlight.departureTime
-        );
-
-
-    currentBooking = {
-
-        reference,
-
-        passenger:
-            `${first} ${last}`,
-
-        email,
-
-        flight:
-            selectedFlight.flight,
-
-        origin:
-            selectedFlight.origin,
-
-        destination:
-            selectedFlight.destination,
-
-        date:
-            selectedFlight.date,
-
-        departureTime:
-            selectedFlight.departureTime,
-
-        arrivalTime:
-            selectedFlight.arrivalTime,
-
-        aircraft:
-            selectedFlight.aircraft,
-
-        cabin:
-            document.getElementById(
-                "cabin"
-            ).value,
-
-        gate:
-            selectedFlight.gate,
-
-        seat,
-
-        boardingTime,
-
-        total:
-            document.getElementById(
-                "summaryTotal"
-            ).textContent
-
-    };
-
-
-    fillBoardingPass();
+    generateBoardingPass();
 
 
     document.getElementById(
-        "bookingSystem"
+        "bookingWorkspace"
     ).style.display = "none";
 
 
     document.getElementById(
-        "confirmationSection"
-    ).classList.add("show");
+        "flightSection"
+    ).style.display = "none";
 
 
     document.getElementById(
-        "progress4"
+        "confirmation"
     ).classList.add("active");
 
 
     document.getElementById(
-        "confirmationSection"
+        "confirmation"
     ).scrollIntoView({
         behavior: "smooth"
     });
+
+
+    localStorage.setItem(
+        "echoAirLastBooking",
+        JSON.stringify({
+            reference:
+                bookingReference,
+
+            flight:
+                selectedFlight,
+
+            seat:
+                selectedSeat,
+
+            cabin:
+                selectedCabin,
+
+            passenger:
+                document.getElementById(
+                    "firstName"
+                ).value +
+                " " +
+                document.getElementById(
+                    "lastName"
+                ).value
+        })
+    );
+
+
+    showToast(
+        "Booking confirmed!"
+    );
 
 }
 
@@ -4437,41 +5056,27 @@ function completeBooking() {
 
 function generateBookingReference() {
 
-    const letters =
-        "ABCDEFGHJKLMNPQRSTUVWXYZ";
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-    const numbers =
-        "23456789";
+    let result =
+        "EAG";
 
-
-    let result = "";
-
-
-    for (let i = 0; i < 3; i++) {
+    for (
+        let i = 0;
+        i < 6;
+        i++
+    ) {
 
         result +=
-            letters[
+            chars[
                 Math.floor(
                     Math.random() *
-                    letters.length
+                    chars.length
                 )
             ];
 
     }
-
-
-    for (let i = 0; i < 3; i++) {
-
-        result +=
-            numbers[
-                Math.floor(
-                    Math.random() *
-                    numbers.length
-                )
-            ];
-
-    }
-
 
     return result;
 
@@ -4479,246 +5084,356 @@ function generateBookingReference() {
 
 
 /* =========================================================
-   SEAT
+   BOARDING PASS
 ========================================================= */
 
-function generateSeat() {
+function generateBoardingPass() {
 
-    const row =
-        Math.floor(
-            5 +
-            Math.random() * 27
+    const passenger =
+        (
+            document.getElementById(
+                "firstName"
+            ).value +
+            " " +
+            document.getElementById(
+                "lastName"
+            ).value
+        ).trim();
+
+
+    const from =
+        airports[selectedFlight.from];
+
+    const to =
+        airports[selectedFlight.to];
+
+
+    document.getElementById(
+        "passFrom"
+    ).textContent =
+        from.code;
+
+
+    document.getElementById(
+        "passFromName"
+    ).textContent =
+        from.city;
+
+
+    document.getElementById(
+        "passTo"
+    ).textContent =
+        to.code;
+
+
+    document.getElementById(
+        "passToName"
+    ).textContent =
+        to.city;
+
+
+    document.getElementById(
+        "passPassenger"
+    ).textContent =
+        passenger;
+
+
+    document.getElementById(
+        "passFlight"
+    ).textContent =
+        selectedFlight.number;
+
+
+    document.getElementById(
+        "passDate"
+    ).textContent =
+        formatDateReadable(
+            selectedFlight.date
         );
 
 
-    const letters =
-        ["A","B","C","D","E","F"];
+    document.getElementById(
+        "passDeparture"
+    ).textContent =
+        selectedFlight.departure;
 
 
-    return row +
-        randomItem(letters);
+    document.getElementById(
+        "passSeat"
+    ).textContent =
+        selectedSeat;
+
+
+    document.getElementById(
+        "passCabin"
+    ).textContent =
+        selectedCabin;
+
+
+    document.getElementById(
+        "passBooking"
+    ).textContent =
+        bookingReference;
+
+
+    /*
+       Create a QR code using the free QRServer
+       API. The QR contains the booking information.
+    */
+
+    const qrData =
+        JSON.stringify({
+
+            airline:
+                "Echo Air Group",
+
+            booking:
+                bookingReference,
+
+            flight:
+                selectedFlight.number,
+
+            from:
+                from.code,
+
+            to:
+                to.code,
+
+            date:
+                selectedFlight.date,
+
+            departure:
+                selectedFlight.departure,
+
+            seat:
+                selectedSeat,
+
+            cabin:
+                selectedCabin,
+
+            passenger:
+                passenger
+
+        });
+
+
+    const qr =
+        "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+        encodeURIComponent(qrData);
+
+
+    document.getElementById(
+        "qrCode"
+    ).src = qr;
 
 }
 
 
 /* =========================================================
-   BOARDING TIME
+   DOWNLOAD BOARDING PASS
 ========================================================= */
 
-function calculateBoardingTime(time) {
+function downloadBoardingPass() {
 
-    const parts =
-        time.split(":");
-
-
-    let hours =
-        parseInt(parts[0]);
-
-
-    let minutes =
-        parseInt(parts[1]);
-
-
-    minutes -= 35;
-
-
-    if (minutes < 0) {
-
-        minutes += 60;
-
-        hours--;
-
-    }
-
-
-    if (hours < 0) {
-
-        hours += 24;
-
-    }
-
-
-    return String(hours).padStart(2,"0")
-        + ":"
-        + String(minutes).padStart(2,"0");
-
-}
-
-
-/* =========================================================
-   FILL BOARDING PASS
-========================================================= */
-
-function fillBoardingPass() {
-
-    const b =
-        currentBooking;
-
-
-    document.getElementById(
-        "confirmationReference"
-    ).textContent =
-        b.reference;
-
-
-    document.getElementById(
-        "boardingOrigin"
-    ).textContent =
-        b.origin;
-
-
-    document.getElementById(
-        "boardingDestination"
-    ).textContent =
-        b.destination;
-
-
-    document.getElementById(
-        "boardingOriginName"
-    ).textContent =
-        airports[b.origin].city;
-
-
-    document.getElementById(
-        "boardingDestinationName"
-    ).textContent =
-        airports[b.destination].city;
-
-
-    document.getElementById(
-        "boardingPassenger"
-    ).textContent =
-        b.passenger;
-
-
-    document.getElementById(
-        "boardingFlight"
-    ).textContent =
-        b.flight;
-
-
-    document.getElementById(
-        "boardingDate"
-    ).textContent =
-        formatDate(b.date);
-
-
-    document.getElementById(
-        "boardingCabin"
-    ).textContent =
-        getCabinName(b.cabin);
-
-
-    document.getElementById(
-        "boardingTime"
-    ).textContent =
-        b.boardingTime;
-
-
-    document.getElementById(
-        "boardingGate"
-    ).textContent =
-        b.gate;
-
-
-    document.getElementById(
-        "boardingSeat"
-    ).textContent =
-        b.seat;
-
-
-    document.getElementById(
-        "boardingReference"
-    ).textContent =
-        b.reference;
-
-
-    generateQRCode();
-
-}
-
-
-/* =========================================================
-   CABIN NAME
-========================================================= */
-
-function getCabinName(cabin) {
-
-    if (cabin === "premium") {
-
-        return "Premium Economy";
-
-    }
-
-    if (cabin === "business") {
-
-        return "Business";
-
-    }
-
-    return "Economy";
-
-}
-
-
-/* =========================================================
-   QR CODE
-========================================================= */
-
-function generateQRCode() {
-
-    const container =
+    const pass =
         document.getElementById(
-            "qrcode"
+            "boardingPass"
         );
 
 
-    container.innerHTML = "";
+    const html = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Echo Air Group Boarding Pass</title>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7f2;
+    padding: 30px;
+}
+
+.pass {
+    max-width: 850px;
+    margin: auto;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.top {
+    background: #090d08;
+    color: white;
+    padding: 25px;
+    font-weight: bold;
+}
+
+.main {
+    padding: 30px;
+}
+
+.qr {
+    text-align: center;
+    padding: 25px;
+}
+
+.qr img {
+    width: 200px;
+}
+
+h1 {
+    font-size: 42px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="pass">
+
+<div class="top">
+ECHO AIR GROUP · BOARDING PASS
+</div>
+
+<div class="main">
+
+${pass.innerHTML}
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+`;
 
 
-    const qrData = JSON.stringify({
-
-        airline:
-            "Echo Air Group",
-
-        reference:
-            currentBooking.reference,
-
-        passenger:
-            currentBooking.passenger,
-
-        flight:
-            currentBooking.flight,
-
-        origin:
-            currentBooking.origin,
-
-        destination:
-            currentBooking.destination,
-
-        date:
-            currentBooking.date,
-
-        seat:
-            currentBooking.seat,
-
-        gate:
-            currentBooking.gate
-
-    });
+    const blob =
+        new Blob(
+            [html],
+            {
+                type:
+                    "text/html"
+            }
+        );
 
 
-    new QRCode(
-        container,
-        {
-            text: qrData,
-            width: 150,
-            height: 150,
-            colorDark: "#090d08",
-            colorLight: "#ffffff",
-            correctLevel:
-                QRCode.CorrectLevel.M
-        }
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+        `Echo-Air-Group-${bookingReference}.html`;
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+function printBoardingPass() {
+
+    const pass =
+        document.getElementById(
+            "boardingPass"
+        ).outerHTML;
+
+
+    const windowPrint =
+        window.open(
+            "",
+            "_blank"
+        );
+
+
+    windowPrint.document.write(`
+
+        <html>
+
+        <head>
+
+            <title>
+                Echo Air Group Boarding Pass
+            </title>
+
+            <style>
+
+                body {
+                    font-family: Arial;
+                    padding: 30px;
+                }
+
+                .boarding-pass {
+                    max-width: 850px;
+                    margin: auto;
+                    border: 1px solid #ddd;
+                    border-radius: 20px;
+                    overflow: hidden;
+                }
+
+                .pass-top {
+                    background: #090d08;
+                    color: white;
+                    padding: 25px;
+                }
+
+                .pass-main {
+                    padding: 25px;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            ${pass}
+
+        </body>
+
+        </html>
+
+    `);
+
+
+    windowPrint.document.close();
+
+    windowPrint.focus();
+
+    setTimeout(
+        () => {
+            windowPrint.print();
+            windowPrint.close();
+        },
+        500
     );
 
 }
@@ -4730,370 +5445,266 @@ function generateQRCode() {
 
 function addToGoogleWallet() {
 
+    /*
+       IMPORTANT:
+
+       Google Wallet requires a signed JWT
+       generated by a backend.
+
+       The frontend cannot safely contain
+       the Google service account private key.
+
+       This function is therefore ready to
+       connect to your backend.
+    */
+
+
     showToast(
-        "Google Wallet integration requires a Google Wallet API pass. The boarding pass data is ready for backend integration."
+        "Google Wallet integration needs the Echo Air Group backend."
     );
+
+
+    /*
+       Later you can replace the function above
+       with something like:
+
+       fetch("/api/google-wallet", {
+           method: "POST",
+           headers: {
+               "Content-Type":
+                   "application/json"
+           },
+           body: JSON.stringify({
+               booking:
+                   bookingReference
+           })
+       })
+       .then(res => res.json())
+       .then(data => {
+
+           window.location.href =
+               data.saveUrl;
+
+       });
+
+    */
 
 }
 
 
 /* =========================================================
-   SAVE BOARDING PASS
+   NEW BOOKING
 ========================================================= */
 
-function downloadBoardingPass() {
+function newBooking() {
 
-    if (!currentBooking) return;
-
-
-    const boardingPass =
-        document.querySelector(
-            ".boarding-pass"
-        );
-
-
-    const canvas =
-        document.createElement("canvas");
-
-
-    const width = 1000;
-    const height = 500;
-
-
-    canvas.width = width;
-    canvas.height = height;
-
-
-    const ctx =
-        canvas.getContext("2d");
-
-
-    ctx.fillStyle = "#ffffff";
-
-    ctx.fillRect(
-        0,
-        0,
-        width,
-        height
-    );
-
-
-    ctx.fillStyle = "#090d08";
-
-    ctx.fillRect(
-        0,
-        0,
-        width,
-        100
-    );
-
-
-    ctx.fillStyle = "#ace336";
-
-    ctx.font =
-        "bold 32px Arial";
-
-    ctx.fillText(
-        "ECHO AIR GROUP",
-        40,
-        62
-    );
-
-
-    ctx.fillStyle = "#20251f";
-
-    ctx.font =
-        "bold 55px Arial";
-
-
-    ctx.fillText(
-        currentBooking.origin,
-        40,
-        190
-    );
-
-
-    ctx.fillText(
-        currentBooking.destination,
-        600,
-        190
-    );
-
-
-    ctx.font =
-        "bold 22px Arial";
-
-
-    ctx.fillText(
-        currentBooking.passenger,
-        40,
-        270
-    );
-
-
-    ctx.fillText(
-        currentBooking.flight,
-        40,
-        315
-    );
-
-
-    ctx.fillText(
-        formatDate(
-            currentBooking.date
-        ),
-        40,
-        360
-    );
-
-
-    ctx.fillText(
-        "Seat " +
-        currentBooking.seat,
-        40,
-        405
-    );
-
-
-    ctx.fillText(
-        "Gate " +
-        currentBooking.gate,
-        300,
-        405
-    );
-
-
-    ctx.fillText(
-        currentBooking.reference,
-        300,
-        315
-    );
-
-
-    const link =
-        document.createElement("a");
-
-
-    link.download =
-        "Echo-Air-Group-Boarding-Pass-" +
-        currentBooking.reference +
-        ".png";
-
-
-    link.href =
-        canvas.toDataURL(
-            "image/png"
-        );
-
-
-    link.click();
+    location.reload();
 
 }
 
 
 /* =========================================================
-   HEADER SCROLL
+   TOAST
 ========================================================= */
 
-const header =
-    document.getElementById(
-        "siteHeader"
-    );
+function showToast(message) {
 
-
-function updateHeader() {
-
-    if (
-        window.scrollY > 20
-    ) {
-
-        header.classList.add(
-            "scrolled"
-        );
-
-    } else {
-
-        header.classList.remove(
-            "scrolled"
-        );
-
-    }
-
-}
-
-
-window.addEventListener(
-    "scroll",
-    updateHeader
-);
-
-
-updateHeader();
-
-
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-function toggleMenu() {
-
-    const mobileNav =
+    const toast =
         document.getElementById(
-            "mobileNav"
+            "toast"
         );
 
 
-    mobileNav.classList.toggle(
-        "open"
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        3000
     );
 
 }
 
 
 /* =========================================================
-   CARD NUMBER FORMATTING
+   PASSENGER LIVE UPDATE
 ========================================================= */
 
-document.getElementById(
-    "cardNumber"
-).addEventListener(
-    "input",
-    function() {
+[
+    "firstName",
+    "lastName",
+    "email",
+    "phone"
+].forEach(
+    id => {
 
-        let value =
-            this.value
-            .replace(/\D/g,"")
-            .substring(0,16);
-
-
-        value =
-            value.match(/.{1,4}/g);
-
-
-        this.value =
-            value
-            ? value.join(" ")
-            : "";
+        document
+            .getElementById(id)
+            .addEventListener(
+                "input",
+                updateSummary
+            );
 
     }
 );
 
 
 /* =========================================================
-   EXPIRY FORMATTING
+   PASSENGER COUNT
 ========================================================= */
 
-document.getElementById(
-    "cardExpiry"
-).addEventListener(
-    "input",
-    function() {
-
-        let value =
-            this.value
-            .replace(/\D/g,"")
-            .substring(0,4);
-
-
-        if (value.length >= 3) {
-
-            value =
-                value.substring(0,2)
-                + "/"
-                + value.substring(2);
-
-        }
-
-
-        this.value =
-            value;
-
-    }
-);
-
-
-/* =========================================================
-   ORIGIN / DESTINATION LIVE SUMMARY
-========================================================= */
-
-document.getElementById(
-    "origin"
-).addEventListener(
-    "change",
-    () => {
-
-        updateSummaryBase();
-
-    }
-);
-
-
-document.getElementById(
-    "destination"
-).addEventListener(
-    "change",
-    () => {
-
-        updateSummaryBase();
-
-    }
-);
+document
+    .getElementById(
+        "passengers"
+    )
+    .addEventListener(
+        "change",
+        calculateTotal
+    );
 
 
 /* =========================================================
    PREVENT SAME AIRPORT
 ========================================================= */
 
-document.getElementById(
-    "destination"
-).addEventListener(
-    "change",
-    function() {
+document
+    .getElementById("from")
+    .addEventListener(
+        "change",
+        function() {
 
-        const origin =
-            document.getElementById(
-                "origin"
-            ).value;
+            if (
+                this.value ===
+                document.getElementById(
+                    "to"
+                ).value
+            ) {
+
+                const options =
+                    document
+                        .getElementById(
+                            "to"
+                        )
+                        .options;
 
 
-        if (
-            this.value === origin
-        ) {
+                for (
+                    let i = 0;
+                    i < options.length;
+                    i++
+                ) {
 
-            showToast(
-                "Departure and destination cannot be the same."
-            );
+                    if (
+                        options[i].value !==
+                        this.value
+                    ) {
+
+                        document
+                            .getElementById(
+                                "to"
+                            )
+                            .value =
+                            options[i].value;
+
+                        break;
+
+                    }
+
+                }
+
+            }
 
         }
-
-    }
-);
+    );
 
 
 /* =========================================================
-   RETURN DATE VALIDATION
+   RETURN DATE
 ========================================================= */
 
-document.getElementById(
-    "departureDate"
-).addEventListener(
-    "change",
-    function() {
+document
+    .getElementById(
+        "departureDate"
+    )
+    .addEventListener(
+        "change",
+        function() {
 
-        document.getElementById(
-            "returnDate"
-        ).min =
-            this.value;
+            document
+                .getElementById(
+                    "returnDate"
+                )
+                .min =
+                this.value;
 
-    }
-);
+        }
+    );
 
 
 /* =========================================================
-   AUTO SEARCH SUMMARY
+   CARD NUMBER FORMAT
 ========================================================= */
 
-updateSummaryBase();
+document
+    .getElementById(
+        "cardNumber"
+    )
+    .addEventListener(
+        "input",
+        function() {
+
+            let value =
+                this.value
+                    .replace(
+                        /\D/g,
+                        ""
+                    )
+                    .substring(
+                        0,
+                        16
+                    );
+
+
+            this.value =
+                value.replace(
+                    /(.{4})/g,
+                    "$1 "
+                ).trim();
+
+        }
+    );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+function mobileMenu() {
+
+    showToast(
+        "Mobile navigation is available through your site header."
+    );
+
+}
+
+
+/* =========================================================
+   INITIAL TOTAL
+========================================================= */
+
+calculateTotal();
 
 </script>
 
