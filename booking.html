@@ -181,6 +181,118 @@ main{margin-top:-28px;position:relative;z-index:5}
   border-radius:12px;padding:14px;font-size:13px;line-height:1.5
 }
 
+
+.payment-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 350px;
+  gap:22px;
+}
+.payment-methods{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:4px 0 22px;
+}
+.payment-method{
+  border:1px solid #d7ded4;
+  background:#fff;
+  border-radius:12px;
+  padding:15px;
+  text-align:left;
+  font-weight:900;
+  color:#273024;
+  transition:.18s;
+}
+.payment-method:hover{border-color:#9dce38}
+.payment-method.active{
+  border-color:var(--green);
+  background:#f2f9e8;
+  box-shadow:0 0 0 3px rgba(172,227,54,.12);
+}
+.payment-method small{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:600;
+  margin-top:4px;
+}
+.payment-fields{
+  border-top:1px solid #e5eae2;
+  padding-top:20px;
+}
+.payment-fields .field{margin-bottom:15px}
+.card-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.payment-security{
+  display:flex;
+  gap:11px;
+  align-items:center;
+  margin-top:18px;
+  padding:13px 15px;
+  background:#f4f7f2;
+  border-radius:11px;
+  color:#596357;
+  font-size:12px;
+  line-height:1.45;
+}
+.payment-security strong{color:#263021}
+.payment-total{
+  height:max-content;
+  position:sticky;
+  top:98px;
+}
+.payment-total-price{
+  font-size:34px;
+  font-weight:950;
+  margin:8px 0 18px;
+}
+.pay-line{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:10px 0;
+  border-bottom:1px solid #edf0eb;
+  font-size:13px;
+}
+.pay-line:last-child{border-bottom:0}
+.payment-disclaimer{
+  margin-top:15px;
+  font-size:11px;
+  line-height:1.5;
+  color:#7a8377;
+}
+.payment-processing{
+  display:none;
+  margin-top:15px;
+  padding:13px 15px;
+  border-radius:11px;
+  background:#edf8df;
+  border:1px solid #cde6a7;
+  color:#4c6725;
+  font-size:13px;
+  font-weight:800;
+}
+.payment-processing.show{display:block}
+.confirm-payment{
+  margin:22px 0;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+@media(max-width:850px){
+  .payment-layout{grid-template-columns:1fr}
+  .payment-total{position:static}
+}
+@media(max-width:600px){
+  .payment-methods{grid-template-columns:1fr}
+  .card-row{grid-template-columns:1fr}
+}
+
 .confirm-wrap{padding-bottom:70px}
 .trip-card{margin-bottom:22px}
 .trip-grid{display:grid;grid-template-columns:repeat(6,1fr)}
@@ -331,7 +443,8 @@ main{margin-top:-28px;position:relative;z-index:5}
       <div class="progress-step" id="p3"><div class="progress-circle">3</div>Passenger</div>
       <div class="progress-step" id="p4"><div class="progress-circle">4</div>Seat</div>
       <div class="progress-step" id="p5"><div class="progress-circle">5</div>Extras</div>
-      <div class="progress-step" id="p6"><div class="progress-circle">6</div>Confirmation</div>
+      <div class="progress-step" id="p6"><div class="progress-circle">6</div>Payment</div>
+      <div class="progress-step" id="p7"><div class="progress-circle">7</div>Confirmation</div>
     </div>
     <h1 id="heroTitle">Book your Echo Air Group flight.</h1>
     <p id="heroText">Choose your route, flight, passenger details and seat — then receive your own Echo Air Group boarding pass.</p>
@@ -454,7 +567,115 @@ main{margin-top:-28px;position:relative;z-index:5}
     </div>
     <div class="step-actions">
       <button class="secondary" onclick="backToSeats()">← Back</button>
-      <button class="primary" onclick="confirmBooking()">Confirm booking →</button>
+      <button class="primary" onclick="continueToPayment()">Continue to payment →</button>
+    </div>
+  </section>
+
+  <!-- PAYMENT -->
+  <section class="card hidden" id="paymentStep" style="margin-top:22px">
+    <h2 class="section-title">Payment</h2>
+    <p class="section-sub">Review your booking and complete the payment before your boarding pass is issued.</p>
+
+    <div class="payment-layout">
+      <div>
+        <div class="payment-methods">
+          <button type="button" class="payment-method active" data-method="card" onclick="selectPaymentMethod('card')">
+            💳 Card
+            <small>Visa · Mastercard · American Express</small>
+          </button>
+          <button type="button" class="payment-method" data-method="ideal" onclick="selectPaymentMethod('ideal')">
+            🏦 iDEAL
+            <small>Select your bank</small>
+          </button>
+          <button type="button" class="payment-method" data-method="paypal" onclick="selectPaymentMethod('paypal')">
+            🅿️ PayPal
+            <small>Pay with PayPal</small>
+          </button>
+        </div>
+
+        <div class="payment-fields" id="cardFields">
+          <div class="field">
+            <label>Cardholder name *</label>
+            <input id="cardName" autocomplete="cc-name" placeholder="Name on card">
+          </div>
+          <div class="field">
+            <label>Card number *</label>
+            <input id="cardNumber" inputmode="numeric" autocomplete="cc-number" maxlength="19" placeholder="1234 5678 9012 3456">
+          </div>
+          <div class="card-row">
+            <div class="field">
+              <label>Expiry date *</label>
+              <input id="cardExpiry" inputmode="numeric" maxlength="5" placeholder="MM/YY">
+            </div>
+            <div class="field">
+              <label>CVV *</label>
+              <input id="cardCvv" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123">
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-fields hidden" id="idealFields">
+          <div class="field">
+            <label>Bank *</label>
+            <select id="idealBank">
+              <option value="">Choose your bank</option>
+              <option>ABN AMRO</option>
+              <option>ASN Bank</option>
+              <option>Bunq</option>
+              <option>ING</option>
+              <option>Knab</option>
+              <option>Rabobank</option>
+              <option>Revolut</option>
+              <option>SNS</option>
+              <option>Triodos Bank</option>
+              <option>Van Lanschot Kempen</option>
+            </select>
+          </div>
+          <div class="payment-note">
+            <strong>iDEAL</strong><br>
+            Select your bank and continue to the simulated checkout.
+          </div>
+        </div>
+
+        <div class="payment-fields hidden" id="paypalFields">
+          <div class="field">
+            <label>PayPal email *</label>
+            <input id="paypalEmail" type="email" autocomplete="email" placeholder="you@example.com">
+          </div>
+          <div class="payment-note">
+            <strong>PayPal</strong><br>
+            This is a simulated PayPal checkout for the Echo Air Group virtual airline website.
+          </div>
+        </div>
+
+        <div class="payment-security">
+          <span style="font-size:21px">🔒</span>
+          <div>
+            <strong>Secure virtual checkout</strong><br>
+            This website is a virtual airline. No real money is charged and no real card or bank transaction is made.
+          </div>
+        </div>
+
+        <div class="payment-disclaimer">
+          For a real production payment system, this page would connect to a payment provider such as Stripe, PayPal or another PCI-compliant service. Never collect real card details in a static HTML-only site.
+        </div>
+
+        <div id="paymentProcessing" class="payment-processing">
+          ✓ Payment completed. Generating your booking confirmation…
+        </div>
+
+        <div class="step-actions">
+          <button class="secondary" onclick="backToExtras()">← Back</button>
+          <button class="primary" id="payButton" onclick="processPayment()">Pay <span id="payAmount">€0.00</span> →</button>
+        </div>
+      </div>
+
+      <aside class="card payment-total">
+        <h3 style="margin:0 0 4px">Payment summary</h3>
+        <div style="font-size:12px;color:#697166">Final amount</div>
+        <div class="payment-total-price" id="paymentTotal">€0.00</div>
+        <div id="paymentBreakdown"></div>
+      </aside>
     </div>
   </section>
 
@@ -463,6 +684,20 @@ main{margin-top:-28px;position:relative;z-index:5}
     <div class="trip-card card">
       <h2 class="section-title">Your Trip</h2>
       <div class="trip-grid" id="tripSummary"></div>
+    </div>
+
+    <div class="card confirm-payment">
+      <div>
+        <div class="trip-label">PAYMENT</div>
+        <strong style="font-size:17px">Payment completed ✓</strong>
+        <div style="font-size:12px;color:#697166;margin-top:4px">
+          Method: <span id="confirmationPaymentMethod">—</span>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="trip-label">TRANSACTION</div>
+        <strong id="confirmationTransaction">—</strong>
+      </div>
     </div>
 
     <div id="boardingPasses"></div>
@@ -536,7 +771,8 @@ const AIRCRAFT = ["A320-200","A320neo","A321neo","A350-900","B737-800","E190"];
 let state = {
   from:null,to:null,date:null,passengerCount:1,
   flights:[],selectedFlight:null,passengers:[],activePassenger:0,
-  seats:{},extras:[],reference:null
+  seats:{},extras:[],reference:null,
+  payment:{method:"card",paid:false,transactionId:null}
 };
 
 /*
@@ -770,37 +1006,157 @@ function backToPassengers(){
   showOnly("passengerStep");setProgress(3);
 }
 function backToSeats(){
-  showOnly("seatStep");setProgress(4);
+  showOnly("seatStep");
+  setProgress(4);
+}
+
+function backToExtras(){
+  showOnly("extrasStep");
+  setProgress(5);
+  document.getElementById("extrasStep").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 function collectExtras(){
   return [...document.querySelectorAll("[data-extra]:checked")].map(x=>({
-    name:x.dataset.extra,price:Number(x.dataset.price)
+    name:x.dataset.extra,
+    price:Number(x.dataset.price)
   }));
+}
+
+function getBookingTotal(){
+  const f=state.selectedFlight;
+  if(!f)return 0;
+  const base=f.price*state.passengerCount;
+  const extras=state.extras.reduce((sum,x)=>sum+x.price,0);
+  return base+extras;
+}
+
+function money(value){
+  return "€"+Number(value).toFixed(2);
+}
+
+function continueToPayment(){
+  state.extras=collectExtras();
+  renderPayment();
+  showOnly("paymentStep");
+  setProgress(6);
+  document.getElementById("paymentStep").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function renderPayment(){
+  const f=state.selectedFlight;
+  const base=f.price*state.passengerCount;
+  const extras=state.extras.reduce((sum,x)=>sum+x.price,0);
+  const total=base+extras;
+
+  document.getElementById("paymentTotal").textContent=money(total);
+  document.getElementById("payAmount").textContent=money(total);
+
+  document.getElementById("paymentBreakdown").innerHTML=`
+    <div class="pay-line"><span>Flight × ${state.passengerCount}</span><strong>${money(base)}</strong></div>
+    <div class="pay-line"><span>Extras</span><strong>${money(extras)}</strong></div>
+    <div class="pay-line"><span>Total</span><strong>${money(total)}</strong></div>
+  `;
+
+  document.getElementById("paymentProcessing").classList.remove("show");
+  document.getElementById("payButton").disabled=false;
+  selectPaymentMethod(state.payment?.method || "card");
+}
+
+function selectPaymentMethod(method){
+  state.payment.method=method;
+
+  document.querySelectorAll(".payment-method").forEach(button=>{
+    button.classList.toggle("active",button.dataset.method===method);
+  });
+
+  document.getElementById("cardFields").classList.toggle("hidden",method!=="card");
+  document.getElementById("idealFields").classList.toggle("hidden",method!=="ideal");
+  document.getElementById("paypalFields").classList.toggle("hidden",method!=="paypal");
+
+  const total=money(getBookingTotal());
+  const label=method==="card"?"Pay":method==="ideal"?"Continue with iDEAL":"Continue with PayPal";
+  document.getElementById("payButton").innerHTML=`${label} <span id="payAmount">${total}</span> →`;
+}
+
+function validatePayment(){
+  const method=state.payment.method || "card";
+
+  if(method==="card"){
+    const name=document.getElementById("cardName").value.trim();
+    const number=document.getElementById("cardNumber").value.replace(/\s/g,"");
+    const expiry=document.getElementById("cardExpiry").value.trim();
+    const cvv=document.getElementById("cardCvv").value.trim();
+
+    if(!name){toast("Please enter the cardholder name.");return false;}
+    if(!/^\d{12,19}$/.test(number)){toast("Please enter a valid card number.");return false;}
+    if(!/^\d{2}\/\d{2}$/.test(expiry)){toast("Please enter the expiry date as MM/YY.");return false;}
+    if(!/^\d{3,4}$/.test(cvv)){toast("Please enter a valid CVV.");return false;}
+  }
+
+  if(method==="ideal"){
+    if(!document.getElementById("idealBank").value){
+      toast("Please select your bank.");
+      return false;
+    }
+  }
+
+  if(method==="paypal"){
+    const email=document.getElementById("paypalEmail").value.trim();
+    if(!/^\S+@\S+\.\S+$/.test(email)){
+      toast("Please enter a valid PayPal email.");
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function createReference(){
   const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let out="EAG";
-  for(let i=0;i<6;i++) out+=chars[Math.floor(Math.random()*chars.length)];
+  for(let i=0;i<6;i++)out+=chars[Math.floor(Math.random()*chars.length)];
   return out;
 }
 
-function confirmBooking(){
+function createTransactionId(){
+  const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let out="EAG-PAY-";
+  for(let i=0;i<8;i++)out+=chars[Math.floor(Math.random()*chars.length)];
+  return out;
+}
+
+function processPayment(){
   state.extras=collectExtras();
-  state.reference=createReference();
 
-  localStorage.setItem("echoAirBooking",JSON.stringify(state));
-  renderConfirmation();
+  if(!validatePayment())return;
 
-  showOnly("confirmationStep");
-  setProgress(6);
-  document.getElementById("heroTitle").textContent="Booking Confirmed!";
-  document.getElementById("heroText").textContent="Thank you for flying with Echo Air Group. Your booking has been confirmed and your boarding pass is ready.";
-  document.getElementById("heroRef").classList.remove("hidden");
-  document.getElementById("refCode").textContent=state.reference;
+  const button=document.getElementById("payButton");
+  button.disabled=true;
+  button.textContent="Processing payment…";
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  setTimeout(()=>{
+    state.payment.paid=true;
+    state.payment.transactionId=createTransactionId();
+    state.reference=createReference();
+
+    document.getElementById("paymentProcessing").classList.add("show");
+
+    localStorage.setItem("echoAirBooking",JSON.stringify(state));
+
+    setTimeout(()=>{
+      renderConfirmation();
+      showOnly("confirmationStep");
+      setProgress(7);
+
+      document.getElementById("heroTitle").textContent="Booking Confirmed!";
+      document.getElementById("heroText").textContent="Thank you for flying with Echo Air Group. Your booking has been confirmed and your boarding pass is ready.";
+      document.getElementById("heroRef").classList.remove("hidden");
+      document.getElementById("refCode").textContent=state.reference;
+
+      window.scrollTo({top:0,behavior:"smooth"});
+    },650);
+  },1000);
 }
 
 function renderConfirmation(){
@@ -818,6 +1174,12 @@ function renderConfirmation(){
   `;
 
   document.getElementById("boardingPasses").innerHTML=state.passengers.map((p,i)=>createBoardingPass(p,i,f,from,to)).join("");
+
+  const paymentNames={card:"Card",ideal:"iDEAL",paypal:"PayPal"};
+  const methodEl=document.getElementById("confirmationPaymentMethod");
+  const transactionEl=document.getElementById("confirmationTransaction");
+  if(methodEl)methodEl.textContent=paymentNames[state.payment?.method] || "Virtual payment";
+  if(transactionEl)transactionEl.textContent=state.payment?.transactionId || "—";
 }
 
 function createBoardingPass(p,i,f,from,to){
@@ -900,7 +1262,7 @@ function escapeHtml(s){
 }
 
 function setProgress(n){
-  for(let i=1;i<=6;i++){
+  for(let i=1;i<=7;i++){
     const el=document.getElementById("p"+i);
     if(!el)continue;
     el.classList.toggle("active",i===n);
@@ -911,7 +1273,7 @@ function setProgress(n){
 }
 
 function showOnly(id){
-  ["searchStep","flightStep","passengerStep","seatStep","extrasStep","confirmationStep"].forEach(x=>{
+  ["searchStep","flightStep","passengerStep","seatStep","extrasStep","paymentStep","confirmationStep"].forEach(x=>{
     document.getElementById(x).classList.toggle("hidden",x!==id);
   });
 }
@@ -937,11 +1299,11 @@ window.addEventListener("load",()=>{
   if(!saved)return;
   try{
     const parsed=JSON.parse(saved);
-    if(parsed && parsed.reference && parsed.selectedFlight && parsed.passengers){
+    if(parsed && parsed.reference && parsed.selectedFlight && parsed.passengers && parsed.payment && parsed.payment.paid){
       state=parsed;
       renderConfirmation();
       showOnly("confirmationStep");
-      setProgress(6);
+      setProgress(7);
       document.getElementById("heroTitle").textContent="Booking Confirmed!";
       document.getElementById("heroText").textContent="Your saved Echo Air Group booking is ready.";
       document.getElementById("heroRef").classList.remove("hidden");
