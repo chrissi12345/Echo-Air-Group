@@ -1,23 +1,22 @@
 {
-  "name": "server",
+  "name": "echo-air-group",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Echo Air Group backend",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  {
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "better-sqlite3": "^11.8.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^13.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "discord.js": "^14.21.0"
   }
 }
