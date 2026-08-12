@@ -34,19 +34,19 @@ header {
         backdrop-filter 0.25s ease;
 }
 
-/* Header when scrolling */
-
 header.scrolled {
     background: rgba(9, 13, 8, 0.80);
 
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 
-/* Prevent content from going underneath header */
+/* =========================
+   BODY
+========================= */
 
 body {
     padding-top: 80px;
@@ -134,7 +134,7 @@ footer .brand-text small {
 
     border-radius: 9px;
 
-    background: rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.08);
 
     transition:
         transform 0.2s ease,
@@ -143,7 +143,7 @@ footer .brand-text small {
 
 .footer-social a:hover {
     transform: translateY(-2px);
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .footer-social img {
@@ -184,7 +184,7 @@ footer .copy {
     margin-top: 35px;
     padding-top: 18px;
 
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 
     display: flex;
     justify-content: space-between;
@@ -209,10 +209,12 @@ footer .copy {
     background: #ffffff;
     border: 1px solid #e1e6df;
     border-radius: 18px;
+
     padding: 28px 22px;
+
     text-align: center;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 
     transition:
         transform 0.2s ease,
@@ -221,7 +223,9 @@ footer .copy {
 
 .person:hover {
     transform: translateY(-4px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.08);
 }
 
 .avatar {
@@ -329,94 +333,91 @@ footer .copy {
 
 <header id="siteHeader">
 
-<div class="container nav">
+    <div class="container nav">
+
+        <a class="brand" href="index.html">
+
+            <img
+                class="header-logo"
+                src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
+                alt="Echo Air Group"
+            >
+
+        </a>
 
 
-<a class="brand" href="index.html">
+        <nav class="navlinks">
 
-<img
-    class="header-logo"
-    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
-    alt="Echo Air Group"
->
+            <a href="index.html">Home</a>
 
-</a>
+            <a href="about.html">About</a>
 
+            <a href="fleet.html">Fleet</a>
 
-<nav class="navlinks">
+            <a href="routes.html">Routes</a>
 
-<a href="index.html">Home</a>
+            <a href="team.html">Team</a>
 
-<a href="about.html">About</a>
+            <a href="join.html">Join Us</a>
 
-<a href="fleet.html">Fleet</a>
+            <a href="manual.html">Pilot Manual</a>
 
-<a href="routes.html">Routes</a>
+            <a href="contact.html">Contact Us</a>
 
-<a href="team.html">Team</a>
+            <a href="ranking.html">Ranking</a>
 
-<a href="join.html">Join Us</a>
+            <a href="booking.html">Book a flight</a>
 
-<a href="manual.html">Pilot Manual</a>
-
-<a href="contact.html">Contact Us</a>
-
-<a href="ranking.html">Ranking</a>
-
-<a href="booking.html">Book a flight</a>
-
-</nav>
+        </nav>
 
 
-<a class="register" href="join.html">
-REGISTER
-</a>
+        <a class="register" href="join.html">
+            REGISTER
+        </a>
 
 
-<button
-    class="menu"
-    onclick="toggleMenu()"
-    aria-label="Open navigation menu"
->
-☰
-</button>
+        <button
+            class="menu"
+            onclick="toggleMenu()"
+            aria-label="Open navigation menu"
+        >
+            ☰
+        </button>
 
-</div>
+    </div>
 
 
-<!-- =========================
-     MOBILE NAV
-========================= -->
+    <!-- MOBILE NAV -->
 
-<div id="mobileNav" class="mobileNav">
+    <div id="mobileNav" class="mobileNav">
 
-<div class="container">
+        <div class="container">
 
-<a href="index.html">Home</a>
+            <a href="index.html">Home</a>
 
-<a href="about.html">About</a>
+            <a href="about.html">About</a>
 
-<a href="fleet.html">Fleet</a>
+            <a href="fleet.html">Fleet</a>
 
-<a href="routes.html">Routes</a>
+            <a href="routes.html">Routes</a>
 
-<a href="team.html">Team</a>
+            <a href="team.html">Team</a>
 
-<a href="join.html">Join Us</a>
+            <a href="join.html">Join Us</a>
 
-<a href="manual.html">Pilot Manual</a>
+            <a href="manual.html">Pilot Manual</a>
 
-<a href="contact.html">Contact Us</a>
+            <a href="contact.html">Contact Us</a>
 
-<a href="ranking.html">Ranking</a>
+            <a href="ranking.html">Ranking</a>
 
-<a href="booking.html">Book a flight</a>
+            <a href="booking.html">Book a flight</a>
 
-<a href="join.html">Register</a>
+            <a href="join.html">Register</a>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
 </header>
 
@@ -429,140 +430,140 @@ REGISTER
 <main>
 
 
-<!-- =========================
-     HERO
-========================= -->
+    <!-- =========================
+         HERO
+    ========================= -->
 
-<section class="pagehero">
+    <section class="pagehero">
 
-<div class="container">
+        <div class="container">
 
-<span class="pill">
-People Behind Echo
-</span>
+            <span class="pill">
+                People Behind Echo
+            </span>
 
-<h1>
-Meet the <span>team.</span>
-</h1>
+            <h1>
+                Meet the <span>team.</span>
+            </h1>
 
-<p>
-Replace these example profiles with your real Echo Air Group staff members.
-</p>
+            <p>
+                The people behind Echo Air Group and our virtual aviation community.
+            </p>
 
-</div>
+        </div>
 
-</section>
-
-
-
-<!-- =========================
-     TEAM
-========================= -->
-
-<section class="content-section">
-
-<div class="container">
-
-<div class="team-grid">
+    </section>
 
 
-<!-- CEO -->
 
-<div class="person">
+    <!-- =========================
+         TEAM
+    ========================= -->
 
-<div class="avatar">
-CEO
-</div>
+    <section class="content-section">
 
-<h3>
-Alex Morgan
-</h3>
+        <div class="container">
 
-<p>
-Chief Executive Officer
-</p>
-
-<p class="role">
-Founder
-</p>
-
-</div>
+            <div class="team-grid">
 
 
-<!-- OPERATIONS -->
+                <!-- CEO -->
 
-<div class="person">
+                <div class="person">
 
-<div class="avatar">
-OPS
-</div>
+                    <div class="avatar">
+                        CEO
+                    </div>
 
-<h3>
-Jordan Blake
-</h3>
+                    <h3>
+                        Alex Morgan
+                    </h3>
 
-<p>
-Director of Operations
-</p>
+                    <p>
+                        Chief Executive Officer
+                    </p>
 
-<p class="role">
-Operations
-</p>
+                    <p class="role">
+                        Founder
+                    </p>
 
-</div>
-
-
-<!-- COMMUNITY -->
-
-<div class="person">
-
-<div class="avatar">
-COM
-</div>
-
-<h3>
-Sofia Bennett
-</h3>
-
-<p>
-Community Manager
-</p>
-
-<p class="role">
-Community
-</p>
-
-</div>
+                </div>
 
 
-<!-- TRAINING -->
+                <!-- OPERATIONS -->
 
-<div class="person">
+                <div class="person">
 
-<div class="avatar">
-TRN
-</div>
+                    <div class="avatar">
+                        OPS
+                    </div>
 
-<h3>
-Daniel Reed
-</h3>
+                    <h3>
+                        Jordan Blake
+                    </h3>
 
-<p>
-Training Captain
-</p>
+                    <p>
+                        Director of Operations
+                    </p>
 
-<p class="role">
-Training
-</p>
+                    <p class="role">
+                        Operations
+                    </p>
 
-</div>
+                </div>
 
 
-</div>
+                <!-- COMMUNITY -->
 
-</div>
+                <div class="person">
 
-</section>
+                    <div class="avatar">
+                        COM
+                    </div>
+
+                    <h3>
+                        Sofia Bennett
+                    </h3>
+
+                    <p>
+                        Community Manager
+                    </p>
+
+                    <p class="role">
+                        Community
+                    </p>
+
+                </div>
+
+
+                <!-- TRAINING -->
+
+                <div class="person">
+
+                    <div class="avatar">
+                        TRN
+                    </div>
+
+                    <h3>
+                        Daniel Reed
+                    </h3>
+
+                    <p>
+                        Training Captain
+                    </p>
+
+                    <p class="role">
+                        Training
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
 
 
 </main>
@@ -575,156 +576,162 @@ Training
 
 <footer>
 
-<div class="container">
+    <div class="container">
 
 
-<div class="foot-top">
+        <div class="foot-top">
 
 
-<!-- FOOTER BRAND -->
+            <!-- FOOTER BRAND -->
 
-<div>
+            <div>
 
-<a class="brand" href="index.html">
+                <a class="brand" href="index.html">
 
-<img
-    class="brand-logo"
-    src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
-    alt="Echo Air Group Logo"
->
+                    <img
+                        class="brand-logo"
+                        src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
+                        alt="Echo Air Group Logo"
+                    >
 
-<div class="brand-text">
+                    <div class="brand-text">
 
-ECHO AIR GROUP
+                        ECHO AIR GROUP
 
-<small>
-6L · ECV · CLOVER
-</small>
+                        <small>
+                            6L · ECV · CLOVER
+                        </small>
 
-</div>
+                    </div>
 
-</a>
-
-
-<p style="max-width:450px">
-
-Virtual aviation. Real passion.
-A community built for pilots who love
-the world of flight simulation.
-
-</p>
+                </a>
 
 
-<!-- SOCIAL BUTTONS -->
+                <p style="max-width:450px">
 
-<div class="footer-social">
+                    Virtual aviation. Real passion.
+                    A community built for pilots who love
+                    the world of flight simulation.
 
-
-<a
-    href="https://discord.gg/e7ePxYA24"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Discord"
->
-
-<img
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
-    alt="Discord"
->
-
-</a>
+                </p>
 
 
-<a
-    href="https://www.tiktok.com/@echoairgroup"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="TikTok"
->
+                <!-- SOCIAL BUTTONS -->
 
-<img
-    src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
-    alt="TikTok"
->
-
-</a>
+                <div class="footer-social">
 
 
-</div>
+                    <!-- DISCORD -->
 
-</div>
+                    <a
+                        href="https://discord.gg/e7ePxYA24"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Discord"
+                    >
 
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
+                            alt="Discord"
+                        >
 
-
-<!-- FOOTER NAVIGATION -->
-
-<div class="foot-links">
-
-<a href="index.html">
-Home
-</a>
-
-<a href="about.html">
-About
-</a>
-
-<a href="fleet.html">
-Fleet
-</a>
-
-<a href="routes.html">
-Routes
-</a>
-
-<a href="team.html">
-Team
-</a>
-
-<a href="index.html#news">
-News
-</a>
-
-<a href="join.html">
-Join Us
-</a>
-
-<a href="manual.html">
-Pilot Manual
-</a>
-
-<a href="contact.html">
-Contact Us
-</a>
-
-<a href="booking.html">Book a flight</a>
-   
-<a href="join.html">
-Register
-</a>
-
-</div>
+                    </a>
 
 
-</div>
+                    <!-- TIKTOK -->
+
+                    <a
+                        href="https://www.tiktok.com/@echoairgroup"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="TikTok"
+                    >
+
+                        <img
+                            src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
+                            alt="TikTok"
+                        >
+
+                    </a>
+
+
+                </div>
+
+            </div>
 
 
 
-<!-- COPYRIGHT -->
+            <!-- FOOTER NAVIGATION -->
 
-<div class="copy">
+            <div class="foot-links">
 
-<span>
-© 2026 Echo Air Group. Virtual airline.
-</span>
+                <a href="index.html">
+                    Home
+                </a>
 
-<span>
-Not affiliated with any real-world airline.
-</span>
+                <a href="about.html">
+                    About
+                </a>
 
-</div>
+                <a href="fleet.html">
+                    Fleet
+                </a>
+
+                <a href="routes.html">
+                    Routes
+                </a>
+
+                <a href="team.html">
+                    Team
+                </a>
+
+                <a href="index.html#news">
+                    News
+                </a>
+
+                <a href="join.html">
+                    Join Us
+                </a>
+
+                <a href="manual.html">
+                    Pilot Manual
+                </a>
+
+                <a href="contact.html">
+                    Contact Us
+                </a>
+
+                <a href="booking.html">
+                    Book a flight
+                </a>
+
+                <a href="join.html">
+                    Register
+                </a>
+
+            </div>
 
 
-</div>
+        </div>
+
+
+
+        <!-- COPYRIGHT -->
+
+        <div class="copy">
+
+            <span>
+                © 2026 Echo Air Group. Virtual airline.
+            </span>
+
+            <span>
+                Not affiliated with any real-world airline.
+            </span>
+
+        </div>
+
+
+    </div>
 
 </footer>
 
