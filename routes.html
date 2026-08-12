@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Routes — Echo Air Group</title>
 
@@ -40,10 +40,8 @@ header.scrolled {
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
-
-/* Prevent content from going underneath fixed header */
 
 body {
     padding-top: 80px;
@@ -137,7 +135,9 @@ footer p {
     gap: 20px;
     margin-top: 35px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.08);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
     color: #737b70;
     font-size: 13px;
 }
@@ -163,7 +163,7 @@ footer p {
     align-items: center;
     justify-content: center;
 
-    background: rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.08);
 
     transition:
         transform 0.2s ease,
@@ -172,7 +172,7 @@ footer p {
 
 .footer-social a:hover {
     transform: translateY(-2px);
-    background: rgba(172,227,54,0.15);
+    background: rgba(172, 227, 54, 0.15);
 }
 
 .footer-social img {
@@ -197,7 +197,7 @@ footer p {
 
     border: 1px solid #dfe5dc;
 
-    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
 
     position: relative;
 }
@@ -288,83 +288,6 @@ footer p {
 
 
 /* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 800px) {
-
-    body {
-        padding-top: 70px;
-    }
-
-    .header-logo {
-        height: 40px;
-    }
-
-    .foot-top {
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .foot-links {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px 25px;
-        width: 100%;
-    }
-
-    .copy {
-        flex-direction: column;
-        gap: 8px;
-    }
-}
-
-
-@media (max-width: 700px) {
-
-    .newsky-map {
-        height: 500px;
-    }
-
-    .map-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .newsky-button {
-        width: 100%;
-    }
-
-}
-
-
-@media (max-width: 500px) {
-
-    body {
-        padding-top: 65px;
-    }
-
-    .header-logo {
-        height: 36px;
-    }
-
-    footer {
-        padding: 38px 0 20px;
-    }
-
-    footer .brand-logo {
-        width: 50px;
-        height: 50px;
-    }
-
-    .foot-links {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-/* =========================================================
    ROUTE FILTERS
 ========================================================= */
 
@@ -387,7 +310,6 @@ footer p {
     border-radius: 10px;
 
     font-family: inherit;
-
     font-weight: 700;
 
     cursor: pointer;
@@ -423,7 +345,7 @@ footer p {
 
     background: #ffffff;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .route-row {
@@ -481,7 +403,7 @@ footer p {
 
 
 /* =========================================================
-   HEADER MOBILE NAV
+   MOBILE NAV
 ========================================================= */
 
 .mobileNav {
@@ -490,6 +412,81 @@ footer p {
 
 .mobileNav a {
     color: white;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    body {
+        padding-top: 70px;
+    }
+
+    .header-logo {
+        height: 40px;
+    }
+
+    .foot-top {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .foot-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 25px;
+        width: 100%;
+    }
+
+    .copy {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .newsky-map {
+        height: 500px;
+    }
+
+    .map-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .newsky-button {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    body {
+        padding-top: 65px;
+    }
+
+    .header-logo {
+        height: 36px;
+    }
+
+    footer {
+        padding: 38px 0 20px;
+    }
+
+    footer .brand-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .foot-links {
+        grid-template-columns: 1fr;
+    }
 }
 
 </style>
@@ -521,41 +518,25 @@ footer p {
 
         <nav class="navlinks">
 
-            <a href="index.html">
-                Home
-            </a>
+            <a href="index.html">Home</a>
 
-            <a href="about.html">
-                About
-            </a>
+            <a href="about.html">About</a>
 
-            <a href="fleet.html">
-                Fleet
-            </a>
+            <a href="fleet.html">Fleet</a>
 
-            <a href="routes.html">
-                Routes
-            </a>
+            <a href="routes.html">Routes</a>
 
-            <a href="team.html">
-                Team
-            </a>
+            <a href="team.html">Team</a>
 
-            <a href="join.html">
-                Join Us
-            </a>
+            <a href="join.html">Join Us</a>
 
-            <a href="manual.html">
-                Pilot Manual
-            </a>
+            <a href="manual.html">Pilot Manual</a>
 
-            <a href="contact.html">
-                Contact Us
-            </a>
+            <a href="contact.html">Contact Us</a>
 
             <a href="ranking.html">Ranking</a>
 
-           <a href="booking.html">Book a flight</a>
+            <a href="booking.html">Book a flight</a>
 
         </nav>
 
@@ -582,45 +563,27 @@ footer p {
 
         <div class="container">
 
-            <a href="index.html">
-                Home
-            </a>
+            <a href="index.html">Home</a>
 
-            <a href="about.html">
-                About
-            </a>
+            <a href="about.html">About</a>
 
-            <a href="fleet.html">
-                Fleet
-            </a>
+            <a href="fleet.html">Fleet</a>
 
-            <a href="routes.html">
-                Routes
-            </a>
+            <a href="routes.html">Routes</a>
 
-            <a href="team.html">
-                Team
-            </a>
+            <a href="team.html">Team</a>
 
-            <a href="join.html">
-                Join Us
-            </a>
+            <a href="join.html">Join Us</a>
 
-            <a href="manual.html">
-                Pilot Manual
-            </a>
+            <a href="manual.html">Pilot Manual</a>
 
-            <a href="contact.html">
-                Contact Us
-            </a>
+            <a href="contact.html">Contact Us</a>
 
             <a href="ranking.html">Ranking</a>
 
-           <a href="booking.html">Book a flight</a>
+            <a href="booking.html">Book a flight</a>
 
-            <a href="join.html">
-                Register
-            </a>
+            <a href="join.html">Register</a>
 
         </div>
 
@@ -716,27 +679,19 @@ footer p {
             <div class="route-table">
 
 
+                <!-- TABLE HEADER -->
+
                 <div class="route-row route-head">
 
-                    <div>
-                        Route
-                    </div>
+                    <div>Route</div>
 
-                    <div>
-                        Type
-                    </div>
+                    <div>Type</div>
 
-                    <div>
-                        Aircraft
-                    </div>
+                    <div>Aircraft</div>
 
-                    <div>
-                        Distance
-                    </div>
+                    <div>Distance</div>
 
-                    <div>
-                        Hub
-                    </div>
+                    <div>Hub</div>
 
                 </div>
 
@@ -1076,6 +1031,7 @@ footer p {
 
                 </div>
 
+
             </div>
 
 
@@ -1300,7 +1256,7 @@ footer p {
                     About
                 </a>
 
-                <a href="index.html#fleet">
+                <a href="fleet.html">
                     Fleet
                 </a>
 
@@ -1328,8 +1284,10 @@ footer p {
                     Contact Us
                 </a>
 
-               <a href="booking.html">Book a flight</a>
-               
+                <a href="booking.html">
+                    Book a flight
+                </a>
+
                 <a href="join.html">
                     Register
                 </a>
@@ -1363,7 +1321,6 @@ footer p {
 ========================================================= -->
 
 <script src="script.js"></script>
-
 
 <script>
 
