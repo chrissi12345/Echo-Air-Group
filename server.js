@@ -3,8 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Database = require("better-sqlite3");
-const path = require("path");
+const { Pool } = require("pg");
 const {
     Client,
     GatewayIntentBits
@@ -17,23 +16,27 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+const PORT =
+    process.env.PORT || 3000;
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET =
+    process.env.JWT_SECRET ||
+    "CHANGE_THIS_SECRET";
 
-if (!JWT_SECRET) {
-    throw new Error(
-        "JWT_SECRET is missing. Add JWT_SECRET to Render Environment Variables."
-    );
-}
-
-const DB_PATH =
-    process.env.DB_PATH ||
-    path.join(__dirname, "echo.db");
+const DATABASE_URL =
+    process.env.DATABASE_URL;
 
 // ============================================================
 // ENVIRONMENT
 // ============================================================
+
+if (!DATABASE_URL) {
+    console.error(
+        "ERROR: DATABASE_URL is missing."
+    );
+
+    process.exit(1);
+}
 
 if (!process.env.NEWSKY_API_KEY) {
     console.warn(
@@ -44,6 +47,177 @@ if (!process.env.NEWSKY_API_KEY) {
 if (!process.env.JWT_SECRET) {
     console.warn(
         "WARNING: JWT_SECRET is missing. Please set it in your environment."
+    );
+}
+
+// ============================================================
+// POSTGRESQL
+// ============================================================
+
+const pool = new Pool({
+    connectionString: DATABASE_URL,
+
+    ssl: {
+        rejectUnauthorized: false
+    },
+
+    max: 5,
+
+    idleTimeoutMillis: 30000,
+
+    connectionTimeoutMillis: 10000
+});
+
+async function query(
+    text,
+    params = []
+) {
+    return pool.query(
+        text,
+        params
+    );
+}
+
+async function initializeDatabase() {
+
+    await query(`
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+
+            username TEXT UNIQUE NOT NULL,
+
+            password TEXT NOT NULL,
+
+            display_name TEXT,
+
+            newsky_pilot_id TEXT,
+
+            discord_user_id TEXT,
+
+            created_at TIMESTAMPTZ
+                DEFAULT CURRENT_TIMESTAMP
+        );
+    `);
+
+    await query(`
+        CREATE TABLE IF NOT EXISTS flights (
+            id SERIAL PRIMARY KEY,
+
+            user_id INTEGER NOT NULL,
+
+            newsky_id TEXT NOT NULL,
+
+            dep_icao TEXT,
+
+            arr_icao TEXT,
+
+            aircraft TEXT,
+
+            rating DOUBLE PRECISION
+                DEFAULT 0,
+
+            duration DOUBLE PRECISION
+                DEFAULT 0,
+
+            distance DOUBLE PRECISION
+                DEFAULT 0,
+
+            stars DOUBLE PRECISION
+                DEFAULT 0,
+
+            dep_time TEXT,
+
+            synced_at TIMESTAMPTZ
+                DEFAULT CURRENT_TIMESTAMP,
+
+            CONSTRAINT flights_user_fk
+                FOREIGN KEY (user_id)
+                REFERENCES users(id)
+                ON DELETE CASCADE,
+
+            CONSTRAINT unique_user_flight
+                UNIQUE (
+                    user_id,
+                    newsky_id
+                )
+        );
+    `);
+
+    // --------------------------------------------------------
+    // USER MIGRATIONS
+    // --------------------------------------------------------
+
+    await query(`
+        ALTER TABLE users
+        ADD COLUMN IF NOT EXISTS display_name TEXT;
+    `);
+
+    await query(`
+        ALTER TABLE users
+        ADD COLUMN IF NOT EXISTS newsky_pilot_id TEXT;
+    `);
+
+    await query(`
+        ALTER TABLE users
+        ADD COLUMN IF NOT EXISTS discord_user_id TEXT;
+    `);
+
+    // --------------------------------------------------------
+    // FLIGHT MIGRATIONS
+    // --------------------------------------------------------
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS dep_icao TEXT;
+    `);
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS arr_icao TEXT;
+    `);
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS aircraft TEXT;
+    `);
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS rating DOUBLE PRECISION
+        DEFAULT 0;
+    `);
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS duration DOUBLE PRECISION
+        DEFAULT 0;
+    `);
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS distance DOUBLE PRECISION
+        DEFAULT 0;
+    `);
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS stars DOUBLE PRECISION
+        DEFAULT 0;
+    `);
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS dep_time TEXT;
+    `);
+
+    await query(`
+        ALTER TABLE flights
+        ADD COLUMN IF NOT EXISTS synced_at TIMESTAMPTZ
+        DEFAULT CURRENT_TIMESTAMP;
+    `);
+
+    console.log(
+        "PostgreSQL database ready."
     );
 }
 
@@ -71,6 +245,7 @@ const DISCORD_REDIRECT_URI =
 // ============================================================
 
 const DISCORD_ROLE_IDS = {
+
     "Cadet":
         process.env.DISCORD_ROLE_CADET || "",
 
@@ -91,124 +266,36 @@ const DISCORD_ROLE_IDS = {
 };
 
 // ============================================================
-// DATABASE
-// ============================================================
-
-const db = new Database(DB_PATH);
-
-db.pragma("journal_mode = WAL");
-db.pragma("foreign_keys = ON");
-
-db.exec(`
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    display_name TEXT,
-    newsky_pilot_id TEXT,
-    discord_user_id TEXT,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS flights (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-    user_id INTEGER NOT NULL,
-
-    newsky_id TEXT NOT NULL,
-
-    dep_icao TEXT,
-    arr_icao TEXT,
-    aircraft TEXT,
-
-    rating REAL DEFAULT 0,
-    duration REAL DEFAULT 0,
-    distance REAL DEFAULT 0,
-    stars REAL DEFAULT 0,
-
-    dep_time TEXT,
-
-    synced_at TEXT DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY(user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE,
-
-    UNIQUE(user_id, newsky_id)
-);
-`);
-
-// ============================================================
-// DATABASE MIGRATIONS
-// ============================================================
-
-function columnExists(table, column) {
-    const columns = db
-        .prepare(`PRAGMA table_info(${table})`)
-        .all();
-
-    return columns.some(
-        item => item.name === column
-    );
-}
-
-if (!columnExists("users", "display_name")) {
-    db.exec(`
-        ALTER TABLE users
-        ADD COLUMN display_name TEXT
-    `);
-}
-
-if (!columnExists("users", "newsky_pilot_id")) {
-    db.exec(`
-        ALTER TABLE users
-        ADD COLUMN newsky_pilot_id TEXT
-    `);
-}
-
-if (!columnExists("users", "discord_user_id")) {
-    db.exec(`
-        ALTER TABLE users
-        ADD COLUMN discord_user_id TEXT
-    `);
-}
-
-if (!columnExists("flights", "user_id")) {
-    throw new Error(
-        "The flights table does not contain user_id."
-    );
-}
-
-console.log(
-    "Database ready:",
-    DB_PATH
-);
-
-// ============================================================
 // RANK SYSTEM
 // ============================================================
 
 const RANKS = [
+
     {
         name: "Cadet",
         stars: 0
     },
+
     {
         name: "First Officer",
         stars: 1000
     },
+
     {
         name: "Senior First Officer",
         stars: 2500
     },
+
     {
         name: "Captain",
         stars: 5000
     },
+
     {
         name: "Senior Captain",
         stars: 7500
     },
+
     {
         name: "Commander",
         stars: 10000
@@ -216,6 +303,7 @@ const RANKS = [
 ];
 
 function getRank(stars) {
+
     const value =
         Number(stars) || 0;
 
@@ -224,11 +312,24 @@ function getRank(stars) {
 
     let next = null;
 
-    for (const rank of RANKS) {
-        if (value >= rank.stars) {
-            current = rank;
+    for (
+        const rank
+        of RANKS
+    ) {
+
+        if (
+            value >=
+            rank.stars
+        ) {
+
+            current =
+                rank;
+
         } else {
-            next = rank;
+
+            next =
+                rank;
+
             break;
         }
     }
@@ -247,10 +348,13 @@ function toNumber(
     value,
     fallback = 0
 ) {
+
     const number =
         Number(value);
 
-    return Number.isFinite(number)
+    return Number.isFinite(
+        number
+    )
         ? number
         : fallback;
 }
@@ -259,6 +363,7 @@ function round(
     value,
     decimals = 2
 ) {
+
     const factor =
         Math.pow(
             10,
@@ -267,8 +372,10 @@ function round(
 
     return (
         Math.round(
-            value * factor
-        ) / factor
+            value *
+            factor
+        ) /
+        factor
     );
 }
 
@@ -276,6 +383,7 @@ function firstValue(
     object,
     keys
 ) {
+
     if (
         !object ||
         typeof object !== "object"
@@ -283,12 +391,19 @@ function firstValue(
         return null;
     }
 
-    for (const key of keys) {
+    for (
+        const key
+        of keys
+    ) {
+
         if (
-            object[key] !== undefined &&
-            object[key] !== null &&
+            object[key] !==
+                undefined &&
+            object[key] !==
+                null &&
             object[key] !== ""
         ) {
+
             return object[key];
         }
     }
@@ -300,7 +415,10 @@ function firstValue(
 // NEWSKY PILOT ID
 // ============================================================
 
-function getPilotId(flight) {
+function getPilotId(
+    flight
+) {
+
     if (
         !flight ||
         typeof flight !== "object"
@@ -320,7 +438,10 @@ function getPilotId(flight) {
             ]
         );
 
-    if (direct !== null) {
+    if (
+        direct !== null
+    ) {
+
         return String(
             direct
         ).trim();
@@ -330,6 +451,7 @@ function getPilotId(flight) {
         flight.pilot &&
         typeof flight.pilot === "object"
     ) {
+
         const nested =
             firstValue(
                 flight.pilot,
@@ -343,7 +465,10 @@ function getPilotId(flight) {
                 ]
             );
 
-        if (nested !== null) {
+        if (
+            nested !== null
+        ) {
+
             return String(
                 nested
             ).trim();
@@ -354,6 +479,7 @@ function getPilotId(flight) {
         flight.user &&
         typeof flight.user === "object"
     ) {
+
         const nested =
             firstValue(
                 flight.user,
@@ -366,7 +492,10 @@ function getPilotId(flight) {
                 ]
             );
 
-        if (nested !== null) {
+        if (
+            nested !== null
+        ) {
+
             return String(
                 nested
             ).trim();
@@ -377,6 +506,7 @@ function getPilotId(flight) {
         flight.pilotProfile &&
         typeof flight.pilotProfile === "object"
     ) {
+
         const nested =
             firstValue(
                 flight.pilotProfile,
@@ -389,7 +519,10 @@ function getPilotId(flight) {
                 ]
             );
 
-        if (nested !== null) {
+        if (
+            nested !== null
+        ) {
+
             return String(
                 nested
             ).trim();
@@ -406,6 +539,7 @@ function getPilotId(flight) {
 function getNewSkyFlightId(
     flight
 ) {
+
     const value =
         firstValue(
             flight,
@@ -419,11 +553,15 @@ function getNewSkyFlightId(
             ]
         );
 
-    if (value === null) {
+    if (
+        value === null
+    ) {
         return null;
     }
 
-    return String(value);
+    return String(
+        value
+    );
 }
 
 // ============================================================
@@ -434,6 +572,7 @@ function extractAirportCode(
     value,
     depth = 0
 ) {
+
     if (
         value === null ||
         value === undefined ||
@@ -445,6 +584,7 @@ function extractAirportCode(
     if (
         typeof value === "string"
     ) {
+
         const text =
             value.trim();
 
@@ -454,13 +594,17 @@ function extractAirportCode(
     if (
         typeof value === "number"
     ) {
-        return String(value);
+
+        return String(
+            value
+        );
     }
 
     if (
         typeof value === "object" &&
         !Array.isArray(value)
     ) {
+
         const directCode =
             firstValue(
                 value,
@@ -486,6 +630,7 @@ function extractAirportCode(
             directCode !== null &&
             typeof directCode !== "object"
         ) {
+
             const code =
                 String(
                     directCode
@@ -511,6 +656,7 @@ function extractAirportCode(
         if (
             nestedAirport !== null
         ) {
+
             const nestedCode =
                 extractAirportCode(
                     nestedAirport,
@@ -526,19 +672,24 @@ function extractAirportCode(
             const key
             of Object.keys(value)
         ) {
+
             const nestedValue =
                 value[key];
 
             if (
-                nestedValue === null ||
-                nestedValue === undefined
+                nestedValue ===
+                    null ||
+                nestedValue ===
+                    undefined
             ) {
                 continue;
             }
 
             if (
-                typeof nestedValue === "object"
+                typeof nestedValue ===
+                "object"
             ) {
+
                 const nestedCode =
                     extractAirportCode(
                         nestedValue,
@@ -562,6 +713,7 @@ function extractAirportCode(
 function getDeparture(
     flight
 ) {
+
     const raw =
         firstValue(
             flight,
@@ -589,6 +741,7 @@ function getDeparture(
 function getArrival(
     flight
 ) {
+
     const raw =
         firstValue(
             flight,
@@ -616,6 +769,7 @@ function getArrival(
 function getAircraft(
     flight
 ) {
+
     const aircraft =
         firstValue(
             flight,
@@ -637,6 +791,7 @@ function getAircraft(
         aircraft &&
         typeof aircraft === "object"
     ) {
+
         return (
             aircraft.name ||
             aircraft.model ||
@@ -659,6 +814,7 @@ function getAircraft(
 function getRating(
     flight
 ) {
+
     const rating =
         firstValue(
             flight,
@@ -683,6 +839,7 @@ function getRating(
 function getDurationMinutes(
     flight
 ) {
+
     const value =
         firstValue(
             flight,
@@ -695,7 +852,9 @@ function getDurationMinutes(
             ]
         );
 
-    if (value === null) {
+    if (
+        value === null
+    ) {
         return 0;
     }
 
@@ -703,6 +862,7 @@ function getDurationMinutes(
         typeof value === "string" &&
         value.includes(":")
     ) {
+
         const parts =
             value
                 .split(":")
@@ -711,6 +871,7 @@ function getDurationMinutes(
         if (
             parts.length === 2
         ) {
+
             return (
                 parts[0] * 60 +
                 parts[1]
@@ -720,6 +881,7 @@ function getDurationMinutes(
         if (
             parts.length === 3
         ) {
+
             return (
                 parts[0] * 60 +
                 parts[1] +
@@ -740,6 +902,7 @@ function getDurationMinutes(
 function getDistance(
     flight
 ) {
+
     const value =
         firstValue(
             flight,
@@ -764,6 +927,7 @@ function getDistance(
 function getFlightDate(
     flight
 ) {
+
     return firstValue(
         flight,
         [
@@ -787,14 +951,21 @@ function calculateFlightStars(
     distance,
     rating
 ) {
+
     const minutes =
-        toNumber(duration);
+        toNumber(
+            duration
+        );
 
     const km =
-        toNumber(distance);
+        toNumber(
+            distance
+        );
 
     const flightRating =
-        toNumber(rating);
+        toNumber(
+            rating
+        );
 
     return round(
         minutes +
@@ -811,8 +982,11 @@ function calculateFlightStars(
 function formatFlight(
     flight
 ) {
+
     return {
-        id: flight.id,
+
+        id:
+            flight.id,
 
         newskyId:
             flight.newsky_id,
@@ -873,7 +1047,9 @@ function formatFlight(
 function getAchievements(
     stats
 ) {
+
     return [
+
         {
             id: "first-flight",
             name: "First Flight",
@@ -1021,18 +1197,25 @@ function getAchievements(
 // USER STATS
 // ============================================================
 
-function getUserStats(
+async function getUserStats(
     userId
 ) {
-    const flights =
-        db.prepare(`
+
+    const result =
+        await query(
+            `
             SELECT *
             FROM flights
-            WHERE user_id = ?
+            WHERE user_id = $1
             ORDER BY
-                datetime(dep_time) DESC,
+                dep_time DESC NULLS LAST,
                 id DESC
-        `).all(userId);
+            `,
+            [userId]
+        );
+
+    const flights =
+        result.rows;
 
     const flightCount =
         flights.length;
@@ -1099,11 +1282,16 @@ function getUserStats(
         duration / 60;
 
     const rankData =
-        getRank(stars);
+        getRank(
+            stars
+        );
 
     let progress = 100;
 
-    if (rankData.next) {
+    if (
+        rankData.next
+    ) {
+
         progress =
             (
                 (
@@ -1127,6 +1315,7 @@ function getUserStats(
     }
 
     return {
+
         flights,
 
         flightCount,
@@ -1182,23 +1371,31 @@ function getUserStats(
 function createToken(
     user
 ) {
+
     return jwt.sign(
         {
-            id: user.id,
-            username: user.username
+            id:
+                user.id,
+
+            username:
+                user.username
         },
+
         JWT_SECRET,
+
         {
-            expiresIn: "30d"
+            expiresIn:
+                "30d"
         }
     );
 }
 
-function authenticate(
+async function authenticate(
     req,
     res,
     next
 ) {
+
     const header =
         req.headers.authorization;
 
@@ -1208,6 +1405,7 @@ function authenticate(
             "Bearer "
         )
     ) {
+
         return res.status(401).json({
             error:
                 "Authentication required"
@@ -1218,30 +1416,41 @@ function authenticate(
         header.substring(7);
 
     try {
+
         const decoded =
             jwt.verify(
                 token,
                 JWT_SECRET
             );
 
-        const user =
-            db.prepare(`
+        const result =
+            await query(
+                `
                 SELECT *
                 FROM users
-                WHERE id = ?
-            `).get(decoded.id);
+                WHERE id = $1
+                `,
+                [decoded.id]
+            );
+
+        const user =
+            result.rows[0];
 
         if (!user) {
+
             return res.status(401).json({
                 error:
                     "User not found"
             });
         }
 
-        req.user = user;
+        req.user =
+            user;
 
         next();
-    } catch {
+
+    } catch (error) {
+
         return res.status(401).json({
             error:
                 "Invalid or expired token"
@@ -1254,10 +1463,16 @@ function authenticate(
 // ============================================================
 
 let discordClient = null;
-let discordReady = false;
+
+let discordReady =
+    false;
 
 async function startDiscordBot() {
-    if (!DISCORD_BOT_TOKEN) {
+
+    if (
+        !DISCORD_BOT_TOKEN
+    ) {
+
         console.warn(
             "Discord bot disabled: DISCORD_BOT_TOKEN is missing."
         );
@@ -1265,7 +1480,10 @@ async function startDiscordBot() {
         return;
     }
 
-    if (!DISCORD_GUILD_ID) {
+    if (
+        !DISCORD_GUILD_ID
+    ) {
+
         console.warn(
             "Discord bot warning: DISCORD_GUILD_ID is missing."
         );
@@ -1281,14 +1499,20 @@ async function startDiscordBot() {
     discordClient.once(
         "ready",
         async () => {
-            discordReady = true;
+
+            discordReady =
+                true;
 
             console.log(
                 `Discord bot logged in as ${discordClient.user.tag}`
             );
 
-            if (DISCORD_GUILD_ID) {
+            if (
+                DISCORD_GUILD_ID
+            ) {
+
                 try {
+
                     const guild =
                         await discordClient.guilds.fetch(
                             DISCORD_GUILD_ID
@@ -1297,7 +1521,9 @@ async function startDiscordBot() {
                     console.log(
                         `Discord server connected: ${guild.name}`
                     );
+
                 } catch (error) {
+
                     console.error(
                         "Could not access Discord server:",
                         error.message
@@ -1310,6 +1536,7 @@ async function startDiscordBot() {
     discordClient.on(
         "error",
         error => {
+
             console.error(
                 "Discord client error:",
                 error
@@ -1318,35 +1545,34 @@ async function startDiscordBot() {
     );
 
     try {
+
         await discordClient.login(
             DISCORD_BOT_TOKEN
         );
+
     } catch (error) {
+
         console.error(
             "Discord bot login failed:",
             error
         );
 
-        discordReady = false;
+        discordReady =
+            false;
     }
 }
 
 // ============================================================
 // DISCORD ROLE SYNC
 // ============================================================
-//
-// Alleen rollen worden aangepast.
-// De bot stuurt geen berichten.
-//
-// ============================================================
 
 async function syncDiscordRank(
     userId
 ) {
-    if (!discordClient) {
-        console.log(
-            "Discord role sync skipped: bot is not configured."
-        );
+
+    if (
+        !discordClient
+    ) {
 
         return {
             success: false,
@@ -1355,10 +1581,9 @@ async function syncDiscordRank(
         };
     }
 
-    if (!discordReady) {
-        console.log(
-            "Discord role sync skipped: bot is not ready."
-        );
+    if (
+        !discordReady
+    ) {
 
         return {
             success: false,
@@ -1367,7 +1592,10 @@ async function syncDiscordRank(
         };
     }
 
-    if (!DISCORD_GUILD_ID) {
+    if (
+        !DISCORD_GUILD_ID
+    ) {
+
         return {
             success: false,
             reason:
@@ -1375,14 +1603,21 @@ async function syncDiscordRank(
         };
     }
 
-    const user =
-        db.prepare(`
+    const userResult =
+        await query(
+            `
             SELECT *
             FROM users
-            WHERE id = ?
-        `).get(userId);
+            WHERE id = $1
+            `,
+            [userId]
+        );
+
+    const user =
+        userResult.rows[0];
 
     if (!user) {
+
         return {
             success: false,
             reason:
@@ -1390,10 +1625,9 @@ async function syncDiscordRank(
         };
     }
 
-    if (!user.discord_user_id) {
-        console.log(
-            `Discord sync skipped for ${user.username}: Discord account not linked.`
-        );
+    if (
+        !user.discord_user_id
+    ) {
 
         return {
             success: false,
@@ -1403,7 +1637,7 @@ async function syncDiscordRank(
     }
 
     const stats =
-        getUserStats(
+        await getUserStats(
             user.id
         );
 
@@ -1415,10 +1649,9 @@ async function syncDiscordRank(
             rankName
         ];
 
-    if (!targetRoleId) {
-        console.error(
-            `No Discord role ID configured for rank "${rankName}".`
-        );
+    if (
+        !targetRoleId
+    ) {
 
         return {
             success: false,
@@ -1428,6 +1661,7 @@ async function syncDiscordRank(
     }
 
     try {
+
         const guild =
             await discordClient.guilds.fetch(
                 DISCORD_GUILD_ID
@@ -1436,14 +1670,13 @@ async function syncDiscordRank(
         let member;
 
         try {
+
             member =
                 await guild.members.fetch(
                     user.discord_user_id
                 );
+
         } catch {
-            console.warn(
-                `Discord user ${user.discord_user_id} is not in the server.`
-            );
 
             return {
                 success: false,
@@ -1457,30 +1690,28 @@ async function syncDiscordRank(
                 DISCORD_ROLE_IDS
             ).filter(Boolean);
 
-        // ----------------------------------------------------
-        // REMOVE OLD ECHO AIR GROUP RANK ROLES
-        // ----------------------------------------------------
-
         for (
             const roleId
             of rankRoleIds
         ) {
+
             if (
                 member.roles.cache.has(
                     roleId
                 ) &&
-                roleId !== targetRoleId
+                roleId !==
+                    targetRoleId
             ) {
+
                 try {
+
                     await member.roles.remove(
                         roleId,
                         "Echo Air Group website rank synchronization"
                     );
 
-                    console.log(
-                        `Removed old rank role ${roleId} from ${member.user.tag}`
-                    );
                 } catch (error) {
+
                     console.error(
                         `Could not remove Discord role ${roleId}:`,
                         error.message
@@ -1489,45 +1720,43 @@ async function syncDiscordRank(
             }
         }
 
-        // ----------------------------------------------------
-        // ADD CURRENT RANK ROLE
-        // ----------------------------------------------------
-
         if (
             !member.roles.cache.has(
                 targetRoleId
             )
         ) {
+
             await member.roles.add(
                 targetRoleId,
                 "Echo Air Group website rank synchronization"
             );
-
-            console.log(
-                `Added ${rankName} role to ${member.user.tag}`
-            );
-        } else {
-            console.log(
-                `${member.user.tag} already has the ${rankName} role.`
-            );
         }
 
         return {
+
             success: true,
-            rank: rankName,
+
+            rank:
+                rankName,
+
             discordUserId:
                 user.discord_user_id,
+
             roleId:
                 targetRoleId
         };
+
     } catch (error) {
+
         console.error(
             `Discord role sync error for ${user.username}:`,
             error
         );
 
         return {
+
             success: false,
+
             reason:
                 error.message
         };
@@ -1539,37 +1768,56 @@ async function syncDiscordRank(
 // ============================================================
 
 async function syncAllDiscordRanks() {
-    const users =
-        db.prepare(`
+
+    const result =
+        await query(
+            `
             SELECT id
             FROM users
             WHERE
                 discord_user_id IS NOT NULL
                 AND TRIM(discord_user_id) != ''
-        `).all();
+            `
+        );
+
+    const users =
+        result.rows;
 
     let success = 0;
+
     let failed = 0;
 
-    for (const user of users) {
-        const result =
+    for (
+        const user
+        of users
+    ) {
+
+        const syncResult =
             await syncDiscordRank(
                 user.id
             );
 
-        if (result.success) {
+        if (
+            syncResult.success
+        ) {
+
             success++;
+
         } else {
+
             failed++;
         }
 
-        // Small delay so Discord API is not hammered.
         await sleep(500);
     }
 
     return {
-        total: users.length,
+
+        total:
+            users.length,
+
         success,
+
         failed
     };
 }
@@ -1580,13 +1828,18 @@ async function syncAllDiscordRanks() {
 
 app.get(
     "/",
-    (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         res.json({
+
             message:
                 "Echo Air Group backend is running!",
 
             database:
-                DB_PATH,
+                "PostgreSQL / Neon",
 
             discordBot:
                 discordReady
@@ -1605,17 +1858,53 @@ app.get(
 
 app.get(
     "/api/health",
-    (req, res) => {
-        res.json({
-            status: "ok",
-            database: "connected",
-            discordBot:
-                discordReady
-                    ? "connected"
-                    : "not connected",
-            time:
-                new Date().toISOString()
-        });
+    async (
+        req,
+        res
+    ) => {
+
+        try {
+
+            await query(
+                "SELECT 1"
+            );
+
+            res.json({
+
+                status:
+                    "ok",
+
+                database:
+                    "connected",
+
+                discordBot:
+                    discordReady
+                        ? "connected"
+                        : "not connected",
+
+                time:
+                    new Date().toISOString()
+            });
+
+        } catch (error) {
+
+            res.status(500).json({
+
+                status:
+                    "error",
+
+                database:
+                    "disconnected",
+
+                discordBot:
+                    discordReady
+                        ? "connected"
+                        : "not connected",
+
+                error:
+                    error.message
+            });
+        }
     }
 );
 
@@ -1625,8 +1914,13 @@ app.get(
 
 app.post(
     "/api/auth/register",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
+
             let {
                 username,
                 password
@@ -1646,6 +1940,7 @@ app.post(
                 !username ||
                 !password
             ) {
+
                 return res.status(400).json({
                     error:
                         "Username and password are required"
@@ -1655,6 +1950,7 @@ app.post(
             if (
                 username.length < 3
             ) {
+
                 return res.status(400).json({
                     error:
                         "Username must be at least 3 characters"
@@ -1664,6 +1960,7 @@ app.post(
             if (
                 password.length < 8
             ) {
+
                 return res.status(400).json({
                     error:
                         "Password must be at least 8 characters"
@@ -1671,14 +1968,20 @@ app.post(
             }
 
             const existing =
-                db.prepare(`
+                await query(
+                    `
                     SELECT id
                     FROM users
                     WHERE LOWER(username) =
-                          LOWER(?)
-                `).get(username);
+                        LOWER($1)
+                    `,
+                    [username]
+                );
 
-            if (existing) {
+            if (
+                existing.rows.length
+            ) {
+
                 return res.status(409).json({
                     error:
                         "Username already exists. Please choose another username."
@@ -1692,26 +1995,31 @@ app.post(
                 );
 
             const result =
-                db.prepare(`
+                await query(
+                    `
                     INSERT INTO users
                     (
                         username,
                         password,
                         display_name
                     )
-                    VALUES (?, ?, ?)
-                `).run(
-                    username,
-                    passwordHash,
-                    username
+                    VALUES
+                    (
+                        $1,
+                        $2,
+                        $3
+                    )
+                    RETURNING id, username
+                    `,
+                    [
+                        username,
+                        passwordHash,
+                        username
+                    ]
                 );
 
-            const user = {
-                id:
-                    result.lastInsertRowid,
-
-                username
-            };
+            const user =
+                result.rows[0];
 
             const token =
                 createToken(
@@ -1719,12 +2027,15 @@ app.post(
                 );
 
             res.status(201).json({
+
                 message:
                     "Account created",
 
                 token
             });
+
         } catch (error) {
+
             console.error(
                 "Register error:",
                 error
@@ -1744,8 +2055,13 @@ app.post(
 
 app.post(
     "/api/auth/login",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
+
             const username =
                 String(
                     req.body.username || ""
@@ -1756,15 +2072,22 @@ app.post(
                     req.body.password || ""
                 );
 
-            const user =
-                db.prepare(`
+            const result =
+                await query(
+                    `
                     SELECT *
                     FROM users
                     WHERE LOWER(username) =
-                          LOWER(?)
-                `).get(username);
+                        LOWER($1)
+                    `,
+                    [username]
+                );
+
+            const user =
+                result.rows[0];
 
             if (!user) {
+
                 return res.status(401).json({
                     error:
                         "Invalid username or password"
@@ -1778,6 +2101,7 @@ app.post(
                 );
 
             if (!valid) {
+
                 return res.status(401).json({
                     error:
                         "Invalid username or password"
@@ -1790,12 +2114,15 @@ app.post(
                 );
 
             res.json({
+
                 message:
                     "Login successful",
 
                 token
             });
+
         } catch (error) {
+
             console.error(
                 "Login error:",
                 error
@@ -1816,102 +2143,123 @@ app.post(
 app.get(
     "/api/me",
     authenticate,
-    async (req, res) => {
-        const stats =
-            getUserStats(
-                req.user.id
+    async (
+        req,
+        res
+    ) => {
+
+        try {
+
+            const stats =
+                await getUserStats(
+                    req.user.id
+                );
+
+            res.json({
+
+                user: {
+
+                    id:
+                        req.user.id,
+
+                    username:
+                        req.user.username,
+
+                    displayName:
+                        req.user.display_name ||
+                        req.user.username,
+
+                    newskyPilotId:
+                        req.user.newsky_pilot_id ||
+                        "",
+
+                    discordUserId:
+                        req.user.discord_user_id ||
+                        "",
+
+                    discordLinked:
+                        Boolean(
+                            req.user.discord_user_id
+                        )
+                },
+
+                stats: {
+
+                    stars:
+                        stats.stars,
+
+                    rank:
+                        stats.rank.name,
+
+                    rankMin:
+                        stats.rank.stars,
+
+                    nextRank:
+                        stats.nextRank,
+
+                    progress:
+                        stats.progress,
+
+                    flightCount:
+                        stats.flightCount,
+
+                    distance:
+                        stats.distance,
+
+                    flightHours:
+                        stats.flightHours,
+
+                    averageRating:
+                        stats.averageRating
+                },
+
+                achievements:
+                    getAchievements(
+                        stats
+                    ),
+
+                flights:
+                    stats.flights
+                        .slice(0, 100)
+                        .map(
+                            formatFlight
+                        )
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Profile error:",
+                error
             );
 
-        res.json({
-            user: {
-                id:
-                    req.user.id,
-
-                username:
-                    req.user.username,
-
-                displayName:
-                    req.user.display_name ||
-                    req.user.username,
-
-                newskyPilotId:
-                    req.user.newsky_pilot_id ||
-                    "",
-
-                discordUserId:
-                    req.user.discord_user_id ||
-                    "",
-
-                discordLinked:
-                    Boolean(
-                        req.user.discord_user_id
-                    )
-            },
-
-            stats: {
-                stars:
-                    stats.stars,
-
-                rank:
-                    stats.rank.name,
-
-                rankMin:
-                    stats.rank.stars,
-
-                nextRank:
-                    stats.nextRank,
-
-                progress:
-                    stats.progress,
-
-                flightCount:
-                    stats.flightCount,
-
-                distance:
-                    stats.distance,
-
-                flightHours:
-                    stats.flightHours,
-
-                averageRating:
-                    stats.averageRating
-            },
-
-            achievements:
-                getAchievements(
-                    stats
-                ),
-
-            flights:
-                stats.flights
-                    .slice(0, 100)
-                    .map(
-                        formatFlight
-                    )
-        });
+            res.status(500).json({
+                error:
+                    "Unable to load profile."
+            });
+        }
     }
 );
 
 // ============================================================
 // DISCORD OAUTH2 - START
 // ============================================================
-//
-// Frontend:
-//
-// window.location.href =
-// API_URL + "/api/discord/login?token=" + token;
-//
-// ============================================================
 
 app.get(
     "/api/discord/login",
-    (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
+
             if (
                 !DISCORD_CLIENT_ID ||
                 !DISCORD_CLIENT_SECRET ||
                 !DISCORD_REDIRECT_URI
             ) {
+
                 return res.status(500).json({
                     error:
                         "Discord OAuth2 is not configured on the server."
@@ -1924,6 +2272,7 @@ app.get(
                 );
 
             if (!token) {
+
                 return res.status(401).json({
                     error:
                         "Website login token is required."
@@ -1933,48 +2282,54 @@ app.get(
             let decoded;
 
             try {
+
                 decoded =
                     jwt.verify(
                         token,
                         JWT_SECRET
                     );
+
             } catch {
+
                 return res.status(401).json({
                     error:
                         "Invalid or expired website login token."
                 });
             }
 
-            const user =
-                db.prepare(`
+            const result =
+                await query(
+                    `
                     SELECT *
                     FROM users
-                    WHERE id = ?
-                `).get(decoded.id);
+                    WHERE id = $1
+                    `,
+                    [decoded.id]
+                );
+
+            const user =
+                result.rows[0];
 
             if (!user) {
+
                 return res.status(404).json({
                     error:
                         "Website user not found."
                 });
             }
 
-            // ------------------------------------------------
-            // STATE
-            // ------------------------------------------------
-            //
-            // State is signed so the callback cannot be used
-            // to connect a Discord account to another user.
-            //
             const state =
                 jwt.sign(
                     {
                         userId:
                             user.id,
+
                         purpose:
                             "discord-oauth"
                     },
+
                     JWT_SECRET,
+
                     {
                         expiresIn:
                             "10m"
@@ -1983,6 +2338,7 @@ app.get(
 
             const params =
                 new URLSearchParams({
+
                     client_id:
                         DISCORD_CLIENT_ID,
 
@@ -2004,7 +2360,9 @@ app.get(
             res.redirect(
                 discordUrl
             );
+
         } catch (error) {
+
             console.error(
                 "Discord OAuth start error:",
                 error
@@ -2024,8 +2382,13 @@ app.get(
 
 app.get(
     "/api/discord/callback",
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
+
             const {
                 code,
                 state,
@@ -2033,6 +2396,7 @@ app.get(
             } = req.query;
 
             if (error) {
+
                 return res.status(400).send(`
                     <html>
                     <body style="font-family:Arial;padding:40px">
@@ -2043,7 +2407,11 @@ app.get(
                 `);
             }
 
-            if (!code || !state) {
+            if (
+                !code ||
+                !state
+            ) {
+
                 return res.status(400).send(`
                     <html>
                     <body style="font-family:Arial;padding:40px">
@@ -2057,12 +2425,15 @@ app.get(
             let decoded;
 
             try {
+
                 decoded =
                     jwt.verify(
                         state,
                         JWT_SECRET
                     );
+
             } catch {
+
                 return res.status(400).send(`
                     <html>
                     <body style="font-family:Arial;padding:40px">
@@ -2077,6 +2448,7 @@ app.get(
                 decoded.purpose !==
                 "discord-oauth"
             ) {
+
                 return res.status(400).send(`
                     <html>
                     <body style="font-family:Arial;padding:40px">
@@ -2086,16 +2458,21 @@ app.get(
                 `);
             }
 
-            const user =
-                db.prepare(`
+            const userResult =
+                await query(
+                    `
                     SELECT *
                     FROM users
-                    WHERE id = ?
-                `).get(
-                    decoded.userId
+                    WHERE id = $1
+                    `,
+                    [decoded.userId]
                 );
 
+            const user =
+                userResult.rows[0];
+
             if (!user) {
+
                 return res.status(404).send(`
                     <html>
                     <body style="font-family:Arial;padding:40px">
@@ -2106,14 +2483,16 @@ app.get(
             }
 
             // ------------------------------------------------
-            // EXCHANGE CODE FOR DISCORD ACCESS TOKEN
+            // EXCHANGE CODE
             // ------------------------------------------------
 
             const tokenResponse =
                 await fetch(
                     "https://discord.com/api/oauth2/token",
                     {
-                        method: "POST",
+
+                        method:
+                            "POST",
 
                         headers: {
                             "Content-Type":
@@ -2122,6 +2501,7 @@ app.get(
 
                         body:
                             new URLSearchParams({
+
                                 client_id:
                                     DISCORD_CLIENT_ID,
 
@@ -2132,7 +2512,9 @@ app.get(
                                     "authorization_code",
 
                                 code:
-                                    String(code),
+                                    String(
+                                        code
+                                    ),
 
                                 redirect_uri:
                                     DISCORD_REDIRECT_URI
@@ -2146,11 +2528,14 @@ app.get(
             let tokenData;
 
             try {
+
                 tokenData =
                     JSON.parse(
                         tokenText
                     );
+
             } catch {
+
                 tokenData = {};
             }
 
@@ -2158,6 +2543,7 @@ app.get(
                 !tokenResponse.ok ||
                 !tokenData.access_token
             ) {
+
                 console.error(
                     "Discord OAuth token error:",
                     tokenData
@@ -2181,7 +2567,9 @@ app.get(
                 await fetch(
                     "https://discord.com/api/users/@me",
                     {
+
                         headers: {
+
                             Authorization:
                                 `Bearer ${tokenData.access_token}`
                         }
@@ -2195,6 +2583,7 @@ app.get(
                 !discordUserResponse.ok ||
                 !discordUser.id
             ) {
+
                 console.error(
                     "Discord user lookup failed:",
                     discordUser
@@ -2211,23 +2600,30 @@ app.get(
             }
 
             // ------------------------------------------------
-            // CHECK WHETHER DISCORD ACCOUNT IS ALREADY LINKED
+            // CHECK EXISTING DISCORD LINK
             // ------------------------------------------------
 
-            const existingUser =
-                db.prepare(`
+            const existingUserResult =
+                await query(
+                    `
                     SELECT id, username
                     FROM users
-                    WHERE discord_user_id = ?
-                      AND id != ?
-                `).get(
-                    String(
-                        discordUser.id
-                    ),
-                    user.id
+                    WHERE discord_user_id = $1
+                    AND id != $2
+                    `,
+                    [
+                        String(
+                            discordUser.id
+                        ),
+
+                        user.id
+                    ]
                 );
 
-            if (existingUser) {
+            if (
+                existingUserResult.rows.length
+            ) {
+
                 return res.status(409).send(`
                     <html>
                     <body style="font-family:Arial;padding:40px">
@@ -2239,18 +2635,22 @@ app.get(
             }
 
             // ------------------------------------------------
-            // SAVE DISCORD USER ID
+            // SAVE DISCORD ID
             // ------------------------------------------------
 
-            db.prepare(`
+            await query(
+                `
                 UPDATE users
-                SET discord_user_id = ?
-                WHERE id = ?
-            `).run(
-                String(
-                    discordUser.id
-                ),
-                user.id
+                SET discord_user_id = $1
+                WHERE id = $2
+                `,
+                [
+                    String(
+                        discordUser.id
+                    ),
+
+                    user.id
+                ]
             );
 
             console.log(
@@ -2258,7 +2658,7 @@ app.get(
             );
 
             // ------------------------------------------------
-            // IMMEDIATELY SYNC CURRENT RANK
+            // INITIAL RANK SYNC
             // ------------------------------------------------
 
             const roleSync =
@@ -2271,14 +2671,13 @@ app.get(
                 roleSync
             );
 
-            // ------------------------------------------------
-            // SUCCESS PAGE
-            // ------------------------------------------------
+            const stats =
+                await getUserStats(
+                    user.id
+                );
 
             const rank =
-                getUserStats(
-                    user.id
-                ).rank.name;
+                stats.rank.name;
 
             const discordName =
                 discordUser.global_name ||
@@ -2286,7 +2685,9 @@ app.get(
 
             res.send(`
                 <!DOCTYPE html>
+
                 <html>
+
                 <head>
                     <meta charset="UTF-8">
                     <title>Discord Connected</title>
@@ -2358,9 +2759,12 @@ app.get(
                     </div>
 
                 </body>
+
                 </html>
             `);
+
         } catch (error) {
+
             console.error(
                 "Discord OAuth callback error:",
                 error
@@ -2385,66 +2789,90 @@ app.get(
 app.get(
     "/api/discord/status",
     authenticate,
-    (req, res) => {
-        const user =
-            db.prepare(`
-                SELECT discord_user_id
-                FROM users
-                WHERE id = ?
-            `).get(
-                req.user.id
-            );
+    async (
+        req,
+        res
+    ) => {
 
-        res.json({
-            connected:
-                Boolean(
-                    user &&
-                    user.discord_user_id
-                ),
+        try {
 
-            discordUserId:
-                user?.discord_user_id ||
-                null,
+            const result =
+                await query(
+                    `
+                    SELECT discord_user_id
+                    FROM users
+                    WHERE id = $1
+                    `,
+                    [req.user.id]
+                );
 
-            botReady:
-                discordReady
-        });
+            const user =
+                result.rows[0];
+
+            res.json({
+
+                connected:
+                    Boolean(
+                        user &&
+                        user.discord_user_id
+                    ),
+
+                discordUserId:
+                    user?.discord_user_id ||
+                    null,
+
+                botReady:
+                    discordReady
+            });
+
+        } catch (error) {
+
+            res.status(500).json({
+                error:
+                    "Unable to read Discord status."
+            });
+        }
     }
 );
 
 // ============================================================
 // MANUAL DISCORD RANK SYNC
 // ============================================================
-//
-// Handig voor testen.
-//
-// POST /api/discord/sync
-//
-// ============================================================
 
 app.post(
     "/api/discord/sync",
     authenticate,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
+
             const result =
                 await syncDiscordRank(
                     req.user.id
                 );
 
-            if (!result.success) {
+            if (
+                !result.success
+            ) {
+
                 return res.status(400).json(
                     result
                 );
             }
 
             res.json({
+
                 message:
                     "Discord rank synchronized.",
 
                 ...result
             });
+
         } catch (error) {
+
             console.error(
                 "Manual Discord sync error:",
                 error
@@ -2465,7 +2893,11 @@ app.post(
 app.post(
     "/api/account/link",
     authenticate,
-    (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         const cleanId =
             String(
                 req.body.newskyPilotId ||
@@ -2473,28 +2905,48 @@ app.post(
             ).trim();
 
         if (!cleanId) {
+
             return res.status(400).json({
                 error:
                     "NewSky Pilot ID is required"
             });
         }
 
-        db.prepare(`
-            UPDATE users
-            SET newsky_pilot_id = ?
-            WHERE id = ?
-        `).run(
-            cleanId,
-            req.user.id
-        );
+        try {
 
-        res.json({
-            message:
-                "NewSky Pilot ID linked successfully.",
+            await query(
+                `
+                UPDATE users
+                SET newsky_pilot_id = $1
+                WHERE id = $2
+                `,
+                [
+                    cleanId,
+                    req.user.id
+                ]
+            );
 
-            newskyPilotId:
-                cleanId
-        });
+            res.json({
+
+                message:
+                    "NewSky Pilot ID linked successfully.",
+
+                newskyPilotId:
+                    cleanId
+            });
+
+        } catch (error) {
+
+            console.error(
+                "NewSky linking error:",
+                error
+            );
+
+            res.status(500).json({
+                error:
+                    "Unable to link NewSky Pilot ID."
+            });
+        }
     }
 );
 
@@ -2524,6 +2976,7 @@ const NEWSKY_MAX_RETRIES =
 // ============================================================
 
 function sleep(ms) {
+
     return new Promise(
         resolve =>
             setTimeout(
@@ -2540,6 +2993,7 @@ function sleep(ms) {
 function toDateOnly(
     value
 ) {
+
     const date =
         new Date(value);
 
@@ -2548,6 +3002,7 @@ function toDateOnly(
             date.getTime()
         )
     ) {
+
         throw new Error(
             `Invalid date: ${value}`
         );
@@ -2562,6 +3017,7 @@ function addDays(
     dateString,
     days
 ) {
+
     const date =
         new Date(
             `${dateString}T00:00:00.000Z`
@@ -2581,6 +3037,7 @@ function minDate(
     a,
     b
 ) {
+
     return a < b
         ? a
         : b;
@@ -2596,9 +3053,11 @@ async function getNewSkyFlightPage(
     skip = 0,
     count = NEWSKY_PAGE_SIZE
 ) {
+
     if (
         !process.env.NEWSKY_API_KEY
     ) {
+
         throw new Error(
             "NEWSKY_API_KEY is not configured."
         );
@@ -2608,46 +3067,57 @@ async function getNewSkyFlightPage(
         "https://newsky.app/api/airline-api/flights/bydate";
 
     console.log("");
+
     console.log(
         "NewSky request:"
     );
+
     console.log(
         "URL:",
         url
     );
+
     console.log(
         "Start:",
         start
     );
+
     console.log(
         "End:",
         end
     );
+
     console.log(
         "Skip:",
         skip
     );
+
     console.log(
         "Count:",
         count
     );
 
     let response;
+
     let text = "";
 
     for (
         let attempt = 1;
-        attempt <= NEWSKY_MAX_RETRIES;
+        attempt <=
+        NEWSKY_MAX_RETRIES;
         attempt++
     ) {
+
         response =
             await fetch(
                 url,
                 {
+
                     method:
                         "POST",
 
                     headers: {
+
                         Authorization:
                             `Bearer ${process.env.NEWSKY_API_KEY}`,
 
@@ -2660,10 +3130,15 @@ async function getNewSkyFlightPage(
 
                     body:
                         JSON.stringify({
+
                             skip,
+
                             count,
+
                             start,
+
                             end,
+
                             includeDeleted:
                                 false
                         })
@@ -2681,6 +3156,7 @@ async function getNewSkyFlightPage(
             response.status !==
             429
         ) {
+
             break;
         }
 
@@ -2697,6 +3173,7 @@ async function getNewSkyFlightPage(
             10000;
 
         if (retryAfter) {
+
             const retrySeconds =
                 Number(
                     retryAfter
@@ -2707,6 +3184,7 @@ async function getNewSkyFlightPage(
                     retrySeconds
                 )
             ) {
+
                 waitTime =
                     Math.max(
                         retrySeconds *
@@ -2730,11 +3208,14 @@ async function getNewSkyFlightPage(
     let data;
 
     try {
+
         data =
             JSON.parse(
                 text
             );
+
     } catch {
+
         console.error(
             "Invalid JSON received from NewSky:",
             text
@@ -2745,7 +3226,10 @@ async function getNewSkyFlightPage(
         );
     }
 
-    if (!response.ok) {
+    if (
+        !response.ok
+    ) {
+
         console.error(
             "NewSky API error:",
             response.status,
@@ -2769,9 +3253,11 @@ async function getNewSkyFlightPage(
 function extractFlights(
     data
 ) {
+
     if (
         Array.isArray(data)
     ) {
+
         return data;
     }
 
@@ -2781,6 +3267,7 @@ function extractFlights(
             data.results
         )
     ) {
+
         return data.results;
     }
 
@@ -2790,6 +3277,7 @@ function extractFlights(
             data.flights
         )
     ) {
+
         return data.flights;
     }
 
@@ -2800,6 +3288,7 @@ function extractFlights(
             data.data
         )
     ) {
+
         return data.data;
     }
 
@@ -2810,6 +3299,7 @@ function extractFlights(
             data.data.results
         )
     ) {
+
         return data.data.results;
     }
 
@@ -2820,6 +3310,7 @@ function extractFlights(
             data.data.flights
         )
     ) {
+
         return data.data.flights;
     }
 
@@ -2831,6 +3322,7 @@ function extractFlights(
 // ============================================================
 
 async function getAllNewSkyFlights() {
+
     const allFlights =
         [];
 
@@ -2851,38 +3343,49 @@ async function getAllNewSkyFlights() {
         rangeStart >
         today
     ) {
+
         throw new Error(
             `NEWSKY_HISTORY_START (${rangeStart}) cannot be in the future.`
         );
     }
 
     console.log("");
+
     console.log(
         "============================================================"
     );
+
     console.log(
         "STARTING FULL ECHO AIR GROUP NEWSKY SYNC"
     );
+
     console.log(
         "============================================================"
     );
+
     console.log(
         `Airline ID: ${NEWSKY_AIRLINE_ID}`
     );
+
     console.log(
         `History start: ${rangeStart}`
     );
+
     console.log(
         `History end: ${today}`
     );
+
     console.log(
         "============================================================"
     );
+
     console.log("");
 
     while (
-        rangeStart <= today
+        rangeStart <=
+        today
     ) {
+
         rangeNumber++;
 
         const rangeEnd =
@@ -2895,26 +3398,32 @@ async function getAllNewSkyFlights() {
             );
 
         console.log("");
+
         console.log(
             "------------------------------------------------------------"
         );
+
         console.log(
             `DATE RANGE ${rangeNumber}: ${rangeStart} -> ${rangeEnd}`
         );
+
         console.log(
             "------------------------------------------------------------"
         );
 
         let skip = 0;
+
         let page = 0;
 
         while (true) {
+
             page++;
 
             if (
                 allFlights.length >
                 0
             ) {
+
                 await sleep(
                     NEWSKY_RATE_LIMIT_DELAY
                 );
@@ -2962,6 +3471,7 @@ async function getAllNewSkyFlights() {
             if (
                 flights.length === 0
             ) {
+
                 break;
             }
 
@@ -2973,6 +3483,7 @@ async function getAllNewSkyFlights() {
                 flights.length <
                 NEWSKY_PAGE_SIZE
             ) {
+
                 break;
             }
 
@@ -2982,6 +3493,7 @@ async function getAllNewSkyFlights() {
                     flights.length >=
                     totalResults
             ) {
+
                 break;
             }
 
@@ -3003,12 +3515,14 @@ async function getAllNewSkyFlights() {
         const flight
         of allFlights
     ) {
+
         const id =
             getNewSkyFlightId(
                 flight
             );
 
         if (id) {
+
             unique.set(
                 String(id),
                 flight
@@ -3022,21 +3536,27 @@ async function getAllNewSkyFlights() {
         );
 
     console.log("");
+
     console.log(
         "============================================================"
     );
+
     console.log(
         "NEWSKY SYNC FINISHED"
     );
+
     console.log(
         `Raw flights received: ${allFlights.length}`
     );
+
     console.log(
         `Unique flights: ${result.length}`
     );
+
     console.log(
         "============================================================"
     );
+
     console.log("");
 
     return result;
@@ -3046,9 +3566,11 @@ async function getAllNewSkyFlights() {
 // USER MAP
 // ============================================================
 
-function getLinkedPilotMap() {
-    const users =
-        db.prepare(`
+async function getLinkedPilotMap() {
+
+    const result =
+        await query(
+            `
             SELECT
                 id,
                 username,
@@ -3058,7 +3580,11 @@ function getLinkedPilotMap() {
             WHERE
                 newsky_pilot_id IS NOT NULL
                 AND TRIM(newsky_pilot_id) != ''
-        `).all();
+            `
+        );
+
+    const users =
+        result.rows;
 
     const map =
         new Map();
@@ -3067,10 +3593,12 @@ function getLinkedPilotMap() {
         const user
         of users
     ) {
+
         map.set(
             String(
                 user.newsky_pilot_id
             ).trim(),
+
             user
         );
     }
@@ -3082,214 +3610,301 @@ function getLinkedPilotMap() {
 // SAVE FLIGHT
 // ============================================================
 
-const saveFlight =
-    db.prepare(`
-        INSERT INTO flights
-        (
-            user_id,
-            newsky_id,
-            dep_icao,
-            arr_icao,
-            aircraft,
-            rating,
-            duration,
-            distance,
-            stars,
-            dep_time,
-            synced_at
-        )
-        VALUES
-        (
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            ?,
-            CURRENT_TIMESTAMP
-        )
+async function saveFlight(
+    client,
+    data
+) {
 
-        ON CONFLICT(user_id, newsky_id)
-        DO UPDATE SET
-
-            dep_icao =
-                excluded.dep_icao,
-
-            arr_icao =
-                excluded.arr_icao,
-
-            aircraft =
-                excluded.aircraft,
-
-            rating =
-                excluded.rating,
-
-            duration =
-                excluded.duration,
-
-            distance =
-                excluded.distance,
-
-            stars =
-                excluded.stars,
-
-            dep_time =
-                excluded.dep_time,
-
-            synced_at =
+    const result =
+        await client.query(
+            `
+            INSERT INTO flights
+            (
+                user_id,
+                newsky_id,
+                dep_icao,
+                arr_icao,
+                aircraft,
+                rating,
+                duration,
+                distance,
+                stars,
+                dep_time,
+                synced_at
+            )
+            VALUES
+            (
+                $1,
+                $2,
+                $3,
+                $4,
+                $5,
+                $6,
+                $7,
+                $8,
+                $9,
+                $10,
                 CURRENT_TIMESTAMP
-    `);
+            )
+
+            ON CONFLICT
+            (
+                user_id,
+                newsky_id
+            )
+
+            DO UPDATE SET
+
+                dep_icao =
+                    EXCLUDED.dep_icao,
+
+                arr_icao =
+                    EXCLUDED.arr_icao,
+
+                aircraft =
+                    EXCLUDED.aircraft,
+
+                rating =
+                    EXCLUDED.rating,
+
+                duration =
+                    EXCLUDED.duration,
+
+                distance =
+                    EXCLUDED.distance,
+
+                stars =
+                    EXCLUDED.stars,
+
+                dep_time =
+                    EXCLUDED.dep_time,
+
+                synced_at =
+                    CURRENT_TIMESTAMP
+
+            RETURNING
+                (xmax = 0) AS inserted
+            `,
+
+            [
+                data.userId,
+                data.newskyId,
+                data.depIcao,
+                data.arrIcao,
+                data.aircraft,
+                data.rating,
+                data.duration,
+                data.distance,
+                data.stars,
+                data.depTime
+            ]
+        );
+
+    return result.rows[0];
+}
 
 // ============================================================
 // IMPORT ALL FLIGHTS
 // ============================================================
 
-function importAllFlights(
+async function importAllFlights(
     allFlights
 ) {
+
     const pilotMap =
-        getLinkedPilotMap();
+        await getLinkedPilotMap();
 
     let imported = 0;
+
     let updated = 0;
+
     let skipped = 0;
+
     let unmatched = 0;
 
     const matchedPilots =
         new Set();
 
-    const transaction =
-        db.transaction(
-            flights => {
-                for (
-                    const flight
-                    of flights
-                ) {
-                    const pilotId =
-                        getPilotId(
-                            flight
-                        );
+    const client =
+        await pool.connect();
 
-                    if (!pilotId) {
-                        skipped++;
-                        continue;
-                    }
+    try {
 
-                    const user =
-                        pilotMap.get(
-                            String(
-                                pilotId
-                            ).trim()
-                        );
+        await client.query(
+            "BEGIN"
+        );
 
-                    if (!user) {
-                        unmatched++;
-                        continue;
-                    }
+        for (
+            const flight
+            of allFlights
+        ) {
 
-                    matchedPilots.add(
-                        user.id
-                    );
+            const pilotId =
+                getPilotId(
+                    flight
+                );
 
-                    const newskyId =
-                        getNewSkyFlightId(
-                            flight
-                        );
+            if (!pilotId) {
 
-                    if (!newskyId) {
-                        skipped++;
-                        continue;
-                    }
+                skipped++;
 
-                    const departure =
-                        getDeparture(
-                            flight
-                        );
+                continue;
+            }
 
-                    const arrival =
-                        getArrival(
-                            flight
-                        );
+            const user =
+                pilotMap.get(
+                    String(
+                        pilotId
+                    ).trim()
+                );
 
-                    const aircraft =
-                        getAircraft(
-                            flight
-                        );
+            if (!user) {
 
-                    const rating =
-                        getRating(
-                            flight
-                        );
+                unmatched++;
 
-                    const duration =
-                        getDurationMinutes(
-                            flight
-                        );
+                continue;
+            }
 
-                    const distance =
-                        getDistance(
-                            flight
-                        );
+            matchedPilots.add(
+                user.id
+            );
 
-                    const depTime =
-                        getFlightDate(
-                            flight
-                        );
+            const newskyId =
+                getNewSkyFlightId(
+                    flight
+                );
 
-                    const stars =
-                        calculateFlightStars(
-                            duration,
-                            distance,
-                            rating
-                        );
+            if (!newskyId) {
 
-                    const result =
-                        saveFlight.run(
+                skipped++;
+
+                continue;
+            }
+
+            const departure =
+                getDeparture(
+                    flight
+                );
+
+            const arrival =
+                getArrival(
+                    flight
+                );
+
+            const aircraft =
+                getAircraft(
+                    flight
+                );
+
+            const rating =
+                getRating(
+                    flight
+                );
+
+            const duration =
+                getDurationMinutes(
+                    flight
+                );
+
+            const distance =
+                getDistance(
+                    flight
+                );
+
+            const depTime =
+                getFlightDate(
+                    flight
+                );
+
+            const stars =
+                calculateFlightStars(
+                    duration,
+                    distance,
+                    rating
+                );
+
+            const saveResult =
+                await saveFlight(
+                    client,
+                    {
+
+                        userId:
                             user.id,
+
+                        newskyId:
                             newskyId,
+
+                        depIcao:
                             departure ||
-                                null,
+                            null,
+
+                        arrIcao:
                             arrival ||
-                                null,
+                            null,
+
+                        aircraft:
                             aircraft
                                 ? String(
                                       aircraft
                                   )
                                 : null,
-                            rating,
-                            duration,
-                            distance,
-                            stars,
+
+                        rating,
+
+                        duration,
+
+                        distance,
+
+                        stars,
+
+                        depTime:
                             depTime
                                 ? String(
                                       depTime
                                   )
                                 : null
-                        );
-
-                    if (
-                        result.changes >
-                        0
-                    ) {
-                        imported++;
                     }
-                }
+                );
+
+            if (
+                saveResult.inserted
+            ) {
+
+                imported++;
+
+            } else {
+
+                updated++;
             }
+        }
+
+        await client.query(
+            "COMMIT"
         );
 
-    transaction(
-        allFlights
-    );
+    } catch (error) {
+
+        await client.query(
+            "ROLLBACK"
+        );
+
+        throw error;
+
+    } finally {
+
+        client.release();
+    }
 
     return {
+
         imported,
+
         updated,
+
         skipped,
+
         unmatched,
+
         matchedPilots:
             matchedPilots.size
     };
@@ -3302,24 +3917,37 @@ function importAllFlights(
 app.post(
     "/api/sync/all",
     authenticate,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
+
             console.log(
                 `Global Echo Air Group flight sync started by user ${req.user.username}`
             );
 
-            const linkedPilots =
-                db.prepare(`
+            const linkedResult =
+                await query(
+                    `
                     SELECT COUNT(*) AS count
                     FROM users
                     WHERE
                         newsky_pilot_id IS NOT NULL
                         AND TRIM(newsky_pilot_id) != ''
-                `).get().count;
+                    `
+                );
+
+            const linkedPilots =
+                Number(
+                    linkedResult.rows[0].count
+                );
 
             if (
                 linkedPilots === 0
             ) {
+
                 return res.status(400).json({
                     error:
                         "No Echo Air Group pilots have linked their NewSky Pilot ID yet."
@@ -3330,13 +3958,9 @@ app.post(
                 await getAllNewSkyFlights();
 
             const result =
-                importAllFlights(
+                await importAllFlights(
                     allFlights
                 );
-
-            // ------------------------------------------------
-            // AUTOMATIC DISCORD RANK SYNC
-            // ------------------------------------------------
 
             console.log(
                 "Starting automatic Discord rank synchronization..."
@@ -3345,13 +3969,21 @@ app.post(
             const discordResult =
                 await syncAllDiscordRanks();
 
-            const totalDatabaseFlights =
-                db.prepare(`
+            const totalResult =
+                await query(
+                    `
                     SELECT COUNT(*) AS count
                     FROM flights
-                `).get().count;
+                    `
+                );
+
+            const totalDatabaseFlights =
+                Number(
+                    totalResult.rows[0].count
+                );
 
             res.json({
+
                 message:
                     "Echo Air Group flight synchronization completed.",
 
@@ -3362,6 +3994,9 @@ app.post(
 
                 flightsImported:
                     result.imported,
+
+                flightsUpdated:
+                    result.updated,
 
                 flightsSkipped:
                     result.skipped,
@@ -3378,13 +4013,16 @@ app.post(
                 discordRankSync:
                     discordResult
             });
+
         } catch (error) {
+
             console.error(
                 "Global sync error:",
                 error
             );
 
             res.status(500).json({
+
                 error:
                     error.message ||
                     "Unable to synchronize Echo Air Group flights."
@@ -3400,8 +4038,13 @@ app.post(
 app.post(
     "/api/sync/me",
     authenticate,
-    async (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
+
             const pilotId =
                 String(
                     req.user.newsky_pilot_id ||
@@ -3409,6 +4052,7 @@ app.post(
                 ).trim();
 
             if (!pilotId) {
+
                 return res.status(400).json({
                     error:
                         "Please link your NewSky Pilot ID first."
@@ -3438,18 +4082,14 @@ app.post(
             );
 
             const result =
-                importAllFlights(
+                await importAllFlights(
                     pilotFlights
                 );
 
             const stats =
-                getUserStats(
+                await getUserStats(
                     req.user.id
                 );
-
-            // ------------------------------------------------
-            // AUTOMATIC DISCORD RANK SYNC
-            // ------------------------------------------------
 
             const discordResult =
                 await syncDiscordRank(
@@ -3457,6 +4097,7 @@ app.post(
                 );
 
             res.json({
+
                 message:
                     `${pilotFlights.length} flight(s) found for your NewSky Pilot ID.`,
 
@@ -3469,6 +4110,9 @@ app.post(
                 flightsImported:
                     result.imported,
 
+                flightsUpdated:
+                    result.updated,
+
                 flightsSkipped:
                     result.skipped,
 
@@ -3476,6 +4120,7 @@ app.post(
                     discordResult,
 
                 stats: {
+
                     stars:
                         stats.stars,
 
@@ -3495,13 +4140,16 @@ app.post(
                         stats.distance
                 }
             });
+
         } catch (error) {
+
             console.error(
                 "Personal sync error:",
                 error
             );
 
             res.status(500).json({
+
                 error:
                     error.message ||
                     "Unable to synchronize flights."
@@ -3516,10 +4164,16 @@ app.post(
 
 app.get(
     "/api/pilots",
-    (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
-            const users =
-                db.prepare(`
+
+            const result =
+                await query(
+                    `
                     SELECT
                         id,
                         username,
@@ -3535,65 +4189,76 @@ app.get(
                                 username
                             )
                         ) ASC
-                `).all();
+                    `
+                );
+
+            const users =
+                result.rows;
 
             const pilots =
-                users.map(
-                    user => {
-                        const stats =
-                            getUserStats(
-                                user.id
-                            );
+                [];
 
-                        return {
-                            id:
-                                user.id,
+            for (
+                const user
+                of users
+            ) {
 
-                            username:
-                                user.username,
+                const stats =
+                    await getUserStats(
+                        user.id
+                    );
 
-                            displayName:
-                                user.display_name ||
-                                user.username,
+                pilots.push({
 
-                            rank:
-                                stats.rank.name,
+                    id:
+                        user.id,
 
-                            stars:
-                                stats.stars,
+                    username:
+                        user.username,
 
-                            flightCount:
-                                stats.flightCount,
+                    displayName:
+                        user.display_name ||
+                        user.username,
 
-                            averageRating:
-                                stats.averageRating,
+                    rank:
+                        stats.rank.name,
 
-                            flightHours:
-                                stats.flightHours,
+                    stars:
+                        stats.stars,
 
-                            distance:
-                                stats.distance,
+                    flightCount:
+                        stats.flightCount,
 
-                            newskyLinked:
-                                Boolean(
-                                    user.newsky_pilot_id
-                                ),
+                    averageRating:
+                        stats.averageRating,
 
-                            discordLinked:
-                                Boolean(
-                                    user.discord_user_id
-                                ),
+                    flightHours:
+                        stats.flightHours,
 
-                            createdAt:
-                                user.created_at
-                        };
-                    }
-                );
+                    distance:
+                        stats.distance,
+
+                    newskyLinked:
+                        Boolean(
+                            user.newsky_pilot_id
+                        ),
+
+                    discordLinked:
+                        Boolean(
+                            user.discord_user_id
+                        ),
+
+                    createdAt:
+                        user.created_at
+                });
+            }
 
             res.json({
                 pilots
             });
+
         } catch (error) {
+
             console.error(
                 "Pilot list error:",
                 error
@@ -3613,8 +4278,13 @@ app.get(
 
 app.get(
     "/api/pilots/:id",
-    (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
+
             const userId =
                 Number(
                     req.params.id
@@ -3625,26 +4295,32 @@ app.get(
                     userId
                 )
             ) {
+
                 return res.status(400).json({
                     error:
                         "Invalid pilot ID."
                 });
             }
 
-            const user =
-                db.prepare(`
+            const result =
+                await query(
+                    `
                     SELECT
                         id,
                         username,
                         display_name,
                         created_at
                     FROM users
-                    WHERE id = ?
-                `).get(
-                    userId
+                    WHERE id = $1
+                    `,
+                    [userId]
                 );
 
+            const user =
+                result.rows[0];
+
             if (!user) {
+
                 return res.status(404).json({
                     error:
                         "Pilot not found."
@@ -3652,12 +4328,14 @@ app.get(
             }
 
             const stats =
-                getUserStats(
+                await getUserStats(
                     user.id
                 );
 
             res.json({
+
                 pilot: {
+
                     id:
                         user.id,
 
@@ -3697,7 +4375,9 @@ app.get(
                             formatFlight
                         )
             });
+
         } catch (error) {
+
             console.error(
                 "Pilot profile error:",
                 error
@@ -3717,101 +4397,121 @@ app.get(
 
 app.get(
     "/api/ranking",
-    (req, res) => {
+    async (
+        req,
+        res
+    ) => {
+
         try {
-            const users =
-                db.prepare(`
+
+            const result =
+                await query(
+                    `
                     SELECT
                         id,
                         username,
                         display_name
                     FROM users
-                `).all();
+                    `
+                );
+
+            const users =
+                result.rows;
 
             const rankings =
-                users
-                    .map(
-                        user => {
-                            const stats =
-                                getUserStats(
-                                    user.id
-                                );
+                [];
 
-                            return {
-                                id:
-                                    user.id,
+            for (
+                const user
+                of users
+            ) {
 
-                                name:
-                                    user.display_name ||
-                                    user.username,
-
-                                username:
-                                    user.username,
-
-                                stars:
-                                    stats.stars,
-
-                                flights:
-                                    stats.flightCount,
-
-                                flightCount:
-                                    stats.flightCount,
-
-                                averageRating:
-                                    stats.averageRating,
-
-                                rank:
-                                    stats.rank.name
-                            };
-                        }
-                    )
-                    .sort(
-                        (
-                            a,
-                            b
-                        ) => {
-                            if (
-                                b.stars !==
-                                a.stars
-                            ) {
-                                return (
-                                    b.stars -
-                                    a.stars
-                                );
-                            }
-
-                            if (
-                                b.averageRating !==
-                                a.averageRating
-                            ) {
-                                return (
-                                    b.averageRating -
-                                    a.averageRating
-                                );
-                            }
-
-                            return (
-                                b.flights -
-                                a.flights
-                            );
-                        }
-                    )
-                    .map(
-                        (
-                            pilot,
-                            index
-                        ) => ({
-                            ...pilot,
-
-                            position:
-                                index + 1
-                        })
+                const stats =
+                    await getUserStats(
+                        user.id
                     );
+
+                rankings.push({
+
+                    id:
+                        user.id,
+
+                    name:
+                        user.display_name ||
+                        user.username,
+
+                    username:
+                        user.username,
+
+                    stars:
+                        stats.stars,
+
+                    flights:
+                        stats.flightCount,
+
+                    flightCount:
+                        stats.flightCount,
+
+                    averageRating:
+                        stats.averageRating,
+
+                    rank:
+                        stats.rank.name
+                });
+            }
+
+            rankings.sort(
+                (
+                    a,
+                    b
+                ) => {
+
+                    if (
+                        b.stars !==
+                        a.stars
+                    ) {
+
+                        return (
+                            b.stars -
+                            a.stars
+                        );
+                    }
+
+                    if (
+                        b.averageRating !==
+                        a.averageRating
+                    ) {
+
+                        return (
+                            b.averageRating -
+                            a.averageRating
+                        );
+                    }
+
+                    return (
+                        b.flights -
+                        a.flights
+                    );
+                }
+            );
+
+            rankings.forEach(
+                (
+                    pilot,
+                    index
+                ) => {
+
+                    pilot.position =
+                        index + 1;
+                }
+            );
 
             res.json({
                 rankings
             });
+
         } catch (error) {
+
             console.error(
                 "Ranking error:",
                 error
@@ -3831,22 +4531,33 @@ app.get(
 
 app.get(
     "/api/admin/database-stats",
-    (req, res) => {
+    authenticate,
+    async (
+        req,
+        res
+    ) => {
+
         try {
-            const users =
-                db.prepare(`
+
+            const usersResult =
+                await query(
+                    `
                     SELECT COUNT(*) AS count
                     FROM users
-                `).get().count;
+                    `
+                );
 
-            const flights =
-                db.prepare(`
+            const flightsResult =
+                await query(
+                    `
                     SELECT COUNT(*) AS count
                     FROM flights
-                `).get().count;
+                    `
+                );
 
-            const usersWithFlights =
-                db.prepare(`
+            const usersWithFlightsResult =
+                await query(
+                    `
                     SELECT
                         u.id,
                         u.username,
@@ -3856,16 +4567,34 @@ app.get(
                     FROM users u
                     LEFT JOIN flights f
                         ON f.user_id = u.id
-                    GROUP BY u.id
-                    ORDER BY u.id
-                `).all();
+                    GROUP BY
+                        u.id,
+                        u.username,
+                        u.newsky_pilot_id,
+                        u.discord_user_id
+                    ORDER BY
+                        u.id
+                    `
+                );
 
             res.json({
-                users,
-                flights,
-                usersWithFlights
+
+                users:
+                    Number(
+                        usersResult.rows[0].count
+                    ),
+
+                flights:
+                    Number(
+                        flightsResult.rows[0].count
+                    ),
+
+                usersWithFlights:
+                    usersWithFlightsResult.rows
             });
+
         } catch (error) {
+
             console.error(
                 "Database stats error:",
                 error
@@ -3884,8 +4613,13 @@ app.get(
 // ============================================================
 
 app.use(
-    (req, res) => {
+    (
+        req,
+        res
+    ) => {
+
         res.status(404).json({
+
             error:
                 "Endpoint not found",
 
@@ -3906,6 +4640,7 @@ app.use(
         res,
         next
     ) => {
+
         console.error(
             "Unhandled server error:",
             error
@@ -3914,12 +4649,14 @@ app.use(
         if (
             res.headersSent
         ) {
+
             return next(
                 error
             );
         }
 
         res.status(500).json({
+
             error:
                 "Internal server error"
         });
@@ -3933,7 +4670,10 @@ app.use(
 function escapeHtml(
     value
 ) {
-    return String(value)
+
+    return String(
+        value
+    )
         .replace(
             /&/g,
             "&amp;"
@@ -3960,17 +4700,37 @@ function escapeHtml(
 // START SERVER
 // ============================================================
 
-app.listen(
-    PORT,
-    async () => {
-        console.log(
-            `Echo Air Group backend running on port ${PORT}`
+async function startServer() {
+
+    try {
+
+        await initializeDatabase();
+
+        app.listen(
+            PORT,
+            async () => {
+
+                console.log(
+                    `Echo Air Group backend running on port ${PORT}`
+                );
+
+                console.log(
+                    "Database: Neon PostgreSQL"
+                );
+
+                await startDiscordBot();
+            }
         );
 
-        console.log(
-            `Database: ${DB_PATH}`
+    } catch (error) {
+
+        console.error(
+            "Failed to start Echo Air Group backend:",
+            error
         );
 
-        await startDiscordBot();
+        process.exit(1);
     }
-);
+}
+
+startServer();
