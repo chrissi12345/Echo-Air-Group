@@ -1,6 +1,4 @@
-from pathlib import Path
-
-html = r'''<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -1658,6 +1656,15 @@ header.hide-on-scroll {
 .faq-item.open .faq-icon {
     transform: rotate(45deg);
 }
+.faq-contact {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+}
+
+.faq-contact .btn {
+    min-width: 220px;
+}
 
 /* ============================================================
    COMMUNITY / SOCIAL
@@ -3143,19 +3150,19 @@ footer p {
 
             <div class="gallery-item large">
                 <img
-                    src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&w=1400&q=85"
+                    src="https://media.discordapp.net/attachments/1270478011413696543/1515065368601821294/Gemini_Generated_Image_g6w87ug6w87ug6w8.png?ex=6a7d68d4&is=6a7c1754&hm=016c3e2158a7c4e65d78c9eec38a79bf7751e6c7e8301ad60ce10241a5569acb&=&format=webp&quality=lossless&width=640&height=400"
                     alt="Airliner in the sky"
                     loading="lazy"
                 >
                 <div class="gallery-overlay">
                     <strong>Long Haul Operations</strong>
-                    <span>https://media.discordapp.net/attachments/1270478011413696543/1467560356300849373/Microsoft_Flight_Simulator_-_1.39.9.0_01.02.2026_17_40_29.png?ex=6a7ca216&is=6a7b5096&hm=5fe0d0099cd072cafcd216266342fb1379e7c7de44bafe7b6a2c3136c0e489d6&=&format=webp&quality=lossless&width=1280&height=800</span>
+                    <span>Add your own flight screenshot here</span>
                 </div>
             </div>
 
             <div class="gallery-item">
                 <img
-                    src="https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=900&q=85"
+                    src="https://media.discordapp.net/attachments/1270478011413696543/1534287402661576784/image.png?ex=6a7d773e&is=6a7c25be&hm=a02d1d42c869163e081b441009fe5cc5688e558e8ee48e4cac0b4c566632b405&=&format=webp&quality=lossless&width=1280&height=800"
                     alt="Aircraft wing"
                     loading="lazy"
                 >
@@ -3167,7 +3174,7 @@ footer p {
 
             <div class="gallery-item">
                 <img
-                    src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=900&q=85"
+                    src="https://cdn.discordapp.com/attachments/1270478011413696543/1534289193730183259/image.png?ex=6a7d78e9&is=6a7c2769&hm=cb1274737b1c096c90fdd339c43c2d4d039ec7f8c0eb633c0f60ccf3c3796777&"
                     alt="Aircraft cockpit"
                     loading="lazy"
                 >
@@ -3179,7 +3186,7 @@ footer p {
 
             <div class="gallery-item">
                 <img
-                    src="https://images.unsplash.com/photo-1521727857535-28d2047314c3?auto=format&fit=crop&w=900&q=85"
+                    src="https://media.discordapp.net/attachments/1270478011413696543/1531406470057300038/image.png?ex=6a7cdf6a&is=6a7b8dea&hm=e078ef530b096cca279b5cd633f5afc0d65c3a5801ea3bd75bd3a6636c2bf92d&=&format=webp&quality=lossless&width=640&height=400"
                     alt="Airport at night"
                     loading="lazy"
                 >
@@ -3191,7 +3198,7 @@ footer p {
 
             <div class="gallery-item">
                 <img
-                    src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=85"
+                    src="https://media.discordapp.net/attachments/1270478011413696543/1493296980309573712/image.png?ex=6a7d5170&is=6a7bfff0&hm=3b9a9acdd1f6fb509e3fb80b4f6494d20239d4d24fc1c8bb26b23818a5806c27&=&format=webp&quality=lossless&width=640&height=400"
                     alt="Airliner above clouds"
                     loading="lazy"
                 >
@@ -3305,7 +3312,11 @@ footer p {
                     X-Plane 11 and X-Plane 12 according to the pilot standards.
                 </div>
             </div>
-
+   <div class="faq-contact">
+    <a class="btn btn-primary" href="contact.html">
+        Have another question? →
+    </a>
+</div>
             <div class="faq-item">
                 <button class="faq-question" type="button" onclick="toggleFaq(this)">
                     <span>Do I need to fly online?</span>
@@ -4226,27 +4237,3 @@ console.log(
 
 </body>
 </html>
-'''
-
-# Make sure the delivered file comfortably exceeds 1000 lines.
-lines = html.splitlines()
-
-# Add a small, harmless maintenance section before </style> if needed.
-# The actual page above is already intentionally verbose and structured.
-if len(lines) < 1000:
-    padding = []
-    for i in range(1000 - len(lines) + 50):
-        padding.append(
-            f"<!-- Echo Air Group maintenance marker {i+1}: "
-            f"reserved for future homepage customization -->"
-        )
-    insert_at = html.rfind("</body>")
-    html = html[:insert_at] + "\n".join(padding) + "\n" + html[insert_at:]
-    lines = html.splitlines()
-
-out = Path("/mnt/data/echo_air_group_homepage_1000plus.html")
-out.write_text(html, encoding="utf-8")
-
-print(f"Created: {out}")
-print(f"Line count: {len(lines)}")
-print(f"File size: {out.stat().st_size:,} bytes")
