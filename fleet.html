@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 
 <head>
@@ -13,194 +12,340 @@
 
 <style>
 
-/* =========================
+/* =========================================================
+   ECHO AIR GROUP — FLEET PAGE
+   Shared header / footer / animation system from index.html
+   ========================================================= */
+
+
+/* =========================================================
    FIXED HEADER
-========================= */
+   ========================================================= */
 
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    height: 100px;
+
     z-index: 9999;
 
-    background: rgba(9, 13, 8, 0.98);
-
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: #090d08;
 
     transition:
-        background 0.25s ease,
-        box-shadow 0.25s ease,
-        backdrop-filter 0.25s ease;
+        background 0.35s ease,
+        box-shadow 0.35s ease,
+        backdrop-filter 0.35s ease,
+        height 0.35s ease;
 }
 
 header.scrolled {
-    background: rgba(9, 13, 8, 0.80);
+    background: rgba(9, 13, 8, 0.82);
 
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 30px rgba(0,0,0,0.14);
 }
 
 
-/* =========================
-   BODY
-========================= */
+/* =========================================================
+   HEADER CONTENT
+   ========================================================= */
 
-body {
-    padding-top: 80px;
+header .nav {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
-/* =========================
+/* =========================================================
    HEADER LOGO
-========================= */
+   ========================================================= */
 
 .header-logo {
-    height: 48px;
-    width: auto;
-    display: block;
-    object-fit: contain;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    background: #090d08;
-    color: white;
-    padding: 45px 0 22px;
-}
-
-footer .brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: white;
-    margin-bottom: 16px;
-}
-
-footer .brand-logo {
-    width: 52px;
     height: 52px;
-    object-fit: contain;
+    width: auto;
+
     display: block;
+    object-fit: contain;
+
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
 }
 
-footer .brand-text {
-    display: flex;
-    flex-direction: column;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-}
-
-footer .brand-text small {
-    font-size: 11px;
-    font-weight: 600;
-    opacity: 0.65;
-    margin-top: 3px;
-}
-
-footer p {
-    color: #8f988c;
-    line-height: 1.7;
-}
-
-.foot-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 50px;
-}
-
-.foot-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 22px;
-    max-width: 500px;
-    justify-content: flex-end;
-}
-
-.foot-links a {
-    color: #b8c0b4;
-    text-decoration: none;
-    font-weight: 600;
-    transition: 0.2s ease;
-}
-
-.foot-links a:hover {
-    color: #ace336;
+.header-logo:hover {
+    transform: scale(1.03);
 }
 
 
-/* =========================
-   FOOTER SOCIALS
-========================= */
+/* =========================================================
+   DESKTOP NAVIGATION
+   ========================================================= */
 
-.footer-social {
+.navlinks {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: 18px;
+    gap: 26px;
 }
 
-.footer-social a {
-    width: 38px;
-    height: 38px;
+.navlinks a {
+    position: relative;
 
-    border-radius: 9px;
+    color: #d9ded6;
+    text-decoration: none;
 
-    background: #151b13;
+    font-size: 14px;
+    font-weight: 600;
 
-    display: flex;
+    padding: 8px 0;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.navlinks a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 2px;
+
+    background: #ace336;
+
+    border-radius: 999px;
+
+    transition: width 0.3s ease;
+}
+
+.navlinks a:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.navlinks a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================================================
+   REGISTER BUTTON
+   ========================================================= */
+
+.register {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    transition: 0.2s ease;
+    min-height: 42px;
+    padding: 0 18px;
+
+    border-radius: 10px;
+
+    background: #ace336;
+    color: #101410;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
 }
 
-.footer-social a:hover {
+.register:hover {
     transform: translateY(-2px);
-    background: #202a1d;
+
+    background: #b9ed4c;
+
+    box-shadow:
+        0 8px 24px rgba(172,227,54,0.18);
 }
 
-.footer-social img {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
+
+/* =========================================================
+   MOBILE MENU BUTTON
+   ========================================================= */
+
+.menu {
+    display: none;
+
+    border: 0;
+    background: transparent;
+
+    color: white;
+
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    padding: 8px;
 }
 
 
-/* =========================
-   COPYRIGHT
-========================= */
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
 
-.copy {
+.mobileNav {
+    position: absolute;
+
+    top: 100px;
+    left: 0;
+
+    width: 100%;
+
+    background: rgba(9,13,8,0.98);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-top: 1px solid rgba(255,255,255,0.06);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-10px);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        visibility 0.3s ease;
+}
+
+.mobileNav.open {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+.mobileNav .container {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    flex-direction: column;
 
-    margin-top: 35px;
-    padding-top: 20px;
+    padding-top: 12px;
+    padding-bottom: 18px;
+}
 
-    border-top: 1px solid rgba(255,255,255,0.08);
+.mobileNav a {
+    color: #d9ded6;
 
-    color: #687064;
-    font-size: 13px;
+    text-decoration: none;
+
+    padding: 13px 0;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+
+    transition:
+        color 0.2s ease,
+        padding-left 0.2s ease;
+}
+
+.mobileNav a:hover {
+    color: #ace336;
+    padding-left: 5px;
 }
 
 
-/* =========================
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+    padding-top: 100px;
+
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================================
+   SMOOTH SCROLL
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================================
+   SCROLL REVEAL ANIMATIONS
+   ========================================================= */
+
+.reveal,
+.reveal-left,
+.reveal-right {
+    opacity: 0;
+
+    transition:
+        opacity 0.75s ease,
+        transform 0.75s ease;
+}
+
+.reveal {
+    transform: translateY(35px);
+}
+
+.reveal-left {
+    transform: translateX(-45px);
+}
+
+.reveal-right {
+    transform: translateX(45px);
+}
+
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible {
+    opacity: 1;
+
+    transform: translate(0, 0);
+}
+
+
+/* =========================================================
+   FLEET CARDS
+   ========================================================= */
+
+.cards .card {
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.cards .card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,0.10);
+}
+
+
+/* =========================================================
    AIRCRAFT IMAGES
-========================= */
+   ========================================================= */
 
 .plane-art {
     position: relative;
+
     overflow: hidden;
 
     height: 300px;
@@ -223,6 +368,13 @@ footer p {
     display: block;
 
     border-radius: 100px 100px 0 0;
+
+    transition:
+        transform 0.55s ease;
+}
+
+.card:hover .plane-art img {
+    transform: scale(1.04);
 }
 
 .plane-art .plane-tag {
@@ -231,59 +383,387 @@ footer p {
 }
 
 
-/* =========================
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    background: #090d08;
+
+    color: white;
+
+    padding: 55px 0 24px;
+}
+
+footer .foot-top {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 60px;
+}
+
+footer .brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    text-decoration: none;
+    color: white;
+
+    margin-bottom: 16px;
+}
+
+footer .brand-logo {
+    width: 52px;
+    height: 52px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+footer .brand-text {
+    display: flex;
+    flex-direction: column;
+
+    color: white;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+}
+
+footer .brand-text small {
+    color: #8f988c;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    margin-top: 3px;
+}
+
+footer p {
+    color: #8f988c;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FOOTER LINKS
+   ========================================================= */
+
+footer .foot-links {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(110px, 1fr));
+
+    gap: 11px 35px;
+
+    min-width: 300px;
+}
+
+footer .foot-links a {
+    position: relative;
+
+    color: #cbd2c7;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+footer .foot-links a:hover {
+    color: #ace336;
+
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   FOOTER SOCIALS
+   ========================================================= */
+
+.footer-social {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.08);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.footer-social a:hover {
+    transform: translateY(-3px);
+
+    background: rgba(255,255,255,0.15);
+}
+
+.footer-social img {
+    width: 22px;
+    height: 22px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* =========================================================
+   COPYRIGHT
+   ========================================================= */
+
+footer .copy {
+    margin-top: 40px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.08);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: #737c70;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   BACK TO TOP
+   ========================================================= */
+
+.back-to-top {
+    position: fixed;
+
+    right: 24px;
+    bottom: 24px;
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+
+    background: rgba(9,13,8,0.88);
+
+    color: #ace336;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    z-index: 9998;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(12px);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease,
+        background 0.25s ease;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: rgba(172,227,54,0.12);
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
    MOBILE
-========================= */
+   ========================================================= */
 
-@media (max-width: 800px) {
+@media (max-width: 1050px) {
 
-    body {
-        padding-top: 70px;
+    .navlinks {
+        gap: 17px;
     }
 
-    .header-logo {
-        height: 40px;
+    .navlinks a {
+        font-size: 13px;
     }
 
-    .foot-top {
-        flex-direction: column;
-        gap: 25px;
-    }
-
-    .foot-links {
-        justify-content: flex-start;
-        max-width: none;
-    }
-
-    .copy {
-        flex-direction: column;
-        gap: 8px;
+    .register {
+        padding: 0 14px;
     }
 
 }
 
 
-/* =========================
-   VERY SMALL SCREENS
-========================= */
+@media (max-width: 900px) {
 
-@media (max-width: 500px) {
+    header {
+        height: 82px;
+    }
 
     body {
-        padding-top: 65px;
+        padding-top: 82px;
     }
 
     .header-logo {
-        height: 36px;
+        height: 48px;
+    }
+
+    .navlinks,
+    header .register {
+        display: none;
+    }
+
+    .menu {
+        display: block;
+    }
+
+    .mobileNav {
+        top: 82px;
+    }
+
+    footer .foot-top {
+        flex-direction: column;
+
+        gap: 35px;
+    }
+
+    footer .foot-links {
+        min-width: 0;
+
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    header {
+        height: 72px;
+    }
+
+    body {
+        padding-top: 72px;
+    }
+
+    .header-logo {
+        height: 42px;
+    }
+
+    .mobileNav {
+        top: 72px;
+    }
+
+    .plane-art {
+        height: 240px;
     }
 
     footer {
-        padding: 35px 0 18px;
+        padding: 42px 0 20px;
     }
 
     footer .brand-logo {
-        width: 46px;
-        height: 46px;
+        width: 48px;
+        height: 48px;
+    }
+
+    footer .foot-links {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 11px 20px;
+    }
+
+    footer .copy {
+        flex-direction: column;
+
+        gap: 7px;
+
+        margin-top: 28px;
+    }
+
+    .back-to-top {
+        right: 16px;
+        bottom: 16px;
+
+        width: 42px;
+        height: 42px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal,
+    .reveal-left,
+    .reveal-right {
+        opacity: 1;
+        transform: none;
     }
 
 }
@@ -296,15 +776,13 @@ footer p {
 <body>
 
 
-<!-- =========================
+<!-- =========================================================
      HEADER
-========================= -->
+     ========================================================= -->
 
 <header id="siteHeader">
 
     <div class="container nav">
-
-        <!-- HEADER LOGO -->
 
         <a class="brand" href="index.html">
 
@@ -317,46 +795,32 @@ footer p {
         </a>
 
 
-        <!-- DESKTOP NAVIGATION -->
-
         <nav class="navlinks">
 
             <a href="index.html">Home</a>
-
             <a href="about.html">About</a>
-
             <a href="fleet.html">Fleet</a>
-
             <a href="routes.html">Routes</a>
-
             <a href="team.html">Team</a>
-
             <a href="join.html">Join Us</a>
-
             <a href="manual.html">Pilot Manual</a>
-
             <a href="contact.html">Contact Us</a>
-
             <a href="ranking.html">Ranking</a>
-
             <a href="booking.html">Book a flight</a>
 
         </nav>
 
-
-        <!-- REGISTER -->
 
         <a class="register" href="join.html">
             REGISTER
         </a>
 
 
-        <!-- MOBILE MENU -->
-
         <button
             class="menu"
             onclick="toggleMenu()"
             aria-label="Open navigation menu"
+            aria-expanded="false"
         >
             ☰
         </button>
@@ -364,34 +828,22 @@ footer p {
     </div>
 
 
-    <!-- =========================
-         MOBILE NAVIGATION
-    ========================= -->
+    <!-- MOBILE NAV -->
 
     <div id="mobileNav" class="mobileNav">
 
         <div class="container">
 
             <a href="index.html">Home</a>
-
             <a href="about.html">About</a>
-
             <a href="fleet.html">Fleet</a>
-
             <a href="routes.html">Routes</a>
-
             <a href="team.html">Team</a>
-
             <a href="join.html">Join Us</a>
-
             <a href="manual.html">Pilot Manual</a>
-
             <a href="contact.html">Contact Us</a>
-
             <a href="ranking.html">Ranking</a>
-
             <a href="booking.html">Book a flight</a>
-
             <a href="join.html">Register</a>
 
         </div>
@@ -402,616 +854,552 @@ footer p {
 
 
 
-<!-- =========================
+<!-- =========================================================
      MAIN
-========================= -->
+     Your existing fleet content goes here
+     ========================================================= -->
 
 <main>
 
 
-    <!-- =========================
-         HERO
-    ========================= -->
+<section class="pagehero reveal">
 
-    <section class="pagehero">
+    <div class="container">
 
-        <div class="container">
+        <span class="pill">
+            Our Aircraft
+        </span>
 
-            <span class="pill">
-                Our Aircraft
+        <h1>
+            The <span>Fleet.</span>
+        </h1>
+
+        <p>
+            From regional aircraft to long-haul wide-bodies,
+            every aircraft has a mission.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="content-section">
+
+    <div class="container">
+
+        <div class="cards">
+
+
+            <!-- AIRBUS A319 -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://images.aircharterservice.com/global/aircraft-guide/group-charter/airbus-a319-1.jpg"
+                        alt="Airbus A319"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Airbus A319</h3>
+
+                    <p class="role">
+                        Short &amp; Medium Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>3,700 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>144 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.78</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>CFM56 / V2500</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- AIRBUS A320 -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://images.aircharterservice.com/global/aircraft-guide/group-charter/airbus-a320-1.jpg"
+                        alt="Airbus A320"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Airbus A320</h3>
+
+                    <p class="role">
+                        Short &amp; Medium Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>3,300 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>180 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.78</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>CFM56 / V2500</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- AIRBUS A320NEO -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://www.aircraft.airbus.com/sites/g/files/jlcbta126/files/styles/w1200h675/public/2025-10/Aircraft.Airbus%20Figma%20Images%20V2_A320neo.png?h=eb58b4d6&itok=m1AYlns4"
+                        alt="Airbus A320neo"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Airbus A320neo</h3>
+
+                    <p class="role">
+                        Short &amp; Medium Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>3,500 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>186 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.78</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>LEAP-1A</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- AIRBUS A321NEO -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://www.aircraft.airbus.com/sites/g/files/jlcbta126/files/styles/w1200h675/public/2025-10/Aircraft.Airbus%20Figma%20Images%20V2_A321neo_0.png?h=eb58b4d6&itok=gAu23q7j"
+                        alt="Airbus A321neo"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Airbus A321neo</h3>
+
+                    <p class="role">
+                        Medium &amp; Long Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>4,000 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>220 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.78</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>LEAP-1A</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- BOEING 737-700 -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://www.flugzeuginfo.net/acimages/7377bbj_kp.jpg"
+                        alt="Boeing 737-700"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Boeing 737-700</h3>
+
+                    <p class="role">
+                        Short &amp; Medium Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>3,440 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>128 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.79</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>CFM56-7B</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- BOEING 737-800 -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://aeroaffaires.fr/wp-content/uploads/2024/05/ascend-airways-boeing-737-800.jpg"
+                        alt="Boeing 737-800"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Boeing 737-800</h3>
+
+                    <p class="role">
+                        Short &amp; Medium Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>2,935 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>174 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.79</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>CFM56-7B</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- BOEING 737 MAX 8 -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://cf-images.us-east-1.prod.boltdns.net/v1/static/800000612001/dcfb0a2e-49be-40c3-8d69-2438a13ea1db/54874523-f888-40e7-94b3-ffcf9a49a8e7/1920x1080/match/image.jpg"
+                        alt="Boeing 737 MAX 8"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Boeing 737 MAX 8</h3>
+
+                    <p class="role">
+                        Medium Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>3,550 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>178 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.79</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>LEAP-1B</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- EMBRAER E190 -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://embraer.com/media/1bkhjr2u/commercial-e190-2.jpg?v=1dd145c3e09f690"
+                        alt="Embraer E190"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Embraer E190</h3>
+
+                    <p class="role">
+                        Regional &amp; Short Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>2,450 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>100 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.82</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>CF34-10E</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- AIRBUS A350-900 -->
+
+            <article class="card reveal">
+
+                <div class="plane-art">
+
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSq0_OfYatAxrbUJTTgRbHrSvDvDcn8vWbMzmhJGnImA&s=10"
+                        alt="Airbus A350-900"
+                    >
+
+                    <span class="plane-tag"></span>
+
+                </div>
+
+                <div class="card-body">
+
+                    <h3>Airbus A350-900</h3>
+
+                    <p class="role">
+                        Long Haul
+                    </p>
+
+                    <div class="specs">
+
+                        <div class="spec">
+                            <small>Range</small>
+                            <b>8,100 nm</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Seats</small>
+                            <b>325 pax</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Cruise</small>
+                            <b>Mach 0.85</b>
+                        </div>
+
+                        <div class="spec">
+                            <small>Engines</small>
+                            <b>Trent XWB</b>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FLEET GROWTH -->
+
+<section class="dark-section reveal">
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <span class="eyebrow">
+                Fleet Growth
             </span>
 
-            <h1>
-                The <span>Fleet.</span>
-            </h1>
+            <h2>
+                More aircraft. <span>More freedom.</span>
+            </h2>
 
             <p>
-                From regional aircraft to long-haul wide-bodies,
-                every aircraft has a mission.
+                Aircraft can be added as Echo Air Group expands its network.
             </p>
 
         </div>
 
-    </section>
+    </div>
 
-
-
-    <!-- =========================
-         FLEET
-    ========================= -->
-
-    <section class="content-section">
-
-        <div class="container">
-
-            <div class="cards">
-
-
-                <!-- =========================
-                     AIRBUS A319
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://images.aircharterservice.com/global/aircraft-guide/group-charter/airbus-a319-1.jpg"
-                            alt="Airbus A319"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Airbus A319
-                        </h3>
-
-                        <p class="role">
-                            Short &amp; Medium Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>3,700 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>144 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.78</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>CFM56 / V2500</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =========================
-                     AIRBUS A320
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://images.aircharterservice.com/global/aircraft-guide/group-charter/airbus-a320-1.jpg"
-                            alt="Airbus A320"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Airbus A320
-                        </h3>
-
-                        <p class="role">
-                            Short &amp; Medium Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>3,300 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>180 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.78</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>CFM56 / V2500</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =========================
-                     AIRBUS A320NEO
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://www.aircraft.airbus.com/sites/g/files/jlcbta126/files/styles/w1200h675/public/2025-10/Aircraft.Airbus%20Figma%20Images%20V2_A320neo.png?h=eb58b4d6&itok=m1AYlns4"
-                            alt="Airbus A320neo"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Airbus A320neo
-                        </h3>
-
-                        <p class="role">
-                            Short &amp; Medium Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>3,500 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>186 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.78</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>LEAP-1A</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =========================
-                     AIRBUS A321NEO
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://www.aircraft.airbus.com/sites/g/files/jlcbta126/files/styles/w1200h675/public/2025-10/Aircraft.Airbus%20Figma%20Images%20V2_A321neo_0.png?h=eb58b4d6&itok=gAu23q7j"
-                            alt="Airbus A321neo"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Airbus A321neo
-                        </h3>
-
-                        <p class="role">
-                            Medium &amp; Long Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>4,000 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>220 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.78</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>LEAP-1A</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =========================
-                     BOEING 737-700
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://www.flugzeuginfo.net/acimages/7377bbj_kp.jpg"
-                            alt="Boeing 737-700"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Boeing 737-700
-                        </h3>
-
-                        <p class="role">
-                            Short &amp; Medium Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>3,440 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>128 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.79</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>CFM56-7B</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =========================
-                     BOEING 737-800
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://aeroaffaires.fr/wp-content/uploads/2024/05/ascend-airways-boeing-737-800.jpg"
-                            alt="Boeing 737-800"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Boeing 737-800
-                        </h3>
-
-                        <p class="role">
-                            Short &amp; Medium Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>2,935 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>174 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.79</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>CFM56-7B</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =========================
-                     BOEING 737 MAX 8
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://cf-images.us-east-1.prod.boltdns.net/v1/static/800000612001/dcfb0a2e-49be-40c3-8d69-2438a13ea1db/54874523-f888-40e7-94b3-ffcf9a49a8e7/1920x1080/match/image.jpg"
-                            alt="Boeing 737 MAX 8"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Boeing 737 MAX 8
-                        </h3>
-
-                        <p class="role">
-                            Medium Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>3,550 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>178 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.79</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>LEAP-1B</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =========================
-                     EMBRAER E190
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://embraer.com/media/1bkhjr2u/commercial-e190-2.jpg?v=1dd145c3e09f690"
-                            alt="Embraer E190"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Embraer E190
-                        </h3>
-
-                        <p class="role">
-                            Regional &amp; Short Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>2,450 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>100 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.82</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>CF34-10E</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =========================
-                     AIRBUS A350-900
-                ========================= -->
-
-                <article class="card">
-
-                    <div class="plane-art">
-
-                        <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSq0_OfYatAxrbUJTTgRbHrSvDvDcn8vWbMzmhJGnImA&s=10"
-                            alt="Airbus A350-900"
-                        >
-
-                        <span class="plane-tag"></span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <h3>
-                            Airbus A350-900
-                        </h3>
-
-                        <p class="role">
-                            Long Haul
-                        </p>
-
-                        <div class="specs">
-
-                            <div class="spec">
-                                <small>Range</small>
-                                <b>8,100 nm</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Seats</small>
-                                <b>325 pax</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Cruise</small>
-                                <b>Mach 0.85</b>
-                            </div>
-
-                            <div class="spec">
-                                <small>Engines</small>
-                                <b>Trent XWB</b>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         FLEET GROWTH
-    ========================= -->
-
-    <section class="dark-section">
-
-        <div class="container">
-
-            <div class="section-head">
-
-                <span class="eyebrow">
-                    Fleet Growth
-                </span>
-
-                <h2>
-                    More aircraft. <span>More freedom.</span>
-                </h2>
-
-                <p>
-                    Aircraft can be added as Echo Air Group expands its network.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
 
 </main>
 
 
 
-<!-- =========================
+<!-- =========================================================
      FOOTER
-========================= -->
+     ========================================================= -->
 
 <footer>
 
@@ -1019,8 +1407,6 @@ footer p {
 
         <div class="foot-top">
 
-
-            <!-- FOOTER BRAND -->
 
             <div>
 
@@ -1054,12 +1440,7 @@ footer p {
                 </p>
 
 
-                <!-- SOCIAL BUTTONS -->
-
                 <div class="footer-social">
-
-
-                    <!-- DISCORD -->
 
                     <a
                         href="https://discord.gg/e7ePxYA24"
@@ -1076,8 +1457,6 @@ footer p {
                     </a>
 
 
-                    <!-- TIKTOK -->
-
                     <a
                         href="https://www.tiktok.com/@echoairgroup"
                         target="_blank"
@@ -1092,66 +1471,29 @@ footer p {
 
                     </a>
 
-
                 </div>
 
             </div>
 
 
-            <!-- FOOTER LINKS -->
-
             <div class="foot-links">
 
-                <a href="index.html">
-                    Home
-                </a>
-
-                <a href="about.html">
-                    About
-                </a>
-
-                <a href="index.html#fleet">
-                    Fleet
-                </a>
-
-                <a href="routes.html">
-                    Routes
-                </a>
-
-                <a href="team.html">
-                    Team
-                </a>
-
-                <a href="index.html#news">
-                    News
-                </a>
-
-                <a href="join.html">
-                    Join Us
-                </a>
-
-                <a href="manual.html">
-                    Pilot Manual
-                </a>
-
-                <a href="contact.html">
-                    Contact Us
-                </a>
-
-                <a href="booking.html">
-                    Book a flight
-                </a>
-
-                <a href="join.html">
-                    Register
-                </a>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="fleet.html">Fleet</a>
+                <a href="routes.html">Routes</a>
+                <a href="team.html">Team</a>
+                <a href="index.html#news">News</a>
+                <a href="join.html">Join Us</a>
+                <a href="manual.html">Pilot Manual</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="booking.html">Book a flight</a>
+                <a href="join.html">Register</a>
 
             </div>
 
         </div>
 
-
-        <!-- COPYRIGHT -->
 
         <div class="copy">
 
@@ -1171,23 +1513,40 @@ footer p {
 
 
 
-<!-- =========================
+<!-- =========================================================
+     BACK TO TOP
+     ========================================================= -->
+
+<button
+    id="backToTop"
+    class="back-to-top"
+    aria-label="Back to top"
+    type="button"
+>
+    ↑
+</button>
+
+
+
+<!-- =========================================================
      SCRIPTS
-========================= -->
+     ========================================================= -->
 
 <script src="script.js"></script>
 
 <script>
 
-/* =========================
+/* =========================================================
    HEADER SCROLL EFFECT
-========================= */
+   ========================================================= */
 
 const header = document.getElementById("siteHeader");
 
 function updateHeader() {
 
-    if (window.scrollY > 20) {
+    if (!header) return;
+
+    if (window.scrollY > 30) {
 
         header.classList.add("scrolled");
 
@@ -1199,32 +1558,189 @@ function updateHeader() {
 
 }
 
-window.addEventListener("scroll", updateHeader);
+window.addEventListener(
+    "scroll",
+    updateHeader,
+    { passive: true }
+);
 
 updateHeader();
 
 
-
-/* =========================
+/* =========================================================
    MOBILE MENU
-========================= */
+   ========================================================= */
 
 function toggleMenu() {
 
     const mobileNav =
         document.getElementById("mobileNav");
 
-    if (mobileNav) {
+    const menu =
+        document.querySelector(".menu");
 
+    if (!mobileNav) return;
+
+    const isOpen =
         mobileNav.classList.toggle("open");
+
+    if (menu) {
+
+        menu.setAttribute(
+            "aria-expanded",
+            isOpen ? "true" : "false"
+        );
 
     }
 
 }
 
+
+/* Close mobile menu when clicking a link */
+
+document
+    .querySelectorAll(".mobileNav a")
+    .forEach(link => {
+
+        link.addEventListener("click", () => {
+
+            const mobileNav =
+                document.getElementById("mobileNav");
+
+            const menu =
+                document.querySelector(".menu");
+
+            mobileNav?.classList.remove("open");
+
+            menu?.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        });
+
+    });
+
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+
+const revealElements =
+    document.querySelectorAll(
+        ".reveal, .reveal-left, .reveal-right"
+    );
+
+const revealObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("visible");
+
+                    revealObserver.unobserve(
+                        entry.target
+                    );
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.12,
+            rootMargin: "0px 0px -50px 0px"
+        }
+    );
+
+
+revealElements.forEach(element => {
+
+    revealObserver.observe(element);
+
+});
+
+
+/* =========================================================
+   BACK TO TOP
+   ========================================================= */
+
+const backToTop =
+    document.getElementById("backToTop");
+
+function updateBackToTop() {
+
+    if (!backToTop) return;
+
+    if (window.scrollY > 500) {
+
+        backToTop.classList.add("show");
+
+    } else {
+
+        backToTop.classList.remove("show");
+
+    }
+
+}
+
+window.addEventListener(
+    "scroll",
+    updateBackToTop,
+    { passive: true }
+);
+
+updateBackToTop();
+
+
+if (backToTop) {
+
+    backToTop.addEventListener(
+        "click",
+        () => {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE KEY — CLOSE MOBILE MENU
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key !== "Escape") return;
+
+        const mobileNav =
+            document.getElementById("mobileNav");
+
+        const menu =
+            document.querySelector(".menu");
+
+        mobileNav?.classList.remove("open");
+
+        menu?.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    }
+);
+
 </script>
 
 
 </body>
-
 </html>
