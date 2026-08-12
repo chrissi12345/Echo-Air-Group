@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Routes — Echo Air Group</title>
 
@@ -13,7 +13,7 @@
 <style>
 
 /* =========================================================
-   FIXED HEADER
+   FIXED HEADER — MATCHES INDEX
 ========================================================= */
 
 header {
@@ -61,20 +61,13 @@ body {
 
 
 /* =========================================================
-   FOOTER
+   FOOTER — MATCHES INDEX
 ========================================================= */
 
 footer {
     background: #090d08;
     color: white;
     padding: 45px 0 22px;
-}
-
-.foot-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 50px;
 }
 
 footer .brand {
@@ -87,8 +80,8 @@ footer .brand {
 }
 
 footer .brand-logo {
-    width: 58px;
-    height: 58px;
+    width: 52px;
+    height: 52px;
     object-fit: contain;
     display: block;
 }
@@ -101,11 +94,10 @@ footer .brand-text {
 }
 
 footer .brand-text small {
-    display: block;
-    margin-top: 4px;
-    color: #8f988c;
     font-size: 11px;
     font-weight: 600;
+    opacity: 0.65;
+    margin-top: 3px;
 }
 
 footer p {
@@ -113,38 +105,35 @@ footer p {
     line-height: 1.7;
 }
 
+.foot-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+}
+
 .foot-links {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+    max-width: 500px;
+    justify-content: flex-end;
 }
 
 .foot-links a {
-    color: #cbd2c7;
+    color: #b8c0b4;
     text-decoration: none;
-    transition: color 0.2s ease;
+    font-weight: 600;
+    transition: 0.2s ease;
 }
 
 .foot-links a:hover {
     color: #ace336;
 }
 
-.copy {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin-top: 35px;
-    padding-top: 20px;
-
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-
-    color: #737b70;
-    font-size: 13px;
-}
-
 
 /* =========================================================
-   FOOTER SOCIAL BUTTONS
+   FOOTER SOCIALS
 ========================================================= */
 
 .footer-social {
@@ -157,28 +146,134 @@ footer p {
 .footer-social a {
     width: 38px;
     height: 38px;
+
     border-radius: 9px;
+
+    background: #151b13;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: rgba(255, 255, 255, 0.08);
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease;
+    transition: 0.2s ease;
 }
 
 .footer-social a:hover {
     transform: translateY(-2px);
-    background: rgba(172, 227, 54, 0.15);
+    background: #202a1d;
 }
 
 .footer-social img {
     width: 22px;
     height: 22px;
     object-fit: contain;
+}
+
+
+/* =========================================================
+   COPYRIGHT
+========================================================= */
+
+.copy {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    margin-top: 35px;
+    padding-top: 20px;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    color: #687064;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   SMOOTH PAGE ANIMATION
+========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.pagehero {
+    animation: pageFadeIn 0.8s ease both;
+}
+
+.content-section,
+.dark-section {
+    animation: sectionFadeIn 0.9s ease both;
+}
+
+.card,
+.route-row,
+.map-header,
+.newsky-map,
+.filters {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: contentFadeUp 0.7s ease forwards;
+}
+
+.filters {
+    animation-delay: 0.05s;
+}
+
+.route-table {
+    animation: contentFadeUp 0.7s ease 0.12s forwards;
+}
+
+.map-header {
+    animation-delay: 0.18s;
+}
+
+.newsky-map {
+    animation-delay: 0.25s;
+}
+
+@keyframes pageFadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+@keyframes sectionFadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+@keyframes contentFadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
 }
 
 
@@ -367,6 +462,10 @@ footer p {
     padding: 18px 22px;
 
     border-bottom: 1px solid #e8ede5;
+
+    opacity: 1;
+    transform: none;
+    animation: none;
 }
 
 .route-row:last-child {
@@ -431,22 +530,25 @@ footer p {
 
     .foot-top {
         flex-direction: column;
-        gap: 30px;
+        gap: 25px;
     }
 
     .foot-links {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px 25px;
-        width: 100%;
+        justify-content: flex-start;
+        max-width: none;
     }
 
     .copy {
         flex-direction: column;
         gap: 8px;
     }
+
 }
 
+
+/* =========================================================
+   MAP MOBILE
+========================================================= */
 
 @media (max-width: 700px) {
 
@@ -462,8 +564,13 @@ footer p {
     .newsky-button {
         width: 100%;
     }
+
 }
 
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
 
 @media (max-width: 500px) {
 
@@ -476,17 +583,35 @@ footer p {
     }
 
     footer {
-        padding: 38px 0 20px;
+        padding: 35px 0 18px;
     }
 
     footer .brand-logo {
-        width: 50px;
-        height: 50px;
+        width: 46px;
+        height: 46px;
     }
 
-    .foot-links {
-        grid-template-columns: 1fr;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
     }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
 }
 
 </style>
@@ -1079,8 +1204,7 @@ footer p {
                         title="NewSky Live Map"
                         loading="lazy"
                         allow="fullscreen"
-                    >
-                    </iframe>
+                    ></iframe>
 
 
                     <!-- FALLBACK -->
@@ -1168,10 +1292,7 @@ footer p {
 
             <div>
 
-                <a
-                    class="brand"
-                    href="index.html"
-                >
+                <a class="brand" href="index.html">
 
                     <img
                         class="brand-logo"
@@ -1239,12 +1360,13 @@ footer p {
 
                     </a>
 
+
                 </div>
 
             </div>
 
 
-            <!-- FOOTER NAVIGATION -->
+            <!-- FOOTER LINKS -->
 
             <div class="foot-links">
 
