@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
+
 const {
     Client,
     GatewayIntentBits
@@ -12,6 +13,10 @@ const {
 dotenv.config();
 
 const app = express();
+
+// ============================================================
+// BASIC CONFIGURATION
+// ============================================================
 
 app.use(cors());
 app.use(express.json());
@@ -27,7 +32,7 @@ const DATABASE_URL =
     process.env.DATABASE_URL;
 
 // ============================================================
-// ENVIRONMENT
+// ENVIRONMENT CHECKS
 // ============================================================
 
 if (!DATABASE_URL) {
@@ -46,12 +51,12 @@ if (!process.env.NEWSKY_API_KEY) {
 
 if (!process.env.JWT_SECRET) {
     console.warn(
-        "WARNING: JWT_SECRET is missing. Please set it in your environment."
+        "WARNING: JWT_SECRET is missing. Please set it in Render."
     );
 }
 
 // ============================================================
-// POSTGRESQL
+// POSTGRESQL / NEON
 // ============================================================
 
 const pool = new Pool({
@@ -68,15 +73,13 @@ const pool = new Pool({
     connectionTimeoutMillis: 10000
 });
 
-async function query(
-    text,
-    params = []
-) {
-    return pool.query(
-        text,
-        params
-    );
+async function query(text, params = []) {
+    return pool.query(text, params);
 }
+
+// ============================================================
+// DATABASE INITIALIZATION
+// ============================================================
 
 async function initializeDatabase() {
 
@@ -217,7 +220,7 @@ async function initializeDatabase() {
     `);
 
     console.log(
-        "PostgreSQL database ready."
+        "PostgreSQL / Neon database ready."
     );
 }
 
@@ -312,23 +315,15 @@ function getRank(stars) {
 
     let next = null;
 
-    for (
-        const rank
-        of RANKS
-    ) {
+    for (const rank of RANKS) {
 
-        if (
-            value >=
-            rank.stars
-        ) {
+        if (value >= rank.stars) {
 
-            current =
-                rank;
+            current = rank;
 
         } else {
 
-            next =
-                rank;
+            next = rank;
 
             break;
         }
@@ -352,9 +347,7 @@ function toNumber(
     const number =
         Number(value);
 
-    return Number.isFinite(
-        number
-    )
+    return Number.isFinite(number)
         ? number
         : fallback;
 }
@@ -372,10 +365,8 @@ function round(
 
     return (
         Math.round(
-            value *
-            factor
-        ) /
-        factor
+            value * factor
+        ) / factor
     );
 }
 
@@ -391,16 +382,11 @@ function firstValue(
         return null;
     }
 
-    for (
-        const key
-        of keys
-    ) {
+    for (const key of keys) {
 
         if (
-            object[key] !==
-                undefined &&
-            object[key] !==
-                null &&
+            object[key] !== undefined &&
+            object[key] !== null &&
             object[key] !== ""
         ) {
 
@@ -415,9 +401,7 @@ function firstValue(
 // NEWSKY PILOT ID
 // ============================================================
 
-function getPilotId(
-    flight
-) {
+function getPilotId(flight) {
 
     if (
         !flight ||
@@ -438,9 +422,7 @@ function getPilotId(
             ]
         );
 
-    if (
-        direct !== null
-    ) {
+    if (direct !== null) {
 
         return String(
             direct
@@ -465,9 +447,7 @@ function getPilotId(
                 ]
             );
 
-        if (
-            nested !== null
-        ) {
+        if (nested !== null) {
 
             return String(
                 nested
@@ -492,9 +472,7 @@ function getPilotId(
                 ]
             );
 
-        if (
-            nested !== null
-        ) {
+        if (nested !== null) {
 
             return String(
                 nested
@@ -519,9 +497,7 @@ function getPilotId(
                 ]
             );
 
-        if (
-            nested !== null
-        ) {
+        if (nested !== null) {
 
             return String(
                 nested
@@ -536,9 +512,7 @@ function getPilotId(
 // NEWSKY FLIGHT ID
 // ============================================================
 
-function getNewSkyFlightId(
-    flight
-) {
+function getNewSkyFlightId(flight) {
 
     const value =
         firstValue(
@@ -553,15 +527,12 @@ function getNewSkyFlightId(
             ]
         );
 
-    if (
-        value === null
-    ) {
+    if (value === null) {
+
         return null;
     }
 
-    return String(
-        value
-    );
+    return String(value);
 }
 
 // ============================================================
@@ -595,9 +566,7 @@ function extractAirportCode(
         typeof value === "number"
     ) {
 
-        return String(
-            value
-        );
+        return String(value);
     }
 
     if (
@@ -637,6 +606,7 @@ function extractAirportCode(
                 ).trim();
 
             if (code) {
+
                 return code;
             }
         }
@@ -664,30 +634,27 @@ function extractAirportCode(
                 );
 
             if (nestedCode) {
+
                 return nestedCode;
             }
         }
 
         for (
-            const key
-            of Object.keys(value)
+            const key of Object.keys(value)
         ) {
 
             const nestedValue =
                 value[key];
 
             if (
-                nestedValue ===
-                    null ||
-                nestedValue ===
-                    undefined
+                nestedValue === null ||
+                nestedValue === undefined
             ) {
                 continue;
             }
 
             if (
-                typeof nestedValue ===
-                "object"
+                typeof nestedValue === "object"
             ) {
 
                 const nestedCode =
@@ -697,6 +664,7 @@ function extractAirportCode(
                     );
 
                 if (nestedCode) {
+
                     return nestedCode;
                 }
             }
@@ -710,9 +678,7 @@ function extractAirportCode(
 // DEPARTURE
 // ============================================================
 
-function getDeparture(
-    flight
-) {
+function getDeparture(flight) {
 
     const raw =
         firstValue(
@@ -729,18 +695,14 @@ function getDeparture(
             ]
         );
 
-    return extractAirportCode(
-        raw
-    );
+    return extractAirportCode(raw);
 }
 
 // ============================================================
 // ARRIVAL
 // ============================================================
 
-function getArrival(
-    flight
-) {
+function getArrival(flight) {
 
     const raw =
         firstValue(
@@ -757,18 +719,14 @@ function getArrival(
             ]
         );
 
-    return extractAirportCode(
-        raw
-    );
+    return extractAirportCode(raw);
 }
 
 // ============================================================
 // AIRCRAFT
 // ============================================================
 
-function getAircraft(
-    flight
-) {
+function getAircraft(flight) {
 
     const aircraft =
         firstValue(
@@ -811,9 +769,7 @@ function getAircraft(
 // RATING
 // ============================================================
 
-function getRating(
-    flight
-) {
+function getRating(flight) {
 
     const rating =
         firstValue(
@@ -827,18 +783,14 @@ function getRating(
             ]
         );
 
-    return toNumber(
-        rating
-    );
+    return toNumber(rating);
 }
 
 // ============================================================
 // DURATION
 // ============================================================
 
-function getDurationMinutes(
-    flight
-) {
+function getDurationMinutes(flight) {
 
     const value =
         firstValue(
@@ -852,9 +804,8 @@ function getDurationMinutes(
             ]
         );
 
-    if (
-        value === null
-    ) {
+    if (value === null) {
+
         return 0;
     }
 
@@ -868,9 +819,7 @@ function getDurationMinutes(
                 .split(":")
                 .map(Number);
 
-        if (
-            parts.length === 2
-        ) {
+        if (parts.length === 2) {
 
             return (
                 parts[0] * 60 +
@@ -878,9 +827,7 @@ function getDurationMinutes(
             );
         }
 
-        if (
-            parts.length === 3
-        ) {
+        if (parts.length === 3) {
 
             return (
                 parts[0] * 60 +
@@ -890,18 +837,14 @@ function getDurationMinutes(
         }
     }
 
-    return toNumber(
-        value
-    );
+    return toNumber(value);
 }
 
 // ============================================================
 // DISTANCE
 // ============================================================
 
-function getDistance(
-    flight
-) {
+function getDistance(flight) {
 
     const value =
         firstValue(
@@ -915,18 +858,14 @@ function getDistance(
             ]
         );
 
-    return toNumber(
-        value
-    );
+    return toNumber(value);
 }
 
 // ============================================================
 // DATE
 // ============================================================
 
-function getFlightDate(
-    flight
-) {
+function getFlightDate(flight) {
 
     return firstValue(
         flight,
@@ -953,19 +892,13 @@ function calculateFlightStars(
 ) {
 
     const minutes =
-        toNumber(
-            duration
-        );
+        toNumber(duration);
 
     const km =
-        toNumber(
-            distance
-        );
+        toNumber(distance);
 
     const flightRating =
-        toNumber(
-            rating
-        );
+        toNumber(rating);
 
     return round(
         minutes +
@@ -979,9 +912,7 @@ function calculateFlightStars(
 // FORMAT FLIGHT
 // ============================================================
 
-function formatFlight(
-    flight
-) {
+function formatFlight(flight) {
 
     return {
 
@@ -1044,9 +975,7 @@ function formatFlight(
 // ACHIEVEMENTS
 // ============================================================
 
-function getAchievements(
-    stats
-) {
+function getAchievements(stats) {
 
     return [
 
@@ -1197,9 +1126,7 @@ function getAchievements(
 // USER STATS
 // ============================================================
 
-async function getUserStats(
-    userId
-) {
+async function getUserStats(userId) {
 
     const result =
         await query(
@@ -1274,23 +1201,18 @@ async function getUserStats(
 
     const averageRating =
         flightCount > 0
-            ? ratingTotal /
-              flightCount
+            ? ratingTotal / flightCount
             : 0;
 
     const flightHours =
         duration / 60;
 
     const rankData =
-        getRank(
-            stars
-        );
+        getRank(stars);
 
     let progress = 100;
 
-    if (
-        rankData.next
-    ) {
+    if (rankData.next) {
 
         progress =
             (
@@ -1365,12 +1287,10 @@ async function getUserStats(
 }
 
 // ============================================================
-// AUTH
+// AUTHENTICATION
 // ============================================================
 
-function createToken(
-    user
-) {
+function createToken(user) {
 
     return jwt.sign(
         {
@@ -1401,9 +1321,7 @@ async function authenticate(
 
     if (
         !header ||
-        !header.startsWith(
-            "Bearer "
-        )
+        !header.startsWith("Bearer ")
     ) {
 
         return res.status(401).json({
@@ -1469,9 +1387,7 @@ let discordReady =
 
 async function startDiscordBot() {
 
-    if (
-        !DISCORD_BOT_TOKEN
-    ) {
+    if (!DISCORD_BOT_TOKEN) {
 
         console.warn(
             "Discord bot disabled: DISCORD_BOT_TOKEN is missing."
@@ -1480,9 +1396,7 @@ async function startDiscordBot() {
         return;
     }
 
-    if (
-        !DISCORD_GUILD_ID
-    ) {
+    if (!DISCORD_GUILD_ID) {
 
         console.warn(
             "Discord bot warning: DISCORD_GUILD_ID is missing."
@@ -1507,9 +1421,7 @@ async function startDiscordBot() {
                 `Discord bot logged in as ${discordClient.user.tag}`
             );
 
-            if (
-                DISCORD_GUILD_ID
-            ) {
+            if (DISCORD_GUILD_ID) {
 
                 try {
 
@@ -1554,7 +1466,7 @@ async function startDiscordBot() {
 
         console.error(
             "Discord bot login failed:",
-            error
+            error.message
         );
 
         discordReady =
@@ -1566,13 +1478,9 @@ async function startDiscordBot() {
 // DISCORD ROLE SYNC
 // ============================================================
 
-async function syncDiscordRank(
-    userId
-) {
+async function syncDiscordRank(userId) {
 
-    if (
-        !discordClient
-    ) {
+    if (!discordClient) {
 
         return {
             success: false,
@@ -1581,9 +1489,7 @@ async function syncDiscordRank(
         };
     }
 
-    if (
-        !discordReady
-    ) {
+    if (!discordReady) {
 
         return {
             success: false,
@@ -1592,9 +1498,7 @@ async function syncDiscordRank(
         };
     }
 
-    if (
-        !DISCORD_GUILD_ID
-    ) {
+    if (!DISCORD_GUILD_ID) {
 
         return {
             success: false,
@@ -1625,9 +1529,7 @@ async function syncDiscordRank(
         };
     }
 
-    if (
-        !user.discord_user_id
-    ) {
+    if (!user.discord_user_id) {
 
         return {
             success: false,
@@ -1649,9 +1551,7 @@ async function syncDiscordRank(
             rankName
         ];
 
-    if (
-        !targetRoleId
-    ) {
+    if (!targetRoleId) {
 
         return {
             success: false,
@@ -1691,16 +1591,12 @@ async function syncDiscordRank(
             ).filter(Boolean);
 
         for (
-            const roleId
-            of rankRoleIds
+            const roleId of rankRoleIds
         ) {
 
             if (
-                member.roles.cache.has(
-                    roleId
-                ) &&
-                roleId !==
-                    targetRoleId
+                member.roles.cache.has(roleId) &&
+                roleId !== targetRoleId
             ) {
 
                 try {
@@ -1788,8 +1684,7 @@ async function syncAllDiscordRanks() {
     let failed = 0;
 
     for (
-        const user
-        of users
+        const user of users
     ) {
 
         const syncResult =
@@ -1797,9 +1692,7 @@ async function syncAllDiscordRanks() {
                 user.id
             );
 
-        if (
-            syncResult.success
-        ) {
+        if (syncResult.success) {
 
             success++;
 
@@ -1828,10 +1721,7 @@ async function syncAllDiscordRanks() {
 
 app.get(
     "/",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         res.json({
 
@@ -1858,10 +1748,7 @@ app.get(
 
 app.get(
     "/api/health",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -1914,10 +1801,7 @@ app.get(
 
 app.post(
     "/api/auth/register",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -2022,9 +1906,7 @@ app.post(
                 result.rows[0];
 
             const token =
-                createToken(
-                    user
-                );
+                createToken(user);
 
             res.status(201).json({
 
@@ -2055,10 +1937,7 @@ app.post(
 
 app.post(
     "/api/auth/login",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -2109,9 +1988,7 @@ app.post(
             }
 
             const token =
-                createToken(
-                    user
-                );
+                createToken(user);
 
             res.json({
 
@@ -2143,10 +2020,7 @@ app.post(
 app.get(
     "/api/me",
     authenticate,
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -2214,16 +2088,12 @@ app.get(
                 },
 
                 achievements:
-                    getAchievements(
-                        stats
-                    ),
+                    getAchievements(stats),
 
                 flights:
                     stats.flights
                         .slice(0, 100)
-                        .map(
-                            formatFlight
-                        )
+                        .map(formatFlight)
             });
 
         } catch (error) {
@@ -2247,10 +2117,7 @@ app.get(
 
 app.get(
     "/api/discord/login",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -2382,10 +2249,7 @@ app.get(
 
 app.get(
     "/api/discord/callback",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -2490,7 +2354,6 @@ app.get(
                 await fetch(
                     "https://discord.com/api/oauth2/token",
                     {
-
                         method:
                             "POST",
 
@@ -2512,9 +2375,7 @@ app.get(
                                     "authorization_code",
 
                                 code:
-                                    String(
-                                        code
-                                    ),
+                                    String(code),
 
                                 redirect_uri:
                                     DISCORD_REDIRECT_URI
@@ -2567,9 +2428,7 @@ app.get(
                 await fetch(
                     "https://discord.com/api/users/@me",
                     {
-
                         headers: {
-
                             Authorization:
                                 `Bearer ${tokenData.access_token}`
                         }
@@ -2789,10 +2648,7 @@ app.get(
 app.get(
     "/api/discord/status",
     authenticate,
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -2842,10 +2698,7 @@ app.get(
 app.post(
     "/api/discord/sync",
     authenticate,
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -2854,9 +2707,7 @@ app.post(
                     req.user.id
                 );
 
-            if (
-                !result.success
-            ) {
+            if (!result.success) {
 
                 return res.status(400).json(
                     result
@@ -2893,10 +2744,7 @@ app.post(
 app.post(
     "/api/account/link",
     authenticate,
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         const cleanId =
             String(
@@ -2990,9 +2838,7 @@ function sleep(ms) {
 // DATE HELPERS
 // ============================================================
 
-function toDateOnly(
-    value
-) {
+function toDateOnly(value) {
 
     const date =
         new Date(value);
@@ -3033,10 +2879,7 @@ function addDays(
         .slice(0, 10);
 }
 
-function minDate(
-    a,
-    b
-) {
+function minDate(a, b) {
 
     return a < b
         ? a
@@ -3054,9 +2897,7 @@ async function getNewSkyFlightPage(
     count = NEWSKY_PAGE_SIZE
 ) {
 
-    if (
-        !process.env.NEWSKY_API_KEY
-    ) {
+    if (!process.env.NEWSKY_API_KEY) {
 
         throw new Error(
             "NEWSKY_API_KEY is not configured."
@@ -3067,35 +2908,12 @@ async function getNewSkyFlightPage(
         "https://newsky.app/api/airline-api/flights/bydate";
 
     console.log("");
-
-    console.log(
-        "NewSky request:"
-    );
-
-    console.log(
-        "URL:",
-        url
-    );
-
-    console.log(
-        "Start:",
-        start
-    );
-
-    console.log(
-        "End:",
-        end
-    );
-
-    console.log(
-        "Skip:",
-        skip
-    );
-
-    console.log(
-        "Count:",
-        count
-    );
+    console.log("NewSky request:");
+    console.log("URL:", url);
+    console.log("Start:", start);
+    console.log("End:", end);
+    console.log("Skip:", skip);
+    console.log("Count:", count);
 
     let response;
 
@@ -3103,8 +2921,7 @@ async function getNewSkyFlightPage(
 
     for (
         let attempt = 1;
-        attempt <=
-        NEWSKY_MAX_RETRIES;
+        attempt <= NEWSKY_MAX_RETRIES;
         attempt++
     ) {
 
@@ -3112,7 +2929,6 @@ async function getNewSkyFlightPage(
             await fetch(
                 url,
                 {
-
                     method:
                         "POST",
 
@@ -3153,8 +2969,7 @@ async function getNewSkyFlightPage(
         );
 
         if (
-            response.status !==
-            429
+            response.status !== 429
         ) {
 
             break;
@@ -3187,8 +3002,7 @@ async function getNewSkyFlightPage(
 
                 waitTime =
                     Math.max(
-                        retrySeconds *
-                            1000,
+                        retrySeconds * 1000,
                         10000
                     );
             }
@@ -3200,9 +3014,7 @@ async function getNewSkyFlightPage(
             )} seconds before retry...`
         );
 
-        await sleep(
-            waitTime
-        );
+        await sleep(waitTime);
     }
 
     let data;
@@ -3210,9 +3022,7 @@ async function getNewSkyFlightPage(
     try {
 
         data =
-            JSON.parse(
-                text
-            );
+            JSON.parse(text);
 
     } catch {
 
@@ -3226,9 +3036,7 @@ async function getNewSkyFlightPage(
         );
     }
 
-    if (
-        !response.ok
-    ) {
+    if (!response.ok) {
 
         console.error(
             "NewSky API error:",
@@ -3250,22 +3058,16 @@ async function getNewSkyFlightPage(
 // EXTRACT FLIGHTS
 // ============================================================
 
-function extractFlights(
-    data
-) {
+function extractFlights(data) {
 
-    if (
-        Array.isArray(data)
-    ) {
+    if (Array.isArray(data)) {
 
         return data;
     }
 
     if (
         data &&
-        Array.isArray(
-            data.results
-        )
+        Array.isArray(data.results)
     ) {
 
         return data.results;
@@ -3273,9 +3075,7 @@ function extractFlights(
 
     if (
         data &&
-        Array.isArray(
-            data.flights
-        )
+        Array.isArray(data.flights)
     ) {
 
         return data.flights;
@@ -3284,9 +3084,7 @@ function extractFlights(
     if (
         data &&
         data.data &&
-        Array.isArray(
-            data.data
-        )
+        Array.isArray(data.data)
     ) {
 
         return data.data;
@@ -3295,9 +3093,7 @@ function extractFlights(
     if (
         data &&
         data.data &&
-        Array.isArray(
-            data.data.results
-        )
+        Array.isArray(data.data.results)
     ) {
 
         return data.data.results;
@@ -3306,9 +3102,7 @@ function extractFlights(
     if (
         data &&
         data.data &&
-        Array.isArray(
-            data.data.flights
-        )
+        Array.isArray(data.data.flights)
     ) {
 
         return data.data.flights;
@@ -3350,35 +3144,27 @@ async function getAllNewSkyFlights() {
     }
 
     console.log("");
-
     console.log(
         "============================================================"
     );
-
     console.log(
         "STARTING FULL ECHO AIR GROUP NEWSKY SYNC"
     );
-
     console.log(
         "============================================================"
     );
-
     console.log(
         `Airline ID: ${NEWSKY_AIRLINE_ID}`
     );
-
     console.log(
         `History start: ${rangeStart}`
     );
-
     console.log(
         `History end: ${today}`
     );
-
     console.log(
         "============================================================"
     );
-
     console.log("");
 
     while (
@@ -3398,15 +3184,12 @@ async function getAllNewSkyFlights() {
             );
 
         console.log("");
-
         console.log(
             "------------------------------------------------------------"
         );
-
         console.log(
             `DATE RANGE ${rangeNumber}: ${rangeStart} -> ${rangeEnd}`
         );
-
         console.log(
             "------------------------------------------------------------"
         );
@@ -3420,8 +3203,7 @@ async function getAllNewSkyFlights() {
             page++;
 
             if (
-                allFlights.length >
-                0
+                allFlights.length > 0
             ) {
 
                 await sleep(
@@ -3442,9 +3224,7 @@ async function getAllNewSkyFlights() {
                 );
 
             const flights =
-                extractFlights(
-                    data
-                );
+                extractFlights(data);
 
             const totalResults =
                 toNumber(
@@ -3489,8 +3269,7 @@ async function getAllNewSkyFlights() {
 
             if (
                 totalResults > 0 &&
-                skip +
-                    flights.length >=
+                skip + flights.length >=
                     totalResults
             ) {
 
@@ -3512,8 +3291,7 @@ async function getAllNewSkyFlights() {
         new Map();
 
     for (
-        const flight
-        of allFlights
+        const flight of allFlights
     ) {
 
         const id =
@@ -3536,27 +3314,21 @@ async function getAllNewSkyFlights() {
         );
 
     console.log("");
-
     console.log(
         "============================================================"
     );
-
     console.log(
         "NEWSKY SYNC FINISHED"
     );
-
     console.log(
         `Raw flights received: ${allFlights.length}`
     );
-
     console.log(
         `Unique flights: ${result.length}`
     );
-
     console.log(
         "============================================================"
     );
-
     console.log("");
 
     return result;
@@ -3590,8 +3362,7 @@ async function getLinkedPilotMap() {
         new Map();
 
     for (
-        const user
-        of users
+        const user of users
     ) {
 
         map.set(
@@ -3735,14 +3506,11 @@ async function importAllFlights(
         );
 
         for (
-            const flight
-            of allFlights
+            const flight of allFlights
         ) {
 
             const pilotId =
-                getPilotId(
-                    flight
-                );
+                getPilotId(flight);
 
             if (!pilotId) {
 
@@ -3831,8 +3599,7 @@ async function importAllFlights(
                         userId:
                             user.id,
 
-                        newskyId:
-                            newskyId,
+                        newskyId,
 
                         depIcao:
                             departure ||
@@ -3845,8 +3612,8 @@ async function importAllFlights(
                         aircraft:
                             aircraft
                                 ? String(
-                                      aircraft
-                                  )
+                                    aircraft
+                                )
                                 : null,
 
                         rating,
@@ -3860,8 +3627,8 @@ async function importAllFlights(
                         depTime:
                             depTime
                                 ? String(
-                                      depTime
-                                  )
+                                    depTime
+                                )
                                 : null
                     }
                 );
@@ -3917,10 +3684,7 @@ async function importAllFlights(
 app.post(
     "/api/sync/all",
     authenticate,
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -4038,10 +3802,7 @@ app.post(
 app.post(
     "/api/sync/me",
     authenticate,
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -4164,10 +3925,7 @@ app.post(
 
 app.get(
     "/api/pilots",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -4199,8 +3957,7 @@ app.get(
                 [];
 
             for (
-                const user
-                of users
+                const user of users
             ) {
 
                 const stats =
@@ -4278,10 +4035,7 @@ app.get(
 
 app.get(
     "/api/pilots/:id",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -4371,9 +4125,7 @@ app.get(
                 flights:
                     stats.flights
                         .slice(0, 100)
-                        .map(
-                            formatFlight
-                        )
+                        .map(formatFlight)
             });
 
         } catch (error) {
@@ -4397,10 +4149,7 @@ app.get(
 
 app.get(
     "/api/ranking",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -4422,8 +4171,7 @@ app.get(
                 [];
 
             for (
-                const user
-                of users
+                const user of users
             ) {
 
                 const stats =
@@ -4532,10 +4280,7 @@ app.get(
 app.get(
     "/api/admin/database-stats",
     authenticate,
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
@@ -4613,10 +4358,7 @@ app.get(
 // ============================================================
 
 app.use(
-    (
-        req,
-        res
-    ) => {
+    (req, res) => {
 
         res.status(404).json({
 
@@ -4650,9 +4392,7 @@ app.use(
             res.headersSent
         ) {
 
-            return next(
-                error
-            );
+            return next(error);
         }
 
         res.status(500).json({
@@ -4667,13 +4407,9 @@ app.use(
 // HTML ESCAPE
 // ============================================================
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
-    return String(
-        value
-    )
+    return String(value)
         .replace(
             /&/g,
             "&amp;"
