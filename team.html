@@ -12,221 +12,365 @@
 
 <style>
 
-/* =========================
+/* =========================================================
+   ECHO AIR GROUP — TEAM PAGE
+   Shared header / footer / motion system
+   ========================================================= */
+
+
+/* =========================================================
    FIXED HEADER
-========================= */
+   ========================================================= */
 
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    height: 100px;
+
     z-index: 9999;
 
-    background: rgba(9, 13, 8, 0.98);
-
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: #090d08;
 
     transition:
-        background 0.25s ease,
-        box-shadow 0.25s ease,
-        backdrop-filter 0.25s ease;
+        background 0.35s ease,
+        box-shadow 0.35s ease,
+        backdrop-filter 0.35s ease,
+        height 0.35s ease;
 }
 
 header.scrolled {
-    background: rgba(9, 13, 8, 0.80);
+    background: rgba(9, 13, 8, 0.82);
 
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 30px rgba(0,0,0,0.14);
 }
 
 
-/* =========================
-   BODY
-========================= */
+/* =========================================================
+   HEADER CONTENT
+   ========================================================= */
 
-body {
-    padding-top: 80px;
-}
+header .nav {
+    height: 100%;
 
-
-/* =========================
-   HEADER LOGO
-========================= */
-
-.header-logo {
-    height: 48px;
-    width: auto;
-    display: block;
-    object-fit: contain;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    background: #090d08;
-    color: white;
-    padding: 45px 0 22px;
-}
-
-footer .foot-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 50px;
-}
-
-footer .brand {
-    margin-bottom: 15px;
-}
-
-footer p {
-    color: #8f988c;
-    line-height: 1.6;
-}
-
-footer .brand-logo {
-    height: 45px;
-    width: auto;
-    object-fit: contain;
-    display: block;
-}
-
-footer .brand-text {
-    display: flex;
-    flex-direction: column;
-    color: white;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-}
-
-footer .brand-text small {
-    color: #8f988c;
-    font-size: 11px;
-    margin-top: 3px;
-}
-
-
-/* =========================
-   FOOTER SOCIALS
-========================= */
-
-.footer-social {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 18px;
+    justify-content: space-between;
 }
 
-.footer-social a {
-    width: 38px;
-    height: 38px;
 
+/* =========================================================
+   HEADER LOGO
+   ========================================================= */
+
+.header-logo {
+    height: 52px;
+    width: auto;
+
+    display: block;
+    object-fit: contain;
+
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+.header-logo:hover {
+    transform: scale(1.03);
+}
+
+
+/* =========================================================
+   DESKTOP NAVIGATION
+   ========================================================= */
+
+.navlinks {
     display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.navlinks a {
+    position: relative;
+
+    color: #d9ded6;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    padding: 8px 0;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.navlinks a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 2px;
+
+    background: #ace336;
+
+    border-radius: 999px;
+
+    transition: width 0.3s ease;
+}
+
+.navlinks a:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.navlinks a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================================================
+   REGISTER BUTTON
+   ========================================================= */
+
+.register {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 9px;
+    min-height: 42px;
+    padding: 0 18px;
 
-    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+
+    background: #ace336;
+    color: #101410;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
 
     transition:
-        transform 0.2s ease,
-        background 0.2s ease;
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
 }
 
-.footer-social a:hover {
+.register:hover {
     transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.15);
-}
 
-.footer-social img {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
-    display: block;
+    background: #b9ed4c;
+
+    box-shadow:
+        0 8px 24px rgba(172,227,54,0.18);
 }
 
 
-/* =========================
-   FOOTER LINKS
-========================= */
+/* =========================================================
+   MOBILE MENU BUTTON
+   ========================================================= */
 
-footer .foot-links {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(100px, 1fr));
-    gap: 10px 35px;
+.menu {
+    display: none;
+
+    border: 0;
+    background: transparent;
+
+    color: white;
+
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    padding: 8px;
 }
 
-footer .foot-links a {
-    color: #cbd2c7;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.2s ease;
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ========================================================= */
+
+.mobileNav {
+    position: absolute;
+
+    top: 100px;
+    left: 0;
+
+    width: 100%;
+
+    background: rgba(9,13,8,0.98);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border-top: 1px solid rgba(255,255,255,0.06);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-10px);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        visibility 0.3s ease;
 }
 
-footer .foot-links a:hover {
-    color: #ace336;
+.mobileNav.open {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
 }
 
-
-/* =========================
-   FOOTER COPYRIGHT
-========================= */
-
-footer .copy {
-    margin-top: 35px;
-    padding-top: 18px;
-
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-
+.mobileNav .container {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    flex-direction: column;
 
-    color: #737c70;
-    font-size: 12px;
+    padding-top: 12px;
+    padding-bottom: 18px;
+}
+
+.mobileNav a {
+    color: #d9ded6;
+
+    text-decoration: none;
+
+    padding: 13px 0;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+
+    transition:
+        color 0.2s ease,
+        padding-left 0.2s ease;
+}
+
+.mobileNav a:hover {
+    color: #ace336;
+    padding-left: 5px;
 }
 
 
-/* =========================
-   TEAM PAGE
-========================= */
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+    padding-top: 100px;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   SMOOTH SCROLL
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================================
+   SCROLL REVEAL ANIMATIONS
+   ========================================================= */
+
+.reveal,
+.reveal-left,
+.reveal-right {
+    opacity: 0;
+
+    transition:
+        opacity 0.75s ease,
+        transform 0.75s ease;
+}
+
+.reveal {
+    transform: translateY(35px);
+}
+
+.reveal-left {
+    transform: translateX(-45px);
+}
+
+.reveal-right {
+    transform: translateX(45px);
+}
+
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+
+/* =========================================================
+   TEAM GRID
+   ========================================================= */
 
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
     gap: 25px;
 }
 
+
+/* =========================================================
+   TEAM CARDS
+   ========================================================= */
+
 .person {
     background: #ffffff;
+
     border: 1px solid #e1e6df;
+
     border-radius: 18px;
 
     padding: 28px 22px;
 
     text-align: center;
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.05);
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
 }
 
 .person:hover {
-    transform: translateY(-4px);
+    transform: translateY(-7px);
+
+    border-color: #d4dfcc;
 
     box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.08);
+        0 18px 45px rgba(0,0,0,0.10);
 }
+
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
 
 .avatar {
     width: 82px;
@@ -247,6 +391,16 @@ footer .copy {
     font-size: 18px;
 
     border: 2px solid #dce8d2;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+.person:hover .avatar {
+    transform: scale(1.05);
+
+    background: #e7f1dc;
 }
 
 .person h3 {
@@ -260,61 +414,401 @@ footer .copy {
 
 .person .role {
     color: #6b9820;
+
     font-weight: 700;
     font-size: 13px;
 }
 
 
-/* =========================
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    background: #090d08;
+
+    color: white;
+
+    padding: 55px 0 24px;
+}
+
+footer .foot-top {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 60px;
+}
+
+footer .brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    text-decoration: none;
+    color: white;
+
+    margin-bottom: 16px;
+}
+
+footer .brand-logo {
+    width: 52px;
+    height: 52px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+footer .brand-text {
+    display: flex;
+    flex-direction: column;
+
+    color: white;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+}
+
+footer .brand-text small {
+    color: #8f988c;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    margin-top: 3px;
+}
+
+footer p {
+    color: #8f988c;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FOOTER LINKS
+   ========================================================= */
+
+footer .foot-links {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(110px, 1fr));
+
+    gap: 11px 35px;
+
+    min-width: 300px;
+}
+
+footer .foot-links a {
+    position: relative;
+
+    color: #cbd2c7;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+footer .foot-links a:hover {
+    color: #ace336;
+
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   FOOTER SOCIALS
+   ========================================================= */
+
+.footer-social {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.08);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.footer-social a:hover {
+    transform: translateY(-3px);
+
+    background: rgba(255,255,255,0.15);
+}
+
+.footer-social img {
+    width: 22px;
+    height: 22px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* =========================================================
+   COPYRIGHT
+   ========================================================= */
+
+footer .copy {
+    margin-top: 40px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.08);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    color: #737c70;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   BACK TO TOP
+   ========================================================= */
+
+.back-to-top {
+    position: fixed;
+
+    right: 24px;
+    bottom: 24px;
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 12px;
+
+    background: rgba(9,13,8,0.88);
+
+    color: #ace336;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    z-index: 9998;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(12px);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease,
+        background 0.25s ease;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: rgba(172,227,54,0.12);
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
    MOBILE
-========================= */
+   ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1050px) {
 
-    .team-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .navlinks {
+        gap: 17px;
     }
 
-    footer .foot-top {
-        flex-direction: column;
-        gap: 30px;
+    .navlinks a {
+        font-size: 13px;
+    }
+
+    .register {
+        padding: 0 14px;
     }
 
 }
 
 
-/* =========================
-   SMALL MOBILE
-========================= */
+@media (max-width: 900px) {
 
-@media (max-width: 600px) {
+    header {
+        height: 82px;
+    }
 
     body {
-        padding-top: 70px;
+        padding-top: 82px;
     }
 
     .header-logo {
-        height: 40px;
+        height: 48px;
+    }
+
+    .navlinks,
+    header .register {
+        display: none;
+    }
+
+    .menu {
+        display: block;
+    }
+
+    .mobileNav {
+        top: 82px;
+    }
+
+    .team-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    footer .foot-top {
+        flex-direction: column;
+
+        gap: 35px;
+    }
+
+    footer .foot-links {
+        min-width: 0;
+
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    header {
+        height: 72px;
+    }
+
+    body {
+        padding-top: 72px;
+    }
+
+    .header-logo {
+        height: 42px;
+    }
+
+    .mobileNav {
+        top: 72px;
     }
 
     .team-grid {
         grid-template-columns: 1fr;
+
+        gap: 20px;
     }
 
     footer {
-        padding: 38px 0 20px;
+        padding: 42px 0 20px;
+    }
+
+    footer .brand-logo {
+        width: 48px;
+        height: 48px;
     }
 
     footer .foot-links {
-        width: 100%;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px 20px;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 11px 20px;
     }
 
     footer .copy {
         flex-direction: column;
+
         gap: 7px;
-        margin-top: 25px;
+
+        margin-top: 28px;
+    }
+
+    .back-to-top {
+        right: 16px;
+        bottom: 16px;
+
+        width: 42px;
+        height: 42px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .reveal,
+    .reveal-left,
+    .reveal-right {
+        opacity: 1;
+        transform: none;
     }
 
 }
@@ -327,9 +821,9 @@ footer .copy {
 <body>
 
 
-<!-- =========================
+<!-- =========================================================
      HEADER
-========================= -->
+     ========================================================= -->
 
 <header id="siteHeader">
 
@@ -349,23 +843,14 @@ footer .copy {
         <nav class="navlinks">
 
             <a href="index.html">Home</a>
-
             <a href="about.html">About</a>
-
             <a href="fleet.html">Fleet</a>
-
             <a href="routes.html">Routes</a>
-
             <a href="team.html">Team</a>
-
             <a href="join.html">Join Us</a>
-
             <a href="manual.html">Pilot Manual</a>
-
             <a href="contact.html">Contact Us</a>
-
             <a href="ranking.html">Ranking</a>
-
             <a href="booking.html">Book a flight</a>
 
         </nav>
@@ -380,6 +865,8 @@ footer .copy {
             class="menu"
             onclick="toggleMenu()"
             aria-label="Open navigation menu"
+            aria-expanded="false"
+            type="button"
         >
             ☰
         </button>
@@ -394,25 +881,15 @@ footer .copy {
         <div class="container">
 
             <a href="index.html">Home</a>
-
             <a href="about.html">About</a>
-
             <a href="fleet.html">Fleet</a>
-
             <a href="routes.html">Routes</a>
-
             <a href="team.html">Team</a>
-
             <a href="join.html">Join Us</a>
-
             <a href="manual.html">Pilot Manual</a>
-
             <a href="contact.html">Contact Us</a>
-
             <a href="ranking.html">Ranking</a>
-
             <a href="booking.html">Book a flight</a>
-
             <a href="join.html">Register</a>
 
         </div>
@@ -423,18 +900,18 @@ footer .copy {
 
 
 
-<!-- =========================
+<!-- =========================================================
      MAIN
-========================= -->
+     ========================================================= -->
 
 <main>
 
 
-    <!-- =========================
+    <!-- =====================================================
          HERO
-    ========================= -->
+         ===================================================== -->
 
-    <section class="pagehero">
+    <section class="pagehero reveal">
 
         <div class="container">
 
@@ -456,9 +933,9 @@ footer .copy {
 
 
 
-    <!-- =========================
+    <!-- =====================================================
          TEAM
-    ========================= -->
+         ===================================================== -->
 
     <section class="content-section">
 
@@ -469,7 +946,7 @@ footer .copy {
 
                 <!-- CEO -->
 
-                <div class="person">
+                <div class="person reveal">
 
                     <div class="avatar">
                         CEO
@@ -492,7 +969,7 @@ footer .copy {
 
                 <!-- OPERATIONS -->
 
-                <div class="person">
+                <div class="person reveal">
 
                     <div class="avatar">
                         OPS
@@ -515,7 +992,7 @@ footer .copy {
 
                 <!-- COMMUNITY -->
 
-                <div class="person">
+                <div class="person reveal">
 
                     <div class="avatar">
                         COM
@@ -538,7 +1015,7 @@ footer .copy {
 
                 <!-- TRAINING -->
 
-                <div class="person">
+                <div class="person reveal">
 
                     <div class="avatar">
                         TRN
@@ -570,14 +1047,13 @@ footer .copy {
 
 
 
-<!-- =========================
+<!-- =========================================================
      FOOTER
-========================= -->
+     ========================================================= -->
 
 <footer>
 
     <div class="container">
-
 
         <div class="foot-top">
 
@@ -665,49 +1141,17 @@ footer .copy {
 
             <div class="foot-links">
 
-                <a href="index.html">
-                    Home
-                </a>
-
-                <a href="about.html">
-                    About
-                </a>
-
-                <a href="fleet.html">
-                    Fleet
-                </a>
-
-                <a href="routes.html">
-                    Routes
-                </a>
-
-                <a href="team.html">
-                    Team
-                </a>
-
-                <a href="index.html#news">
-                    News
-                </a>
-
-                <a href="join.html">
-                    Join Us
-                </a>
-
-                <a href="manual.html">
-                    Pilot Manual
-                </a>
-
-                <a href="contact.html">
-                    Contact Us
-                </a>
-
-                <a href="booking.html">
-                    Book a flight
-                </a>
-
-                <a href="join.html">
-                    Register
-                </a>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="fleet.html">Fleet</a>
+                <a href="routes.html">Routes</a>
+                <a href="team.html">Team</a>
+                <a href="index.html#news">News</a>
+                <a href="join.html">Join Us</a>
+                <a href="manual.html">Pilot Manual</a>
+                <a href="contact.html">Contact Us</a>
+                <a href="booking.html">Book a flight</a>
+                <a href="join.html">Register</a>
 
             </div>
 
@@ -737,24 +1181,40 @@ footer .copy {
 
 
 
-<!-- =========================
+<!-- =========================================================
+     BACK TO TOP
+     ========================================================= -->
+
+<button
+    id="backToTop"
+    class="back-to-top"
+    aria-label="Back to top"
+    type="button"
+>
+    ↑
+</button>
+
+
+
+<!-- =========================================================
      SCRIPTS
-========================= -->
+     ========================================================= -->
 
 <script src="script.js"></script>
 
-
 <script>
 
-/* =========================
+/* =========================================================
    HEADER SCROLL EFFECT
-========================= */
+   ========================================================= */
 
 const header = document.getElementById("siteHeader");
 
 function updateHeader() {
 
-    if (window.scrollY > 20) {
+    if (!header) return;
+
+    if (window.scrollY > 30) {
 
         header.classList.add("scrolled");
 
@@ -766,31 +1226,189 @@ function updateHeader() {
 
 }
 
-window.addEventListener("scroll", updateHeader);
+window.addEventListener(
+    "scroll",
+    updateHeader,
+    { passive: true }
+);
 
 updateHeader();
 
 
-/* =========================
+/* =========================================================
    MOBILE MENU
-========================= */
+   ========================================================= */
 
 function toggleMenu() {
 
     const mobileNav =
         document.getElementById("mobileNav");
 
-    if (mobileNav) {
+    const menu =
+        document.querySelector(".menu");
 
+    if (!mobileNav) return;
+
+    const isOpen =
         mobileNav.classList.toggle("open");
+
+    if (menu) {
+
+        menu.setAttribute(
+            "aria-expanded",
+            isOpen ? "true" : "false"
+        );
 
     }
 
 }
 
+
+/* Close mobile menu when clicking a link */
+
+document
+    .querySelectorAll(".mobileNav a")
+    .forEach(link => {
+
+        link.addEventListener("click", () => {
+
+            const mobileNav =
+                document.getElementById("mobileNav");
+
+            const menu =
+                document.querySelector(".menu");
+
+            mobileNav?.classList.remove("open");
+
+            menu?.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        });
+
+    });
+
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+
+const revealElements =
+    document.querySelectorAll(
+        ".reveal, .reveal-left, .reveal-right"
+    );
+
+const revealObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("visible");
+
+                    revealObserver.unobserve(
+                        entry.target
+                    );
+
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.12,
+            rootMargin: "0px 0px -50px 0px"
+        }
+    );
+
+
+revealElements.forEach(element => {
+
+    revealObserver.observe(element);
+
+});
+
+
+/* =========================================================
+   BACK TO TOP
+   ========================================================= */
+
+const backToTop =
+    document.getElementById("backToTop");
+
+function updateBackToTop() {
+
+    if (!backToTop) return;
+
+    if (window.scrollY > 500) {
+
+        backToTop.classList.add("show");
+
+    } else {
+
+        backToTop.classList.remove("show");
+
+    }
+
+}
+
+window.addEventListener(
+    "scroll",
+    updateBackToTop,
+    { passive: true }
+);
+
+updateBackToTop();
+
+
+if (backToTop) {
+
+    backToTop.addEventListener(
+        "click",
+        () => {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE KEY — CLOSE MOBILE MENU
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key !== "Escape") return;
+
+        const mobileNav =
+            document.getElementById("mobileNav");
+
+        const menu =
+            document.querySelector(".menu");
+
+        mobileNav?.classList.remove("open");
+
+        menu?.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    }
+);
+
 </script>
 
 
 </body>
-
 </html>
