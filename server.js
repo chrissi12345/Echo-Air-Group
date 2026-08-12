@@ -19,8 +19,13 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-const JWT_SECRET =
-    process.env.JWT_SECRET || "CHANGE_THIS_SECRET";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+    throw new Error(
+        "JWT_SECRET is missing. Add JWT_SECRET to Render Environment Variables."
+    );
+}
 
 const DB_PATH =
     process.env.DB_PATH ||
