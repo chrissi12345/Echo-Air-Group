@@ -5218,7 +5218,8 @@ function generateBoardingPass() {
 
 
     const qr =
-        <a href='https://postimg.cc/jW0S0HRh' target='_blank'><img src='https://i.postimg.cc/jW0S0HRh/https-discord-gg-e7e-Px-YA24-removebg-preview.png' border='0' alt='https-discord-gg-e7e-Px-YA24-removebg-preview'></a>
+        "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://cdn.discordapp.com/attachments/1535409438683439314/1540047293410181190/https_discord_gg_e7ePxYA24-removebg-preview.png?ex=6a88884f&is=6a8736cf&hm=a22b7d85d3be83b1c5b06fb69067a6fe844151f51c66ad68729ee832ee443b5e&" +
+        encodeURIComponent(qrData);
 
 
     document.getElementById(
