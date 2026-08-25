@@ -573,6 +573,10 @@ header.hide-on-scroll {
     white-space:nowrap;
 }
 
+.detail-stat-wide {
+    grid-column:1 / -1;
+}
+
 .detail-stat span {
     display:block;
     margin-top:4px;
@@ -630,7 +634,7 @@ header.hide-on-scroll {
 
 .hero-stats {
     display:grid;
-    grid-template-columns:repeat(5, minmax(0,1fr));
+    grid-template-columns:repeat(3, minmax(0,1fr));
     gap:12px;
     margin-top:24px;
 }
@@ -1818,16 +1822,6 @@ footer p {
 
     <div class="hero-stats">
 
-        <div class="hero-stat stars-stat">
-            <small>Stars</small>
-            <b><span id="stars">0.00</span> ⭐</b>
-        </div>
-
-        <div class="hero-stat">
-            <small>Rank position</small>
-            <b id="rankPosition">—</b>
-        </div>
-
         <div class="hero-stat">
             <small>Flights</small>
             <b id="flightCount">0</b>
@@ -1845,34 +1839,32 @@ footer p {
 
     </div>
 
-    <div class="progress">
-        <div id="progressBar"></div>
-    </div>
-
-    <p class="muted" id="progressText">
-        0.00 / 1000.00 ⭐ to First Officer
-    </p>
-
-    <div class="rank-progress-card">
-        <div class="rank-progress-head">
-            <strong id="nextRankLabel">Next rank</strong>
-            <span id="nextRankPercent">0.0%</span>
-        </div>
-
-        <div class="progress">
-            <div id="detailedProgressBar"></div>
-        </div>
-
-        <p class="muted" id="starsToNextRank" style="margin:0;font-size:12px;">
-            0.00 ⭐ remaining
-        </p>
-    </div>
-
     <button class="stats-toggle" id="statsToggle" type="button" aria-expanded="false" aria-controls="moreStats">
         Show more statistics <span>＋</span>
     </button>
 
     <div class="detailed-stats" id="moreStats" hidden>
+
+        <div class="detail-stat">
+            <small>Total stars</small>
+            <b><span id="stars">0.00</span> ⭐</b>
+        </div>
+
+        <div class="detail-stat">
+            <small>Rank position</small>
+            <b id="rankPosition">—</b>
+        </div>
+
+        <div class="detail-stat">
+            <small>Stars to next rank</small>
+            <b id="starsToNextRank">0.00 ⭐ remaining</b>
+        </div>
+
+        <div class="detail-stat">
+            <small>Rank progress</small>
+            <b id="nextRankLabel">Next rank</b>
+            <span id="nextRankPercent">0.0%</span>
+        </div>
 
         <div class="detail-stat">
             <small>Total distance</small>
@@ -1886,7 +1878,7 @@ footer p {
         </div>
 
         <div class="detail-stat">
-            <small>Avg. stars this month</small>
+            <small>Average stars this month</small>
             <b id="averageStarsMonth">0.00 ⭐</b>
         </div>
 
@@ -1923,6 +1915,18 @@ footer p {
             <span>Consecutive flying days</span>
         </div>
 
+    </div>
+
+    <div class="detail-stat detail-stat-wide">
+        <small>Rank progress</small>
+        <div class="rank-progress-head">
+            <strong id="nextRankLabel">Next rank</strong>
+            <span id="nextRankPercent">0.0%</span>
+        </div>
+        <div class="progress" style="margin-top:10px;">
+            <div id="detailedProgressBar"></div>
+        </div>
+        <span id="starsToNextRank">0.00 ⭐ remaining</span>
     </div>
 
     <div class="actions">
@@ -2138,10 +2142,7 @@ footer p {
     </div>
 
     <div class="recent-flights-footer">
-        <span id="recentFlightsCount">0 flights loaded</span>
-        <button class="btn btn-primary" id="viewAllFlightsBtnBottom" type="button">
-            See all flights
-        </button>
+        <span id="recentFlightsCount">0 flights</span>
     </div>
 
 </div>
@@ -3012,12 +3013,17 @@ function getSortedFlights(flights) {
 }
 
 let currentFlights = [];
+let totalFlightCount = 0;
 
-function renderFlights(flights) {
+function renderFlights(flights, reportedTotal = null) {
 
     currentFlights = getSortedFlights(
         Array.isArray(flights) ? flights : []
     );
+
+    totalFlightCount = Number.isFinite(Number(reportedTotal))
+        ? Number(reportedTotal)
+        : currentFlights.length;
 
     const rows = document.getElementById('flightRows');
     const count = document.getElementById('recentFlightsCount');
@@ -3037,7 +3043,7 @@ function renderFlights(flights) {
     }
 
     if(count) {
-        count.textContent = `${currentFlights.length} total flight${currentFlights.length === 1 ? '' : 's'} • showing ${recent.length}`;
+        count.textContent = `${totalFlightCount} total flight${totalFlightCount === 1 ? '' : 's'} • showing ${recent.length} recent`;
     }
 }
 
@@ -3061,18 +3067,37 @@ function renderAllFlights() {
     }
 
     if(count) {
-        count.textContent = `${currentFlights.length} flight${currentFlights.length === 1 ? '' : 's'}`;
+        if(currentFlights.length === totalFlightCount) {
+            count.textContent = `${totalFlightCount} flight${totalFlightCount === 1 ? '' : 's'}`;
+        } else {
+            count.textContent = `${totalFlightCount} flights • ${currentFlights.length} loaded`;
+        }
     }
 }
 
-function openAllFlightsModal() {
+async function openAllFlightsModal() {
     const modal = document.getElementById('allFlightsModal');
     if(!modal) return;
 
-    renderAllFlights();
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('menu-open');
+
+    const rows = document.getElementById('allFlightRows');
+    const count = document.getElementById('allFlightsCount');
+    if(rows) rows.innerHTML = '<tr><td colspan="5" class="muted">Loading all flights…</td></tr>';
+
+    try {
+        const data = await api('/flights/me');
+        if(Array.isArray(data.flights)) {
+            currentFlights = getSortedFlights(data.flights);
+            totalFlightCount = Number.isFinite(Number(data.total)) ? Number(data.total) : currentFlights.length;
+        }
+    } catch(error) {
+        console.warn('Could not load full flight history:', error);
+    }
+
+    renderAllFlights();
 }
 
 function closeAllFlightsModal() {
@@ -3571,7 +3596,8 @@ function renderDashboard(data) {
 
 
     renderFlights(
-        flights
+        flights,
+        stats.flightCount
     );
 
 }
@@ -4799,7 +4825,7 @@ if(statsToggle && moreStats) {
         statsToggle.innerHTML = isOpen ? 'Show more statistics <span>＋</span>' : 'Hide extra statistics <span>−</span>';
     });
 }
-['viewAllFlightsBtn','viewAllFlightsBtnBottom'].forEach(id => {
+['viewAllFlightsBtn'].forEach(id => {
     const b=document.getElementById(id); if(b) b.addEventListener('click', openAllFlightsModal);
 });
 const closeAllFlights=document.getElementById('closeAllFlights');
