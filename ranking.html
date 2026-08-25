@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <meta name="theme-color" content="#101410">
-<meta name="description" content="Echo Air Group — pilot ranking and statistics.">
+<meta name="description" content="Echo Air Group — pilot ranking.">
 
 <title>Ranking — Echo Air Group</title>
 
@@ -21,10 +22,6 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-
-/* ============================================================
-   ROOT
-   ============================================================ */
 
 :root {
     --green:#ace336;
@@ -42,16 +39,11 @@
     --text:#273025;
     --muted:#687267;
 
-    --line:#e0e6dc;
-    --line-soft:#edf0eb;
+    --line:rgba(255,255,255,.09);
+    --light-line:#e0e6dc;
 
     --header-height:100px;
 }
-
-
-/* ============================================================
-   GLOBAL
-   ============================================================ */
 
 * {
     box-sizing:border-box;
@@ -72,7 +64,7 @@ body {
         sans-serif;
 
     color:var(--text);
-    background:#fff;
+    background:var(--white);
 }
 
 body.menu-open {
@@ -166,7 +158,7 @@ header.hide-on-scroll {
     min-width:0;
     flex-shrink:0;
 
-    color:#fff;
+    color:var(--white);
     text-decoration:none;
 }
 
@@ -183,7 +175,7 @@ header.hide-on-scroll {
 .brand-text {
     margin-left:12px;
 
-    color:#fff;
+    color:var(--white);
 
     font-size:14px;
     font-weight:900;
@@ -292,7 +284,7 @@ header.hide-on-scroll {
     border-radius:10px;
 
     background:rgba(255,255,255,.05);
-    color:#fff;
+    color:white;
 
     font-size:20px;
 
@@ -326,7 +318,7 @@ header.hide-on-scroll {
 
     padding:14px 0;
 
-    color:#fff;
+    color:white;
     text-decoration:none;
 
     border-bottom:
@@ -355,12 +347,6 @@ header.hide-on-scroll {
             transparent 30%
         ),
 
-        radial-gradient(
-            circle at 20% 100%,
-            rgba(172,227,54,.06),
-            transparent 30%
-        ),
-
         linear-gradient(
             135deg,
             #10150f 0%,
@@ -368,7 +354,7 @@ header.hide-on-scroll {
             #0d110c 100%
         );
 
-    color:#fff;
+    color:white;
 }
 
 .pagehero .pill {
@@ -408,7 +394,7 @@ header.hide-on-scroll {
 }
 
 .pagehero p {
-    max-width:720px;
+    max-width:700px;
 
     margin:0;
 
@@ -420,7 +406,7 @@ header.hide-on-scroll {
 
 
 /* ============================================================
-   MAIN
+   RANKING
    ============================================================ */
 
 .ranking-wrap {
@@ -443,10 +429,16 @@ header.hide-on-scroll {
     min-width:0;
 }
 
+.ranking-hero {
+    display:grid;
 
-/* ============================================================
-   CARDS
-   ============================================================ */
+    grid-template-columns:
+        1.2fr .8fr;
+
+    gap:28px;
+
+    align-items:stretch;
+}
 
 .rank-card,
 .panel {
@@ -465,35 +457,17 @@ header.hide-on-scroll {
     padding:30px;
 }
 
+.rank-card h2 {
+    margin:0 0 8px;
+}
+
 .panel {
     padding:24px;
     margin-top:28px;
 }
 
 .panel h3 {
-    margin:0 0 18px;
-
-    font-size:19px;
-}
-
-.panel-subtitle {
-    margin:-8px 0 18px;
-
-    color:var(--muted);
-
-    font-size:12px;
-    line-height:1.5;
-}
-
-.ranking-hero {
-    display:grid;
-
-    grid-template-columns:
-        1.2fr .8fr;
-
-    gap:28px;
-
-    align-items:stretch;
+    margin-top:0;
 }
 
 .eyebrow {
@@ -510,110 +484,23 @@ header.hide-on-scroll {
     letter-spacing:.08em;
 }
 
-
-/* ============================================================
-   RANK CARD
-   ============================================================ */
-
 .rank-number {
     margin:10px 0;
 
-    font-size:48px;
-    font-weight:900;
+    font-size:52px;
+    font-weight:800;
 
     line-height:1;
-
-    letter-spacing:-.04em;
 }
 
 .stars {
     font-size:26px;
-    font-weight:800;
-
-    letter-spacing:1px;
-}
-
-.rank-meta {
-    display:flex;
-    flex-wrap:wrap;
-
-    gap:8px;
-
-    margin-top:14px;
-}
-
-.rank-chip {
-    display:inline-flex;
-    align-items:center;
-
-    padding:7px 10px;
-
-    border-radius:999px;
-
-    background:#f0f4ec;
-
-    color:#596653;
-
-    font-size:11px;
-    font-weight:800;
-}
-
-.rank-chip.highlight {
-    background:var(--green-soft);
-    color:#52731c;
+    letter-spacing:2px;
 }
 
 
 /* ============================================================
-   PROGRESS
-   ============================================================ */
-
-.progress-labels {
-    display:flex;
-    justify-content:space-between;
-
-    gap:15px;
-
-    margin-top:18px;
-
-    color:var(--muted);
-
-    font-size:11px;
-    font-weight:700;
-}
-
-.progress {
-    height:12px;
-
-    margin:8px 0 0;
-
-    background:#e8ede5;
-
-    border-radius:99px;
-
-    overflow:hidden;
-}
-
-.progress > div {
-    width:0;
-    height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #89b72b,
-            #ace336
-        );
-
-    border-radius:99px;
-
-    transition:
-        width .6s ease;
-}
-
-
-/* ============================================================
-   STAT GRID
+   STATISTICS
    ============================================================ */
 
 .stat-grid {
@@ -628,14 +515,9 @@ header.hide-on-scroll {
 }
 
 .stat {
-    min-width:0;
-
-    padding:15px;
+    padding:14px;
 
     background:#f5f7f3;
-
-    border:
-        1px solid #edf0eb;
 
     border-radius:12px;
 }
@@ -643,421 +525,45 @@ header.hide-on-scroll {
 .stat small {
     display:block;
 
-    margin-bottom:5px;
+    margin-bottom:4px;
 
     color:#7b857a;
-
-    font-size:10px;
-    font-weight:700;
-
-    text-transform:uppercase;
-    letter-spacing:.04em;
 }
 
 .stat b {
-    display:block;
-
-    overflow:hidden;
-
-    font-size:19px;
-    font-weight:900;
-
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.stat-value-small {
-    font-size:14px !important;
+    font-size:20px;
 }
 
 
 /* ============================================================
-   ADVANCED STATISTICS
+   PROGRESS
    ============================================================ */
 
-.advanced-stats {
-    display:grid;
+.progress {
+    height:12px;
 
-    grid-template-columns:
-        repeat(4,1fr);
+    margin:15px 0 8px;
 
-    gap:12px;
-}
+    background:#e8ede5;
 
-.advanced-stat {
-    position:relative;
-
-    min-height:110px;
-
-    padding:18px;
-
-    background:#f7f9f5;
-
-    border:
-        1px solid #e7ece3;
-
-    border-radius:14px;
+    border-radius:99px;
 
     overflow:hidden;
 }
 
-.advanced-stat::after {
-    content:"";
+.progress > div {
+    width:0;
+    height:100%;
 
-    position:absolute;
-
-    right:-25px;
-    bottom:-35px;
-
-    width:90px;
-    height:90px;
-
-    border-radius:50%;
-
-    background:
-        rgba(172,227,54,.08);
-}
-
-.advanced-stat-icon {
-    margin-bottom:10px;
-
-    color:var(--green-dark);
-
-    font-size:17px;
-}
-
-.advanced-stat-label {
-    display:block;
-
-    color:#7b857a;
-
-    font-size:10px;
-    font-weight:800;
-
-    text-transform:uppercase;
-    letter-spacing:.05em;
-}
-
-.advanced-stat-value {
-    display:block;
-
-    margin-top:5px;
-
-    font-size:21px;
-    font-weight:900;
-
-    letter-spacing:-.03em;
-}
-
-.advanced-stat-sub {
-    display:block;
-
-    margin-top:4px;
-
-    color:#8a9386;
-
-    font-size:10px;
-}
-
-
-/* ============================================================
-   PERFORMANCE
-   ============================================================ */
-
-.performance-grid {
-    display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:16px;
-}
-
-.performance-box {
-    padding:18px;
-
-    background:#f7f9f5;
-
-    border:
-        1px solid #e7ece3;
-
-    border-radius:14px;
-}
-
-.performance-box h4 {
-    margin:0 0 12px;
-
-    font-size:13px;
-}
-
-.performance-row {
-    display:flex;
-    justify-content:space-between;
-
-    gap:15px;
-
-    padding:9px 0;
-
-    border-bottom:
-        1px solid #e5eae1;
-
-    font-size:12px;
-}
-
-.performance-row:last-child {
-    border-bottom:0;
-}
-
-.performance-row span:first-child {
-    color:#748070;
-}
-
-.performance-row strong {
-    text-align:right;
-}
-
-
-/* ============================================================
-   ACTIONS
-   ============================================================ */
-
-.actions {
-    display:flex;
-    flex-wrap:wrap;
-
-    gap:10px;
-
-    margin-top:20px;
-}
-
-.btn {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:12px 17px;
-
-    border-radius:10px;
-
-    background:#edf1eb;
-    color:#273025;
-
-    font-size:13px;
-    font-weight:800;
-
-    cursor:pointer;
-    text-decoration:none;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-}
-
-.btn:hover {
-    transform:translateY(-1px);
-}
-
-.btn-primary {
     background:var(--green);
-    color:#17200f;
-}
-
-.btn-primary:hover {
-    box-shadow:
-        0 8px 22px rgba(172,227,54,.25);
-}
-
-.btn:disabled {
-    opacity:.55;
-
-    cursor:not-allowed;
-
-    transform:none;
-}
-
-
-/* ============================================================
-   DISCORD
-   ============================================================ */
-
-#discordBtn {
-    background:#5865F2;
-    color:#fff;
-}
-
-#discordBtn:hover {
-    box-shadow:
-        0 8px 22px rgba(88,101,242,.25);
-}
-
-#discordBtn:disabled {
-    background:#6f7680;
-    color:#fff;
-}
-
-
-/* ============================================================
-   MESSAGES
-   ============================================================ */
-
-.message {
-    display:none;
-
-    margin-top:14px;
-    padding:12px 14px;
-
-    border-radius:10px;
-
-    background:#eef5e7;
-    color:#52604d;
-
-    font-size:13px;
-    line-height:1.5;
-}
-
-.message.error {
-    background:#faecec;
-    color:#7d3434;
-}
-
-
-/* ============================================================
-   FORMS
-   ============================================================ */
-
-.form-grid {
-    display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:16px;
-}
-
-.field {
-    display:flex;
-    flex-direction:column;
-
-    gap:7px;
-}
-
-.field.full {
-    grid-column:1/-1;
-}
-
-.field label {
-    font-size:13px;
-    font-weight:700;
-}
-
-.field input {
-    width:100%;
-
-    padding:13px 14px;
-
-    border:
-        1px solid #d8ded6;
-
-    border-radius:10px;
-
-    background:#f8faf7;
-
-    font:inherit;
 
     transition:
-        border .2s ease,
-        box-shadow .2s ease;
-}
-
-.field input:focus {
-    outline:none;
-
-    border-color:#9fcb42;
-
-    box-shadow:
-        0 0 0 3px rgba(172,227,54,.12);
+        width .4s ease;
 }
 
 
 /* ============================================================
-   TABLES
-   ============================================================ */
-
-.table-wrap {
-    overflow:auto;
-}
-
-table {
-    width:100%;
-    min-width:650px;
-
-    border-collapse:collapse;
-}
-
-th,
-td {
-    padding:13px;
-
-    text-align:left;
-
-    border-bottom:
-        1px solid #e8ede5;
-}
-
-th {
-    color:#687267;
-
-    font-size:11px;
-    font-weight:800;
-
-    text-transform:uppercase;
-    letter-spacing:.04em;
-}
-
-td {
-    font-size:13px;
-}
-
-tbody tr:hover {
-    background:#fafcf9;
-}
-
-.badge {
-    display:inline-block;
-
-    padding:5px 9px;
-
-    border-radius:999px;
-
-    background:#eef5e7;
-    color:#4e613d;
-
-    font-size:11px;
-    font-weight:800;
-}
-
-.flight-route {
-    font-weight:800;
-}
-
-.flight-date {
-    color:var(--muted);
-    font-size:12px;
-}
-
-.rating-good {
-    color:#5c8218;
-    font-weight:900;
-}
-
-.rating-normal {
-    font-weight:700;
-}
-
-
-/* ============================================================
-   TOP PILOT SIDEBAR
+   PILOT SIDEBAR
    ============================================================ */
 
 .pilot-sidebar {
@@ -1105,12 +611,17 @@ tbody tr:hover {
 }
 
 .pilot-list {
-    max-height:700px;
+    max-height:650px;
 
     overflow-y:auto;
 
     background:#fff;
 }
+
+
+/* ============================================================
+   PILOT ITEMS
+   ============================================================ */
 
 .pilot-item {
     display:grid;
@@ -1185,6 +696,9 @@ tbody tr:hover {
 
     font-size:14px;
     font-weight:900;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.03);
 }
 
 .pilot-info {
@@ -1266,6 +780,236 @@ tbody tr:hover {
 
 .pilot-sidebar-error {
     color:#d88989;
+}
+
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+
+.form-grid {
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:16px;
+}
+
+.field {
+    display:flex;
+    flex-direction:column;
+
+    gap:7px;
+}
+
+.field.full {
+    grid-column:1/-1;
+}
+
+.field label {
+    font-size:13px;
+    font-weight:700;
+}
+
+.field input {
+    width:100%;
+
+    padding:13px 14px;
+
+    border:
+        1px solid #d8ded6;
+
+    border-radius:10px;
+
+    background:#f8faf7;
+
+    font:inherit;
+
+    transition:
+        border .2s ease,
+        box-shadow .2s ease;
+}
+
+.field input:focus {
+    outline:none;
+
+    border-color:#9fcb42;
+
+    box-shadow:
+        0 0 0 3px rgba(172,227,54,.12);
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:12px 17px;
+
+    border-radius:10px;
+
+    background:#edf1eb;
+    color:#273025;
+
+    font-weight:800;
+
+    cursor:pointer;
+    text-decoration:none;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.btn:hover {
+    transform:translateY(-1px);
+}
+
+.btn-primary {
+    background:var(--green);
+    color:#17200f;
+}
+
+.btn-primary:hover {
+    box-shadow:
+        0 8px 22px rgba(172,227,54,.25);
+}
+
+.btn:disabled {
+    opacity:.55;
+
+    cursor:not-allowed;
+
+    transform:none;
+}
+
+.actions {
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:18px;
+}
+
+
+/* ============================================================
+   DISCORD BUTTON
+   ============================================================ */
+
+#discordBtn {
+    background:#5865F2;
+    color:#fff;
+}
+
+#discordBtn:hover {
+    box-shadow:
+        0 8px 22px rgba(88,101,242,.25);
+}
+
+#discordBtn:disabled {
+    background:#6f7680;
+    color:#fff;
+}
+
+
+/* ============================================================
+   MESSAGES
+   ============================================================ */
+
+.message {
+    display:none;
+
+    margin-top:14px;
+    padding:12px 14px;
+
+    border-radius:10px;
+
+    background:#eef5e7;
+    color:#52604d;
+
+    font-size:13px;
+    line-height:1.5;
+}
+
+.message.error {
+    background:#faecec;
+    color:#7d3434;
+}
+
+
+/* ============================================================
+   TABLE
+   ============================================================ */
+
+.table-wrap {
+    overflow:auto;
+}
+
+table {
+    width:100%;
+    min-width:650px;
+
+    border-collapse:collapse;
+}
+
+th,
+td {
+    padding:13px;
+
+    text-align:left;
+
+    border-bottom:
+        1px solid #e8ede5;
+}
+
+th {
+    color:#687267;
+
+    font-size:13px;
+}
+
+td {
+    font-size:14px;
+}
+
+.badge {
+    display:inline-block;
+
+    padding:5px 9px;
+
+    border-radius:999px;
+
+    background:#eef5e7;
+    color:#4e613d;
+
+    font-size:12px;
+    font-weight:700;
+}
+
+.flight-route {
+    font-weight:800;
+}
+
+.flight-date {
+    color:var(--muted);
+    font-size:12px;
+}
+
+.rating-good {
+    color:#5c8218;
+    font-weight:800;
+}
+
+.rating-normal {
+    font-weight:700;
 }
 
 
@@ -1384,12 +1128,6 @@ footer p {
         padding:11px 14px;
         font-size:11px;
     }
-
-    .advanced-stats {
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
 }
 
 @media(max-width:1050px) {
@@ -1416,7 +1154,6 @@ footer p {
             minmax(0,1fr)
             300px;
     }
-
 }
 
 @media(max-width:900px) {
@@ -1433,11 +1170,6 @@ footer p {
     .pilot-list {
         max-height:450px;
     }
-
-    .performance-grid {
-        grid-template-columns:1fr;
-    }
-
 }
 
 @media(max-width:850px) {
@@ -1478,7 +1210,6 @@ footer p {
     .pagehero {
         padding:140px 0 70px;
     }
-
 }
 
 @media(max-width:520px) {
@@ -1508,8 +1239,7 @@ footer p {
         font-size:43px;
     }
 
-    .stat-grid,
-    .advanced-stats {
+    .stat-grid {
         grid-template-columns:1fr;
     }
 
@@ -1526,10 +1256,6 @@ footer p {
 
     .pilot-item {
         padding:13px 14px;
-    }
-
-    .rank-card {
-        padding:22px;
     }
 
 }
@@ -1550,78 +1276,78 @@ footer p {
 
 <div class="container nav">
 
-<a class="brand" href="index.html">
+    <a class="brand" href="index.html">
 
-<img
-    class="brand-logo"
-    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?format=webp&quality=lossless&width=768&height=768"
-    alt="Echo Air Group Logo"
->
+        <img
+            class="brand-logo"
+            src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?format=webp&quality=lossless&width=768&height=768"
+            alt="Echo Air Group Logo"
+        >
 
-<div class="brand-text">
+        <div class="brand-text">
 
-ECHO AIR GROUP
+            ECHO AIR GROUP
 
-<small>
-6L · ECV · CLOVER
-</small>
+            <small>
+                6L · ECV · CLOVER
+            </small>
 
-</div>
+        </div>
 
-</a>
-
-
-<nav class="navlinks">
-
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="fleet.html">Fleet</a>
-<a href="routes.html">Routes</a>
-<a href="team.html">Team</a>
-<a href="join.html">Join Us</a>
-<a href="manual.html">Pilot Manual</a>
-<a href="contact.html">Contact Us</a>
-<a class="active" href="ranking.html">Ranking</a>
-<a href="booking.html">Book a flight</a>
-
-</nav>
+    </a>
 
 
-<a class="register" href="join.html">
-REGISTER
-</a>
+    <nav class="navlinks">
+
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="fleet.html">Fleet</a>
+        <a href="routes.html">Routes</a>
+        <a href="team.html">Team</a>
+        <a href="join.html">Join Us</a>
+        <a href="manual.html">Pilot Manual</a>
+        <a href="contact.html">Contact Us</a>
+        <a class="active" href="ranking.html">Ranking</a>
+        <a href="booking.html">Book a flight</a>
+
+    </nav>
 
 
-<button
-    class="menu"
-    id="menuButton"
-    type="button"
-    onclick="toggleMenu()"
-    aria-expanded="false"
->
-☰
-</button>
+    <a class="register" href="join.html">
+        REGISTER
+    </a>
+
+
+    <button
+        class="menu"
+        id="menuButton"
+        type="button"
+        onclick="toggleMenu()"
+        aria-expanded="false"
+    >
+        ☰
+    </button>
 
 </div>
 
 
 <div id="mobileNav" class="mobileNav">
 
-<div class="container">
+    <div class="container">
 
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="fleet.html">Fleet</a>
-<a href="routes.html">Routes</a>
-<a href="team.html">Team</a>
-<a href="join.html">Join Us</a>
-<a href="manual.html">Pilot Manual</a>
-<a href="contact.html">Contact Us</a>
-<a href="ranking.html">Ranking</a>
-<a href="booking.html">Book a flight</a>
-<a href="join.html">Register</a>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="fleet.html">Fleet</a>
+        <a href="routes.html">Routes</a>
+        <a href="team.html">Team</a>
+        <a href="join.html">Join Us</a>
+        <a href="manual.html">Pilot Manual</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="ranking.html">Ranking</a>
+        <a href="booking.html">Book a flight</a>
+        <a href="join.html">Register</a>
 
-</div>
+    </div>
 
 </div>
 
@@ -1639,19 +1365,18 @@ REGISTER
 
 <div class="container">
 
-<span class="pill">
-Echo Air Group Pilot Network
-</span>
+    <span class="pill">
+        Echo Air Group Ranking
+    </span>
 
-<h1>
-Fly. Earn <span>Stars.</span>
-</h1>
+    <h1>
+        Fly. Earn <span>Stars.</span>
+    </h1>
 
-<p>
-Track your Echo Air Group career, monitor your NewSky
-performance, climb the leaderboard and see how close you
-are to your next rank.
-</p>
+    <p>
+        Track your flights, NewSky statistics, rank progress and
+        position on the Echo Air Group leaderboard.
+    </p>
 
 </div>
 
@@ -1665,81 +1390,101 @@ are to your next rank.
 <div class="ranking-layout">
 
 
-<!-- ==========================================================
-     MAIN CONTENT
-     ========================================================== -->
-
 <div class="ranking-main">
 
 
-<!-- ==========================================================
+<!-- ============================================================
      LOGGED OUT
-     ========================================================== -->
+     ============================================================ -->
 
 <div id="loggedOut">
 
 <div class="ranking-hero">
 
+<div class="rank-card">
+
+    <span class="eyebrow">
+        Pilot Ranking
+    </span>
+
+    <h2>
+        Build your Echo profile
+    </h2>
+
+    <p class="muted">
+        Create an account or sign in to view your pilot profile,
+        link your NewSky account and synchronize your flights.
+    </p>
+
+    <div class="actions">
+
+        <a
+            class="btn btn-primary"
+            href="#account"
+        >
+            Create / Sign in
+        </a>
+
+    </div>
+
+</div>
+
 
 <div class="rank-card">
 
-<span class="eyebrow">
-Pilot Ranking
-</span>
+    <span class="eyebrow">
+        Rank system
+    </span>
 
-<h2>
-Build your Echo profile
-</h2>
+    <h2>
+        Earn your way up
+    </h2>
 
-<p class="muted">
-Create an account or sign in to view your pilot profile,
-link your NewSky account and synchronize your flights.
-</p>
+    <p class="muted">
+        Your rank is based on your total Echo stars.
+    </p>
 
-<div class="actions">
+    <div class="stat-grid">
 
-<a
-    class="btn btn-primary"
-    href="#account"
->
-Create / Sign in
-</a>
+        <div class="stat">
 
-</div>
+            <small>
+                Cadet
+            </small>
 
-</div>
+            <b>
+                0–999.99 ⭐
+            </b>
+
+        </div>
 
 
-<div class="rank-card">
+        <div class="stat">
 
-<span class="eyebrow">
-Echo rank system
-</span>
+            <small>
+                First Officer
+            </small>
 
-<h2>
-Earn your way up
-</h2>
+            <b>
+                1000+ ⭐
+            </b>
 
-<p class="muted">
-Your career rank is determined by your total Echo stars.
-</p>
+        </div>
 
-<div class="stat-grid">
 
-<div class="stat">
-<small>Cadet</small>
-<b>0 ⭐</b>
-</div>
+        <div class="stat">
 
-<div class="stat">
-<small>First Officer</small>
-<b>1,000 ⭐</b>
-</div>
+            <small>
+                Next ranks
+            </small>
 
-<div class="stat">
-<small>Commander</small>
-<b>10,000 ⭐</b>
-</div>
+            <b>
+                Keep flying
+            </b>
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -1747,306 +1492,207 @@ Your career rank is determined by your total Echo stars.
 
 </div>
 
-</div>
 
-
-<!-- ==========================================================
+<!-- ============================================================
      DASHBOARD
-     ========================================================== -->
+     ============================================================ -->
 
-<div
-    id="dashboard"
-    style="display:none"
->
-
-
-<!-- ==========================================================
-     PROFILE / RANK
-     ========================================================== -->
+<div id="dashboard" style="display:none">
 
 <div class="ranking-hero">
 
 
 <div class="rank-card">
 
-<span class="eyebrow">
-Your Echo Career
-</span>
+    <span class="eyebrow">
+        Your rank
+    </span>
 
-<h2 id="pilotName">
-Pilot
-</h2>
+    <h2 id="pilotName">
+        Pilot
+    </h2>
 
-<div
-    class="rank-number"
-    id="rankName"
->
-Cadet
-</div>
+    <div
+        class="rank-number"
+        id="rankName"
+    >
+        Cadet
+    </div>
 
-<div class="stars">
+    <div class="stars">
 
-<span id="stars">
-0.00
-</span>
+        <span id="stars">
+            0.00
+        </span>
 
-⭐
+        ⭐
 
-</div>
+    </div>
 
+    <div class="progress">
 
-<div class="rank-meta">
+        <div id="progressBar"></div>
 
-<span
-    class="rank-chip highlight"
-    id="rankPositionChip"
->
-Rank position — #
-</span>
+    </div>
 
-<span
-    class="rank-chip"
-    id="rankNextChip"
->
-Next rank — First Officer
-</span>
+    <p
+        class="muted"
+        id="progressText"
+    >
+        0.00 / 1000.00 ⭐ to First Officer
+    </p>
 
-</div>
+    <div class="stat-grid">
 
+        <div class="stat">
 
-<div class="progress-labels">
+            <small>
+                Flights
+            </small>
 
-<span id="currentRankLabel">
-Cadet
-</span>
+            <b id="flightCount">
+                0
+            </b>
 
-<span id="nextRankLabel">
-First Officer
-</span>
-
-</div>
-
-<div class="progress">
-
-<div id="progressBar"></div>
-
-</div>
+        </div>
 
 
-<p
-    class="muted"
-    id="progressText"
->
-0.00 / 1000.00 ⭐ to First Officer
-</p>
+        <div class="stat">
+
+            <small>
+                Average rating
+            </small>
+
+            <b id="averageRating">
+                0.00
+            </b>
+
+        </div>
 
 
-<div class="stat-grid">
+        <div class="stat">
 
-<div class="stat">
+            <small>
+                Flight hours
+            </small>
 
-<small>
-Flights
-</small>
+            <b id="flightHours">
+                0.0
+            </b>
 
-<b id="flightCount">
-0
-</b>
+        </div>
 
-</div>
-
-
-<div class="stat">
-
-<small>
-Average rating
-</small>
-
-<b id="averageRating">
-0.00
-</b>
-
-</div>
+    </div>
 
 
-<div class="stat">
+    <div class="actions">
 
-<small>
-Flight hours
-</small>
-
-<b id="flightHours">
-0.0
-</b>
-
-</div>
-
-</div>
+        <button
+            class="btn btn-primary"
+            id="syncBtn"
+            type="button"
+        >
+            Sync flights
+        </button>
 
 
-<div class="actions">
+        <button
+            class="btn"
+            id="discordBtn"
+            type="button"
+        >
+            Connect Discord
+        </button>
 
-<button
-    class="btn btn-primary"
-    id="syncBtn"
-    type="button"
->
-Sync flights
-</button>
 
-<button
-    class="btn"
-    id="discordBtn"
-    type="button"
->
-Connect Discord
-</button>
+        <button
+            class="btn"
+            id="logoutBtn"
+            type="button"
+        >
+            Log out
+        </button>
 
-<button
-    class="btn"
-    id="logoutBtn"
-    type="button"
->
-Log out
-</button>
+    </div>
+
+
+    <div
+        class="message"
+        id="dashboardMsg"
+    ></div>
+
+
+    <div
+        class="message"
+        id="discordMsg"
+    ></div>
 
 </div>
 
-
-<div
-    class="message"
-    id="dashboardMsg"
-></div>
-
-
-<div
-    class="message"
-    id="discordMsg"
-></div>
-
-</div>
-
-
-<!-- ==========================================================
-     NEXT RANK
-     ========================================================== -->
 
 <div class="rank-card">
 
-<span class="eyebrow">
-Career Progress
-</span>
+    <span class="eyebrow">
+        NewSky connection
+    </span>
 
-<h2 id="nextRankTitle">
-First Officer
-</h2>
+    <h2>
+        Link your NewSky pilot
+    </h2>
 
-<p
-    class="muted"
-    id="nextRankDescription"
->
-Keep flying to reach your next Echo Air Group rank.
-</p>
+    <p class="muted">
+        Enter the <strong>NewSky Pilot ID</strong>
+        exactly as it appears in your NewSky profile.
+    </p>
 
 
-<div class="advanced-stat">
+    <div class="field full">
 
-<div class="advanced-stat-icon">
-⭐
-</div>
+        <label for="newskyId">
+            NewSky Pilot ID
+        </label>
 
-<span class="advanced-stat-label">
-Stars needed
-</span>
+        <input
+            id="newskyId"
+            type="text"
+            autocomplete="off"
+            placeholder="Enter your NewSky Pilot ID"
+        >
 
-<strong
-    class="advanced-stat-value"
-    id="starsNeeded"
->
-1,000.00
-</strong>
-
-<span
-    class="advanced-stat-sub"
-    id="starsNeededText"
->
-until First Officer
-</span>
-
-</div>
+    </div>
 
 
-<div style="height:12px"></div>
+    <div class="actions">
+
+        <button
+            class="btn btn-primary"
+            id="linkBtn"
+            type="button"
+        >
+            Link NewSky account
+        </button>
+
+    </div>
 
 
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-📊
-</div>
-
-<span class="advanced-stat-label">
-Career progress
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="careerPercent"
->
-0%
-</strong>
-
-<span class="advanced-stat-sub">
-toward next rank
-</span>
-
-</div>
+    <div
+        class="message"
+        id="linkMsg"
+    ></div>
 
 
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-🏆
-</div>
-
-<span class="advanced-stat-label">
-Current position
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="pilotPosition"
->
-#
-</strong>
-
-<span class="advanced-stat-sub">
-on Echo leaderboard
-</span>
-
-</div>
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-✈️
-</div>
-
-<span class="advanced-stat-label">
-Flights completed
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="careerFlights"
->
-0
-</strong>
-
-<span class="advanced-stat-sub">
-logged flights
-</span>
+    <p
+        class="muted"
+        style="
+            margin-top:15px;
+            font-size:12px;
+            line-height:1.6;
+        "
+    >
+        Your NewSky ID is saved to your Echo pilot account.
+        After linking, use <strong>Sync flights</strong> to
+        retrieve your latest flights.
+    </p>
 
 </div>
 
@@ -2055,368 +1701,9 @@ logged flights
 </div>
 
 
-<!-- ==========================================================
-     ADVANCED STATISTICS
-     ========================================================== -->
-
-<div class="panel">
-
-<h3>
-Pilot Statistics
-</h3>
-
-<p class="panel-subtitle">
-A detailed overview of your Echo Air Group flying activity.
-</p>
-
-
-<div class="advanced-stats">
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-✈
-</div>
-
-<span class="advanced-stat-label">
-Total Flights
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="advancedFlights"
->
-0
-</strong>
-
-<span class="advanced-stat-sub">
-completed flights
-</span>
-
-</div>
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-⏱
-</div>
-
-<span class="advanced-stat-label">
-Flight Time
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="advancedHours"
->
-0.0h
-</strong>
-
-<span class="advanced-stat-sub">
-total logged hours
-</span>
-
-</div>
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-⭐
-</div>
-
-<span class="advanced-stat-label">
-Stars Earned
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="advancedStars"
->
-0.00
-</strong>
-
-<span class="advanced-stat-sub">
-career stars
-</span>
-
-</div>
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-📈
-</div>
-
-<span class="advanced-stat-label">
-Average Rating
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="advancedRating"
->
-0.00
-</strong>
-
-<span class="advanced-stat-sub">
-average flight rating
-</span>
-
-</div>
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-🌍
-</div>
-
-<span class="advanced-stat-label">
-Airports Visited
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="advancedAirports"
->
-—
-</strong>
-
-<span class="advanced-stat-sub">
-unique airports
-</span>
-
-</div>
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-🛫
-</div>
-
-<span class="advanced-stat-label">
-Routes Flown
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="advancedRoutes"
->
-—
-</strong>
-
-<span class="advanced-stat-sub">
-unique routes
-</span>
-
-</div>
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-🛩
-</div>
-
-<span class="advanced-stat-label">
-Aircraft Types
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="advancedAircraft"
->
-—
-</strong>
-
-<span class="advanced-stat-sub">
-different aircraft
-</span>
-
-</div>
-
-
-<div class="advanced-stat">
-
-<div class="advanced-stat-icon">
-🏅
-</div>
-
-<span class="advanced-stat-label">
-Best Rating
-</span>
-
-<strong
-    class="advanced-stat-value"
-    id="advancedBestRating"
->
-—
-</strong>
-
-<span class="advanced-stat-sub">
-highest recorded rating
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ==========================================================
-     PERFORMANCE
-     ========================================================== -->
-
-<div class="panel">
-
-<h3>
-Performance Overview
-</h3>
-
-<div class="performance-grid">
-
-
-<div class="performance-box">
-
-<h4>
-Flight Performance
-</h4>
-
-<div class="performance-row">
-<span>Average rating</span>
-<strong id="performanceAverage">0.00</strong>
-</div>
-
-<div class="performance-row">
-<span>Best rating</span>
-<strong id="performanceBest">—</strong>
-</div>
-
-<div class="performance-row">
-<span>Total stars</span>
-<strong id="performanceStars">0.00 ⭐</strong>
-</div>
-
-<div class="performance-row">
-<span>Average stars / flight</span>
-<strong id="performanceStarsAverage">0.00</strong>
-</div>
-
-</div>
-
-
-<div class="performance-box">
-
-<h4>
-Career Overview
-</h4>
-
-<div class="performance-row">
-<span>Current rank</span>
-<strong id="performanceRank">Cadet</strong>
-</div>
-
-<div class="performance-row">
-<span>Leaderboard position</span>
-<strong id="performancePosition">—</strong>
-</div>
-
-<div class="performance-row">
-<span>Total flight hours</span>
-<strong id="performanceHours">0.0h</strong>
-</div>
-
-<div class="performance-row">
-<span>Next rank</span>
-<strong id="performanceNextRank">First Officer</strong>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ==========================================================
-     NEWSKY CONNECTION
-     ========================================================== -->
-
-<div class="panel">
-
-<h3>
-NewSky Connection
-</h3>
-
-<p class="panel-subtitle">
-Link your NewSky pilot ID to synchronize your flights with
-your Echo Air Group career.
-</p>
-
-
-<div class="field full">
-
-<label for="newskyId">
-NewSky Pilot ID
-</label>
-
-<input
-    id="newskyId"
-    type="text"
-    autocomplete="off"
-    placeholder="Enter your NewSky Pilot ID"
->
-
-</div>
-
-
-<div class="actions">
-
-<button
-    class="btn btn-primary"
-    id="linkBtn"
-    type="button"
->
-Link NewSky account
-</button>
-
-</div>
-
-
-<div
-    class="message"
-    id="linkMsg"
-></div>
-
-
-<p
-    class="muted"
-    style="
-        margin-top:15px;
-        font-size:12px;
-        line-height:1.6;
-    "
->
-Your NewSky ID is securely associated with your Echo pilot
-account. After linking, use <strong>Sync flights</strong> to
-retrieve your latest flights.
-</p>
-
-</div>
-
-
-</div>
-
-
-<!-- ==========================================================
+<!-- ============================================================
      ACCOUNT
-     ========================================================== -->
+     ============================================================ -->
 
 <div
     class="panel"
@@ -2424,67 +1711,63 @@ retrieve your latest flights.
 >
 
 <h3>
-Account
+    Account
 </h3>
-
-<p class="panel-subtitle">
-Create an Echo Air Group pilot account or sign in to access
-your statistics.
-</p>
 
 
 <div class="form-grid">
 
-<div class="field">
+    <div class="field">
 
-<label for="username">
-Username
-</label>
+        <label for="username">
+            Username
+        </label>
 
-<input
-    id="username"
-    autocomplete="username"
-    placeholder="your username"
->
+        <input
+            id="username"
+            autocomplete="username"
+            placeholder="your username"
+        >
 
-</div>
+    </div>
 
 
-<div class="field">
+    <div class="field">
 
-<label for="password">
-Password
-</label>
+        <label for="password">
+            Password
+        </label>
 
-<input
-    id="password"
-    type="password"
-    autocomplete="current-password"
-    placeholder="at least 8 characters"
->
+        <input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="at least 8 characters"
+        >
 
-</div>
+    </div>
 
 </div>
 
 
 <div class="actions">
 
-<button
-    class="btn btn-primary"
-    id="registerBtn"
-    type="button"
->
-Create account
-</button>
+    <button
+        class="btn btn-primary"
+        id="registerBtn"
+        type="button"
+    >
+        Create account
+    </button>
 
-<button
-    class="btn"
-    id="loginBtn"
-    type="button"
->
-Sign in
-</button>
+
+    <button
+        class="btn"
+        id="loginBtn"
+        type="button"
+    >
+        Sign in
+    </button>
 
 </div>
 
@@ -2497,19 +1780,15 @@ Sign in
 </div>
 
 
-<!-- ==========================================================
+<!-- ============================================================
      RECENT FLIGHTS
-     ========================================================== -->
+     ============================================================ -->
 
 <div class="panel">
 
 <h3>
-Recent Flights
+    Recent flights
 </h3>
-
-<p class="panel-subtitle">
-Your latest synchronized NewSky flights.
-</p>
 
 <div class="table-wrap">
 
@@ -2518,14 +1797,15 @@ Your latest synchronized NewSky flights.
 <thead>
 
 <tr>
-<th>Date</th>
-<th>Route</th>
-<th>Aircraft</th>
-<th>Rating</th>
-<th>Stars</th>
+    <th>Date</th>
+    <th>Route</th>
+    <th>Aircraft</th>
+    <th>Rating</th>
+    <th>Stars</th>
 </tr>
 
 </thead>
+
 
 <tbody id="flightRows">
 
@@ -2535,7 +1815,7 @@ Your latest synchronized NewSky flights.
     colspan="5"
     class="muted"
 >
-No flights loaded.
+    No flights loaded.
 </td>
 
 </tr>
@@ -2549,20 +1829,15 @@ No flights loaded.
 </div>
 
 
-<!-- ==========================================================
+<!-- ============================================================
      LEADERBOARD
-     ========================================================== -->
+     ============================================================ -->
 
 <div class="panel">
 
 <h3>
-Echo Leaderboard
+    Echo leaderboard
 </h3>
-
-<p class="panel-subtitle">
-See how you compare with the rest of the Echo Air Group
-pilot community.
-</p>
 
 <div class="table-wrap">
 
@@ -2571,14 +1846,15 @@ pilot community.
 <thead>
 
 <tr>
-<th>#</th>
-<th>Pilot</th>
-<th>Rank</th>
-<th>Stars</th>
-<th>Flights</th>
+    <th>#</th>
+    <th>Pilot</th>
+    <th>Rank</th>
+    <th>Stars</th>
+    <th>Flights</th>
 </tr>
 
 </thead>
+
 
 <tbody id="leaderRows">
 
@@ -2588,7 +1864,7 @@ pilot community.
     colspan="5"
     class="muted"
 >
-Loading…
+    Loading…
 </td>
 
 </tr>
@@ -2605,9 +1881,9 @@ Loading…
 </div>
 
 
-<!-- ==========================================================
+<!-- ============================================================
      SIDEBAR
-     ========================================================== -->
+     ============================================================ -->
 
 <aside
     class="pilot-sidebar"
@@ -2616,13 +1892,13 @@ Loading…
 
 <div class="pilot-sidebar-header">
 
-<h3>
-Top Pilots
-</h3>
+    <h3>
+        Top Pilots
+    </h3>
 
-<p>
-The highest-ranked Echo Air Group pilots.
-</p>
+    <p>
+        The highest-ranked Echo Air Group pilots.
+    </p>
 
 </div>
 
@@ -2632,9 +1908,9 @@ The highest-ranked Echo Air Group pilots.
     id="pilotList"
 >
 
-<div class="pilot-sidebar-loading">
-Loading pilots…
-</div>
+    <div class="pilot-sidebar-loading">
+        Loading pilots…
+    </div>
 
 </div>
 
@@ -2664,29 +1940,29 @@ Loading pilots…
 
 <div class="brand">
 
-<img
-    class="brand-logo"
-    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?format=webp&quality=lossless&width=768&height=768"
-    alt="Echo Air Group Logo"
->
+    <img
+        class="brand-logo"
+        src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?format=webp&quality=lossless&width=768&height=768"
+        alt="Echo Air Group Logo"
+    >
 
-<div class="brand-text">
+    <div class="brand-text">
 
-ECHO AIR GROUP
+        ECHO AIR GROUP
 
-<small>
-6L · ECV · CLOVER
-</small>
+        <small>
+            6L · ECV · CLOVER
+        </small>
 
-</div>
+    </div>
 
 </div>
 
 
 <p style="max-width:450px">
 
-Virtual aviation. Real passion. A community built
-for pilots who love the world of flight simulation.
+    Virtual aviation. Real passion. A community built
+    for pilots who love the world of flight simulation.
 
 </p>
 
@@ -2695,12 +1971,12 @@ for pilots who love the world of flight simulation.
 
 <div class="foot-links">
 
-<a href="about.html">About</a>
-<a href="fleet.html">Fleet</a>
-<a href="routes.html">Routes</a>
-<a href="team.html">Team</a>
-<a href="manual.html">Pilot Manual</a>
-<a href="join.html">Register</a>
+    <a href="about.html">About</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="routes.html">Routes</a>
+    <a href="team.html">Team</a>
+    <a href="manual.html">Pilot Manual</a>
+    <a href="join.html">Register</a>
 
 </div>
 
@@ -2709,13 +1985,13 @@ for pilots who love the world of flight simulation.
 
 <div class="copy">
 
-<span>
-© 2026 Echo Air Group. Virtual airline.
-</span>
+    <span>
+        © 2026 Echo Air Group. Virtual airline.
+    </span>
 
-<span>
-Not affiliated with any real-world airline.
-</span>
+    <span>
+        Not affiliated with any real-world airline.
+    </span>
 
 </div>
 
@@ -2730,7 +2006,7 @@ Not affiliated with any real-world airline.
 <script>
 
 /* ============================================================
-   API
+   API CONFIGURATION
    ============================================================ */
 
 const API =
@@ -2759,7 +2035,6 @@ function getAuthToken() {
     }
 
     return stored.trim();
-
 }
 
 
@@ -2789,11 +2064,9 @@ async function api(path, options = {}) {
 
     const headers = {
         'Accept':'application/json',
-
         ...(options.body
             ? {'Content-Type':'application/json'}
             : {}),
-
         ...(options.headers || {})
     };
 
@@ -2863,6 +2136,7 @@ async function api(path, options = {}) {
         token =
             null;
 
+
         throw new Error(
             'Your login session has expired or is invalid. Please sign in again.'
         );
@@ -2882,7 +2156,6 @@ async function api(path, options = {}) {
 
 
     return data;
-
 }
 
 
@@ -2890,7 +2163,7 @@ async function api(path, options = {}) {
    MESSAGE
    ============================================================ */
 
-function showMessage(id,text,error=false) {
+function showMessage(id, text, error = false) {
 
     const element =
         document.getElementById(id);
@@ -2918,7 +2191,7 @@ function showMessage(id,text,error=false) {
 
 
 /* ============================================================
-   ESCAPE
+   ESCAPE HTML
    ============================================================ */
 
 function escapeHtml(value) {
@@ -2945,10 +2218,11 @@ function escapeHtml(value) {
    NUMBER
    ============================================================ */
 
-function number(value,fallback=0) {
+function number(value, fallback = 0) {
 
     const n =
         Number(value);
+
 
     return Number.isFinite(n)
         ? n
@@ -2958,7 +2232,7 @@ function number(value,fallback=0) {
 
 
 /* ============================================================
-   RANKS
+   RANK SYSTEM
    ============================================================ */
 
 const RANKS = [
@@ -3037,10 +2311,10 @@ function calculateRank(stars) {
 
 
 /* ============================================================
-   GENERIC VALUE
+   GENERIC FLIGHT VALUE
    ============================================================ */
 
-function getFlightValue(flight,...keys) {
+function getFlightValue(flight, ...keys) {
 
     for(const key of keys) {
 
@@ -3057,53 +2331,6 @@ function getFlightValue(flight,...keys) {
 
     }
 
-    return null;
-
-}
-
-
-/* ============================================================
-   AIRPORT CODE
-   ============================================================ */
-
-function getAirportCode(value) {
-
-    if(
-        value === null ||
-        value === undefined
-    ) {
-        return null;
-    }
-
-
-    if(
-        typeof value === 'string' ||
-        typeof value === 'number'
-    ) {
-
-        return String(value);
-
-    }
-
-
-    if(typeof value === 'object') {
-
-        return (
-            value.icao ||
-            value.ICAO ||
-            value.icaoCode ||
-            value.ICAOCode ||
-            value.code ||
-            value.airportCode ||
-            value.iata ||
-            value.IATA ||
-            value.identifier ||
-            value.name ||
-            null
-        );
-
-    }
-
 
     return null;
 
@@ -3114,7 +2341,50 @@ function getAirportCode(value) {
    ROUTE
    ============================================================ */
 
-function getRouteRaw(flight) {
+function getRoute(flight) {
+
+    function getAirportCode(value) {
+
+        if(
+            value === null ||
+            value === undefined
+        ) {
+            return null;
+        }
+
+
+        if(
+            typeof value === 'string' ||
+            typeof value === 'number'
+        ) {
+
+            return String(value);
+
+        }
+
+
+        if(typeof value === 'object') {
+
+            return (
+                value.icao ||
+                value.ICAO ||
+                value.icaoCode ||
+                value.ICAOCode ||
+                value.code ||
+                value.airportCode ||
+                value.iata ||
+                value.IATA ||
+                value.identifier ||
+                value.name ||
+                null
+            );
+
+        }
+
+
+        return null;
+    }
+
 
     const departureRaw =
         getFlightValue(
@@ -3142,21 +2412,11 @@ function getRouteRaw(flight) {
         );
 
 
-    return {
-        departure:getAirportCode(departureRaw),
-        arrival:getAirportCode(arrivalRaw)
-    };
+    const departure =
+        getAirportCode(departureRaw);
 
-}
-
-
-function getRoute(flight) {
-
-    const {
-        departure,
-        arrival
-    } =
-        getRouteRaw(flight);
+    const arrival =
+        getAirportCode(arrivalRaw);
 
 
     if(departure && arrival) {
@@ -3171,17 +2431,24 @@ function getRoute(flight) {
 
 
     if(departure) {
-        return escapeHtml(departure);
+
+        return escapeHtml(
+            departure
+        );
+
     }
 
 
     if(arrival) {
-        return escapeHtml(arrival);
+
+        return escapeHtml(
+            arrival
+        );
+
     }
 
 
     return 'Unknown route';
-
 }
 
 
@@ -3189,7 +2456,7 @@ function getRoute(flight) {
    AIRCRAFT
    ============================================================ */
 
-function getAircraftRaw(flight) {
+function getAircraft(flight) {
 
     const aircraft =
         getFlightValue(
@@ -3212,7 +2479,7 @@ function getAircraftRaw(flight) {
         aircraft !== null
     ) {
 
-        return (
+        return escapeHtml(
             aircraft.name ||
             aircraft.model ||
             aircraft.icao ||
@@ -3223,23 +2490,14 @@ function getAircraftRaw(flight) {
     }
 
 
-    return aircraft || null;
-
-}
-
-
-function getAircraft(flight) {
-
-    return escapeHtml(
-        getAircraftRaw(flight) ||
-        'Unknown aircraft'
-    );
-
+    return aircraft
+        ? escapeHtml(aircraft)
+        : 'Unknown aircraft';
 }
 
 
 /* ============================================================
-   DATE
+   FLIGHT DATE
    ============================================================ */
 
 function getFlightDate(flight) {
@@ -3268,7 +2526,9 @@ function getFlightDate(flight) {
 
     if(Number.isNaN(date.getTime())) {
 
-        return escapeHtml(raw);
+        return escapeHtml(
+            raw
+        );
 
     }
 
@@ -3291,7 +2551,7 @@ function getFlightDate(flight) {
 
 function getFlightRating(flight) {
 
-    return number(
+    const rating =
         getFlightValue(
             flight,
             'rating',
@@ -3299,263 +2559,31 @@ function getFlightRating(flight) {
             'score',
             'grade',
             'performanceRating'
-        )
-    );
+        );
+
+
+    return number(rating);
 
 }
 
 
 /* ============================================================
-   STARS
+   FLIGHT STARS
    ============================================================ */
 
 function getFlightStars(flight) {
 
-    return number(
+    const stars =
         getFlightValue(
             flight,
             'stars',
             'earnedStars',
             'starPoints',
             'points'
-        )
-    );
-
-}
-
-
-/* ============================================================
-   HOURS
-   ============================================================ */
-
-function getFlightHours(flight) {
-
-    const direct =
-        getFlightValue(
-            flight,
-            'flightHours',
-            'hours',
-            'durationHours',
-            'duration'
         );
 
 
-    if(direct !== null) {
-
-        const value =
-            number(direct);
-
-        /*
-         * If duration is supplied in minutes,
-         * convert it.
-         */
-
-        if(
-            value > 0 &&
-            value > 24 &&
-            value < 2000
-        ) {
-
-            return value / 60;
-
-        }
-
-        return value;
-
-    }
-
-
-    const departure =
-        getFlightValue(
-            flight,
-            'depTimeAct',
-            'depTime',
-            'departureTime'
-        );
-
-
-    const arrival =
-        getFlightValue(
-            flight,
-            'arrTimeAct',
-            'arrTime',
-            'arrivalTime'
-        );
-
-
-    if(departure && arrival) {
-
-        const start =
-            new Date(departure).getTime();
-
-        const end =
-            new Date(arrival).getTime();
-
-
-        if(
-            Number.isFinite(start) &&
-            Number.isFinite(end) &&
-            end > start
-        ) {
-
-            return (
-                (end - start) /
-                3600000
-            );
-
-        }
-
-    }
-
-
-    return 0;
-
-}
-
-
-/* ============================================================
-   UNIQUE VALUES
-   ============================================================ */
-
-function unique(values) {
-
-    return [
-        ...new Set(
-            values
-                .filter(Boolean)
-                .map(
-                    value =>
-                        String(value)
-                            .trim()
-                            .toUpperCase()
-                )
-        )
-    ];
-
-}
-
-
-/* ============================================================
-   FLIGHT ANALYTICS
-   ============================================================ */
-
-function analyzeFlights(flights) {
-
-    if(!Array.isArray(flights)) {
-
-        return {
-            flights:[],
-            airports:[],
-            routes:[],
-            aircraft:[],
-            bestRating:0,
-            totalHours:0,
-            totalStars:0,
-            averageRating:0,
-            averageStars:0
-        };
-
-    }
-
-
-    const airports = [];
-    const routes = [];
-    const aircraft = [];
-
-    let totalHours = 0;
-    let totalStars = 0;
-    let totalRating = 0;
-    let bestRating = 0;
-
-
-    for(const flight of flights) {
-
-        const {
-            departure,
-            arrival
-        } =
-            getRouteRaw(flight);
-
-
-        if(departure) {
-            airports.push(departure);
-        }
-
-        if(arrival) {
-            airports.push(arrival);
-        }
-
-
-        if(departure && arrival) {
-
-            routes.push(
-                `${departure}-${arrival}`
-            );
-
-        }
-
-
-        const aircraftName =
-            getAircraftRaw(flight);
-
-
-        if(aircraftName) {
-            aircraft.push(aircraftName);
-        }
-
-
-        const rating =
-            getFlightRating(flight);
-
-        const stars =
-            getFlightStars(flight);
-
-        const hours =
-            getFlightHours(flight);
-
-
-        totalRating += rating;
-        totalStars += stars;
-        totalHours += hours;
-
-
-        if(rating > bestRating) {
-            bestRating = rating;
-        }
-
-    }
-
-
-    return {
-
-        flights,
-
-        airports:
-            unique(airports),
-
-        routes:
-            unique(routes),
-
-        aircraft:
-            unique(aircraft),
-
-        bestRating,
-
-        totalHours,
-
-        totalStars,
-
-        averageRating:
-            flights.length
-                ? totalRating / flights.length
-                : 0,
-
-        averageStars:
-            flights.length
-                ? totalStars / flights.length
-                : 0
-
-    };
+    return number(stars);
 
 }
 
@@ -3594,158 +2622,56 @@ function renderFlights(flights) {
 
 
     rows.innerHTML =
-        flights.map(
-            flight => {
+        flights.map(flight => {
 
-                const rating =
-                    getFlightRating(flight);
+            const rating =
+                getFlightRating(flight);
 
-                const stars =
-                    getFlightStars(flight);
-
-
-                return `
-                    <tr>
-
-                        <td>
-                            <div class="flight-date">
-                                ${getFlightDate(flight)}
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="flight-route">
-                                ${getRoute(flight)}
-                            </div>
-                        </td>
-
-                        <td>
-                            ${getAircraft(flight)}
-                        </td>
-
-                        <td>
-                            <span
-                                class="${
-                                    rating >= 8
-                                        ? 'rating-good'
-                                        : 'rating-normal'
-                                }"
-                            >
-                                ${rating.toFixed(2)}
-                            </span>
-                        </td>
-
-                        <td>
-                            ${stars.toFixed(2)} ⭐
-                        </td>
-
-                    </tr>
-                `;
-
-            }
-        ).join('');
-
-}
+            const stars =
+                getFlightStars(flight);
 
 
-/* ============================================================
-   LEADERBOARD POSITION
-   ============================================================ */
+            return `
+                <tr>
 
-async function getPilotPosition(user) {
+                    <td>
+                        <div class="flight-date">
+                            ${getFlightDate(flight)}
+                        </div>
+                    </td>
 
-    try {
+                    <td>
+                        <div class="flight-route">
+                            ${getRoute(flight)}
+                        </div>
+                    </td>
 
-        const data =
-            await api('/ranking');
+                    <td>
+                        ${getAircraft(flight)}
+                    </td>
 
+                    <td>
 
-        const rankings =
-            Array.isArray(data.rankings)
-                ? data.rankings
-                : [];
+                        <span
+                            class="${
+                                rating >= 8
+                                    ? 'rating-good'
+                                    : 'rating-normal'
+                            }"
+                        >
+                            ${rating.toFixed(2)}
+                        </span>
 
+                    </td>
 
-        const userId =
-            user?.id ??
-            user?.userId ??
-            user?.user_id;
+                    <td>
+                        ${stars.toFixed(2)} ⭐
+                    </td>
 
+                </tr>
+            `;
 
-        const username =
-            String(
-                user?.username ||
-                ''
-            ).toLowerCase();
-
-
-        const found =
-            rankings.find(
-                pilot => {
-
-                    const pilotId =
-                        pilot.id ??
-                        pilot.userId ??
-                        pilot.user_id ??
-                        pilot.pilotId ??
-                        pilot.pilot_id ??
-                        pilot._id;
-
-
-                    const pilotUsername =
-                        String(
-                            pilot.username ||
-                            ''
-                        ).toLowerCase();
-
-
-                    if(
-                        userId !== undefined &&
-                        userId !== null &&
-                        String(pilotId) === String(userId)
-                    ) {
-
-                        return true;
-
-                    }
-
-
-                    if(
-                        username &&
-                        pilotUsername === username
-                    ) {
-
-                        return true;
-
-                    }
-
-
-                    return false;
-
-                }
-            );
-
-
-        if(found) {
-
-            return (
-                found.position ??
-                rankings.indexOf(found) + 1
-            );
-
-        }
-
-    } catch(error) {
-
-        console.warn(
-            'Unable to determine pilot position.',
-            error
-        );
-
-    }
-
-
-    return null;
+        }).join('');
 
 }
 
@@ -3754,7 +2680,7 @@ async function getPilotPosition(user) {
    DASHBOARD
    ============================================================ */
 
-async function renderDashboard(data) {
+function renderDashboard(data) {
 
     if(
         !data ||
@@ -3786,8 +2712,10 @@ async function renderDashboard(data) {
     const user =
         data.user || {};
 
+
     const stats =
         data.stats || {};
+
 
     const flights =
         Array.isArray(data.flights)
@@ -3799,54 +2727,16 @@ async function renderDashboard(data) {
         number(stats.stars);
 
 
-    const analytics =
-        analyzeFlights(flights);
-
-
-    /*
-     * Use API statistics when available.
-     * Fall back to locally calculated values.
-     */
-
-    const flightCount =
-        number(
-            stats.flightCount,
-            flights.length
-        );
-
-
-    const averageRating =
-        number(
-            stats.averageRating,
-            analytics.averageRating
-        );
-
-
-    const flightHours =
-        number(
-            stats.flightHours,
-            analytics.totalHours
-        );
-
-
-    const calculated =
-        calculateRank(stars);
-
-
-    const position =
-        await getPilotPosition(user);
-
-
-    /* ========================================================
-       BASIC PROFILE
-       ======================================================== */
-
     document.getElementById(
         'pilotName'
     ).textContent =
         user.displayName ||
         user.username ||
         'Pilot';
+
+
+    const calculated =
+        calculateRank(stars);
 
 
     document.getElementById(
@@ -3864,54 +2754,27 @@ async function renderDashboard(data) {
     document.getElementById(
         'flightCount'
     ).textContent =
-        flightCount;
+        number(
+            stats.flightCount,
+            flights.length
+        );
 
 
     document.getElementById(
         'averageRating'
     ).textContent =
-        averageRating.toFixed(2);
+        number(
+            stats.averageRating
+        ).toFixed(2);
 
 
     document.getElementById(
         'flightHours'
     ).textContent =
-        flightHours.toFixed(1);
+        number(
+            stats.flightHours
+        ).toFixed(1);
 
-
-    /* ========================================================
-       POSITION
-       ======================================================== */
-
-    const positionText =
-        position
-            ? `#${position}`
-            : '—';
-
-
-    document.getElementById(
-        'pilotPosition'
-    ).textContent =
-        positionText;
-
-
-    document.getElementById(
-        'performancePosition'
-    ).textContent =
-        positionText;
-
-
-    document.getElementById(
-        'rankPositionChip'
-    ).textContent =
-        position
-            ? `Leaderboard #${position}`
-            : 'Leaderboard —';
-
-
-    /* ========================================================
-       RANK PROGRESS
-       ======================================================== */
 
     const progressBar =
         document.getElementById(
@@ -3923,28 +2786,6 @@ async function renderDashboard(data) {
         document.getElementById(
             'progressText'
         );
-
-
-    const currentRankLabel =
-        document.getElementById(
-            'currentRankLabel'
-        );
-
-
-    const nextRankLabel =
-        document.getElementById(
-            'nextRankLabel'
-        );
-
-
-    const nextRankChip =
-        document.getElementById(
-            'rankNextChip'
-        );
-
-
-    currentRankLabel.textContent =
-        calculated.current.name;
 
 
     if(calculated.next) {
@@ -3975,57 +2816,12 @@ async function renderDashboard(data) {
             );
 
 
-        const needed =
-            Math.max(
-                0,
-                nextMin - stars
-            );
-
-
         progressBar.style.width =
             progress + '%';
 
 
-        nextRankLabel.textContent =
-            calculated.next.name;
-
-
-        nextRankChip.textContent =
-            `Next: ${calculated.next.name}`;
-
-
         progressText.textContent =
             `${stars.toFixed(2)} / ${nextMin.toFixed(2)} ⭐ to ${calculated.next.name}`;
-
-
-        document.getElementById(
-            'nextRankTitle'
-        ).textContent =
-            calculated.next.name;
-
-
-        document.getElementById(
-            'starsNeeded'
-        ).textContent =
-            needed.toFixed(2);
-
-
-        document.getElementById(
-            'starsNeededText'
-        ).textContent =
-            `until ${calculated.next.name}`;
-
-
-        document.getElementById(
-            'careerPercent'
-        ).textContent =
-            `${progress.toFixed(1)}%`;
-
-
-        document.getElementById(
-            'nextRankDescription'
-        ).textContent =
-            `You are ${progress.toFixed(1)}% of the way from ${calculated.current.name} to ${calculated.next.name}.`;
 
     } else {
 
@@ -4033,170 +2829,11 @@ async function renderDashboard(data) {
             '100%';
 
 
-        nextRankLabel.textContent =
-            'MAX';
-
-
-        nextRankChip.textContent =
-            'Maximum rank';
-
-
         progressText.textContent =
             'Maximum rank reached';
 
-
-        document.getElementById(
-            'nextRankTitle'
-        ).textContent =
-            'Maximum Rank';
-
-
-        document.getElementById(
-            'starsNeeded'
-        ).textContent =
-            '0.00';
-
-
-        document.getElementById(
-            'starsNeededText'
-        ).textContent =
-            'You reached Commander';
-
-
-        document.getElementById(
-            'careerPercent'
-        ).textContent =
-            '100%';
-
-
-        document.getElementById(
-            'nextRankDescription'
-        ).textContent =
-            'You have reached the highest Echo Air Group pilot rank.';
-
     }
 
-
-    /* ========================================================
-       CAREER
-       ======================================================== */
-
-    document.getElementById(
-        'careerFlights'
-    ).textContent =
-        flightCount;
-
-
-    /* ========================================================
-       ADVANCED STATS
-       ======================================================== */
-
-    document.getElementById(
-        'advancedFlights'
-    ).textContent =
-        flightCount;
-
-
-    document.getElementById(
-        'advancedHours'
-    ).textContent =
-        `${flightHours.toFixed(1)}h`;
-
-
-    document.getElementById(
-        'advancedStars'
-    ).textContent =
-        stars.toFixed(2);
-
-
-    document.getElementById(
-        'advancedRating'
-    ).textContent =
-        averageRating.toFixed(2);
-
-
-    document.getElementById(
-        'advancedAirports'
-    ).textContent =
-        analytics.airports.length ||
-        '—';
-
-
-    document.getElementById(
-        'advancedRoutes'
-    ).textContent =
-        analytics.routes.length ||
-        '—';
-
-
-    document.getElementById(
-        'advancedAircraft'
-    ).textContent =
-        analytics.aircraft.length ||
-        '—';
-
-
-    document.getElementById(
-        'advancedBestRating'
-    ).textContent =
-        analytics.bestRating
-            ? analytics.bestRating.toFixed(2)
-            : '—';
-
-
-    /* ========================================================
-       PERFORMANCE
-       ======================================================== */
-
-    document.getElementById(
-        'performanceAverage'
-    ).textContent =
-        averageRating.toFixed(2);
-
-
-    document.getElementById(
-        'performanceBest'
-    ).textContent =
-        analytics.bestRating
-            ? analytics.bestRating.toFixed(2)
-            : '—';
-
-
-    document.getElementById(
-        'performanceStars'
-    ).textContent =
-        stars.toFixed(2) + ' ⭐';
-
-
-    document.getElementById(
-        'performanceStarsAverage'
-    ).textContent =
-        analytics.averageStars.toFixed(2);
-
-
-    document.getElementById(
-        'performanceRank'
-    ).textContent =
-        calculated.current.name;
-
-
-    document.getElementById(
-        'performanceHours'
-    ).textContent =
-        `${flightHours.toFixed(1)}h`;
-
-
-    document.getElementById(
-        'performanceNextRank'
-    ).textContent =
-        calculated.next
-            ? calculated.next.name
-            : 'Maximum';
-
-
-    /* ========================================================
-       NEWSKY
-       ======================================================== */
 
     const newskyId =
         user.newskyPilotId ||
@@ -4211,7 +2848,7 @@ async function renderDashboard(data) {
 
 
     /* ========================================================
-       DISCORD
+       DISCORD CONNECTION STATUS
        ======================================================== */
 
     const discordButton =
@@ -4295,33 +2932,30 @@ async function renderDashboard(data) {
 
 
 /* ============================================================
-   LOGGED OUT
+   SHOW LOGIN
    ============================================================ */
 
 function showLoggedOut() {
 
     document.getElementById(
         'dashboard'
-    ).style.display =
-        'none';
+    ).style.display = 'none';
 
 
     document.getElementById(
         'loggedOut'
-    ).style.display =
-        'block';
+    ).style.display = 'block';
 
 
     document.getElementById(
         'account'
-    ).style.display =
-        'block';
+    ).style.display = 'block';
 
 }
 
 
 /* ============================================================
-   LOAD USER
+   LOAD CURRENT USER
    ============================================================ */
 
 async function loadMe() {
@@ -4345,7 +2979,7 @@ async function loadMe() {
             await api('/me');
 
 
-        await renderDashboard(
+        renderDashboard(
             data
         );
 
@@ -4358,6 +2992,10 @@ async function loadMe() {
             'Load user error:',
             error
         );
+
+
+        token =
+            getAuthToken();
 
 
         showLoggedOut();
@@ -4389,7 +3027,9 @@ async function loadLeaderboard() {
 
 
         const rankings =
-            Array.isArray(data.rankings)
+            Array.isArray(
+                data.rankings
+            )
                 ? data.rankings
                 : [];
 
@@ -4407,7 +3047,7 @@ async function loadLeaderboard() {
                 </tr>
             `;
 
-            return rankings;
+            return;
 
         }
 
@@ -4461,7 +3101,7 @@ async function loadLeaderboard() {
 
                             <td>
                                 ${number(
-                                    pilot.flights ??
+                                    pilot.flights ||
                                     pilot.flightCount
                                 )}
                             </td>
@@ -4472,8 +3112,6 @@ async function loadLeaderboard() {
                 }
             ).join('');
 
-
-        return rankings;
 
     } catch(error) {
 
@@ -4494,15 +3132,13 @@ async function loadLeaderboard() {
             </tr>
         `;
 
-        return [];
-
     }
 
 }
 
 
 /* ============================================================
-   SIDEBAR
+   PILOT SIDEBAR
    ============================================================ */
 
 async function loadPilotSidebar() {
@@ -4525,7 +3161,9 @@ async function loadPilotSidebar() {
 
 
         const rankings =
-            Array.isArray(data.rankings)
+            Array.isArray(
+                data.rankings
+            )
                 ? data.rankings
                 : [];
 
@@ -4595,54 +3233,6 @@ async function loadPilotSidebar() {
                         pilot._id;
 
 
-                    const flightCount =
-                        number(
-                            pilot.flights ??
-                            pilot.flightCount
-                        );
-
-
-                    const content = `
-
-                        <div class="pilot-position">
-                            #${escapeHtml(position)}
-                        </div>
-
-                        <div class="pilot-avatar">
-                            ${escapeHtml(avatar)}
-                        </div>
-
-                        <div class="pilot-info">
-
-                            <span class="pilot-name">
-                                ${escapeHtml(name)}
-                            </span>
-
-                            <span class="pilot-rank">
-                                ${escapeHtml(
-                                    rank.current.name
-                                )}
-                                ·
-                                ${flightCount}
-                                flights
-                            </span>
-
-                        </div>
-
-                        <div class="pilot-rating">
-
-                            <span class="pilot-rating-value">
-                                ${stars.toFixed(2)}
-                            </span>
-
-                            <span class="pilot-rating-label">
-                                Stars
-                            </span>
-
-                        </div>
-                    `;
-
-
                     if(
                         pilotId !== undefined &&
                         pilotId !== null &&
@@ -4654,7 +3244,41 @@ async function loadPilotSidebar() {
                                 class="pilot-item"
                                 href="pilot.html?id=${encodeURIComponent(pilotId)}"
                             >
-                                ${content}
+
+                                <div class="pilot-position">
+                                    #${escapeHtml(position)}
+                                </div>
+
+                                <div class="pilot-avatar">
+                                    ${escapeHtml(avatar)}
+                                </div>
+
+                                <div class="pilot-info">
+
+                                    <span class="pilot-name">
+                                        ${escapeHtml(name)}
+                                    </span>
+
+                                    <span class="pilot-rank">
+                                        ${escapeHtml(
+                                            rank.current.name
+                                        )}
+                                    </span>
+
+                                </div>
+
+                                <div class="pilot-rating">
+
+                                    <span class="pilot-rating-value">
+                                        ${stars.toFixed(2)}
+                                    </span>
+
+                                    <span class="pilot-rating-label">
+                                        Stars
+                                    </span>
+
+                                </div>
+
                             </a>
                         `;
 
@@ -4666,7 +3290,41 @@ async function loadPilotSidebar() {
                             class="pilot-item"
                             style="cursor:default;"
                         >
-                            ${content}
+
+                            <div class="pilot-position">
+                                #${escapeHtml(position)}
+                            </div>
+
+                            <div class="pilot-avatar">
+                                ${escapeHtml(avatar)}
+                            </div>
+
+                            <div class="pilot-info">
+
+                                <span class="pilot-name">
+                                    ${escapeHtml(name)}
+                                </span>
+
+                                <span class="pilot-rank">
+                                    ${escapeHtml(
+                                        rank.current.name
+                                    )}
+                                </span>
+
+                            </div>
+
+                            <div class="pilot-rating">
+
+                                <span class="pilot-rating-value">
+                                    ${stars.toFixed(2)}
+                                </span>
+
+                                <span class="pilot-rating-label">
+                                    Stars
+                                </span>
+
+                            </div>
+
                         </div>
                     `;
 
@@ -4736,6 +3394,7 @@ document
         button.disabled =
             true;
 
+
         button.textContent =
             'Creating…';
 
@@ -4782,11 +3441,9 @@ document
             );
 
 
-            await loadLeaderboard();
-
-            await loadPilotSidebar();
-
             await loadMe();
+            await loadLeaderboard();
+            await loadPilotSidebar();
 
 
         } catch(error) {
@@ -4797,10 +3454,12 @@ document
                 true
             );
 
+
         } finally {
 
             button.disabled =
                 false;
+
 
             button.textContent =
                 'Create account';
@@ -4854,6 +3513,7 @@ document
         button.disabled =
             true;
 
+
         button.textContent =
             'Signing in…';
 
@@ -4900,11 +3560,9 @@ document
             );
 
 
-            await loadLeaderboard();
-
-            await loadPilotSidebar();
-
             await loadMe();
+            await loadLeaderboard();
+            await loadPilotSidebar();
 
 
         } catch(error) {
@@ -4915,10 +3573,12 @@ document
                 true
             );
 
+
         } finally {
 
             button.disabled =
                 false;
+
 
             button.textContent =
                 'Sign in';
@@ -4930,7 +3590,7 @@ document
 
 
 /* ============================================================
-   DISCORD
+   DISCORD CONNECTION
    ============================================================ */
 
 document
@@ -4965,9 +3625,20 @@ document
         button.disabled =
             true;
 
+
         button.textContent =
             'Connecting…';
 
+
+        /*
+         * IMPORTANT:
+         *
+         * The user's JWT is sent to the backend.
+         *
+         * The Discord bot token is NEVER placed here.
+         *
+         * server.js handles Discord OAuth2.
+         */
 
         window.location.href =
             API +
@@ -4981,7 +3652,7 @@ document
 
 
 /* ============================================================
-   DISCORD CALLBACK
+   DISCORD OAUTH CALLBACK
    ============================================================ */
 
 (function handleDiscordCallback() {
@@ -4993,7 +3664,9 @@ document
 
 
     const discordStatus =
-        params.get('discord');
+        params.get(
+            'discord'
+        );
 
 
     if(!discordStatus) {
@@ -5004,6 +3677,11 @@ document
     if(
         discordStatus === 'connected'
     ) {
+
+        /*
+         * Remove OAuth query parameters
+         * from the browser URL.
+         */
 
         window.history.replaceState(
             {},
@@ -5018,9 +3696,16 @@ document
         );
 
 
+        /*
+         * Reload the user so that the
+         * Discord connection status updates.
+         */
+
         setTimeout(
             () => {
+
                 loadMe();
+
             },
             500
         );
@@ -5033,7 +3718,9 @@ document
     ) {
 
         const reason =
-            params.get('message');
+            params.get(
+                'message'
+            );
 
 
         window.history.replaceState(
@@ -5134,6 +3821,7 @@ document
         button.disabled =
             true;
 
+
         button.textContent =
             'Linking…';
 
@@ -5185,6 +3873,7 @@ document
             button.disabled =
                 false;
 
+
             button.textContent =
                 'Link NewSky account';
 
@@ -5232,6 +3921,7 @@ document
         button.disabled =
             true;
 
+
         button.textContent =
             'Syncing…';
 
@@ -5260,11 +3950,9 @@ document
             );
 
 
-            await loadLeaderboard();
-
-            await loadPilotSidebar();
-
             await loadMe();
+            await loadLeaderboard();
+            await loadPilotSidebar();
 
 
         } catch(error) {
@@ -5275,7 +3963,9 @@ document
             );
 
 
-            if(!getAuthToken()) {
+            if(
+                !getAuthToken()
+            ) {
 
                 showLoggedOut();
 
@@ -5285,6 +3975,7 @@ document
                     'Your login session is no longer valid. Please sign in again.',
                     true
                 );
+
 
             } else {
 
@@ -5297,10 +3988,12 @@ document
 
             }
 
+
         } finally {
 
             button.disabled =
                 false;
+
 
             button.textContent =
                 'Sync flights';
@@ -5423,18 +4116,9 @@ function toggleMenu() {
 
 (async function init() {
 
-    /*
-     * Load public ranking first.
-     */
-
     await loadLeaderboard();
 
     await loadPilotSidebar();
-
-
-    /*
-     * Then load the logged-in pilot.
-     */
 
     await loadMe();
 
