@@ -4,1422 +4,896 @@
 <head>
 
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<meta name="theme-color" content="#101410">
-<meta name="description" content="Echo Air Group — pilot ranking.">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+>
+
+<meta
+    name="theme-color"
+    content="#101410"
+>
+
+<meta
+    name="description"
+    content="Echo Air Group — Pilot Ranking"
+>
 
 <title>Ranking — Echo Air Group</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
->
 
 <link rel="stylesheet" href="style.css">
 
 <style>
 
-/* ============================================================
-   VARIABLES
-   ============================================================ */
+/* =========================================================
+   RANKING PAGE
+========================================================= */
 
 :root {
-    --green:#ace336;
-    --green-dark:#6e9c1e;
-    --green-soft:#eef6df;
-
-    --black:#090d08;
-    --dark:#101410;
-    --dark-2:#151b13;
-    --dark-3:#202b1b;
-
-    --white:#ffffff;
-    --light:#f5f7f3;
-
-    --text:#273025;
-    --muted:#687267;
-
-    --line:rgba(255,255,255,.09);
-    --light-line:#e0e6dc;
-
-    --header-height:100px;
+    --ranking-bg: #101410;
+    --ranking-card: #171c17;
+    --ranking-card-2: #1d231d;
+    --ranking-border: rgba(255,255,255,.08);
+    --ranking-text: #f4f7f1;
+    --ranking-muted: #9ca69c;
+    --ranking-accent: #ace336;
+    --ranking-accent-dark: #8fca25;
+    --ranking-danger: #ff6969;
 }
 
 
-/* ============================================================
-   GLOBAL
-   ============================================================ */
-
-* {
-    box-sizing:border-box;
-}
-
-html {
-    scroll-behavior:smooth;
-    scroll-padding-top:110px;
-}
+/* =========================================================
+   PAGE
+========================================================= */
 
 body {
-    margin:0;
-    overflow-x:hidden;
-
-    font-family:
-        Inter,
-        Arial,
-        sans-serif;
-
-    color:var(--text);
-    background:var(--white);
+    background: var(--ranking-bg);
+    color: var(--ranking-text);
 }
 
-body.menu-open {
-    overflow:hidden;
-}
-
-button,
-input,
-a {
-    font-family:inherit;
-}
-
-button {
-    border:0;
-}
-
-::selection {
-    background:var(--green);
-    color:var(--black);
-}
-
-.container {
-    width:min(1180px,calc(100% - 50px));
-    margin:0 auto;
-}
-
-.green {
-    color:var(--green);
-}
-
-.muted {
-    color:var(--muted);
+.ranking-page {
+    min-height: 100vh;
+    padding-top: 120px;
+    padding-bottom: 100px;
 }
 
 
-/* ============================================================
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.ranking-container {
+    width: min(1200px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+
+/* =========================================================
    HEADER
-   ============================================================ */
+========================================================= */
 
-header {
-    position:fixed;
-    inset:0 0 auto 0;
-    z-index:1000;
+.ranking-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
 
-    width:100%;
+.ranking-header h1 {
+    margin: 0 0 12px;
+    font-size: clamp(38px, 6vw, 70px);
+    font-weight: 800;
+    letter-spacing: -2px;
+}
 
-    background:rgba(9,13,8,1);
+.ranking-header h1 span {
+    color: var(--ranking-accent);
+}
 
-    border-bottom:
-        1px solid rgba(255,255,255,.06);
+.ranking-header p {
+    margin: 0 auto;
+    max-width: 650px;
+    color: var(--ranking-muted);
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.ranking-controls {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+}
+
+.ranking-search {
+    flex: 1;
+    min-width: 240px;
+    position: relative;
+}
+
+.ranking-search input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 15px 18px 15px 46px;
+
+    border: 1px solid var(--ranking-border);
+    border-radius: 13px;
+
+    background: var(--ranking-card);
+    color: var(--ranking-text);
+
+    font-size: 15px;
+    outline: none;
 
     transition:
-        background .3s ease,
-        backdrop-filter .3s ease,
-        box-shadow .3s ease,
-        border-color .3s ease,
-        transform .3s ease;
-}
-
-header.scrolled {
-    background:rgba(9,13,8,.82);
-
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-
-    border-bottom:
-        1px solid rgba(172,227,54,.14);
-
-    box-shadow:
-        0 8px 35px rgba(0,0,0,.25);
-}
-
-header.hide-on-scroll {
-    transform:translateY(-100%);
-}
-
-.nav {
-    min-height:var(--header-height);
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:20px;
-}
-
-.brand {
-    display:inline-flex;
-    align-items:center;
-
-    min-width:0;
-    flex-shrink:0;
-
-    color:var(--white);
-    text-decoration:none;
-}
-
-.brand-logo {
-    width:58px;
-    height:58px;
-
-    display:block;
-    object-fit:contain;
-
-    border-radius:12px;
-}
-
-.brand-text {
-    margin-left:12px;
-
-    color:var(--white);
-
-    font-size:14px;
-    font-weight:900;
-    letter-spacing:.04em;
-    line-height:1.2;
-}
-
-.brand-text small {
-    display:block;
-
-    margin-top:4px;
-
-    color:var(--green);
-
-    font-size:9px;
-    font-weight:700;
-    letter-spacing:.1em;
-}
-
-.navlinks {
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-
-    gap:20px;
-    margin-left:auto;
-}
-
-.navlinks a {
-    position:relative;
-
-    color:rgba(255,255,255,.9);
-    text-decoration:none;
-
-    font-size:13px;
-    font-weight:700;
-    white-space:nowrap;
-
-    transition:color .2s ease;
-}
-
-.navlinks a::after {
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    right:100%;
-    bottom:-8px;
-
-    height:2px;
-
-    background:var(--green);
-
-    transition:right .25s ease;
-}
-
-.navlinks a:hover,
-.navlinks a.active {
-    color:var(--green);
-}
-
-.navlinks a:hover::after,
-.navlinks a.active::after {
-    right:0;
-}
-
-.register {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:12px 18px;
-
-    border-radius:10px;
-
-    background:var(--green);
-    color:#17200f;
-
-    text-decoration:none;
-
-    font-size:13px;
-    font-weight:900;
-    white-space:nowrap;
-
-    transition:
-        transform .2s ease,
+        border-color .2s ease,
         box-shadow .2s ease;
 }
 
-.register:hover {
-    transform:translateY(-2px);
+.ranking-search input:focus {
+    border-color: rgba(172,227,54,.5);
 
     box-shadow:
-        0 10px 30px rgba(172,227,54,.25);
+        0 0 0 4px rgba(172,227,54,.08);
 }
 
-.menu {
-    display:none;
+.ranking-search-icon {
+    position: absolute;
+    left: 17px;
+    top: 50%;
+    transform: translateY(-50%);
 
-    padding:10px 13px;
+    color: var(--ranking-muted);
 
-    border:
-        1px solid rgba(255,255,255,.15);
+    font-size: 18px;
 
-    border-radius:10px;
+    pointer-events: none;
+}
 
-    background:rgba(255,255,255,.05);
-    color:white;
+.ranking-sort {
+    min-width: 190px;
+}
 
-    font-size:20px;
+.ranking-sort select {
+    width: 100%;
 
-    cursor:pointer;
+    padding: 15px 16px;
+
+    border: 1px solid var(--ranking-border);
+    border-radius: 13px;
+
+    background: var(--ranking-card);
+    color: var(--ranking-text);
+
+    font-size: 15px;
+
+    outline: none;
+    cursor: pointer;
+}
+
+.ranking-refresh {
+    padding: 15px 20px;
+
+    border: 0;
+    border-radius: 13px;
+
+    background: var(--ranking-accent);
+    color: #101410;
+
+    font-weight: 800;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.ranking-refresh:hover {
+    background: var(--ranking-accent-dark);
+    transform: translateY(-2px);
+}
+
+.ranking-refresh:active {
+    transform: translateY(0);
+}
+
+.ranking-refresh.loading {
+    opacity: .6;
+    pointer-events: none;
 }
 
 
-/* ============================================================
-   MOBILE NAV
-   ============================================================ */
+/* =========================================================
+   PODIUM
+========================================================= */
 
-.mobileNav {
-    display:none;
+.podium {
+    display: grid;
 
-    background:rgba(9,13,8,.98);
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
 
-    border-top:
-        1px solid rgba(255,255,255,.06);
+    gap: 20px;
+
+    margin-bottom: 45px;
 }
 
-.mobileNav.open {
-    display:block;
-}
+.podium-card {
+    position: relative;
 
-.mobileNav .container {
-    padding:15px 0 25px;
-}
-
-.mobileNav a {
-    display:block;
-
-    padding:14px 0;
-
-    color:white;
-    text-decoration:none;
-
-    border-bottom:
-        1px solid rgba(255,255,255,.08);
-
-    font-size:15px;
-    font-weight:800;
-}
-
-.mobileNav a:hover {
-    color:var(--green);
-}
-
-
-/* ============================================================
-   HERO
-   ============================================================ */
-
-.pagehero {
-    padding:170px 0 90px;
+    padding: 30px 24px;
 
     background:
-        radial-gradient(
-            circle at 80% 20%,
-            rgba(172,227,54,.13),
-            transparent 30%
-        ),
-
         linear-gradient(
-            135deg,
-            #10150f 0%,
-            #172016 50%,
-            #0d110c 100%
+            145deg,
+            var(--ranking-card-2),
+            var(--ranking-card)
         );
 
-    color:white;
+    border:
+        1px solid var(--ranking-border);
+
+    border-radius: 22px;
+
+    text-align: center;
+
+    overflow: hidden;
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease;
 }
 
-.pagehero .pill {
-    display:inline-flex;
-    align-items:center;
+.podium-card:hover {
+    transform: translateY(-5px);
 
-    padding:9px 15px;
+    border-color:
+        rgba(172,227,54,.25);
+}
 
-    border-radius:999px;
+.podium-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
+
+    background: var(--ranking-accent);
+
+    opacity: .7;
+}
+
+.podium-position {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.podium-name {
+    font-size: 21px;
+    font-weight: 800;
+
+    margin-bottom: 5px;
+
+    word-break: break-word;
+}
+
+.podium-rank {
+    color: var(--ranking-accent);
+
+    font-size: 13px;
+    font-weight: 700;
+
+    margin-bottom: 20px;
+}
+
+.podium-stars {
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.podium-stars small {
+    font-size: 13px;
+    color: var(--ranking-muted);
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   RANKING TABLE
+========================================================= */
+
+.ranking-table-wrapper {
+    background: var(--ranking-card);
+
+    border:
+        1px solid var(--ranking-border);
+
+    border-radius: 22px;
+
+    overflow: hidden;
+}
+
+.ranking-table-header {
+    display: grid;
+
+    grid-template-columns:
+        80px
+        minmax(180px, 1.5fr)
+        minmax(150px, 1fr)
+        120px
+        100px
+        120px;
+
+    gap: 15px;
+
+    padding: 18px 24px;
+
+    border-bottom:
+        1px solid var(--ranking-border);
+
+    color: var(--ranking-muted);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ranking-row {
+    display: grid;
+
+    grid-template-columns:
+        80px
+        minmax(180px, 1.5fr)
+        minmax(150px, 1fr)
+        120px
+        100px
+        120px;
+
+    gap: 15px;
+
+    align-items: center;
+
+    padding: 22px 24px;
+
+    border-bottom:
+        1px solid var(--ranking-border);
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease;
+}
+
+.ranking-row:last-child {
+    border-bottom: 0;
+}
+
+.ranking-row:hover {
+    background:
+        rgba(172,227,54,.045);
+}
+
+
+/* =========================================================
+   POSITION
+========================================================= */
+
+.rank-position {
+    font-size: 17px;
+    font-weight: 900;
+
+    color: var(--ranking-muted);
+}
+
+.rank-position.top-one {
+    color: #ffd84d;
+}
+
+.rank-position.top-two {
+    color: #d8d8d8;
+}
+
+.rank-position.top-three {
+    color: #d59a62;
+}
+
+
+/* =========================================================
+   PILOT
+========================================================= */
+
+.pilot-cell {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    min-width: 0;
+}
+
+.pilot-avatar {
+    width: 44px;
+    height: 44px;
+
+    flex: 0 0 44px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(172,227,54,.12);
+
+    color: var(--ranking-accent);
+
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.pilot-info {
+    min-width: 0;
+}
+
+.pilot-name {
+    font-weight: 800;
+    font-size: 15px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pilot-username {
+    margin-top: 3px;
+
+    color: var(--ranking-muted);
+
+    font-size: 12px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   RANK BADGE
+========================================================= */
+
+.rank-badge {
+    display: inline-flex;
+
+    width: fit-content;
+
+    padding: 7px 11px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(172,227,54,.09);
+
+    border:
+        1px solid rgba(172,227,54,.15);
+
+    color: var(--ranking-accent);
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stat-value {
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.stat-muted {
+    color: var(--ranking-muted);
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.stars-value {
+    color: var(--ranking-accent);
+}
+
+
+/* =========================================================
+   EMPTY / LOADING / ERROR
+========================================================= */
+
+.ranking-message {
+    padding: 70px 25px;
+
+    text-align: center;
+
+    color: var(--ranking-muted);
+}
+
+.ranking-message-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.ranking-message h3 {
+    margin: 0 0 8px;
+
+    color: var(--ranking-text);
+
+    font-size: 20px;
+}
+
+.ranking-message p {
+    margin: 0 auto;
+
+    max-width: 500px;
+
+    line-height: 1.6;
+}
+
+.ranking-error button {
+    margin-top: 20px;
+
+    padding: 12px 18px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: var(--ranking-accent);
+    color: #101410;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   LOADING SPINNER
+========================================================= */
+
+.spinner {
+    width: 35px;
+    height: 35px;
+
+    margin: 0 auto 20px;
+
+    border:
+        3px solid
+        rgba(255,255,255,.1);
+
+    border-top-color:
+        var(--ranking-accent);
+
+    border-radius: 50%;
+
+    animation:
+        ranking-spin .8s linear infinite;
+}
+
+@keyframes ranking-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   RESULTS COUNT
+========================================================= */
+
+.ranking-results {
+    margin-bottom: 15px;
+
+    color: var(--ranking-muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   PILOT MODAL
+========================================================= */
+
+.pilot-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,.72);
+
+    backdrop-filter:
+        blur(8px);
+}
+
+.pilot-modal.active {
+    display: flex;
+}
+
+.pilot-modal-card {
+    width: min(650px, 100%);
+
+    max-height:
+        calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    background:
+        var(--ranking-card);
+
+    border:
+        1px solid var(--ranking-border);
+
+    border-radius: 24px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.45);
+
+    position: relative;
+}
+
+.pilot-modal-close {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 38px;
+    height: 38px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.07);
+
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+.modal-profile {
+    text-align: center;
+
+    padding: 15px 10px 30px;
+}
+
+.modal-avatar {
+    width: 80px;
+    height: 80px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(172,227,54,.12);
+
+    color:
+        var(--ranking-accent);
+
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.modal-profile h2 {
+    margin: 0 0 6px;
+
+    font-size: 28px;
+}
+
+.modal-username {
+    color: var(--ranking-muted);
+
+    font-size: 14px;
+}
+
+.modal-rank {
+    display: inline-block;
+
+    margin-top: 14px;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
 
     background:
         rgba(172,227,54,.1);
 
-    border:
-        1px solid rgba(172,227,54,.3);
+    color:
+        var(--ranking-accent);
 
-    color:var(--green);
+    font-weight: 800;
 
-    font-size:12px;
-    font-weight:800;
-
-    letter-spacing:.06em;
-    text-transform:uppercase;
+    font-size: 13px;
 }
 
-.pagehero h1 {
-    margin:25px 0 18px;
-
-    font-size:clamp(48px,7vw,80px);
-
-    line-height:.98;
-    letter-spacing:-.06em;
-}
-
-.pagehero h1 span {
-    color:var(--green);
-}
-
-.pagehero p {
-    max-width:700px;
-
-    margin:0;
-
-    color:#c6cdc2;
-
-    font-size:17px;
-    line-height:1.8;
-}
-
-
-/* ============================================================
-   RANKING
-   ============================================================ */
-
-.ranking-wrap {
-    padding:70px 0;
-}
-
-.ranking-layout {
-    display:grid;
+.modal-stats {
+    display: grid;
 
     grid-template-columns:
-        minmax(0,1fr)
-        330px;
+        repeat(2, minmax(0, 1fr));
 
-    gap:28px;
-
-    align-items:start;
+    gap: 12px;
 }
 
-.ranking-main {
-    min-width:0;
-}
-
-.ranking-hero {
-    display:grid;
-
-    grid-template-columns:
-        1.2fr .8fr;
-
-    gap:28px;
-
-    align-items:stretch;
-}
-
-.rank-card,
-.panel {
-    background:#fff;
+.modal-stat {
+    padding: 18px;
 
     border:
-        1px solid #dfe5dc;
+        1px solid var(--ranking-border);
 
-    border-radius:18px;
-
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.06);
-}
-
-.rank-card {
-    padding:30px;
-}
-
-.rank-card h2 {
-    margin:0 0 8px;
-}
-
-.panel {
-    padding:24px;
-    margin-top:28px;
-}
-
-.panel h3 {
-    margin-top:0;
-}
-
-.eyebrow {
-    display:block;
-
-    margin-bottom:8px;
-
-    color:var(--green-dark);
-
-    font-size:12px;
-    font-weight:900;
-
-    text-transform:uppercase;
-    letter-spacing:.08em;
-}
-
-.rank-number {
-    margin:10px 0;
-
-    font-size:52px;
-    font-weight:800;
-
-    line-height:1;
-}
-
-.stars {
-    font-size:26px;
-    letter-spacing:2px;
-}
-
-
-/* ============================================================
-   STATISTICS
-   ============================================================ */
-
-.stat-grid {
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:12px;
-
-    margin-top:22px;
-}
-
-.stat {
-    min-width:0;
-
-    padding:14px;
-
-    background:#f5f7f3;
-
-    border-radius:12px;
-}
-
-.stat small {
-    display:block;
-
-    margin-bottom:4px;
-
-    color:#7b857a;
-
-    font-size:10px;
-    font-weight:700;
-
-    text-transform:uppercase;
-    letter-spacing:.04em;
-}
-
-.stat b {
-    display:block;
-
-    overflow:hidden;
-
-    font-size:20px;
-
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-
-/* ============================================================
-   EXTENDED PILOT STATISTICS
-   ============================================================ */
-
-.pilot-stat-grid {
-    grid-template-columns:
-        repeat(3,1fr);
-}
-
-.pilot-stat-grid .stat {
-    min-height:82px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-}
-
-.pilot-stat-grid .stat:hover {
-    transform:translateY(-2px);
-
-    background:#f1f5ed;
-
-    box-shadow:
-        0 6px 18px rgba(0,0,0,.05);
-}
-
-.pilot-stat-grid .stat b {
-    font-size:17px;
-}
-
-
-/* ============================================================
-   RANK PROGRESS
-   ============================================================ */
-
-.progress {
-    height:12px;
-
-    margin:15px 0 8px;
-
-    background:#e8ede5;
-
-    border-radius:99px;
-
-    overflow:hidden;
-}
-
-.progress > div {
-    width:0;
-    height:100%;
-
-    background:var(--green);
-
-    transition:
-        width .4s ease;
-}
-
-.rank-progress-panel {
-    margin-top:24px;
-    padding:18px;
-
-    border:
-        1px solid #dfe5dc;
-
-    border-radius:14px;
-
-    background:#f8faf6;
-}
-
-.rank-progress-top {
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-
-    gap:20px;
-}
-
-.rank-progress-top .eyebrow {
-    margin-bottom:4px;
-}
-
-.rank-progress-top strong {
-    display:block;
-
-    color:#273025;
-
-    font-size:28px;
-    line-height:1;
-}
-
-.rank-position-label {
-    display:block;
-
-    margin-top:4px;
-
-    color:#7b857a;
-
-    font-size:10px;
-    font-weight:700;
-
-    text-transform:uppercase;
-}
-
-.rank-progress-percent {
-    text-align:right;
-}
-
-.rank-progress-percent strong {
-    color:var(--green-dark);
-
-    font-size:24px;
-}
-
-.rank-progress-percent span {
-    display:block;
-
-    margin-top:3px;
-
-    color:#7b857a;
-
-    font-size:10px;
-    font-weight:700;
-}
-
-.rank-progress {
-    margin:18px 0 9px;
-}
-
-.rank-progress-bottom {
-    display:flex;
-    justify-content:space-between;
-
-    gap:15px;
-
-    color:#687267;
-
-    font-size:11px;
-    font-weight:600;
-}
-
-.rank-progress-bottom span:last-child {
-    text-align:right;
-}
-
-
-/* ============================================================
-   PILOT SIDEBAR
-   ============================================================ */
-
-.pilot-sidebar {
-    position:sticky;
-    top:120px;
-
-    overflow:hidden;
-
-    background:#fff;
-
-    border:
-        1px solid #dfe5dc;
-
-    border-radius:18px;
-
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.08);
-}
-
-.pilot-sidebar-header {
-    padding:24px;
-
-    background:#fff;
-
-    border-bottom:
-        1px solid #e0e6dc;
-}
-
-.pilot-sidebar-header h3 {
-    margin:0 0 6px;
-
-    color:#273025;
-
-    font-size:20px;
-    font-weight:800;
-}
-
-.pilot-sidebar-header p {
-    margin:0;
-
-    color:#687267;
-
-    font-size:12px;
-    line-height:1.5;
-}
-
-.pilot-list {
-    max-height:650px;
-
-    overflow-y:auto;
-
-    background:#fff;
-}
-
-
-/* ============================================================
-   PILOT ITEMS
-   ============================================================ */
-
-.pilot-item {
-    display:grid;
-
-    grid-template-columns:
-        30px
-        40px
-        minmax(0,1fr)
-        auto;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:14px 18px;
-
-    background:#fff;
-
-    border-bottom:
-        1px solid #edf0eb;
-
-    color:#273025;
-
-    text-decoration:none;
-
-    transition:
-        background .2s ease,
-        transform .2s ease;
-}
-
-.pilot-item:last-child {
-    border-bottom:0;
-}
-
-.pilot-item:hover {
-    background:#f5f8f2;
-    transform:translateX(3px);
-}
-
-.pilot-position {
-    color:#7b857a;
-
-    font-size:12px;
-    font-weight:800;
-
-    text-align:center;
-}
-
-.pilot-avatar {
-    width:40px;
-    height:40px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    flex-shrink:0;
-
-    border:
-        1px solid rgba(172,227,54,.25);
-
-    border-radius:12px;
+    border-radius: 15px;
 
     background:
-        linear-gradient(
-            135deg,
-            #293522,
-            #172016
-        );
-
-    color:var(--green);
-
-    font-size:14px;
-    font-weight:900;
-
-    box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.03);
+        rgba(255,255,255,.025);
 }
 
-.pilot-info {
-    min-width:0;
+.modal-stat-label {
+    color: var(--ranking-muted);
 
-    display:flex;
-    flex-direction:column;
+    font-size: 11px;
 
-    gap:4px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+
+    margin-bottom: 7px;
 }
 
-.pilot-name {
-    overflow:hidden;
-
-    color:#273025;
-
-    font-size:13px;
-    font-weight:800;
-
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.pilot-rank {
-    overflow:hidden;
-
-    color:#7b857a;
-
-    font-size:10px;
-    font-weight:600;
-
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.pilot-rating {
-    display:flex;
-    flex-direction:column;
-    align-items:flex-end;
-
-    gap:2px;
-
-    min-width:55px;
-}
-
-.pilot-rating-value {
-    color:#273025;
-
-    font-size:13px;
-    font-weight:900;
-
-    white-space:nowrap;
-}
-
-.pilot-rating-label {
-    color:#7b857a;
-
-    font-size:9px;
-    font-weight:700;
-
-    text-transform:uppercase;
-    letter-spacing:.05em;
-}
-
-.pilot-sidebar-loading,
-.pilot-sidebar-empty,
-.pilot-sidebar-error {
-    padding:28px 20px;
-
-    background:#fff;
-
-    color:#687267;
-
-    font-size:12px;
-    line-height:1.6;
-
-    text-align:center;
-}
-
-.pilot-sidebar-error {
-    color:#d88989;
+.modal-stat-value {
+    font-size: 21px;
+    font-weight: 900;
 }
 
 
-/* ============================================================
-   FORMS
-   ============================================================ */
+/* =========================================================
+   MOBILE
+========================================================= */
 
-.form-grid {
-    display:grid;
+@media (max-width: 850px) {
 
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:16px;
-}
-
-.field {
-    display:flex;
-    flex-direction:column;
-
-    gap:7px;
-}
-
-.field.full {
-    grid-column:1/-1;
-}
-
-.field label {
-    font-size:13px;
-    font-weight:700;
-}
-
-.field input {
-    width:100%;
-
-    padding:13px 14px;
-
-    border:
-        1px solid #d8ded6;
-
-    border-radius:10px;
-
-    background:#f8faf7;
-
-    font:inherit;
-
-    transition:
-        border .2s ease,
-        box-shadow .2s ease;
-}
-
-.field input:focus {
-    outline:none;
-
-    border-color:#9fcb42;
-
-    box-shadow:
-        0 0 0 3px rgba(172,227,54,.12);
-}
-
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-
-.btn {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:12px 17px;
-
-    border-radius:10px;
-
-    background:#edf1eb;
-    color:#273025;
-
-    font-weight:800;
-
-    cursor:pointer;
-    text-decoration:none;
-
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-}
-
-.btn:hover {
-    transform:translateY(-1px);
-}
-
-.btn-primary {
-    background:var(--green);
-    color:#17200f;
-}
-
-.btn-primary:hover {
-    box-shadow:
-        0 8px 22px rgba(172,227,54,.25);
-}
-
-.btn:disabled {
-    opacity:.55;
-
-    cursor:not-allowed;
-
-    transform:none;
-}
-
-.actions {
-    display:flex;
-    flex-wrap:wrap;
-
-    gap:10px;
-
-    margin-top:18px;
-}
-
-
-/* ============================================================
-   DISCORD BUTTON
-   ============================================================ */
-
-#discordBtn {
-    background:#5865F2;
-    color:#fff;
-}
-
-#discordBtn:hover {
-    box-shadow:
-        0 8px 22px rgba(88,101,242,.25);
-}
-
-#discordBtn:disabled {
-    background:#6f7680;
-    color:#fff;
-}
-
-
-/* ============================================================
-   MESSAGES
-   ============================================================ */
-
-.message {
-    display:none;
-
-    margin-top:14px;
-    padding:12px 14px;
-
-    border-radius:10px;
-
-    background:#eef5e7;
-    color:#52604d;
-
-    font-size:13px;
-    line-height:1.5;
-}
-
-.message.error {
-    background:#faecec;
-    color:#7d3434;
-}
-
-
-/* ============================================================
-   TABLE
-   ============================================================ */
-
-.table-wrap {
-    overflow:auto;
-}
-
-table {
-    width:100%;
-    min-width:650px;
-
-    border-collapse:collapse;
-}
-
-th,
-td {
-    padding:13px;
-
-    text-align:left;
-
-    border-bottom:
-        1px solid #e8ede5;
-}
-
-th {
-    color:#687267;
-
-    font-size:13px;
-}
-
-td {
-    font-size:14px;
-}
-
-.badge {
-    display:inline-block;
-
-    padding:5px 9px;
-
-    border-radius:999px;
-
-    background:#eef5e7;
-    color:#4e613d;
-
-    font-size:12px;
-    font-weight:700;
-}
-
-.flight-route {
-    font-weight:800;
-}
-
-.flight-date {
-    color:var(--muted);
-    font-size:12px;
-}
-
-.rating-good {
-    color:#5c8218;
-    font-weight:800;
-}
-
-.rating-normal {
-    font-weight:700;
-}
-
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-
-footer {
-    padding:60px 0 25px;
-
-    background:var(--black);
-    color:#fff;
-}
-
-.foot-top {
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-
-    gap:50px;
-}
-
-footer .brand {
-    margin-bottom:18px;
-}
-
-footer p {
-    margin:0;
-
-    color:#8f988c;
-
-    line-height:1.7;
-}
-
-.foot-links {
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,auto);
-
-    gap:12px 28px;
-
-    max-width:600px;
-
-    justify-content:end;
-}
-
-.foot-links a {
-    color:#aeb7aa;
-
-    text-decoration:none;
-
-    font-size:12px;
-    font-weight:700;
-
-    white-space:nowrap;
-
-    transition:color .2s ease;
-}
-
-.foot-links a:hover {
-    color:var(--green);
-}
-
-.copy {
-    display:flex;
-    justify-content:space-between;
-
-    gap:20px;
-
-    margin-top:40px;
-    padding-top:20px;
-
-    border-top:
-        1px solid rgba(255,255,255,.08);
-
-    color:#687267;
-
-    font-size:10px;
-}
-
-
-/* ============================================================
-   SCROLLBAR
-   ============================================================ */
-
-.pilot-list::-webkit-scrollbar {
-    width:6px;
-}
-
-.pilot-list::-webkit-scrollbar-track {
-    background:#f1f3ef;
-}
-
-.pilot-list::-webkit-scrollbar-thumb {
-    background:#cbd3c5;
-    border-radius:99px;
-}
-
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-
-@media(max-width:1200px) {
-
-    .navlinks {
-        gap:13px;
+    .podium {
+        grid-template-columns: 1fr;
     }
 
-    .navlinks a {
-        font-size:11px;
+    .podium-card {
+        padding: 24px;
     }
 
-    .register {
-        padding:11px 14px;
-        font-size:11px;
-    }
-}
-
-@media(max-width:1050px) {
-
-    .navlinks,
-    .register {
-        display:none;
+    .ranking-table-header {
+        display: none;
     }
 
-    .menu {
-        display:block;
-        margin-left:auto;
-    }
-
-    .foot-links {
+    .ranking-row {
         grid-template-columns:
-            repeat(2,auto);
+            45px
+            1fr
+            auto;
 
-        justify-content:start;
+        gap: 14px;
+
+        padding: 20px;
     }
 
-    .ranking-layout {
-        grid-template-columns:
-            minmax(0,1fr)
-            300px;
-    }
-}
-
-@media(max-width:900px) {
-
-    .ranking-layout {
-        grid-template-columns:1fr;
+    .ranking-row > .mobile-hide {
+        display: none;
     }
 
-    .pilot-sidebar {
-        position:static;
-        order:2;
+    .rank-position {
+        align-self: start;
+        padding-top: 8px;
     }
 
-    .pilot-list {
-        max-height:450px;
-    }
-}
-
-@media(max-width:850px) {
-
-    :root {
-        --header-height:82px;
+    .ranking-controls {
+        align-items: stretch;
     }
 
-    .container {
-        width:min(100% - 32px,700px);
+    .ranking-search {
+        min-width: 100%;
     }
 
-    .ranking-hero {
-        grid-template-columns:1fr;
-    }
-
-    .form-grid {
-        grid-template-columns:1fr;
-    }
-
-    .field.full {
-        grid-column:auto;
-    }
-
-    .pilot-stat-grid {
-        grid-template-columns:
-            1fr 1fr;
-    }
-
-    .foot-top {
-        flex-direction:column;
-    }
-
-    .copy {
-        flex-direction:column;
-    }
-
-    .pagehero {
-        padding:140px 0 70px;
+    .ranking-sort,
+    .ranking-refresh {
+        flex: 1;
     }
 
 }
 
-@media(max-width:520px) {
 
-    .container {
-        width:calc(100% - 28px);
+@media (max-width: 520px) {
+
+    .ranking-container {
+        width:
+            min(
+                100% - 24px,
+                1200px
+            );
     }
 
-    .nav {
-        min-height:76px;
+    .ranking-page {
+        padding-top: 100px;
     }
 
-    .brand-logo {
-        width:48px;
-        height:48px;
+    .ranking-header {
+        margin-bottom: 35px;
     }
 
-    .brand-text {
-        font-size:11px;
+    .ranking-header h1 {
+        font-size: 42px;
     }
 
-    .brand-text small {
-        font-size:8px;
+    .ranking-controls {
+        flex-direction: column;
     }
 
-    .pagehero h1 {
-        font-size:43px;
+    .ranking-sort,
+    .ranking-refresh {
+        width: 100%;
     }
 
-    .pilot-stat-grid {
-        grid-template-columns:1fr;
-    }
-
-    .foot-links {
-        grid-template-columns:
-            1fr 1fr;
-
-        gap:12px 25px;
-    }
-
-    .pilot-sidebar-header {
-        padding:18px;
-    }
-
-    .pilot-item {
-        padding:13px 14px;
-    }
-
-    .rank-progress-top {
-        align-items:flex-start;
-    }
-
-    .rank-progress-bottom {
-        flex-direction:column;
-        gap:5px;
-    }
-
-    .rank-progress-bottom span:last-child {
-        text-align:left;
+    .modal-stats {
+        grid-template-columns: 1fr;
     }
 
 }
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+
+}
+
 </style>
 
 </head>
@@ -1428,3696 +902,1490 @@ footer p {
 <body>
 
 
-<!-- ============================================================
+<!-- ========================================================
      HEADER
-     ============================================================ -->
+========================================================= -->
 
-<header id="siteHeader">
-
-<div class="container nav">
-
-    <a class="brand" href="index.html">
-
-        <img
-            class="brand-logo"
-            src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?format=webp&quality=lossless&width=768&height=768"
-            alt="Echo Air Group Logo"
-        >
-
-        <div class="brand-text">
-
-            ECHO AIR GROUP
-
-            <small>
-                6L · ECV · CLOVER
-            </small>
-
-        </div>
-
-    </a>
-
-
-    <nav class="navlinks">
-
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="fleet.html">Fleet</a>
-        <a href="routes.html">Routes</a>
-        <a href="team.html">Team</a>
-        <a href="join.html">Join Us</a>
-        <a href="manual.html">Pilot Manual</a>
-        <a href="contact.html">Contact Us</a>
-        <a class="active" href="ranking.html">Ranking</a>
-        <a href="booking.html">Book a flight</a>
-
-    </nav>
-
-
-    <a class="register" href="join.html">
-        REGISTER
-    </a>
-
-
-    <button
-        class="menu"
-        id="menuButton"
-        type="button"
-        onclick="toggleMenu()"
-        aria-expanded="false"
-    >
-        ☰
-    </button>
-
-</div>
-
-
-<div id="mobileNav" class="mobileNav">
+<header>
 
     <div class="container">
 
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="fleet.html">Fleet</a>
-        <a href="routes.html">Routes</a>
-        <a href="team.html">Team</a>
-        <a href="join.html">Join Us</a>
-        <a href="manual.html">Pilot Manual</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="ranking.html">Ranking</a>
-        <a href="booking.html">Book a flight</a>
-        <a href="join.html">Register</a>
+        <a
+            href="index.html"
+            class="logo"
+        >
+            Echo Air Group
+        </a>
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="fleet.html">
+                Fleet
+            </a>
+
+            <a href="routes.html">
+                Routes
+            </a>
+
+            <a
+                href="ranking.html"
+                class="active"
+            >
+                Ranking
+            </a>
+
+            <a href="team.html">
+                Team
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </nav>
 
     </div>
-
-</div>
 
 </header>
 
 
-<!-- ============================================================
+<!-- ========================================================
      MAIN
-     ============================================================ -->
+========================================================= -->
 
-<main>
+<main class="ranking-page">
 
+    <div class="ranking-container">
 
-<section class="pagehero">
 
-<div class="container">
+        <!-- ==================================================
+             TITLE
+        =================================================== -->
 
-    <span class="pill">
-        Echo Air Group Ranking
-    </span>
+        <section class="ranking-header">
 
-    <h1>
-        Fly. Earn <span>Stars.</span>
-    </h1>
+            <h1>
+                Pilot <span>Ranking</span>
+            </h1>
 
-    <p>
-        Track your flights, NewSky statistics, rank progress and
-        position on the Echo Air Group leaderboard.
-    </p>
+            <p>
+                See how Echo Air Group pilots compare across
+                flights, stars, ratings and ranks.
+            </p>
 
-</div>
+        </section>
 
-</section>
 
+        <!-- ==================================================
+             CONTROLS
+        =================================================== -->
 
-<section class="ranking-wrap">
+        <section class="ranking-controls">
 
-<div class="container">
+            <div class="ranking-search">
 
-<div class="ranking-layout">
-
-
-<div class="ranking-main">
-
-
-<!-- ============================================================
-     LOGGED OUT
-     ============================================================ -->
-
-<div id="loggedOut">
-
-<div class="ranking-hero">
-
-<div class="rank-card">
-
-    <span class="eyebrow">
-        Pilot Ranking
-    </span>
-
-    <h2>
-        Build your Echo profile
-    </h2>
-
-    <p class="muted">
-        Create an account or sign in to view your pilot profile,
-        link your NewSky account and synchronize your flights.
-    </p>
-
-    <div class="actions">
-
-        <a
-            class="btn btn-primary"
-            href="#account"
-        >
-            Create / Sign in
-        </a>
-
-    </div>
-
-</div>
-
-
-<div class="rank-card">
-
-    <span class="eyebrow">
-        Rank system
-    </span>
-
-    <h2>
-        Earn your way up
-    </h2>
-
-    <p class="muted">
-        Your rank is based on your total Echo stars.
-    </p>
-
-    <div class="stat-grid">
-
-        <div class="stat">
-            <small>Cadet</small>
-            <b>0–999.99 ⭐</b>
-        </div>
-
-        <div class="stat">
-            <small>First Officer</small>
-            <b>1000+ ⭐</b>
-        </div>
-
-        <div class="stat">
-            <small>Next ranks</small>
-            <b>Keep flying</b>
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ============================================================
-     DASHBOARD
-     ============================================================ -->
-
-<div id="dashboard" style="display:none">
-
-<div class="ranking-hero">
-
-
-<!-- ============================================================
-     PILOT DASHBOARD
-     ============================================================ -->
-
-<div class="rank-card">
-
-    <span class="eyebrow">
-        Your rank
-    </span>
-
-    <h2 id="pilotName">
-        Pilot
-    </h2>
-
-    <div
-        class="rank-number"
-        id="rankName"
-    >
-        Cadet
-    </div>
-
-    <div class="stars">
-
-        <span id="stars">
-            0.00
-        </span>
-
-        ⭐
-
-    </div>
-
-
-    <!-- ========================================================
-         EXTENDED STATISTICS
-         ======================================================== -->
-
-    <div class="stat-grid pilot-stat-grid">
-
-        <div class="stat">
-            <small>Total Flights</small>
-            <b id="flightCount">0</b>
-        </div>
-
-        <div class="stat">
-            <small>Flight Hours</small>
-            <b id="flightHours">0.0</b>
-        </div>
-
-        <div class="stat">
-            <small>Average Rating</small>
-            <b id="averageRating">0.00</b>
-        </div>
-
-        <div class="stat">
-            <small>Total Distance</small>
-            <b id="totalDistance">0 km</b>
-        </div>
-
-        <div class="stat">
-            <small>Best Star Flight</small>
-            <b id="bestStarFlight">0.00 ⭐</b>
-        </div>
-
-        <div class="stat">
-            <small>Avg Stars This Month</small>
-            <b id="averageStarsMonth">0.00 ⭐</b>
-        </div>
-
-        <div class="stat">
-            <small>Flights This Year</small>
-            <b id="flightsThisYear">0</b>
-        </div>
-
-        <div class="stat">
-            <small>Most Used Aircraft</small>
-            <b id="mostUsedAircraft">—</b>
-        </div>
-
-        <div class="stat">
-            <small>Most Used Hub</small>
-            <b id="mostUsedHub">—</b>
-        </div>
-
-        <div class="stat">
-            <small>Longest Flight</small>
-            <b id="longestFlight">0 km</b>
-        </div>
-
-        <div class="stat">
-            <small>Shortest Flight</small>
-            <b id="shortestFlight">0 km</b>
-        </div>
-
-        <div class="stat">
-            <small>Current Streak</small>
-            <b id="currentStreak">0 days</b>
-        </div>
-
-    </div>
-
-
-    <!-- ========================================================
-         RANK PROGRESS
-         ======================================================== -->
-
-    <div class="rank-progress-panel">
-
-        <div class="rank-progress-top">
-
-            <div>
-
-                <span class="eyebrow">
-                    Leaderboard
+                <span class="ranking-search-icon">
+                    🔎
                 </span>
 
-                <strong id="rankPosition">
-                    #—
-                </strong>
-
-                <span class="rank-position-label">
-                    Current position
-                </span>
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search pilots..."
+                    autocomplete="off"
+                >
 
             </div>
 
 
-            <div class="rank-progress-percent">
+            <div class="ranking-sort">
 
-                <strong id="rankProgressPercent">
-                    0%
-                </strong>
+                <select id="sortSelect">
 
-                <span>
-                    to next rank
-                </span>
+                    <option value="stars">
+                        Sort by Stars
+                    </option>
+
+                    <option value="flights">
+                        Sort by Flights
+                    </option>
+
+                    <option value="rating">
+                        Sort by Rating
+                    </option>
+
+                    <option value="position">
+                        Sort by Position
+                    </option>
+
+                    <option value="name">
+                        Sort by Name
+                    </option>
+
+                </select>
 
             </div>
 
+
+            <button
+                type="button"
+                class="ranking-refresh"
+                id="refreshButton"
+            >
+                ↻ Refresh
+            </button>
+
+        </section>
+
+
+        <!-- ==================================================
+             TOP 3
+        =================================================== -->
+
+        <section
+            class="podium"
+            id="podium"
+            aria-label="Top three pilots"
+        >
+
+            <!-- Filled by JavaScript -->
+
+        </section>
+
+
+        <!-- ==================================================
+             RESULTS
+        =================================================== -->
+
+        <div
+            class="ranking-results"
+            id="resultsCount"
+        >
+            Loading pilots...
         </div>
 
 
-        <div class="progress rank-progress">
+        <!-- ==================================================
+             TABLE
+        =================================================== -->
 
-            <div id="progressBar"></div>
+        <section class="ranking-table-wrapper">
 
-        </div>
+            <div class="ranking-table-header">
 
+                <div>
+                    Position
+                </div>
 
-        <div class="rank-progress-bottom">
+                <div>
+                    Pilot
+                </div>
 
-            <span id="progressText">
-                0.00 / 1000.00 ⭐ to First Officer
-            </span>
+                <div>
+                    Rank
+                </div>
 
-            <span id="starsToNextRank">
-                1000.00 ⭐ remaining
-            </span>
+                <div>
+                    Stars
+                </div>
 
-        </div>
+                <div>
+                    Flights
+                </div>
 
-    </div>
+                <div>
+                    Avg. Rating
+                </div>
 
-
-    <!-- ========================================================
-         ACTIONS
-         ======================================================== -->
-
-    <div class="actions">
-
-        <button
-            class="btn btn-primary"
-            id="syncBtn"
-            type="button"
-        >
-            Sync flights
-        </button>
+            </div>
 
 
-        <button
-            class="btn"
-            id="discordBtn"
-            type="button"
-        >
-            Connect Discord
-        </button>
+            <div id="rankingList">
 
+                <div class="ranking-message">
 
-        <button
-            class="btn"
-            id="logoutBtn"
-            type="button"
-        >
-            Log out
-        </button>
+                    <div class="spinner"></div>
 
-    </div>
+                    <h3>
+                        Loading ranking
+                    </h3>
 
+                    <p>
+                        Getting the latest pilot statistics...
+                    </p>
 
-    <div
-        class="message"
-        id="dashboardMsg"
-    ></div>
+                </div>
 
+            </div>
 
-    <div
-        class="message"
-        id="discordMsg"
-    ></div>
-
-</div>
-
-
-<!-- ============================================================
-     NEWSKY CONNECTION
-     ============================================================ -->
-
-<div class="rank-card">
-
-    <span class="eyebrow">
-        NewSky connection
-    </span>
-
-    <h2>
-        Link your NewSky pilot
-    </h2>
-
-    <p class="muted">
-        Enter the <strong>NewSky Pilot ID</strong>
-        exactly as it appears in your NewSky profile.
-    </p>
-
-
-    <div class="field full">
-
-        <label for="newskyId">
-            NewSky Pilot ID
-        </label>
-
-        <input
-            id="newskyId"
-            type="text"
-            autocomplete="off"
-            placeholder="Enter your NewSky Pilot ID"
-        >
+        </section>
 
     </div>
-
-
-    <div class="actions">
-
-        <button
-            class="btn btn-primary"
-            id="linkBtn"
-            type="button"
-        >
-            Link NewSky account
-        </button>
-
-    </div>
-
-
-    <div
-        class="message"
-        id="linkMsg"
-    ></div>
-
-
-    <p
-        class="muted"
-        style="
-            margin-top:15px;
-            font-size:12px;
-            line-height:1.6;
-        "
-    >
-        Your NewSky ID is saved to your Echo pilot account.
-        After linking, use <strong>Sync flights</strong> to
-        retrieve your latest flights.
-    </p>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- ============================================================
-     ACCOUNT
-     ============================================================ -->
-
-<div
-    class="panel"
-    id="account"
->
-
-<h3>
-    Account
-</h3>
-
-
-<div class="form-grid">
-
-    <div class="field">
-
-        <label for="username">
-            Username
-        </label>
-
-        <input
-            id="username"
-            autocomplete="username"
-            placeholder="your username"
-        >
-
-    </div>
-
-
-    <div class="field">
-
-        <label for="password">
-            Password
-        </label>
-
-        <input
-            id="password"
-            type="password"
-            autocomplete="current-password"
-            placeholder="at least 8 characters"
-        >
-
-    </div>
-
-</div>
-
-
-<div class="actions">
-
-    <button
-        class="btn btn-primary"
-        id="registerBtn"
-        type="button"
-    >
-        Create account
-    </button>
-
-
-    <button
-        class="btn"
-        id="loginBtn"
-        type="button"
-    >
-        Sign in
-    </button>
-
-</div>
-
-
-<div
-    class="message"
-    id="accountMsg"
-></div>
-
-</div>
-
-
-<!-- ============================================================
-     RECENT FLIGHTS
-     ============================================================ -->
-
-<div class="panel">
-
-<h3>
-    Recent flights
-</h3>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-    <th>Date</th>
-    <th>Route</th>
-    <th>Aircraft</th>
-    <th>Rating</th>
-    <th>Stars</th>
-</tr>
-
-</thead>
-
-
-<tbody id="flightRows">
-
-<tr>
-
-<td
-    colspan="5"
-    class="muted"
->
-    No flights loaded.
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<!-- ============================================================
-     LEADERBOARD
-     ============================================================ -->
-
-<div class="panel">
-
-<h3>
-    Echo leaderboard
-</h3>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-    <th>#</th>
-    <th>Pilot</th>
-    <th>Rank</th>
-    <th>Stars</th>
-    <th>Flights</th>
-</tr>
-
-</thead>
-
-
-<tbody id="leaderRows">
-
-<tr>
-
-<td
-    colspan="5"
-    class="muted"
->
-    Loading…
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-<!-- ============================================================
-     SIDEBAR
-     ============================================================ -->
-
-<aside
-    class="pilot-sidebar"
-    id="pilotSidebar"
->
-
-<div class="pilot-sidebar-header">
-
-    <h3>
-        Top Pilots
-    </h3>
-
-    <p>
-        The highest-ranked Echo Air Group pilots.
-    </p>
-
-</div>
-
-
-<div
-    class="pilot-list"
-    id="pilotList"
->
-
-    <div class="pilot-sidebar-loading">
-        Loading pilots…
-    </div>
-
-</div>
-
-</aside>
-
-
-</div>
-
-</div>
-
-</section>
 
 </main>
 
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
+<!-- ========================================================
+     PILOT MODAL
+========================================================= -->
 
-<footer>
+<div
+    class="pilot-modal"
+    id="pilotModal"
+    aria-hidden="true"
+>
 
-<div class="container">
+    <div class="pilot-modal-card">
 
-<div class="foot-top">
+        <button
+            type="button"
+            class="pilot-modal-close"
+            id="modalClose"
+            aria-label="Close pilot profile"
+        >
+            ×
+        </button>
 
-<div>
+        <div id="modalContent">
 
-<div class="brand">
+            <div class="ranking-message">
 
-    <img
-        class="brand-logo"
-        src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?format=webp&quality=lossless&width=768&height=768"
-        alt="Echo Air Group Logo"
-    >
+                <div class="spinner"></div>
 
-    <div class="brand-text">
+                <p>
+                    Loading pilot profile...
+                </p>
 
-        ECHO AIR GROUP
+            </div>
 
-        <small>
-            6L · ECV · CLOVER
-        </small>
+        </div>
 
     </div>
 
 </div>
 
 
-<p style="max-width:450px">
+<!-- ========================================================
+     FOOTER
+========================================================= -->
 
-    Virtual aviation. Real passion. A community built
-    for pilots who love the world of flight simulation.
+<footer>
 
-</p>
+    <div class="container">
 
-</div>
+        <p>
+            © <span id="currentYear"></span>
+            Echo Air Group. All rights reserved.
+        </p>
 
-
-<div class="foot-links">
-
-    <a href="about.html">About</a>
-    <a href="fleet.html">Fleet</a>
-    <a href="routes.html">Routes</a>
-    <a href="team.html">Team</a>
-    <a href="manual.html">Pilot Manual</a>
-    <a href="join.html">Register</a>
-
-</div>
-
-</div>
-
-
-<div class="copy">
-
-    <span>
-        © 2026 Echo Air Group. Virtual airline.
-    </span>
-
-    <span>
-        Not affiliated with any real-world airline.
-    </span>
-
-</div>
-
-</div>
+    </div>
 
 </footer>
 
 
-<script src="script.js"></script>
-
-
 <script>
 
-/* ============================================================
-   API CONFIGURATION
-   ============================================================ */
+/* =========================================================
+   CONFIGURATION
+========================================================= */
 
-const API =
-    'https://echo-air-group-api.onrender.com/api';
+/*
+    IMPORTANT:
+
+    If ranking.html is hosted by the SAME Express server,
+    leave API_BASE empty.
+
+    Example:
+    https://echoairgroup.io/ranking.html
+    -> API_BASE = ""
+
+    If your HTML is hosted somewhere else, change this to
+    your backend URL.
+
+    Example:
+    const API_BASE =
+        "https://api.echoairgroup.io";
+*/
+
+const API_BASE = "";
 
 
-/* ============================================================
-   TOKEN
-   ============================================================ */
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-let token =
-    localStorage.getItem('echo_token');
+const rankingList =
+    document.getElementById(
+        "rankingList"
+    );
+
+const podium =
+    document.getElementById(
+        "podium"
+    );
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+const sortSelect =
+    document.getElementById(
+        "sortSelect"
+    );
+
+const refreshButton =
+    document.getElementById(
+        "refreshButton"
+    );
+
+const resultsCount =
+    document.getElementById(
+        "resultsCount"
+    );
+
+const pilotModal =
+    document.getElementById(
+        "pilotModal"
+    );
+
+const modalClose =
+    document.getElementById(
+        "modalClose"
+    );
+
+const modalContent =
+    document.getElementById(
+        "modalContent"
+    );
 
 
-function getAuthToken() {
+/* =========================================================
+   STATE
+========================================================= */
 
-    const stored =
-        localStorage.getItem('echo_token');
+let allPilots = [];
 
-    if(
-        !stored ||
-        stored === 'null' ||
-        stored === 'undefined'
-    ) {
-        return null;
-    }
 
-    return stored.trim();
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function apiUrl(
+    endpoint
+) {
+    return (
+        API_BASE +
+        endpoint
+    );
 }
 
 
-/* ============================================================
-   ELEMENTS
-   ============================================================ */
-
-const usernameInput =
-    document.getElementById('username');
-
-const passwordInput =
-    document.getElementById('password');
-
-const newskyInput =
-    document.getElementById('newskyId');
-
-
-/* ============================================================
-   API REQUEST
-   ============================================================ */
-
-async function api(path, options = {}) {
-
-    token =
-        getAuthToken();
-
-
-    const headers = {
-        'Accept':'application/json',
-
-        ...(options.body
-            ? {'Content-Type':'application/json'}
-            : {}),
-
-        ...(options.headers || {})
-    };
+function escapeHtml(
+    value
+) {
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
 
 
-    if(token) {
+function formatNumber(
+    value,
+    decimals = 0
+) {
+    const number =
+        Number(value) || 0;
 
-        headers.Authorization =
-            `Bearer ${token}`;
+    return number.toLocaleString(
+        "en-US",
+        {
+            minimumFractionDigits:
+                decimals,
 
-    }
+            maximumFractionDigits:
+                decimals
+        }
+    );
+}
 
 
-    let response;
+function getInitial(
+    name
+) {
+    const text =
+        String(
+            name || "?"
+        ).trim();
+
+    return (
+        text.charAt(0)
+            .toUpperCase() ||
+        "?"
+    );
+}
+
+
+/* =========================================================
+   LOAD RANKING
+========================================================= */
+
+async function loadRanking() {
+
+    refreshButton.classList.add(
+        "loading"
+    );
+
+    refreshButton.textContent =
+        "↻ Loading...";
+
+
+    rankingList.innerHTML = `
+        <div class="ranking-message">
+
+            <div class="spinner"></div>
+
+            <h3>
+                Loading ranking
+            </h3>
+
+            <p>
+                Getting the latest pilot statistics...
+            </p>
+
+        </div>
+    `;
 
 
     try {
 
-        response =
+        const response =
             await fetch(
-                API + path,
+                apiUrl(
+                    "/api/ranking"
+                ),
                 {
-                    ...options,
-                    headers
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    },
+
+                    cache: "no-store"
                 }
             );
 
-    } catch(error) {
 
-        throw new Error(
-            'Unable to connect to the Echo Air Group API.'
-        );
+        if (!response.ok) {
 
-    }
+            let message =
+                `Server returned HTTP ${response.status}.`;
 
+            try {
 
-    const text =
-        await response.text();
+                const data =
+                    await response.json();
 
+                if (data.error) {
+                    message =
+                        data.error;
+                }
 
-    let data = {};
+            } catch {
+                // Ignore JSON parsing errors.
+            }
 
-
-    if(text) {
-
-        try {
-
-            data =
-                JSON.parse(text);
-
-        } catch {
-
-            data = {
-                message:text
-            };
-
-        }
-
-    }
-
-
-    if(response.status === 401) {
-
-        localStorage.removeItem(
-            'echo_token'
-        );
-
-        token =
-            null;
-
-
-        throw new Error(
-            'Your login session has expired or is invalid. Please sign in again.'
-        );
-
-    }
-
-
-    if(!response.ok) {
-
-        throw new Error(
-            data.error ||
-            data.message ||
-            `Request failed (${response.status})`
-        );
-
-    }
-
-
-    return data;
-}
-
-
-/* ============================================================
-   MESSAGE
-   ============================================================ */
-
-function showMessage(id, text, error = false) {
-
-    const element =
-        document.getElementById(id);
-
-
-    if(!element) {
-        return;
-    }
-
-
-    element.textContent =
-        text;
-
-
-    element.style.display =
-        'block';
-
-
-    element.classList.toggle(
-        'error',
-        error
-    );
-
-}
-
-
-/* ============================================================
-   ESCAPE HTML
-   ============================================================ */
-
-function escapeHtml(value) {
-
-    if(
-        value === null ||
-        value === undefined
-    ) {
-        return '';
-    }
-
-
-    return String(value)
-        .replaceAll('&','&amp;')
-        .replaceAll('<','&lt;')
-        .replaceAll('>','&gt;')
-        .replaceAll('"','&quot;')
-        .replaceAll("'","&#039;");
-
-}
-
-
-/* ============================================================
-   NUMBER
-   ============================================================ */
-
-function number(value, fallback = 0) {
-
-    const n =
-        Number(value);
-
-
-    return Number.isFinite(n)
-        ? n
-        : fallback;
-
-}
-
-
-/* ============================================================
-   RANK SYSTEM
-   ============================================================ */
-
-const RANKS = [
-
-    {
-        name:'Cadet',
-        min:0
-    },
-
-    {
-        name:'First Officer',
-        min:1000
-    },
-
-    {
-        name:'Senior First Officer',
-        min:2500
-    },
-
-    {
-        name:'Captain',
-        min:5000
-    },
-
-    {
-        name:'Senior Captain',
-        min:7500
-    },
-
-    {
-        name:'Commander',
-        min:10000
-    }
-
-];
-
-
-function calculateRank(stars) {
-
-    stars =
-        number(stars);
-
-
-    let current =
-        RANKS[0];
-
-    let next =
-        null;
-
-
-    for(const rank of RANKS) {
-
-        if(stars >= rank.min) {
-
-            current =
-                rank;
-
-        } else {
-
-            next =
-                rank;
-
-            break;
-
-        }
-
-    }
-
-
-    return {
-        current,
-        next
-    };
-
-}
-
-
-/* ============================================================
-   GENERIC FLIGHT VALUE
-   ============================================================ */
-
-function getFlightValue(flight, ...keys) {
-
-    for(const key of keys) {
-
-        if(
-            flight &&
-            flight[key] !== undefined &&
-            flight[key] !== null &&
-            flight[key] !== ''
-        ) {
-
-            return flight[key];
-
-        }
-
-    }
-
-
-    return null;
-
-}
-
-
-/* ============================================================
-   ROUTE
-   ============================================================ */
-
-function getRoute(flight) {
-
-    function getAirportCode(value) {
-
-        if(
-            value === null ||
-            value === undefined
-        ) {
-            return null;
-        }
-
-
-        if(
-            typeof value === 'string' ||
-            typeof value === 'number'
-        ) {
-
-            return String(value);
-
-        }
-
-
-        if(typeof value === 'object') {
-
-            return (
-                value.icao ||
-                value.ICAO ||
-                value.icaoCode ||
-                value.ICAOCode ||
-                value.code ||
-                value.airportCode ||
-                value.iata ||
-                value.IATA ||
-                value.identifier ||
-                value.name ||
-                null
+            throw new Error(
+                message
             );
-
         }
 
 
-        return null;
-    }
+        const data =
+            await response.json();
 
 
-    const departureRaw =
-        getFlightValue(
-            flight,
-            'depIcao',
-            'departureIcao',
-            'departureICAO',
-            'departure',
-            'from',
-            'origin',
-            'dep'
+        if (
+            !data ||
+            !Array.isArray(
+                data.rankings
+            )
+        ) {
+            throw new Error(
+                "The ranking API returned an invalid response."
+            );
+        }
+
+
+        allPilots =
+            data.rankings;
+
+
+        renderRanking();
+
+
+    } catch (error) {
+
+        console.error(
+            "Ranking loading error:",
+            error
         );
 
 
-    const arrivalRaw =
-        getFlightValue(
-            flight,
-            'arrIcao',
-            'arrivalIcao',
-            'arrivalICAO',
-            'arrival',
-            'to',
-            'destination',
-            'arr'
-        );
+        podium.innerHTML = "";
 
 
-    const departure =
-        getAirportCode(departureRaw);
+        rankingList.innerHTML = `
 
-    const arrival =
-        getAirportCode(arrivalRaw);
+            <div class="ranking-message ranking-error">
 
+                <div class="ranking-message-icon">
+                    ⚠️
+                </div>
 
-    if(departure && arrival) {
+                <h3>
+                    Unable to load ranking
+                </h3>
 
-        return `
-            ${escapeHtml(departure)}
-            →
-            ${escapeHtml(arrival)}
+                <p>
+                    ${escapeHtml(
+                        error.message ||
+                        "Something went wrong while loading the pilot ranking."
+                    )}
+                </p>
+
+                <button
+                    type="button"
+                    onclick="loadRanking()"
+                >
+                    Try Again
+                </button>
+
+            </div>
+
         `;
 
-    }
 
+        resultsCount.textContent =
+            "Ranking unavailable.";
 
-    if(departure) {
+    } finally {
 
-        return escapeHtml(
-            departure
+        refreshButton.classList.remove(
+            "loading"
         );
 
+        refreshButton.textContent =
+            "↻ Refresh";
     }
-
-
-    if(arrival) {
-
-        return escapeHtml(
-            arrival
-        );
-
-    }
-
-
-    return 'Unknown route';
 }
 
 
-/* ============================================================
-   AIRCRAFT
-   ============================================================ */
+/* =========================================================
+   SORT
+========================================================= */
 
-function getAircraftValue(flight) {
+function sortPilots(
+    pilots
+) {
 
-    const aircraft =
-        getFlightValue(
-            flight,
-            'aircraft',
-            'aircraftName',
-            'aircraftType',
-            'aircraftModel',
-            'plane',
-            'planeName',
-            'equipment',
-            'aircraftIcao',
-            'aircraftICAO',
-            'type'
-        );
+    const sort =
+        sortSelect.value;
 
 
-    if(
-        typeof aircraft === 'object' &&
-        aircraft !== null
-    ) {
+    return [...pilots].sort(
+        (a, b) => {
 
-        return (
-            aircraft.name ||
-            aircraft.model ||
-            aircraft.icao ||
-            aircraft.type ||
-            'Unknown aircraft'
-        );
+            switch (sort) {
 
-    }
+                case "flights":
+
+                    return (
+                        Number(b.flightCount ?? b.flights ?? 0) -
+                        Number(a.flightCount ?? a.flights ?? 0)
+                    );
 
 
-    return aircraft
-        ? String(aircraft)
-        : 'Unknown aircraft';
-}
+                case "rating":
+
+                    return (
+                        Number(b.averageRating ?? 0) -
+                        Number(a.averageRating ?? 0)
+                    );
 
 
-function getAircraft(flight) {
+                case "position":
 
-    return escapeHtml(
-        getAircraftValue(flight)
+                    return (
+                        Number(a.position ?? 999999) -
+                        Number(b.position ?? 999999)
+                    );
+
+
+                case "name":
+
+                    return String(
+                        a.name || ""
+                    ).localeCompare(
+                        String(
+                            b.name || ""
+                        )
+                    );
+
+
+                case "stars":
+
+                default:
+
+                    return (
+                        Number(b.stars ?? 0) -
+                        Number(a.stars ?? 0)
+                    );
+            }
+
+        }
     );
-
 }
 
 
-/* ============================================================
-   DEPARTURE AIRPORT
-   ============================================================ */
+/* =========================================================
+   FILTER
+========================================================= */
 
-function getDepartureAirport(flight) {
+function filterPilots() {
 
-    const departureRaw =
-        getFlightValue(
-            flight,
-            'depIcao',
-            'departureIcao',
-            'departureICAO',
-            'departure',
-            'from',
-            'origin',
-            'dep'
-        );
+    const search =
+        searchInput.value
+            .trim()
+            .toLowerCase();
 
 
-    if(
-        typeof departureRaw === 'string' ||
-        typeof departureRaw === 'number'
-    ) {
-
-        return String(
-            departureRaw
-        ).toUpperCase();
-
+    if (!search) {
+        return allPilots;
     }
 
 
-    if(
-        departureRaw &&
-        typeof departureRaw === 'object'
-    ) {
+    return allPilots.filter(
+        pilot => {
 
-        return (
-            departureRaw.icao ||
-            departureRaw.ICAO ||
-            departureRaw.icaoCode ||
-            departureRaw.ICAOCode ||
-            departureRaw.code ||
-            departureRaw.airportCode ||
-            departureRaw.iata ||
-            departureRaw.IATA ||
-            departureRaw.identifier ||
-            null
-        );
+            const name =
+                String(
+                    pilot.name || ""
+                ).toLowerCase();
 
-    }
+            const username =
+                String(
+                    pilot.username || ""
+                ).toLowerCase();
+
+            const rank =
+                String(
+                    pilot.rank || ""
+                ).toLowerCase();
 
 
-    return null;
-}
-
-
-/* ============================================================
-   FLIGHT DATE
-   ============================================================ */
-
-function getFlightDateObject(flight) {
-
-    const raw =
-        getFlightValue(
-            flight,
-            'depTimeAct',
-            'depTime',
-            'departureTime',
-            'departureDate',
-            'date',
-            'createdAt',
-            'flightDate'
-        );
-
-
-    if(!raw) {
-        return null;
-    }
-
-
-    const date =
-        new Date(raw);
-
-
-    if(Number.isNaN(date.getTime())) {
-        return null;
-    }
-
-
-    return date;
-
-}
-
-
-function getFlightDate(flight) {
-
-    const date =
-        getFlightDateObject(flight);
-
-
-    if(!date) {
-
-        const raw =
-            getFlightValue(
-                flight,
-                'depTimeAct',
-                'depTime',
-                'departureTime',
-                'departureDate',
-                'date',
-                'createdAt',
-                'flightDate'
+            return (
+                name.includes(search) ||
+                username.includes(search) ||
+                rank.includes(search)
             );
 
-
-        return raw
-            ? escapeHtml(raw)
-            : 'Unknown date';
-
-    }
-
-
-    return date.toLocaleDateString(
-        'en-GB',
-        {
-            day:'2-digit',
-            month:'short',
-            year:'numeric'
         }
     );
-
 }
 
 
-/* ============================================================
-   RATING
-   ============================================================ */
+/* =========================================================
+   RENDER
+========================================================= */
 
-function getFlightRating(flight) {
+function renderRanking() {
 
-    const rating =
-        getFlightValue(
-            flight,
-            'rating',
-            'flightRating',
-            'score',
-            'grade',
-            'performanceRating'
-        );
-
-
-    return number(rating);
-
-}
-
-
-/* ============================================================
-   FLIGHT STARS
-   ============================================================ */
-
-function getFlightStars(flight) {
-
-    const stars =
-        getFlightValue(
-            flight,
-            'stars',
-            'earnedStars',
-            'starPoints',
-            'points'
-        );
-
-
-    return number(stars);
-
-}
-
-
-/* ============================================================
-   FLIGHT DISTANCE
-   ============================================================ */
-
-function getFlightDistance(flight) {
-
-    const distance =
-        getFlightValue(
-            flight,
-            'distance',
-            'distanceKm',
-            'distanceKM',
-            'distance_km',
-            'flightDistance',
-            'routeDistance',
-            'distanceFlown',
-            'totalDistance',
-            'distanceInKm',
-            'km'
-        );
-
-
-    let value =
-        number(distance);
-
-
-    /*
-     * Some APIs may provide distance in nautical miles.
-     */
-
-    const unit =
-        getFlightValue(
-            flight,
-            'distanceUnit',
-            'distanceUnits',
-            'unit'
-        );
-
-
-    if(
-        unit &&
-        String(unit).toLowerCase() === 'nm'
-    ) {
-
-        value *= 1.852;
-
-    }
-
-
-    return value;
-
-}
-
-
-/* ============================================================
-   MOST COMMON VALUE
-   ============================================================ */
-
-function getMostCommon(values) {
-
-    if(!values.length) {
-        return null;
-    }
-
-
-    const counts = {};
-
-
-    for(const value of values) {
-
-        if(
-            value === null ||
-            value === undefined
-        ) {
-            continue;
-        }
-
-
-        const key =
-            String(value).trim();
-
-
-        if(!key) {
-            continue;
-        }
-
-
-        counts[key] =
-            (counts[key] || 0) + 1;
-
-    }
+    const filtered =
+        filterPilots();
 
 
     const sorted =
-        Object.entries(counts)
-            .sort(
-                (a,b) =>
-                    b[1] - a[1]
-            );
-
-
-    return sorted.length
-        ? sorted[0][0]
-        : null;
-
-}
-
-
-/* ============================================================
-   CURRENT STREAK
-   ============================================================ */
-
-function calculateCurrentStreak(flights) {
-
-    if(!flights.length) {
-        return 0;
-    }
-
-
-    const dates =
-        flights
-            .map(
-                getFlightDateObject
-            )
-            .filter(Boolean)
-            .map(
-                date =>
-                    new Date(
-                        date.getFullYear(),
-                        date.getMonth(),
-                        date.getDate()
-                    ).getTime()
-            );
-
-
-    const uniqueDates =
-        [...new Set(dates)]
-            .sort(
-                (a,b) =>
-                    b - a
-            );
-
-
-    if(!uniqueDates.length) {
-        return 0;
-    }
-
-
-    const oneDay =
-        24 * 60 * 60 * 1000;
-
-
-    let streak = 1;
-
-
-    for(
-        let i = 1;
-        i < uniqueDates.length;
-        i++
-    ) {
-
-        const difference =
-            uniqueDates[i - 1] -
-            uniqueDates[i];
-
-
-        if(
-            difference === oneDay
-        ) {
-
-            streak++;
-
-        } else {
-
-            break;
-
-        }
-
-    }
-
-
-    return streak;
-
-}
-
-
-/* ============================================================
-   PILOT STATISTICS
-   ============================================================ */
-
-function calculatePilotStatistics(flights) {
-
-    const now =
-        new Date();
-
-
-    const currentYear =
-        now.getFullYear();
-
-
-    const currentMonth =
-        now.getMonth();
-
-
-    let totalDistance = 0;
-
-    let bestStars = 0;
-
-    let longestFlight = 0;
-
-    let shortestFlight = null;
-
-    let flightsThisYear = 0;
-
-    let monthlyStars = 0;
-
-    let monthlyFlightCount = 0;
-
-
-    const aircraftValues = [];
-
-    const hubValues = [];
-
-
-    for(const flight of flights) {
-
-        const distance =
-            getFlightDistance(flight);
-
-
-        const stars =
-            getFlightStars(flight);
-
-
-        const date =
-            getFlightDateObject(flight);
-
-
-        /* Total distance */
-
-        totalDistance +=
-            distance;
-
-
-        /* Best star flight */
-
-        if(
-            stars > bestStars
-        ) {
-
-            bestStars =
-                stars;
-
-        }
-
-
-        /* Longest flight */
-
-        if(
-            distance > longestFlight
-        ) {
-
-            longestFlight =
-                distance;
-
-        }
-
-
-        /* Shortest flight */
-
-        if(
-            distance > 0 &&
-            (
-                shortestFlight === null ||
-                distance < shortestFlight
-            )
-        ) {
-
-            shortestFlight =
-                distance;
-
-        }
-
-
-        /* Aircraft */
-
-        const aircraft =
-            getAircraftValue(flight);
-
-
-        if(aircraft) {
-
-            aircraftValues.push(
-                aircraft
-            );
-
-        }
-
-
-        /* Departure hub */
-
-        const departure =
-            getDepartureAirport(flight);
-
-
-        if(departure) {
-
-            hubValues.push(
-                departure
-            );
-
-        }
-
-
-        if(date) {
-
-            /* This year */
-
-            if(
-                date.getFullYear() ===
-                currentYear
-            ) {
-
-                flightsThisYear++;
-
-            }
-
-
-            /* This month */
-
-            if(
-                date.getFullYear() ===
-                currentYear &&
-                date.getMonth() ===
-                currentMonth
-            ) {
-
-                monthlyStars +=
-                    stars;
-
-                monthlyFlightCount++;
-
-            }
-
-        }
-
-    }
-
-
-    return {
-
-        totalDistance,
-
-        bestStars,
-
-        averageStarsMonth:
-            monthlyFlightCount > 0
-                ? monthlyStars /
-                  monthlyFlightCount
-                : 0,
-
-        flightsThisYear,
-
-        mostUsedAircraft:
-            getMostCommon(
-                aircraftValues
-            ),
-
-        mostUsedHub:
-            getMostCommon(
-                hubValues
-            ),
-
-        longestFlight,
-
-        shortestFlight:
-            shortestFlight ?? 0,
-
-        currentStreak:
-            calculateCurrentStreak(
-                flights
-            )
-
-    };
-
-}
-
-
-/* ============================================================
-   RENDER FLIGHTS
-   ============================================================ */
-
-function renderFlights(flights) {
-
-    const rows =
-        document.getElementById(
-            'flightRows'
+        sortPilots(
+            filtered
         );
 
 
-    if(
-        !Array.isArray(flights) ||
-        flights.length === 0
-    ) {
+    resultsCount.textContent =
+        `${sorted.length} pilot${
+            sorted.length === 1
+                ? ""
+                : "s"
+        } shown`;
 
-        rows.innerHTML = `
-            <tr>
-                <td
-                    colspan="5"
-                    class="muted"
-                >
-                    No linked flights yet.
-                </td>
-            </tr>
+
+    renderPodium();
+
+
+    if (!sorted.length) {
+
+        rankingList.innerHTML = `
+
+            <div class="ranking-message">
+
+                <div class="ranking-message-icon">
+                    🔎
+                </div>
+
+                <h3>
+                    No pilots found
+                </h3>
+
+                <p>
+                    Try another search term.
+                </p>
+
+            </div>
+
         `;
 
         return;
-
     }
 
 
-    rows.innerHTML =
-        flights.map(
-            flight => {
-
-                const rating =
-                    getFlightRating(
-                        flight
-                    );
-
-
-                const stars =
-                    getFlightStars(
-                        flight
-                    );
-
-
-                return `
-                    <tr>
-
-                        <td>
-                            <div class="flight-date">
-                                ${getFlightDate(flight)}
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="flight-route">
-                                ${getRoute(flight)}
-                            </div>
-                        </td>
-
-                        <td>
-                            ${getAircraft(flight)}
-                        </td>
-
-                        <td>
-
-                            <span
-                                class="${
-                                    rating >= 8
-                                        ? 'rating-good'
-                                        : 'rating-normal'
-                                }"
-                            >
-                                ${rating.toFixed(2)}
-                            </span>
-
-                        </td>
-
-                        <td>
-                            ${stars.toFixed(2)} ⭐
-                        </td>
-
-                    </tr>
-                `;
-
-            }
-        ).join('');
-
+    rankingList.innerHTML =
+        sorted
+            .map(
+                renderPilotRow
+            )
+            .join("");
 }
 
 
-/* ============================================================
-   RENDER RANK PROGRESS
-   ============================================================ */
+/* =========================================================
+   PODIUM
+========================================================= */
 
-function renderRankProgress(stars) {
+function renderPodium() {
 
-    const calculated =
-        calculateRank(
-            stars
-        );
-
-
-    const progressBar =
-        document.getElementById(
-            'progressBar'
-        );
-
-
-    const progressText =
-        document.getElementById(
-            'progressText'
-        );
+    const topThree =
+        [...allPilots]
+            .sort(
+                (a, b) =>
+                    Number(
+                        a.position
+                    ) -
+                    Number(
+                        b.position
+                    )
+            )
+            .slice(0, 3);
 
 
-    const percentage =
-        document.getElementById(
-            'rankProgressPercent'
-        );
+    if (!topThree.length) {
 
+        podium.innerHTML = "";
 
-    const remaining =
-        document.getElementById(
-            'starsToNextRank'
-        );
-
-
-    if(calculated.next) {
-
-        const currentMin =
-            calculated.current.min;
-
-
-        const nextMin =
-            calculated.next.min;
-
-
-        const progress =
-            Math.min(
-                100,
-                Math.max(
-                    0,
-                    (
-                        (
-                            stars -
-                            currentMin
-                        ) /
-                        (
-                            nextMin -
-                            currentMin
-                        )
-                    ) * 100
-                )
-            );
-
-
-        const starsRemaining =
-            Math.max(
-                0,
-                nextMin - stars
-            );
-
-
-        progressBar.style.width =
-            `${progress}%`;
-
-
-        progressText.textContent =
-            `${stars.toFixed(2)} / ${nextMin.toFixed(2)} ⭐ to ${calculated.next.name}`;
-
-
-        percentage.textContent =
-            `${progress.toFixed(1)}%`;
-
-
-        remaining.textContent =
-            `${starsRemaining.toFixed(2)} ⭐ remaining`;
-
-    } else {
-
-        progressBar.style.width =
-            '100%';
-
-
-        progressText.textContent =
-            'Maximum rank reached';
-
-
-        percentage.textContent =
-            '100%';
-
-
-        remaining.textContent =
-            'Maximum rank reached';
-
+        return;
     }
 
+
+    const medals = [
+        "🥇",
+        "🥈",
+        "🥉"
+    ];
+
+
+    podium.innerHTML =
+        topThree
+            .map(
+                (pilot, index) => `
+
+                    <article
+                        class="podium-card"
+                        onclick="openPilotProfile(${Number(pilot.id)})"
+                        role="button"
+                        tabindex="0"
+                        onkeydown="if(event.key === 'Enter' || event.key === ' ') openPilotProfile(${Number(pilot.id)})"
+                    >
+
+                        <div class="podium-position">
+                            ${medals[index]}
+                        </div>
+
+                        <div class="podium-name">
+                            ${escapeHtml(
+                                pilot.name
+                            )}
+                        </div>
+
+                        <div class="podium-rank">
+                            ${escapeHtml(
+                                pilot.rank ||
+                                "Cadet"
+                            )}
+                        </div>
+
+                        <div class="podium-stars">
+
+                            ⭐
+                            ${formatNumber(
+                                pilot.stars,
+                                2
+                            )}
+
+                            <small>
+                                stars
+                            </small>
+
+                        </div>
+
+                    </article>
+
+                `
+            )
+            .join("");
 }
 
 
-/* ============================================================
-   CURRENT USER RANK POSITION
-   ============================================================ */
+/* =========================================================
+   PILOT ROW
+========================================================= */
 
-function findCurrentUserPosition(rankings, user) {
+function renderPilotRow(
+    pilot
+) {
 
-    if(
-        !Array.isArray(rankings) ||
-        !user
-    ) {
-
-        return null;
-
-    }
-
-
-    const userId =
-        user.id ??
-        user.userId ??
-        user.user_id ??
-        user.pilotId ??
-        user.pilot_id ??
-        user._id;
-
-
-    if(
-        userId !== undefined &&
-        userId !== null
-    ) {
-
-        const index =
-            rankings.findIndex(
-                pilot => {
-
-                    const pilotId =
-                        pilot.id ??
-                        pilot.userId ??
-                        pilot.user_id ??
-                        pilot.pilotId ??
-                        pilot.pilot_id ??
-                        pilot._id;
-
-
-                    return (
-                        pilotId !== undefined &&
-                        pilotId !== null &&
-                        String(pilotId) ===
-                        String(userId)
-                    );
-
-                }
-            );
-
-
-        if(index !== -1) {
-
-            return (
-                rankings[index].position ||
-                index + 1
-            );
-
-        }
-
-    }
-
-
-    const username =
-        user.username;
-
-
-    if(username) {
-
-        const index =
-            rankings.findIndex(
-                pilot =>
-                    String(
-                        pilot.username ||
-                        ''
-                    ).toLowerCase() ===
-                    String(
-                        username
-                    ).toLowerCase()
-            );
-
-
-        if(index !== -1) {
-
-            return (
-                rankings[index].position ||
-                index + 1
-            );
-
-        }
-
-    }
-
-
-    const displayName =
-        user.displayName;
-
-
-    if(displayName) {
-
-        const index =
-            rankings.findIndex(
-                pilot =>
-                    String(
-                        pilot.name ||
-                        pilot.displayName ||
-                        ''
-                    ).toLowerCase() ===
-                    String(
-                        displayName
-                    ).toLowerCase()
-            );
-
-
-        if(index !== -1) {
-
-            return (
-                rankings[index].position ||
-                index + 1
-            );
-
-        }
-
-    }
-
-
-    return null;
-
-}
-
-
-/* ============================================================
-   DASHBOARD
-   ============================================================ */
-
-function renderDashboard(data) {
-
-    if(
-        !data ||
-        !data.user
-    ) {
-
-        throw new Error(
-            'Invalid pilot data received.'
-        );
-
-    }
-
-
-    document.getElementById(
-        'loggedOut'
-    ).style.display = 'none';
-
-
-    document.getElementById(
-        'account'
-    ).style.display = 'none';
-
-
-    document.getElementById(
-        'dashboard'
-    ).style.display = 'block';
-
-
-    const user =
-        data.user || {};
-
-
-    const stats =
-        data.stats || {};
+    const position =
+        Number(
+            pilot.position
+        ) || 0;
 
 
     const flights =
-        Array.isArray(data.flights)
-            ? data.flights
-            : [];
+        Number(
+            pilot.flightCount ??
+            pilot.flights ??
+            0
+        );
+
+
+    const rating =
+        Number(
+            pilot.averageRating
+        ) || 0;
+
+
+    let positionClass =
+        "";
+
+
+    if (position === 1) {
+        positionClass =
+            "top-one";
+    }
+
+    if (position === 2) {
+        positionClass =
+            "top-two";
+    }
+
+    if (position === 3) {
+        positionClass =
+            "top-three";
+    }
+
+
+    return `
+
+        <article
+            class="ranking-row"
+            onclick="openPilotProfile(${Number(pilot.id)})"
+            role="button"
+            tabindex="0"
+            onkeydown="if(event.key === 'Enter' || event.key === ' ') openPilotProfile(${Number(pilot.id)})"
+        >
+
+            <!-- POSITION -->
+
+            <div
+                class="rank-position ${positionClass}"
+            >
+                #${position}
+            </div>
+
+
+            <!-- PILOT -->
+
+            <div class="pilot-cell">
+
+                <div class="pilot-avatar">
+                    ${escapeHtml(
+                        getInitial(
+                            pilot.name
+                        )
+                    )}
+                </div>
+
+                <div class="pilot-info">
+
+                    <div class="pilot-name">
+                        ${escapeHtml(
+                            pilot.name
+                        )}
+                    </div>
+
+                    <div class="pilot-username">
+                        @${escapeHtml(
+                            pilot.username ||
+                            ""
+                        )}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RANK -->
+
+            <div class="mobile-hide">
+
+                <span class="rank-badge">
+                    ${escapeHtml(
+                        pilot.rank ||
+                        "Cadet"
+                    )}
+                </span>
+
+            </div>
+
+
+            <!-- STARS -->
+
+            <div class="mobile-hide">
+
+                <div class="stat-value stars-value">
+
+                    ⭐
+                    ${formatNumber(
+                        pilot.stars,
+                        2
+                    )}
+
+                </div>
+
+                <div class="stat-muted">
+                    total stars
+                </div>
+
+            </div>
+
+
+            <!-- FLIGHTS -->
+
+            <div class="mobile-hide">
+
+                <div class="stat-value">
+                    ${formatNumber(
+                        flights
+                    )}
+                </div>
+
+                <div class="stat-muted">
+                    flights
+                </div>
+
+            </div>
+
+
+            <!-- RATING -->
+
+            <div class="mobile-hide">
+
+                <div class="stat-value">
+
+                    ${rating.toFixed(2)}
+                    / 5
+
+                </div>
+
+                <div class="stat-muted">
+                    average
+                </div>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+/* =========================================================
+   PILOT PROFILE
+========================================================= */
+
+async function openPilotProfile(
+    pilotId
+) {
+
+    if (!pilotId) {
+        return;
+    }
+
+
+    pilotModal.classList.add(
+        "active"
+    );
+
+    pilotModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+
+    modalContent.innerHTML = `
+
+        <div class="ranking-message">
+
+            <div class="spinner"></div>
+
+            <p>
+                Loading pilot profile...
+            </p>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                apiUrl(
+                    `/api/pilots/${encodeURIComponent(pilotId)}`
+                ),
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    },
+
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            let message =
+                `HTTP ${response.status}`;
+
+            try {
+
+                const data =
+                    await response.json();
+
+                if (data.error) {
+                    message =
+                        data.error;
+                }
+
+            } catch {
+                // Ignore.
+            }
+
+            throw new Error(
+                message
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.pilot) {
+
+            throw new Error(
+                "Pilot profile was not returned by the server."
+            );
+
+        }
+
+
+        renderPilotProfile(
+            data.pilot,
+            data.flights || []
+        );
+
+
+    } catch (error) {
+
+        modalContent.innerHTML = `
+
+            <div class="ranking-message ranking-error">
+
+                <div class="ranking-message-icon">
+                    ⚠️
+                </div>
+
+                <h3>
+                    Unable to load pilot
+                </h3>
+
+                <p>
+                    ${escapeHtml(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   PROFILE CONTENT
+========================================================= */
+
+function renderPilotProfile(
+    pilot,
+    flights
+) {
+
+    const flightCount =
+        Number(
+            pilot.flightCount
+        ) || 0;
 
 
     const stars =
-        number(
-            stats.stars
-        );
+        Number(
+            pilot.stars
+        ) || 0;
 
 
-    const pilotStats =
-        calculatePilotStatistics(
-            flights
-        );
+    const rating =
+        Number(
+            pilot.averageRating
+        ) || 0;
 
 
-    /* ========================================================
-       BASIC PILOT INFORMATION
-       ======================================================== */
+    const flightHours =
+        Number(
+            pilot.flightHours
+        ) || 0;
 
-    document.getElementById(
-        'pilotName'
-    ).textContent =
-        user.displayName ||
-        user.username ||
-        'Pilot';
 
+    const distance =
+        Number(
+            pilot.distance
+        ) || 0;
 
-    const calculated =
-        calculateRank(
-            stars
-        );
 
+    modalContent.innerHTML = `
 
-    document.getElementById(
-        'rankName'
-    ).textContent =
-        calculated.current.name;
+        <div class="modal-profile">
 
+            <div class="modal-avatar">
 
-    document.getElementById(
-        'stars'
-    ).textContent =
-        stars.toFixed(2);
+                ${escapeHtml(
+                    getInitial(
+                        pilot.displayName
+                    )
+                )}
 
-
-    /* ========================================================
-       BASIC STATS
-       ======================================================== */
-
-    document.getElementById(
-        'flightCount'
-    ).textContent =
-        number(
-            stats.flightCount,
-            flights.length
-        );
-
-
-    document.getElementById(
-        'averageRating'
-    ).textContent =
-        number(
-            stats.averageRating
-        ).toFixed(2);
-
-
-    document.getElementById(
-        'flightHours'
-    ).textContent =
-        number(
-            stats.flightHours
-        ).toFixed(1);
-
-
-    /* ========================================================
-       EXTENDED STATS
-       ======================================================== */
-
-    document.getElementById(
-        'totalDistance'
-    ).textContent =
-        `${pilotStats.totalDistance.toLocaleString('en-US', {
-            maximumFractionDigits:0
-        })} km`;
-
-
-    document.getElementById(
-        'bestStarFlight'
-    ).textContent =
-        `${pilotStats.bestStars.toFixed(2)} ⭐`;
-
-
-    document.getElementById(
-        'averageStarsMonth'
-    ).textContent =
-        `${pilotStats.averageStarsMonth.toFixed(2)} ⭐`;
-
-
-    document.getElementById(
-        'flightsThisYear'
-    ).textContent =
-        pilotStats.flightsThisYear;
-
-
-    document.getElementById(
-        'mostUsedAircraft'
-    ).textContent =
-        pilotStats.mostUsedAircraft ||
-        '—';
-
-
-    document.getElementById(
-        'mostUsedHub'
-    ).textContent =
-        pilotStats.mostUsedHub ||
-        '—';
-
-
-    document.getElementById(
-        'longestFlight'
-    ).textContent =
-        pilotStats.longestFlight > 0
-            ? `${pilotStats.longestFlight.toLocaleString('en-US', {
-                maximumFractionDigits:0
-            })} km`
-            : '—';
-
-
-    document.getElementById(
-        'shortestFlight'
-    ).textContent =
-        pilotStats.shortestFlight > 0
-            ? `${pilotStats.shortestFlight.toLocaleString('en-US', {
-                maximumFractionDigits:0
-            })} km`
-            : '—';
-
-
-    document.getElementById(
-        'currentStreak'
-    ).textContent =
-        `${pilotStats.currentStreak} ${
-            pilotStats.currentStreak === 1
-                ? 'day'
-                : 'days'
-        }`;
-
-
-    /* ========================================================
-       RANK PROGRESS
-       ======================================================== */
-
-    renderRankProgress(
-        stars
-    );
-
-
-    /* ========================================================
-       NEWSKY
-       ======================================================== */
-
-    const newskyId =
-        user.newskyPilotId ||
-        user.newskyId ||
-        user.newSkyPilotId ||
-        user.newsky_pilot_id ||
-        '';
-
-
-    newskyInput.value =
-        newskyId;
-
-
-    /* ========================================================
-       DISCORD
-       ======================================================== */
-
-    const discordButton =
-        document.getElementById(
-            'discordBtn'
-        );
-
-
-    const discordMsg =
-        document.getElementById(
-            'discordMsg'
-        );
-
-
-    if(discordButton) {
-
-        const discordId =
-            user.discordId ||
-            user.discord_id ||
-            user.discordUserId ||
-            user.discord_user_id ||
-            null;
-
-
-        if(discordId) {
-
-            discordButton.textContent =
-                'Discord Connected';
-
-
-            discordButton.disabled =
-                true;
-
-
-            if(discordMsg) {
-
-                discordMsg.textContent =
-                    'Your Discord account is connected. Your Echo Air Group rank role will be synchronized automatically.';
-
-
-                discordMsg.style.display =
-                    'block';
-
-
-                discordMsg.classList.remove(
-                    'error'
-                );
-
-            }
-
-        } else {
-
-            discordButton.textContent =
-                'Connect Discord';
-
-
-            discordButton.disabled =
-                false;
-
-
-            if(discordMsg) {
-
-                discordMsg.textContent =
-                    'Connect your Discord account to receive your Echo Air Group rank role.';
-
-
-                discordMsg.style.display =
-                    'block';
-
-
-                discordMsg.classList.remove(
-                    'error'
-                );
-
-            }
-
-        }
-
-    }
-
-
-    renderFlights(
-        flights
-    );
-
-}
-
-
-/* ============================================================
-   SHOW LOGIN
-   ============================================================ */
-
-function showLoggedOut() {
-
-    document.getElementById(
-        'dashboard'
-    ).style.display = 'none';
-
-
-    document.getElementById(
-        'loggedOut'
-    ).style.display = 'block';
-
-
-    document.getElementById(
-        'account'
-    ).style.display = 'block';
-
-}
-
-
-/* ============================================================
-   LOAD CURRENT USER
-   ============================================================ */
-
-async function loadMe() {
-
-    token =
-        getAuthToken();
-
-
-    if(!token) {
-
-        showLoggedOut();
-
-        return null;
-
-    }
-
-
-    try {
-
-        const data =
-            await api('/me');
-
-
-        renderDashboard(
-            data
-        );
-
-
-        return data;
-
-    } catch(error) {
-
-        console.error(
-            'Load user error:',
-            error
-        );
-
-
-        showLoggedOut();
-
-
-        return null;
-
-    }
-
-}
-
-
-/* ============================================================
-   LEADERBOARD
-   ============================================================ */
-
-async function loadLeaderboard() {
-
-    const rows =
-        document.getElementById(
-            'leaderRows'
-        );
-
-
-    try {
-
-        const data =
-            await api('/ranking');
-
-
-        const rankings =
-            Array.isArray(
-                data.rankings
-            )
-                ? data.rankings
-                : [];
-
-
-        if(!rankings.length) {
-
-            rows.innerHTML = `
-                <tr>
-                    <td
-                        colspan="5"
-                        class="muted"
-                    >
-                        No pilots yet.
-                    </td>
-                </tr>
-            `;
-
-            return rankings;
-
-        }
-
-
-        rows.innerHTML =
-            rankings.map(
-                (pilot,index) => {
-
-                    const stars =
-                        number(
-                            pilot.stars
-                        );
-
-
-                    const rank =
-                        calculateRank(
-                            stars
-                        );
-
-
-                    return `
-                        <tr>
-
-                            <td>
-                                ${
-                                    pilot.position ||
-                                    index + 1
-                                }
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    pilot.name ||
-                                    pilot.displayName ||
-                                    pilot.username ||
-                                    'Pilot'
-                                )}
-                            </td>
-
-                            <td>
-
-                                <span class="badge">
-
-                                    ${escapeHtml(
-                                        rank.current.name
-                                    )}
-
-                                </span>
-
-                            </td>
-
-                            <td>
-                                ${stars.toFixed(2)} ⭐
-                            </td>
-
-                            <td>
-                                ${number(
-                                    pilot.flights ??
-                                    pilot.flightCount
-                                )}
-                            </td>
-
-                        </tr>
-                    `;
-
-                }
-            ).join('');
-
-
-        return rankings;
-
-    } catch(error) {
-
-        console.error(
-            'Leaderboard error:',
-            error
-        );
-
-
-        rows.innerHTML = `
-            <tr>
-                <td
-                    colspan="5"
-                    class="muted"
-                >
-                    Unable to load leaderboard.
-                </td>
-            </tr>
-        `;
-
-
-        return [];
-
-    }
-
-}
-
-
-/* ============================================================
-   PILOT SIDEBAR
-   ============================================================ */
-
-async function loadPilotSidebar(rankings = null) {
-
-    const list =
-        document.getElementById(
-            'pilotList'
-        );
-
-
-    if(!list) {
-        return;
-    }
-
-
-    try {
-
-        if(!Array.isArray(rankings)) {
-
-            const data =
-                await api('/ranking');
-
-
-            rankings =
-                Array.isArray(
-                    data.rankings
-                )
-                    ? data.rankings
-                    : [];
-
-        }
-
-
-        if(!rankings.length) {
-
-            list.innerHTML = `
-                <div class="pilot-sidebar-empty">
-                    No pilots have joined yet.
-                </div>
-            `;
-
-            return;
-
-        }
-
-
-        const pilots =
-            rankings.slice(
-                0,
-                25
-            );
-
-
-        list.innerHTML =
-            pilots.map(
-                (pilot,index) => {
-
-                    const stars =
-                        number(
-                            pilot.stars
-                        );
-
-
-                    const rank =
-                        calculateRank(
-                            stars
-                        );
-
-
-                    const name =
-                        pilot.name ||
-                        pilot.displayName ||
-                        pilot.username ||
-                        'Pilot';
-
-
-                    const avatar =
-                        String(name)
-                            .trim()
-                            .charAt(0)
-                            .toUpperCase() ||
-                        'P';
-
-
-                    const position =
-                        pilot.position ||
-                        index + 1;
-
-
-                    const pilotId =
-                        pilot.id ??
-                        pilot.userId ??
-                        pilot.user_id ??
-                        pilot.pilotId ??
-                        pilot.pilot_id ??
-                        pilot._id;
-
-
-                    const inner = `
-                        <div class="pilot-position">
-                            #${escapeHtml(position)}
-                        </div>
-
-                        <div class="pilot-avatar">
-                            ${escapeHtml(avatar)}
-                        </div>
-
-                        <div class="pilot-info">
-
-                            <span class="pilot-name">
-                                ${escapeHtml(name)}
-                            </span>
-
-                            <span class="pilot-rank">
-                                ${escapeHtml(
-                                    rank.current.name
-                                )}
-                            </span>
-
-                        </div>
-
-                        <div class="pilot-rating">
-
-                            <span class="pilot-rating-value">
-                                ${stars.toFixed(2)}
-                            </span>
-
-                            <span class="pilot-rating-label">
-                                Stars
-                            </span>
-
-                        </div>
-                    `;
-
-
-                    if(
-                        pilotId !== undefined &&
-                        pilotId !== null &&
-                        pilotId !== ''
-                    ) {
-
-                        return `
-                            <a
-                                class="pilot-item"
-                                href="pilot.html?id=${encodeURIComponent(pilotId)}"
-                            >
-                                ${inner}
-                            </a>
-                        `;
-
-                    }
-
-
-                    return `
-                        <div
-                            class="pilot-item"
-                            style="cursor:default;"
-                        >
-                            ${inner}
-                        </div>
-                    `;
-
-                }
-            ).join('');
-
-
-    } catch(error) {
-
-        console.error(
-            'Pilot sidebar error:',
-            error
-        );
-
-
-        list.innerHTML = `
-            <div class="pilot-sidebar-error">
-                Unable to load pilots.
             </div>
-        `;
 
-    }
+
+            <h2>
+                ${escapeHtml(
+                    pilot.displayName
+                )}
+            </h2>
+
+
+            <div class="modal-username">
+
+                @${escapeHtml(
+                    pilot.username
+                )}
+
+            </div>
+
+
+            <div class="modal-rank">
+
+                ${escapeHtml(
+                    pilot.rank ||
+                    "Cadet"
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-stats">
+
+
+            <div class="modal-stat">
+
+                <div class="modal-stat-label">
+                    Stars
+                </div>
+
+                <div class="modal-stat-value">
+
+                    ⭐
+                    ${formatNumber(
+                        stars,
+                        2
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-stat">
+
+                <div class="modal-stat-label">
+                    Flights
+                </div>
+
+                <div class="modal-stat-value">
+
+                    ${formatNumber(
+                        flightCount
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-stat">
+
+                <div class="modal-stat-label">
+                    Average Rating
+                </div>
+
+                <div class="modal-stat-value">
+
+                    ${rating.toFixed(2)}
+                    / 5
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-stat">
+
+                <div class="modal-stat-label">
+                    Flight Hours
+                </div>
+
+                <div class="modal-stat-value">
+
+                    ${formatNumber(
+                        flightHours,
+                        1
+                    )}
+                    h
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-stat">
+
+                <div class="modal-stat-label">
+                    Distance
+                </div>
+
+                <div class="modal-stat-value">
+
+                    ${formatNumber(
+                        distance,
+                        0
+                    )}
+                    km
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-stat">
+
+                <div class="modal-stat-label">
+                    Flights in Database
+                </div>
+
+                <div class="modal-stat-value">
+
+                    ${formatNumber(
+                        flights.length
+                    )}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
 
 }
 
 
-/* ============================================================
-   REGISTER
-   ============================================================ */
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
 
-document
-.getElementById('registerBtn')
-.addEventListener(
-    'click',
-    async () => {
+function closePilotModal() {
 
-        const username =
-            usernameInput.value.trim();
-
-
-        const password =
-            passwordInput.value;
-
-
-        if(
-            !username ||
-            !password
-        ) {
-
-            showMessage(
-                'accountMsg',
-                'Please enter a username and password.',
-                true
-            );
-
-            return;
-
-        }
-
-
-        const button =
-            document.getElementById(
-                'registerBtn'
-            );
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            'Creating…';
-
-
-        try {
-
-            const data =
-                await api(
-                    '/auth/register',
-                    {
-                        method:'POST',
-
-                        body:
-                            JSON.stringify({
-                                username,
-                                password
-                            })
-                    }
-                );
-
-
-            if(!data.token) {
-
-                throw new Error(
-                    'Registration succeeded, but the API did not return a login token.'
-                );
-
-            }
-
-
-            token =
-                data.token;
-
-
-            localStorage.setItem(
-                'echo_token',
-                token
-            );
-
-
-            showMessage(
-                'accountMsg',
-                'Account created successfully.'
-            );
-
-
-            const rankings =
-                await loadLeaderboard();
-
-
-            await loadPilotSidebar(
-                rankings
-            );
-
-
-            await loadMe();
-
-
-        } catch(error) {
-
-            showMessage(
-                'accountMsg',
-                error.message,
-                true
-            );
-
-
-        } finally {
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                'Create account';
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   LOGIN
-   ============================================================ */
-
-document
-.getElementById('loginBtn')
-.addEventListener(
-    'click',
-    async () => {
-
-        const username =
-            usernameInput.value.trim();
-
-
-        const password =
-            passwordInput.value;
-
-
-        if(
-            !username ||
-            !password
-        ) {
-
-            showMessage(
-                'accountMsg',
-                'Please enter a username and password.',
-                true
-            );
-
-            return;
-
-        }
-
-
-        const button =
-            document.getElementById(
-                'loginBtn'
-            );
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            'Signing in…';
-
-
-        try {
-
-            const data =
-                await api(
-                    '/auth/login',
-                    {
-                        method:'POST',
-
-                        body:
-                            JSON.stringify({
-                                username,
-                                password
-                            })
-                    }
-                );
-
-
-            if(!data.token) {
-
-                throw new Error(
-                    'Login succeeded, but the API did not return a token.'
-                );
-
-            }
-
-
-            token =
-                data.token;
-
-
-            localStorage.setItem(
-                'echo_token',
-                token
-            );
-
-
-            showMessage(
-                'accountMsg',
-                'Login successful.'
-            );
-
-
-            const rankings =
-                await loadLeaderboard();
-
-
-            await loadPilotSidebar(
-                rankings
-            );
-
-
-            await loadMe();
-
-
-        } catch(error) {
-
-            showMessage(
-                'accountMsg',
-                error.message,
-                true
-            );
-
-
-        } finally {
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                'Sign in';
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   DISCORD CONNECTION
-   ============================================================ */
-
-document
-.getElementById('discordBtn')
-.addEventListener(
-    'click',
-    () => {
-
-        const currentToken =
-            getAuthToken();
-
-
-        if(!currentToken) {
-
-            showMessage(
-                'discordMsg',
-                'You need to sign in before connecting Discord.',
-                true
-            );
-
-            return;
-
-        }
-
-
-        const button =
-            document.getElementById(
-                'discordBtn'
-            );
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            'Connecting…';
-
-
-        window.location.href =
-            API +
-            '/discord/login?token=' +
-            encodeURIComponent(
-                currentToken
-            );
-
-    }
-);
-
-
-/* ============================================================
-   DISCORD OAUTH CALLBACK
-   ============================================================ */
-
-(function handleDiscordCallback() {
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const discordStatus =
-        params.get(
-            'discord'
-        );
-
-
-    if(!discordStatus) {
-        return;
-    }
-
-
-    if(
-        discordStatus === 'connected'
-    ) {
-
-        window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-        );
-
-
-        showMessage(
-            'dashboardMsg',
-            'Discord account connected successfully! Your rank role will now be synchronized.'
-        );
-
-
-        setTimeout(
-            () => {
-
-                loadMe();
-
-            },
-            500
-        );
-
-    }
-
-
-    if(
-        discordStatus === 'error'
-    ) {
-
-        const reason =
-            params.get(
-                'message'
-            );
-
-
-        window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-        );
-
-
-        showMessage(
-            'dashboardMsg',
-            reason
-                ? decodeURIComponent(reason)
-                : 'Unable to connect your Discord account.',
-            true
-        );
-
-    }
-
-})();
-
-
-/* ============================================================
-   LOGOUT
-   ============================================================ */
-
-document
-.getElementById('logoutBtn')
-.addEventListener(
-    'click',
-    () => {
-
-        localStorage.removeItem(
-            'echo_token'
-        );
-
-
-        token =
-            null;
-
-
-        showLoggedOut();
-
-    }
-);
-
-
-/* ============================================================
-   LINK NEWSKY
-   ============================================================ */
-
-document
-.getElementById('linkBtn')
-.addEventListener(
-    'click',
-    async () => {
-
-        token =
-            getAuthToken();
-
-
-        const newskyPilotId =
-            newskyInput.value.trim();
-
-
-        if(!token) {
-
-            showMessage(
-                'linkMsg',
-                'You need to sign in before linking your NewSky account.',
-                true
-            );
-
-            return;
-
-        }
-
-
-        if(!newskyPilotId) {
-
-            showMessage(
-                'linkMsg',
-                'Please enter your NewSky Pilot ID.',
-                true
-            );
-
-            return;
-
-        }
-
-
-        const button =
-            document.getElementById(
-                'linkBtn'
-            );
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            'Linking…';
-
-
-        try {
-
-            const data =
-                await api(
-                    '/account/link',
-                    {
-                        method:'POST',
-
-                        body:
-                            JSON.stringify({
-                                newskyPilotId
-                            })
-                    }
-                );
-
-
-            showMessage(
-                'linkMsg',
-                data.message ||
-                'NewSky Pilot ID linked successfully.'
-            );
-
-
-            await loadMe();
-
-
-        } catch(error) {
-
-            console.error(
-                'NewSky link error:',
-                error
-            );
-
-
-            showMessage(
-                'linkMsg',
-                error.message ||
-                'Unable to link NewSky account.',
-                true
-            );
-
-
-        } finally {
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                'Link NewSky account';
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   SYNC FLIGHTS
-   ============================================================ */
-
-document
-.getElementById('syncBtn')
-.addEventListener(
-    'click',
-    async () => {
-
-        token =
-            getAuthToken();
-
-
-        if(!token) {
-
-            showMessage(
-                'dashboardMsg',
-                'You are not signed in. Please sign in again.',
-                true
-            );
-
-            showLoggedOut();
-
-            return;
-
-        }
-
-
-        const button =
-            document.getElementById(
-                'syncBtn'
-            );
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            'Syncing…';
-
-
-        showMessage(
-            'dashboardMsg',
-            'Synchronizing your NewSky flights…'
-        );
-
-
-        try {
-
-            const data =
-                await api(
-                    '/sync/me',
-                    {
-                        method:'POST'
-                    }
-                );
-
-
-            showMessage(
-                'dashboardMsg',
-                data.message ||
-                'Flights synchronized successfully.'
-            );
-
-
-            const rankings =
-                await loadLeaderboard();
-
-
-            await loadPilotSidebar(
-                rankings
-            );
-
-
-            await loadMe();
-
-
-        } catch(error) {
-
-            console.error(
-                'Sync error:',
-                error
-            );
-
-
-            if(
-                !getAuthToken()
-            ) {
-
-                showLoggedOut();
-
-
-                showMessage(
-                    'accountMsg',
-                    'Your login session is no longer valid. Please sign in again.',
-                    true
-                );
-
-            } else {
-
-                showMessage(
-                    'dashboardMsg',
-                    error.message ||
-                    'Unable to synchronize flights.',
-                    true
-                );
-
-            }
-
-        } finally {
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                'Sync flights';
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   HEADER SCROLL
-   ============================================================ */
-
-const siteHeader =
-    document.getElementById(
-        'siteHeader'
+    pilotModal.classList.remove(
+        "active"
     );
 
-
-let lastScrollY =
-    0;
-
-
-window.addEventListener(
-    'scroll',
-    () => {
-
-        const currentScroll =
-            window.scrollY;
-
-
-        if(currentScroll > 20) {
-
-            siteHeader.classList.add(
-                'scrolled'
-            );
-
-        } else {
-
-            siteHeader.classList.remove(
-                'scrolled'
-            );
-
-        }
-
-
-        if(
-            currentScroll > 150 &&
-            currentScroll > lastScrollY
-        ) {
-
-            siteHeader.classList.add(
-                'hide-on-scroll'
-            );
-
-        } else {
-
-            siteHeader.classList.remove(
-                'hide-on-scroll'
-            );
-
-        }
-
-
-        lastScrollY =
-            currentScroll <= 0
-                ? 0
-                : currentScroll;
-
-    }
-);
-
-
-/* ============================================================
-   MOBILE MENU
-   ============================================================ */
-
-function toggleMenu() {
-
-    const nav =
-        document.getElementById(
-            'mobileNav'
-        );
-
-
-    const button =
-        document.getElementById(
-            'menuButton'
-        );
-
-
-    nav.classList.toggle(
-        'open'
+    pilotModal.setAttribute(
+        "aria-hidden",
+        "true"
     );
 
-
-    document.body.classList.toggle(
-        'menu-open'
-    );
-
-
-    const open =
-        nav.classList.contains(
-            'open'
-        );
-
-
-    button.setAttribute(
-        'aria-expanded',
-        open
-    );
+    document.body.style.overflow =
+        "";
 
 }
 
 
-/* ============================================================
-   START
-   ============================================================ */
-
-(async function init() {
-
-    const rankings =
-        await loadLeaderboard();
+modalClose.addEventListener(
+    "click",
+    closePilotModal
+);
 
 
-    await loadPilotSidebar(
-        rankings
-    );
+pilotModal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            pilotModal
+        ) {
+            closePilotModal();
+        }
+
+    }
+);
 
 
-    await loadMe();
+document.addEventListener(
+    "keydown",
+    event => {
 
-})();
+        if (
+            event.key === "Escape"
+        ) {
+            closePilotModal();
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+searchInput.addEventListener(
+    "input",
+    renderRanking
+);
+
+
+/* =========================================================
+   SORT
+========================================================= */
+
+sortSelect.addEventListener(
+    "change",
+    renderRanking
+);
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+refreshButton.addEventListener(
+    "click",
+    loadRanking
+);
+
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById(
+    "currentYear"
+).textContent =
+    new Date().getFullYear();
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+loadRanking();
 
 </script>
 
+
 </body>
+
 </html>
