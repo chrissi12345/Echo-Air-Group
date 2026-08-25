@@ -2090,9 +2090,16 @@ app.get(
                 achievements:
                     getAchievements(stats),
 
+                /*
+                 * IMPORTANT:
+                 *
+                 * Do NOT use .slice(0, 100) here.
+                 *
+                 * This endpoint now returns every flight
+                 * stored for the logged-in pilot.
+                 */
                 flights:
                     stats.flights
-                        .slice(0, 100)
                         .map(formatFlight)
             });
 
@@ -2810,6 +2817,12 @@ const NEWSKY_MIN_DATE =
     process.env.NEWSKY_HISTORY_START ||
     "2020-01-01";
 
+/*
+ * NewSky allows pagination.
+ *
+ * 100 is NOT the total number of flights.
+ * It is simply the number of flights requested per page.
+ */
 const NEWSKY_PAGE_SIZE =
     100;
 
@@ -3112,6 +3125,86 @@ function extractFlights(data) {
 }
 
 // ============================================================
+// GET TOTAL RESULT COUNT FROM NEWSKY RESPONSE
+// ============================================================
+
+function getTotalResultCount(data) {
+
+    const possibleValues = [
+
+        firstValue(
+            data,
+            [
+                "totalResults",
+                "totalCount",
+                "total",
+                "count"
+            ]
+        ),
+
+        data?.data
+            ? firstValue(
+                data.data,
+                [
+                    "totalResults",
+                    "totalCount",
+                    "total",
+                    "count"
+                ]
+            )
+            : null,
+
+        data?.meta
+            ? firstValue(
+                data.meta,
+                [
+                    "totalResults",
+                    "totalCount",
+                    "total",
+                    "count"
+                ]
+            )
+            : null,
+
+        data?.pagination
+            ? firstValue(
+                data.pagination,
+                [
+                    "totalResults",
+                    "totalCount",
+                    "total"
+                ]
+            )
+            : null
+    ];
+
+    for (
+        const value of possibleValues
+    ) {
+
+        if (
+            value !== null &&
+            value !== undefined &&
+            value !== ""
+        ) {
+
+            const number =
+                Number(value);
+
+            if (
+                Number.isFinite(number) &&
+                number >= 0
+            ) {
+
+                return number;
+            }
+        }
+    }
+
+    return null;
+}
+
+// ============================================================
 // GET ALL ECHO AIR GROUP FLIGHTS
 // ============================================================
 
@@ -3163,6 +3256,9 @@ async function getAllNewSkyFlights() {
         `History end: ${today}`
     );
     console.log(
+        `Page size: ${NEWSKY_PAGE_SIZE}`
+    );
+    console.log(
         "============================================================"
     );
     console.log("");
@@ -3198,10 +3294,18 @@ async function getAllNewSkyFlights() {
 
         let page = 0;
 
+        let rangeFlights = 0;
+
         while (true) {
 
             page++;
 
+            /*
+             * Respect the NewSky rate limit between requests.
+             *
+             * We intentionally wait before every request after
+             * the first request of the entire sync.
+             */
             if (
                 allFlights.length > 0
             ) {
@@ -3212,7 +3316,7 @@ async function getAllNewSkyFlights() {
             }
 
             console.log(
-                `Fetching page ${page} | skip=${skip}`
+                `Fetching page ${page} | skip=${skip} | count=${NEWSKY_PAGE_SIZE}`
             );
 
             const data =
@@ -3227,30 +3331,27 @@ async function getAllNewSkyFlights() {
                 extractFlights(data);
 
             const totalResults =
-                toNumber(
-                    firstValue(
-                        data,
-                        [
-                            "totalResults",
-                            "total",
-                            "totalCount"
-                        ]
-                    ),
-                    0
-                );
+                getTotalResultCount(data);
 
             console.log(
                 `Received ${flights.length} flight(s)` +
                 (
-                    totalResults > 0
+                    totalResults !== null
                         ? ` | total in range: ${totalResults}`
                         : ""
                 )
             );
 
+            /*
+             * No results means there are no more pages.
+             */
             if (
                 flights.length === 0
             ) {
+
+                console.log(
+                    "No more flights in this date range."
+                );
 
                 break;
             }
@@ -3259,26 +3360,72 @@ async function getAllNewSkyFlights() {
                 ...flights
             );
 
+            rangeFlights +=
+                flights.length;
+
+            /*
+             * If NewSky tells us the total number of flights
+             * and we have reached it, stop.
+             */
+            if (
+                totalResults !== null &&
+                skip + flights.length >=
+                    totalResults
+            ) {
+
+                console.log(
+                    `Reached NewSky total of ${totalResults} flight(s).`
+                );
+
+                break;
+            }
+
+            /*
+             * If fewer than PAGE_SIZE flights were returned,
+             * this is the final page.
+             */
             if (
                 flights.length <
                 NEWSKY_PAGE_SIZE
             ) {
 
+                console.log(
+                    "Final partial page received."
+                );
+
                 break;
             }
 
+            /*
+             * IMPORTANT:
+             *
+             * If exactly 100 flights are returned, that does NOT
+             * mean there are only 100 flights.
+             *
+             * Move to the next page.
+             */
+            skip +=
+                flights.length;
+
+            /*
+             * Safety protection.
+             *
+             * Prevent an unexpected API response from causing
+             * an infinite pagination loop.
+             */
             if (
-                totalResults > 0 &&
-                skip + flights.length >=
-                    totalResults
+                page > 10000
             ) {
 
-                break;
+                throw new Error(
+                    `Pagination safety limit reached for ${rangeStart} -> ${rangeEnd}.`
+                );
             }
-
-            skip +=
-                NEWSKY_PAGE_SIZE;
         }
+
+        console.log(
+            `Date range complete: ${rangeFlights} flight(s) received.`
+        );
 
         rangeStart =
             addDays(
@@ -3287,8 +3434,17 @@ async function getAllNewSkyFlights() {
             );
     }
 
+    /*
+     * NewSky data can theoretically contain the same flight
+     * more than once across pages/date ranges.
+     *
+     * Deduplicate by NewSky flight ID.
+     */
     const unique =
         new Map();
+
+    let flightsWithoutId =
+        0;
 
     for (
         const flight of allFlights
@@ -3305,6 +3461,10 @@ async function getAllNewSkyFlights() {
                 String(id),
                 flight
             );
+
+        } else {
+
+            flightsWithoutId++;
         }
     }
 
@@ -3322,6 +3482,9 @@ async function getAllNewSkyFlights() {
     );
     console.log(
         `Raw flights received: ${allFlights.length}`
+    );
+    console.log(
+        `Flights without an ID: ${flightsWithoutId}`
     );
     console.log(
         `Unique flights: ${result.length}`
@@ -4122,9 +4285,16 @@ app.get(
                         user.created_at
                 },
 
+                /*
+                 * IMPORTANT:
+                 *
+                 * No .slice(0, 100) here.
+                 *
+                 * Public pilot profiles now receive
+                 * the complete flight history.
+                 */
                 flights:
                     stats.flights
-                        .slice(0, 100)
                         .map(formatFlight)
             });
 
