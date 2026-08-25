@@ -182,7 +182,32 @@ header.hide-on-scroll {
     transform:translateY(-100%);
 }
 
+.show-all-flights-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 11px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
 
+.show-all-flights-btn:hover {
+    background: rgba(255, 255, 255, 0.11);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+}
+
+.show-all-flights-btn:active {
+    transform: translateY(0);
+}
 /* ============================================================
    NAVIGATION
    ============================================================ */
@@ -4141,13 +4166,23 @@ function calculateFlightStatistics(
    ============================================================ */
 
 function renderFlights(
-    flights
+    flights,
+    showAll = false
 ) {
 
     const rows =
         document.getElementById(
             'flightRows'
         );
+
+
+    if(
+        !rows
+    ) {
+
+        return;
+
+    }
 
 
     if(
@@ -4175,9 +4210,27 @@ function renderFlights(
     }
 
 
+    /*
+     * Show the 20 most recent flights by default.
+     * When showAll is true, show every flight.
+     */
+
+    const visibleFlights =
+
+        showAll
+
+            ? flights
+
+            : flights.slice(
+                0,
+                20
+            );
+
+
     rows.innerHTML =
 
-        flights
+        visibleFlights
+
         .map(
             flight => {
 
@@ -4291,10 +4344,94 @@ function renderFlights(
 
             }
         )
+
         .join('');
 
-}
 
+    /*
+     * Remove an existing flight button.
+     */
+
+    const oldButton =
+        document.getElementById(
+            'showAllFlightsBtn'
+        );
+
+
+    if(
+        oldButton
+    ) {
+
+        oldButton.remove();
+
+    }
+
+
+    /*
+     * Only show the button when there are
+     * more than 20 flights.
+     */
+
+    if(
+        flights.length > 20 &&
+        !showAll
+    ) {
+
+        const table =
+            rows.closest(
+                'table'
+            );
+
+
+        if(
+            table
+        ) {
+
+            const button =
+                document.createElement(
+                    'button'
+                );
+
+
+            button.id =
+                'showAllFlightsBtn';
+
+
+            button.type =
+                'button';
+
+
+            button.className =
+                'show-all-flights-btn';
+
+
+            button.textContent =
+                `Show all flights (${flights.length})`;
+
+
+            button.addEventListener(
+                'click',
+                () => {
+
+                    renderFlights(
+                        flights,
+                        true
+                    );
+
+                }
+            );
+
+
+            table.insertAdjacentElement(
+                'afterend',
+                button
+            );
+
+        }
+
+    }
+
+}
 
 /* ============================================================
    DASHBOARD
