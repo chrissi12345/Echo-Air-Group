@@ -23,6 +23,10 @@
 
 <style>
 
+/* ============================================================
+   VARIABLES
+   ============================================================ */
+
 :root {
     --green:#ace336;
     --green-dark:#6e9c1e;
@@ -44,6 +48,11 @@
 
     --header-height:100px;
 }
+
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
 
 * {
     box-sizing:border-box;
@@ -515,6 +524,8 @@ header.hide-on-scroll {
 }
 
 .stat {
+    min-width:0;
+
     padding:14px;
 
     background:#f5f7f3;
@@ -528,319 +539,64 @@ header.hide-on-scroll {
     margin-bottom:4px;
 
     color:#7b857a;
+
+    font-size:10px;
+    font-weight:700;
+
+    text-transform:uppercase;
+    letter-spacing:.04em;
 }
 
 .stat b {
-    font-size:20px;
-}
-
-/* ============================================================
-   DETAILED PILOT STATISTICS
-   ============================================================ */
-
-.detailed-stats {
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:12px;
-    margin-top:12px;
-}
-
-.detail-stat {
-    padding:14px;
-    background:#f8faf7;
-    border:1px solid #e8ede5;
-    border-radius:12px;
-    min-width:0;
-}
-
-.detail-stat small {
     display:block;
-    margin-bottom:5px;
-    color:#7b857a;
-    font-size:10px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.05em;
-}
 
-.detail-stat b {
-    display:block;
     overflow:hidden;
-    color:#273025;
-    font-size:15px;
-    line-height:1.25;
+
+    font-size:20px;
+
     text-overflow:ellipsis;
     white-space:nowrap;
 }
 
-.detail-stat-wide {
-    grid-column:1 / -1;
-}
-
-.detail-stat span {
-    display:block;
-    margin-top:4px;
-    color:#8a9488;
-    font-size:10px;
-    line-height:1.35;
-}
-
-.rank-progress-card {
-    margin-top:22px;
-    padding:16px;
-    background:#f5f7f3;
-    border:1px solid #e1e6df;
-    border-radius:14px;
-}
-
-.rank-progress-head {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.rank-progress-head strong {
-    font-size:13px;
-}
-
-.rank-progress-head span {
-    color:#687267;
-    font-size:12px;
-    font-weight:700;
-}
-
-@media(max-width:850px) {
-    .detailed-stats {
-        grid-template-columns:1fr 1fr;
-    }
-}
-
-@media(max-width:520px) {
-    .detailed-stats {
-        grid-template-columns:1fr;
-    }
-}
-
-
 
 /* ============================================================
-   PILOT OVERVIEW / PRIMARY STATS
+   EXTENDED PILOT STATISTICS
    ============================================================ */
 
-.pilot-overview-card {
-    padding:30px;
+.pilot-stat-grid {
+    grid-template-columns:
+        repeat(3,1fr);
 }
 
-.hero-stats {
-    display:grid;
-    grid-template-columns:repeat(3, minmax(0,1fr));
-    gap:12px;
-    margin-top:24px;
-}
+.pilot-stat-grid .stat {
+    min-height:82px;
 
-.hero-stat {
-    padding:16px;
-    background:#f5f7f3;
-    border:1px solid #e5eae2;
-    border-radius:14px;
-    min-width:0;
-}
-
-.hero-stat small {
-    display:block;
-    margin-bottom:7px;
-    color:#7b857a;
-    font-size:10px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-}
-
-.hero-stat b {
-    display:block;
-    color:#273025;
-    font-size:20px;
-    line-height:1.15;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.stats-toggle {
-    width:100%;
-    margin-top:18px;
-    padding:13px 16px;
     display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    border:1px solid #dfe5dc;
-    border-radius:12px;
-    background:#fff;
-    color:#273025;
-    font-weight:800;
-    cursor:pointer;
-    transition:background .2s ease, border-color .2s ease;
-}
-
-.stats-toggle:hover {
-    background:#f5f7f3;
-    border-color:#cfd8ca;
-}
-
-.stats-toggle span {
-    color:var(--green-dark);
-    font-size:20px;
-    line-height:1;
-}
-
-.detailed-stats[hidden] {
-    display:none;
-}
-
-.panel-heading-row {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-    margin-bottom:16px;
-}
-
-.panel-heading-row h3 {
-    margin:0 0 4px;
-}
-
-.panel-subtitle {
-    margin:0;
-    color:#7b857a;
-    font-size:12px;
-    line-height:1.5;
-}
-
-.recent-flights-footer {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-    margin-top:16px;
-    padding-top:15px;
-    border-top:1px solid #e8ede5;
-    color:#687267;
-    font-size:12px;
-}
-
-.modal {
-    position:fixed;
-    inset:0;
-    z-index:5000;
-    display:none;
-    align-items:center;
+    flex-direction:column;
     justify-content:center;
-    padding:20px;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
 }
 
-.modal.open {
-    display:flex;
+.pilot-stat-grid .stat:hover {
+    transform:translateY(-2px);
+
+    background:#f1f5ed;
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,.05);
 }
 
-.modal-backdrop {
-    position:absolute;
-    inset:0;
-    background:rgba(9,13,8,.72);
-    backdrop-filter:blur(5px);
+.pilot-stat-grid .stat b {
+    font-size:17px;
 }
 
-.modal-dialog {
-    position:relative;
-    z-index:2;
-    width:min(1050px, 100%);
-    max-height:min(88vh, 900px);
-    overflow:hidden;
-    background:#fff;
-    border:1px solid #dfe5dc;
-    border-radius:18px;
-    box-shadow:0 30px 80px rgba(0,0,0,.28);
-}
-
-.modal-header {
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:20px;
-    padding:24px;
-    border-bottom:1px solid #e8ede5;
-}
-
-.modal-header h3 {
-    margin:0 0 4px;
-}
-
-.modal-close {
-    width:38px;
-    height:38px;
-    flex-shrink:0;
-    border-radius:10px;
-    background:#f1f3ef;
-    color:#273025;
-    font-size:24px;
-    line-height:1;
-    cursor:pointer;
-    transition:background .2s ease, transform .2s ease;
-}
-
-.modal-close:hover {
-    background:#e7ebe4;
-    transform:translateY(-1px);
-}
-
-.modal-table-wrap {
-    max-height:calc(88vh - 110px);
-}
-
-@media(max-width:1050px) {
-    .hero-stats {
-        grid-template-columns:repeat(3, minmax(0,1fr));
-    }
-}
-
-@media(max-width:850px) {
-    .hero-stats {
-        grid-template-columns:repeat(2, minmax(0,1fr));
-    }
-
-    .panel-heading-row,
-    .recent-flights-footer {
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .panel-heading-row .btn,
-    .recent-flights-footer .btn {
-        width:100%;
-    }
-}
-
-@media(max-width:520px) {
-    .hero-stats {
-        grid-template-columns:1fr 1fr;
-    }
-
-    .hero-stat b {
-        font-size:18px;
-    }
-
-    .modal {
-        padding:10px;
-    }
-
-    .modal-header {
-        padding:18px;
-    }
-}
 
 /* ============================================================
-   PROGRESS
+   RANK PROGRESS
    ============================================================ */
 
 .progress {
@@ -863,6 +619,93 @@ header.hide-on-scroll {
 
     transition:
         width .4s ease;
+}
+
+.rank-progress-panel {
+    margin-top:24px;
+    padding:18px;
+
+    border:
+        1px solid #dfe5dc;
+
+    border-radius:14px;
+
+    background:#f8faf6;
+}
+
+.rank-progress-top {
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+.rank-progress-top .eyebrow {
+    margin-bottom:4px;
+}
+
+.rank-progress-top strong {
+    display:block;
+
+    color:#273025;
+
+    font-size:28px;
+    line-height:1;
+}
+
+.rank-position-label {
+    display:block;
+
+    margin-top:4px;
+
+    color:#7b857a;
+
+    font-size:10px;
+    font-weight:700;
+
+    text-transform:uppercase;
+}
+
+.rank-progress-percent {
+    text-align:right;
+}
+
+.rank-progress-percent strong {
+    color:var(--green-dark);
+
+    font-size:24px;
+}
+
+.rank-progress-percent span {
+    display:block;
+
+    margin-top:3px;
+
+    color:#7b857a;
+
+    font-size:10px;
+    font-weight:700;
+}
+
+.rank-progress {
+    margin:18px 0 9px;
+}
+
+.rank-progress-bottom {
+    display:flex;
+    justify-content:space-between;
+
+    gap:15px;
+
+    color:#687267;
+
+    font-size:11px;
+    font-weight:600;
+}
+
+.rank-progress-bottom span:last-child {
+    text-align:right;
 }
 
 
@@ -1498,7 +1341,7 @@ footer p {
         grid-column:auto;
     }
 
-    .stat-grid {
+    .pilot-stat-grid {
         grid-template-columns:
             1fr 1fr;
     }
@@ -1514,6 +1357,7 @@ footer p {
     .pagehero {
         padding:140px 0 70px;
     }
+
 }
 
 @media(max-width:520px) {
@@ -1543,7 +1387,7 @@ footer p {
         font-size:43px;
     }
 
-    .stat-grid {
+    .pilot-stat-grid {
         grid-template-columns:1fr;
     }
 
@@ -1562,8 +1406,20 @@ footer p {
         padding:13px 14px;
     }
 
-}
+    .rank-progress-top {
+        align-items:flex-start;
+    }
 
+    .rank-progress-bottom {
+        flex-direction:column;
+        gap:5px;
+    }
+
+    .rank-progress-bottom span:last-child {
+        text-align:left;
+    }
+
+}
 </style>
 
 </head>
@@ -1751,41 +1607,18 @@ footer p {
     <div class="stat-grid">
 
         <div class="stat">
-
-            <small>
-                Cadet
-            </small>
-
-            <b>
-                0–999.99 ⭐
-            </b>
-
+            <small>Cadet</small>
+            <b>0–999.99 ⭐</b>
         </div>
 
-
         <div class="stat">
-
-            <small>
-                First Officer
-            </small>
-
-            <b>
-                1000+ ⭐
-            </b>
-
+            <small>First Officer</small>
+            <b>1000+ ⭐</b>
         </div>
 
-
         <div class="stat">
-
-            <small>
-                Next ranks
-            </small>
-
-            <b>
-                Keep flying
-            </b>
-
+            <small>Next ranks</small>
+            <b>Keep flying</b>
         </div>
 
     </div>
@@ -1806,7 +1639,11 @@ footer p {
 <div class="ranking-hero">
 
 
-<div class="rank-card pilot-overview-card">
+<!-- ============================================================
+     PILOT DASHBOARD
+     ============================================================ -->
+
+<div class="rank-card">
 
     <span class="eyebrow">
         Your rank
@@ -1816,138 +1653,207 @@ footer p {
         Pilot
     </h2>
 
-    <div class="rank-number" id="rankName">
+    <div
+        class="rank-number"
+        id="rankName"
+    >
         Cadet
     </div>
 
-    <div class="hero-stats">
+    <div class="stars">
 
-        <div class="hero-stat">
-            <small>Flights</small>
+        <span id="stars">
+            0.00
+        </span>
+
+        ⭐
+
+    </div>
+
+
+    <!-- ========================================================
+         EXTENDED STATISTICS
+         ======================================================== -->
+
+    <div class="stat-grid pilot-stat-grid">
+
+        <div class="stat">
+            <small>Total Flights</small>
             <b id="flightCount">0</b>
         </div>
 
-        <div class="hero-stat">
-            <small>Average rating</small>
-            <b id="averageRating">0.00</b>
-        </div>
-
-        <div class="hero-stat">
-            <small>Flight hours</small>
+        <div class="stat">
+            <small>Flight Hours</small>
             <b id="flightHours">0.0</b>
         </div>
 
-    </div>
-
-    <button class="stats-toggle" id="statsToggle" type="button" aria-expanded="false" aria-controls="moreStats">
-        Show more statistics <span>＋</span>
-    </button>
-
-    <div class="detailed-stats" id="moreStats" hidden>
-
-        <div class="detail-stat">
-            <small>Total stars</small>
-            <b><span id="stars">0.00</span> ⭐</b>
+        <div class="stat">
+            <small>Average Rating</small>
+            <b id="averageRating">0.00</b>
         </div>
 
-        <div class="detail-stat">
-            <small>Rank position</small>
-            <b id="rankPosition">—</b>
+        <div class="stat">
+            <small>Total Distance</small>
+            <b id="totalDistance">0 km</b>
         </div>
 
-        <div class="detail-stat">
-            <small>Stars to next rank</small>
-            <b id="starsToNextRank">0.00 ⭐ remaining</b>
-        </div>
-
-        <div class="detail-stat">
-            <small>Rank progress</small>
-            <b id="nextRankLabel">Next rank</b>
-            <span id="nextRankPercent">0.0%</span>
-        </div>
-
-        <div class="detail-stat">
-            <small>Total distance</small>
-            <b id="totalDistance">0 nm</b>
-        </div>
-
-        <div class="detail-stat">
-            <small>Best star flight</small>
+        <div class="stat">
+            <small>Best Star Flight</small>
             <b id="bestStarFlight">0.00 ⭐</b>
-            <span id="bestStarFlightRoute">No flights yet</span>
         </div>
 
-        <div class="detail-stat">
-            <small>Average stars this month</small>
+        <div class="stat">
+            <small>Avg Stars This Month</small>
             <b id="averageStarsMonth">0.00 ⭐</b>
         </div>
 
-        <div class="detail-stat">
-            <small>Flights this year</small>
+        <div class="stat">
+            <small>Flights This Year</small>
             <b id="flightsThisYear">0</b>
         </div>
 
-        <div class="detail-stat">
-            <small>Most used aircraft</small>
+        <div class="stat">
+            <small>Most Used Aircraft</small>
             <b id="mostUsedAircraft">—</b>
         </div>
 
-        <div class="detail-stat">
-            <small>Most used hub</small>
+        <div class="stat">
+            <small>Most Used Hub</small>
             <b id="mostUsedHub">—</b>
         </div>
 
-        <div class="detail-stat">
-            <small>Longest flight</small>
-            <b id="longestFlight">—</b>
-            <span id="longestFlightRoute">—</span>
+        <div class="stat">
+            <small>Longest Flight</small>
+            <b id="longestFlight">0 km</b>
         </div>
 
-        <div class="detail-stat">
-            <small>Shortest flight</small>
-            <b id="shortestFlight">—</b>
-            <span id="shortestFlightRoute">—</span>
+        <div class="stat">
+            <small>Shortest Flight</small>
+            <b id="shortestFlight">0 km</b>
         </div>
 
-        <div class="detail-stat">
-            <small>Current streak</small>
+        <div class="stat">
+            <small>Current Streak</small>
             <b id="currentStreak">0 days</b>
-            <span>Consecutive flying days</span>
         </div>
 
     </div>
 
-    <div class="detail-stat detail-stat-wide">
-        <small>Rank progress</small>
-        <div class="rank-progress-head">
-            <strong id="nextRankLabel">Next rank</strong>
-            <span id="nextRankPercent">0.0%</span>
+
+    <!-- ========================================================
+         RANK PROGRESS
+         ======================================================== -->
+
+    <div class="rank-progress-panel">
+
+        <div class="rank-progress-top">
+
+            <div>
+
+                <span class="eyebrow">
+                    Leaderboard
+                </span>
+
+                <strong id="rankPosition">
+                    #—
+                </strong>
+
+                <span class="rank-position-label">
+                    Current position
+                </span>
+
+            </div>
+
+
+            <div class="rank-progress-percent">
+
+                <strong id="rankProgressPercent">
+                    0%
+                </strong>
+
+                <span>
+                    to next rank
+                </span>
+
+            </div>
+
         </div>
-        <div class="progress" style="margin-top:10px;">
-            <div id="detailedProgressBar"></div>
+
+
+        <div class="progress rank-progress">
+
+            <div id="progressBar"></div>
+
         </div>
-        <span id="starsToNextRank">0.00 ⭐ remaining</span>
+
+
+        <div class="rank-progress-bottom">
+
+            <span id="progressText">
+                0.00 / 1000.00 ⭐ to First Officer
+            </span>
+
+            <span id="starsToNextRank">
+                1000.00 ⭐ remaining
+            </span>
+
+        </div>
+
     </div>
+
+
+    <!-- ========================================================
+         ACTIONS
+         ======================================================== -->
 
     <div class="actions">
-        <button class="btn btn-primary" id="syncBtn" type="button">
+
+        <button
+            class="btn btn-primary"
+            id="syncBtn"
+            type="button"
+        >
             Sync flights
         </button>
 
-        <button class="btn" id="discordBtn" type="button">
+
+        <button
+            class="btn"
+            id="discordBtn"
+            type="button"
+        >
             Connect Discord
         </button>
 
-        <button class="btn" id="logoutBtn" type="button">
+
+        <button
+            class="btn"
+            id="logoutBtn"
+            type="button"
+        >
             Log out
         </button>
+
     </div>
 
-    <div class="message" id="dashboardMsg"></div>
-    <div class="message" id="discordMsg"></div>
+
+    <div
+        class="message"
+        id="dashboardMsg"
+    ></div>
+
+
+    <div
+        class="message"
+        id="discordMsg"
+    ></div>
 
 </div>
 
+
+<!-- ============================================================
+     NEWSKY CONNECTION
+     ============================================================ -->
 
 <div class="rank-card">
 
@@ -2103,82 +2009,50 @@ footer p {
      RECENT FLIGHTS
      ============================================================ -->
 
-<div class="panel recent-flights-panel">
+<div class="panel">
 
-    <div class="panel-heading-row">
-        <div>
-            <h3>Recent flights</h3>
-            <p class="panel-subtitle">Showing the 20 most recent flights.</p>
-        </div>
-        <button class="btn" id="viewAllFlightsBtn" type="button">
-            View all flights
-        </button>
-    </div>
+<h3>
+    Recent flights
+</h3>
 
-    <div class="table-wrap">
+<div class="table-wrap">
 
-        <table>
+<table>
 
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Route</th>
-                    <th>Aircraft</th>
-                    <th>Rating</th>
-                    <th>Stars</th>
-                </tr>
-            </thead>
+<thead>
 
-            <tbody id="flightRows">
-                <tr>
-                    <td colspan="5" class="muted">
-                        No flights loaded.
-                    </td>
-                </tr>
-            </tbody>
+<tr>
+    <th>Date</th>
+    <th>Route</th>
+    <th>Aircraft</th>
+    <th>Rating</th>
+    <th>Stars</th>
+</tr>
 
-        </table>
+</thead>
 
-    </div>
 
-    <div class="recent-flights-footer">
-        <span id="recentFlightsCount">0 flights</span>
-    </div>
+<tbody id="flightRows">
+
+<tr>
+
+<td
+    colspan="5"
+    class="muted"
+>
+    No flights loaded.
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 </div>
 
-<!-- ALL FLIGHTS MODAL -->
-<div class="modal" id="allFlightsModal" aria-hidden="true">
-    <div class="modal-backdrop" data-close-modal></div>
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="allFlightsTitle">
-        <div class="modal-header">
-            <div>
-                <span class="eyebrow">Flight history</span>
-                <h3 id="allFlightsTitle">All flights</h3>
-                <p class="panel-subtitle" id="allFlightsCount">0 flights</p>
-            </div>
-            <button class="modal-close" id="closeAllFlights" type="button" aria-label="Close">×</button>
-        </div>
-        <div class="table-wrap modal-table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Route</th>
-                        <th>Aircraft</th>
-                        <th>Rating</th>
-                        <th>Stars</th>
-                    </tr>
-                </thead>
-                <tbody id="allFlightRows">
-                    <tr>
-                        <td colspan="5" class="muted">No flights loaded.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
+
 
 <!-- ============================================================
      LEADERBOARD
@@ -2415,9 +2289,11 @@ async function api(path, options = {}) {
 
     const headers = {
         'Accept':'application/json',
+
         ...(options.body
             ? {'Content-Type':'application/json'}
             : {}),
+
         ...(options.headers || {})
     };
 
@@ -2807,7 +2683,7 @@ function getRoute(flight) {
    AIRCRAFT
    ============================================================ */
 
-function getAircraft(flight) {
+function getAircraftValue(flight) {
 
     const aircraft =
         getFlightValue(
@@ -2830,7 +2706,7 @@ function getAircraft(flight) {
         aircraft !== null
     ) {
 
-        return escapeHtml(
+        return (
             aircraft.name ||
             aircraft.model ||
             aircraft.icao ||
@@ -2842,41 +2718,81 @@ function getAircraft(flight) {
 
 
     return aircraft
-        ? escapeHtml(aircraft)
+        ? String(aircraft)
         : 'Unknown aircraft';
 }
 
 
-/* ============================================================
-   FLIGHT TIMESTAMP
-   ============================================================ */
+function getAircraft(flight) {
 
-function getFlightTimestamp(flight) {
-    const raw = getFlightValue(
-        flight,
-        'depTimeAct',
-        'depTime',
-        'departureTime',
-        'departureDate',
-        'date',
-        'createdAt',
-        'flightDate',
-        'arrTimeAct',
-        'arrTime',
-        'arrivalTime'
+    return escapeHtml(
+        getAircraftValue(flight)
     );
 
-    if (!raw) return null;
-
-    const date = new Date(raw);
-    return Number.isNaN(date.getTime()) ? null : date;
 }
+
+
+/* ============================================================
+   DEPARTURE AIRPORT
+   ============================================================ */
+
+function getDepartureAirport(flight) {
+
+    const departureRaw =
+        getFlightValue(
+            flight,
+            'depIcao',
+            'departureIcao',
+            'departureICAO',
+            'departure',
+            'from',
+            'origin',
+            'dep'
+        );
+
+
+    if(
+        typeof departureRaw === 'string' ||
+        typeof departureRaw === 'number'
+    ) {
+
+        return String(
+            departureRaw
+        ).toUpperCase();
+
+    }
+
+
+    if(
+        departureRaw &&
+        typeof departureRaw === 'object'
+    ) {
+
+        return (
+            departureRaw.icao ||
+            departureRaw.ICAO ||
+            departureRaw.icaoCode ||
+            departureRaw.ICAOCode ||
+            departureRaw.code ||
+            departureRaw.airportCode ||
+            departureRaw.iata ||
+            departureRaw.IATA ||
+            departureRaw.identifier ||
+            null
+        );
+
+    }
+
+
+    return null;
+}
+
 
 /* ============================================================
    FLIGHT DATE
    ============================================================ */
 
-function getFlightDate(flight) {
+function getFlightDateObject(flight) {
 
     const raw =
         getFlightValue(
@@ -2892,7 +2808,7 @@ function getFlightDate(flight) {
 
 
     if(!raw) {
-        return 'Unknown date';
+        return null;
     }
 
 
@@ -2901,10 +2817,39 @@ function getFlightDate(flight) {
 
 
     if(Number.isNaN(date.getTime())) {
+        return null;
+    }
 
-        return escapeHtml(
-            raw
-        );
+
+    return date;
+
+}
+
+
+function getFlightDate(flight) {
+
+    const date =
+        getFlightDateObject(flight);
+
+
+    if(!date) {
+
+        const raw =
+            getFlightValue(
+                flight,
+                'depTimeAct',
+                'depTime',
+                'departureTime',
+                'departureDate',
+                'date',
+                'createdAt',
+                'flightDate'
+            );
+
+
+        return raw
+            ? escapeHtml(raw)
+            : 'Unknown date';
 
     }
 
@@ -2965,387 +2910,730 @@ function getFlightStars(flight) {
 
 
 /* ============================================================
+   FLIGHT DISTANCE
+   ============================================================ */
+
+function getFlightDistance(flight) {
+
+    const distance =
+        getFlightValue(
+            flight,
+            'distance',
+            'distanceKm',
+            'distanceKM',
+            'distance_km',
+            'flightDistance',
+            'routeDistance',
+            'distanceFlown',
+            'totalDistance',
+            'distanceInKm',
+            'km'
+        );
+
+
+    let value =
+        number(distance);
+
+
+    /*
+     * Some APIs may provide distance in nautical miles.
+     */
+
+    const unit =
+        getFlightValue(
+            flight,
+            'distanceUnit',
+            'distanceUnits',
+            'unit'
+        );
+
+
+    if(
+        unit &&
+        String(unit).toLowerCase() === 'nm'
+    ) {
+
+        value *= 1.852;
+
+    }
+
+
+    return value;
+
+}
+
+
+/* ============================================================
+   MOST COMMON VALUE
+   ============================================================ */
+
+function getMostCommon(values) {
+
+    if(!values.length) {
+        return null;
+    }
+
+
+    const counts = {};
+
+
+    for(const value of values) {
+
+        if(
+            value === null ||
+            value === undefined
+        ) {
+            continue;
+        }
+
+
+        const key =
+            String(value).trim();
+
+
+        if(!key) {
+            continue;
+        }
+
+
+        counts[key] =
+            (counts[key] || 0) + 1;
+
+    }
+
+
+    const sorted =
+        Object.entries(counts)
+            .sort(
+                (a,b) =>
+                    b[1] - a[1]
+            );
+
+
+    return sorted.length
+        ? sorted[0][0]
+        : null;
+
+}
+
+
+/* ============================================================
+   CURRENT STREAK
+   ============================================================ */
+
+function calculateCurrentStreak(flights) {
+
+    if(!flights.length) {
+        return 0;
+    }
+
+
+    const dates =
+        flights
+            .map(
+                getFlightDateObject
+            )
+            .filter(Boolean)
+            .map(
+                date =>
+                    new Date(
+                        date.getFullYear(),
+                        date.getMonth(),
+                        date.getDate()
+                    ).getTime()
+            );
+
+
+    const uniqueDates =
+        [...new Set(dates)]
+            .sort(
+                (a,b) =>
+                    b - a
+            );
+
+
+    if(!uniqueDates.length) {
+        return 0;
+    }
+
+
+    const oneDay =
+        24 * 60 * 60 * 1000;
+
+
+    let streak = 1;
+
+
+    for(
+        let i = 1;
+        i < uniqueDates.length;
+        i++
+    ) {
+
+        const difference =
+            uniqueDates[i - 1] -
+            uniqueDates[i];
+
+
+        if(
+            difference === oneDay
+        ) {
+
+            streak++;
+
+        } else {
+
+            break;
+
+        }
+
+    }
+
+
+    return streak;
+
+}
+
+
+/* ============================================================
+   PILOT STATISTICS
+   ============================================================ */
+
+function calculatePilotStatistics(flights) {
+
+    const now =
+        new Date();
+
+
+    const currentYear =
+        now.getFullYear();
+
+
+    const currentMonth =
+        now.getMonth();
+
+
+    let totalDistance = 0;
+
+    let bestStars = 0;
+
+    let longestFlight = 0;
+
+    let shortestFlight = null;
+
+    let flightsThisYear = 0;
+
+    let monthlyStars = 0;
+
+    let monthlyFlightCount = 0;
+
+
+    const aircraftValues = [];
+
+    const hubValues = [];
+
+
+    for(const flight of flights) {
+
+        const distance =
+            getFlightDistance(flight);
+
+
+        const stars =
+            getFlightStars(flight);
+
+
+        const date =
+            getFlightDateObject(flight);
+
+
+        /* Total distance */
+
+        totalDistance +=
+            distance;
+
+
+        /* Best star flight */
+
+        if(
+            stars > bestStars
+        ) {
+
+            bestStars =
+                stars;
+
+        }
+
+
+        /* Longest flight */
+
+        if(
+            distance > longestFlight
+        ) {
+
+            longestFlight =
+                distance;
+
+        }
+
+
+        /* Shortest flight */
+
+        if(
+            distance > 0 &&
+            (
+                shortestFlight === null ||
+                distance < shortestFlight
+            )
+        ) {
+
+            shortestFlight =
+                distance;
+
+        }
+
+
+        /* Aircraft */
+
+        const aircraft =
+            getAircraftValue(flight);
+
+
+        if(aircraft) {
+
+            aircraftValues.push(
+                aircraft
+            );
+
+        }
+
+
+        /* Departure hub */
+
+        const departure =
+            getDepartureAirport(flight);
+
+
+        if(departure) {
+
+            hubValues.push(
+                departure
+            );
+
+        }
+
+
+        if(date) {
+
+            /* This year */
+
+            if(
+                date.getFullYear() ===
+                currentYear
+            ) {
+
+                flightsThisYear++;
+
+            }
+
+
+            /* This month */
+
+            if(
+                date.getFullYear() ===
+                currentYear &&
+                date.getMonth() ===
+                currentMonth
+            ) {
+
+                monthlyStars +=
+                    stars;
+
+                monthlyFlightCount++;
+
+            }
+
+        }
+
+    }
+
+
+    return {
+
+        totalDistance,
+
+        bestStars,
+
+        averageStarsMonth:
+            monthlyFlightCount > 0
+                ? monthlyStars /
+                  monthlyFlightCount
+                : 0,
+
+        flightsThisYear,
+
+        mostUsedAircraft:
+            getMostCommon(
+                aircraftValues
+            ),
+
+        mostUsedHub:
+            getMostCommon(
+                hubValues
+            ),
+
+        longestFlight,
+
+        shortestFlight:
+            shortestFlight ?? 0,
+
+        currentStreak:
+            calculateCurrentStreak(
+                flights
+            )
+
+    };
+
+}
+
+
+/* ============================================================
    RENDER FLIGHTS
    ============================================================ */
 
-function renderFlightRowHtml(flight) {
+function renderFlights(flights) {
 
-    const rating = getFlightRating(flight);
-    const stars = getFlightStars(flight);
+    const rows =
+        document.getElementById(
+            'flightRows'
+        );
 
-    return `
-        <tr>
-            <td>
-                <div class="flight-date">
-                    ${getFlightDate(flight)}
-                </div>
-            </td>
 
-            <td>
-                <div class="flight-route">
-                    ${getRoute(flight)}
-                </div>
-            </td>
+    if(
+        !Array.isArray(flights) ||
+        flights.length === 0
+    ) {
 
-            <td>
-                ${getAircraft(flight)}
-            </td>
-
-            <td>
-                <span class="${rating >= 8 ? 'rating-good' : 'rating-normal'}">
-                    ${rating.toFixed(2)}
-                </span>
-            </td>
-
-            <td>
-                ${stars.toFixed(2)} ⭐
-            </td>
-        </tr>
-    `;
-}
-
-function getSortedFlights(flights) {
-    return [...flights].sort((a, b) => {
-        const da = getFlightTimestamp(a)?.getTime() || 0;
-        const db = getFlightTimestamp(b)?.getTime() || 0;
-        return db - da;
-    });
-}
-
-let currentFlights = [];
-let totalFlightCount = 0;
-
-function renderFlights(flights, reportedTotal = null) {
-
-    currentFlights = getSortedFlights(
-        Array.isArray(flights) ? flights : []
-    );
-
-    totalFlightCount = Number.isFinite(Number(reportedTotal))
-        ? Number(reportedTotal)
-        : currentFlights.length;
-
-    const rows = document.getElementById('flightRows');
-    const count = document.getElementById('recentFlightsCount');
-
-    const recent = currentFlights.slice(0, 20);
-
-    if(!recent.length) {
         rows.innerHTML = `
             <tr>
-                <td colspan="5" class="muted">
+                <td
+                    colspan="5"
+                    class="muted"
+                >
                     No linked flights yet.
                 </td>
             </tr>
         `;
-    } else {
-        rows.innerHTML = recent.map(renderFlightRowHtml).join('');
+
+        return;
+
     }
 
-    if(count) {
-        count.textContent = `${totalFlightCount} total flight${totalFlightCount === 1 ? '' : 's'} • showing ${recent.length} recent`;
-    }
+
+    rows.innerHTML =
+        flights.map(
+            flight => {
+
+                const rating =
+                    getFlightRating(
+                        flight
+                    );
+
+
+                const stars =
+                    getFlightStars(
+                        flight
+                    );
+
+
+                return `
+                    <tr>
+
+                        <td>
+                            <div class="flight-date">
+                                ${getFlightDate(flight)}
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="flight-route">
+                                ${getRoute(flight)}
+                            </div>
+                        </td>
+
+                        <td>
+                            ${getAircraft(flight)}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="${
+                                    rating >= 8
+                                        ? 'rating-good'
+                                        : 'rating-normal'
+                                }"
+                            >
+                                ${rating.toFixed(2)}
+                            </span>
+
+                        </td>
+
+                        <td>
+                            ${stars.toFixed(2)} ⭐
+                        </td>
+
+                    </tr>
+                `;
+
+            }
+        ).join('');
+
 }
-
-function renderAllFlights() {
-
-    const rows = document.getElementById('allFlightRows');
-    const count = document.getElementById('allFlightsCount');
-
-    if(!rows) return;
-
-    if(!currentFlights.length) {
-        rows.innerHTML = `
-            <tr>
-                <td colspan="5" class="muted">
-                    No flights loaded.
-                </td>
-            </tr>
-        `;
-    } else {
-        rows.innerHTML = currentFlights.map(renderFlightRowHtml).join('');
-    }
-
-    if(count) {
-        if(currentFlights.length === totalFlightCount) {
-            count.textContent = `${totalFlightCount} flight${totalFlightCount === 1 ? '' : 's'}`;
-        } else {
-            count.textContent = `${totalFlightCount} flights • ${currentFlights.length} loaded`;
-        }
-    }
-}
-
-async function openAllFlightsModal() {
-    const modal = document.getElementById('allFlightsModal');
-    if(!modal) return;
-
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('menu-open');
-
-    const rows = document.getElementById('allFlightRows');
-    const count = document.getElementById('allFlightsCount');
-    if(rows) rows.innerHTML = '<tr><td colspan="5" class="muted">Loading all flights…</td></tr>';
-
-    try {
-        const data = await api('/flights/me');
-        if(Array.isArray(data.flights)) {
-            currentFlights = getSortedFlights(data.flights);
-            totalFlightCount = Number.isFinite(Number(data.total)) ? Number(data.total) : currentFlights.length;
-        }
-    } catch(error) {
-        console.warn('Could not load full flight history:', error);
-    }
-
-    renderAllFlights();
-}
-
-function closeAllFlightsModal() {
-    const modal = document.getElementById('allFlightsModal');
-    if(!modal) return;
-
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('menu-open');
-}
-
 
 
 /* ============================================================
-   EXTENDED PILOT STATISTICS
+   RENDER RANK PROGRESS
    ============================================================ */
 
-function getFlightDistance(flight) {
-    const raw = getFlightValue(
-        flight,
-        'distance',
-        'distanceNm',
-        'distanceNM',
-        'distanceNauticalMiles',
-        'flightDistance',
-        'routeDistance',
-        'nm'
-    );
+function renderRankProgress(stars) {
 
-    if (typeof raw === 'object' && raw !== null) {
-        return number(raw.nm ?? raw.NM ?? raw.nauticalMiles ?? raw.distance, 0);
-    }
+    const calculated =
+        calculateRank(
+            stars
+        );
 
-    return number(raw, 0);
-}
 
-function getFlightDurationMinutes(flight) {
-    const raw = getFlightValue(
-        flight,
-        'durationMinutes',
-        'flightMinutes',
-        'duration',
-        'flightDuration',
-        'minutes'
-    );
+    const progressBar =
+        document.getElementById(
+            'progressBar'
+        );
 
-    let value = number(raw, NaN);
-    if (Number.isFinite(value)) {
-        // If duration looks like hours, convert it. Most NewSky-style values are minutes.
-        if (value > 0 && value < 24 && !String(raw).includes('min')) value *= 60;
-        return value;
-    }
 
-    const dep = getFlightValue(flight, 'depTimeAct', 'depTime', 'departureTime', 'departureDate');
-    const arr = getFlightValue(flight, 'arrTimeAct', 'arrTime', 'arrivalTime');
-    if (dep && arr) {
-        const a = new Date(dep).getTime();
-        const b = new Date(arr).getTime();
-        if (Number.isFinite(a) && Number.isFinite(b) && b >= a) {
-            return (b - a) / 60000;
-        }
-    }
+    const progressText =
+        document.getElementById(
+            'progressText'
+        );
 
-    return 0;
-}
 
-function getAirportCodePlain(value) {
-    if (value === null || value === undefined || value === '') return '';
-    if (typeof value === 'string' || typeof value === 'number') return String(value).trim().toUpperCase();
-    if (typeof value === 'object') {
-        return String(
-            value.icao || value.ICAO || value.icaoCode || value.ICAOCode ||
-            value.code || value.airportCode || value.iata || value.IATA ||
-            value.identifier || ''
-        ).trim().toUpperCase();
-    }
-    return '';
-}
+    const percentage =
+        document.getElementById(
+            'rankProgressPercent'
+        );
 
-function getDepartureCode(flight) {
-    return getAirportCodePlain(getFlightValue(
-        flight, 'depIcao', 'departureIcao', 'departureICAO', 'departure', 'from', 'origin', 'dep'
-    ));
-}
 
-function getArrivalCode(flight) {
-    return getAirportCodePlain(getFlightValue(
-        flight, 'arrIcao', 'arrivalIcao', 'arrivalICAO', 'arrival', 'to', 'destination', 'arr'
-    ));
-}
+    const remaining =
+        document.getElementById(
+            'starsToNextRank'
+        );
 
-function renderExtendedStats(data, rankings = []) {
-    const flights = Array.isArray(data?.flights) ? data.flights : [];
-    const stats = data?.stats || {};
-    const user = data?.user || {};
 
-    // Rank position is based on the same /ranking response used by the leaderboard.
-    const ownId = String(
-        user.id ?? user.userId ?? user.user_id ?? user.pilotId ?? user.pilot_id ?? user._id ?? ''
-    );
-    const ownName = String(user.displayName || user.username || '').trim().toLowerCase();
-    let position = null;
+    if(calculated.next) {
 
-    if (rankings.length) {
-        const index = rankings.findIndex((pilot) => {
-            const pilotId = String(
-                pilot.id ?? pilot.userId ?? pilot.user_id ?? pilot.pilotId ?? pilot.pilot_id ?? pilot._id ?? ''
+        const currentMin =
+            calculated.current.min;
+
+
+        const nextMin =
+            calculated.next.min;
+
+
+        const progress =
+            Math.min(
+                100,
+                Math.max(
+                    0,
+                    (
+                        (
+                            stars -
+                            currentMin
+                        ) /
+                        (
+                            nextMin -
+                            currentMin
+                        )
+                    ) * 100
+                )
             );
-            const pilotName = String(
-                pilot.name || pilot.displayName || pilot.username || ''
-            ).trim().toLowerCase();
-            return (ownId && pilotId && ownId === pilotId) || (ownName && pilotName && ownName === pilotName);
-        });
-        if (index >= 0) position = rankings[index].position || index + 1;
-    }
 
-    const rankPosition = document.getElementById('rankPosition');
-    if (rankPosition) rankPosition.textContent = position ? `#${position}` : '—';
 
-    const sorted = getSortedFlights(flights);
-    const dated = sorted
-        .map(f => ({ flight:f, date:getFlightTimestamp(f) }))
-        .filter(x => x.date);
+        const starsRemaining =
+            Math.max(
+                0,
+                nextMin - stars
+            );
 
-    const distanceTotal = flights.reduce((sum, f) => sum + getFlightDistance(f), 0);
-    const totalDistance = document.getElementById('totalDistance');
-    if (totalDistance) totalDistance.textContent = distanceTotal > 0 ? `${distanceTotal.toFixed(0)} nm` : '—';
 
-    const best = flights.reduce((best, f) => {
-        const stars = getFlightStars(f);
-        return stars > best.stars ? { flight:f, stars } : best;
-    }, { flight:null, stars:-Infinity });
-    const bestStars = document.getElementById('bestStarFlight');
-    const bestRoute = document.getElementById('bestStarFlightRoute');
-    if (best.flight) {
-        if (bestStars) bestStars.textContent = `${best.stars.toFixed(2)} ⭐`;
-        if (bestRoute) bestRoute.textContent = getRoute(best.flight).replace(/<[^>]*>/g, '');
+        progressBar.style.width =
+            `${progress}%`;
+
+
+        progressText.textContent =
+            `${stars.toFixed(2)} / ${nextMin.toFixed(2)} ⭐ to ${calculated.next.name}`;
+
+
+        percentage.textContent =
+            `${progress.toFixed(1)}%`;
+
+
+        remaining.textContent =
+            `${starsRemaining.toFixed(2)} ⭐ remaining`;
+
     } else {
-        if (bestStars) bestStars.textContent = '—';
-        if (bestRoute) bestRoute.textContent = 'No flights yet';
+
+        progressBar.style.width =
+            '100%';
+
+
+        progressText.textContent =
+            'Maximum rank reached';
+
+
+        percentage.textContent =
+            '100%';
+
+
+        remaining.textContent =
+            'Maximum rank reached';
+
     }
 
-    const now = new Date();
-    const month = now.getMonth();
-    const year = now.getFullYear();
-    const thisMonth = flights.filter(f => {
-        const d = getFlightTimestamp(f);
-        return d && d.getMonth() === month && d.getFullYear() === year;
-    });
-    const avgMonth = thisMonth.length
-        ? thisMonth.reduce((sum, f) => sum + getFlightStars(f), 0) / thisMonth.length
-        : 0;
-    const avgMonthEl = document.getElementById('averageStarsMonth');
-    if (avgMonthEl) avgMonthEl.textContent = thisMonth.length ? `${avgMonth.toFixed(2)} ⭐` : '—';
-
-    const thisYear = flights.filter(f => {
-        const d = getFlightTimestamp(f);
-        return d && d.getFullYear() === year;
-    }).length;
-    const flightsYearEl = document.getElementById('flightsThisYear');
-    if (flightsYearEl) flightsYearEl.textContent = thisYear;
-
-    const aircraftCounts = new Map();
-    flights.forEach(f => {
-        const a = getAircraft(f).replace(/<[^>]*>/g, '').trim();
-        if (a && a !== 'Unknown aircraft') aircraftCounts.set(a, (aircraftCounts.get(a) || 0) + 1);
-    });
-    const mostAircraft = [...aircraftCounts.entries()].sort((a,b) => b[1]-a[1])[0];
-    const aircraftEl = document.getElementById('mostUsedAircraft');
-    if (aircraftEl) aircraftEl.textContent = mostAircraft ? `${mostAircraft[0]} (${mostAircraft[1]})` : '—';
-
-    // Echo hubs. Count only the airline's hubs, rather than calling every airport a hub.
-    const hubs = new Set(['LIRF', 'EDDL', 'KJFK']);
-    const hubCounts = new Map();
-    flights.forEach(f => {
-        [getDepartureCode(f), getArrivalCode(f)].forEach(code => {
-            if (hubs.has(code)) hubCounts.set(code, (hubCounts.get(code) || 0) + 1);
-        });
-    });
-    const mostHub = [...hubCounts.entries()].sort((a,b) => b[1]-a[1])[0];
-    const hubEl = document.getElementById('mostUsedHub');
-    if (hubEl) hubEl.textContent = mostHub ? `${mostHub[0]} (${mostHub[1]})` : '—';
-
-    const withDistance = flights
-        .map(f => ({ flight:f, distance:getFlightDistance(f) }))
-        .filter(x => x.distance > 0);
-    const longest = withDistance.sort((a,b) => b.distance-a.distance)[0];
-    const shortest = withDistance.slice().sort((a,b) => a.distance-b.distance)[0];
-
-    const longestEl = document.getElementById('longestFlight');
-    const longestRouteEl = document.getElementById('longestFlightRoute');
-    const shortestEl = document.getElementById('shortestFlight');
-    const shortestRouteEl = document.getElementById('shortestFlightRoute');
-    if (longestEl) longestEl.textContent = longest ? `${longest.distance.toFixed(0)} nm` : '—';
-    if (longestRouteEl) longestRouteEl.textContent = longest ? getRoute(longest.flight).replace(/<[^>]*>/g, '') : 'No distance data';
-    if (shortestEl) shortestEl.textContent = shortest ? `${shortest.distance.toFixed(0)} nm` : '—';
-    if (shortestRouteEl) shortestRouteEl.textContent = shortest ? getRoute(shortest.flight).replace(/<[^>]*>/g, '') : 'No distance data';
-
-    // Consecutive calendar-day flying streak ending today or yesterday.
-    const uniqueDays = [...new Set(dated.map(x => {
-        const d = x.date;
-        return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-    }))]
-        .map(key => new Date(key))
-        .sort((a,b) => b-a);
-    let streak = 0;
-    if (uniqueDays.length) {
-        const today = new Date(); today.setHours(0,0,0,0);
-        const latest = new Date(uniqueDays[0]); latest.setHours(0,0,0,0);
-        const daysFromToday = Math.round((today - latest) / 86400000);
-        if (daysFromToday <= 1) {
-            streak = 1;
-            for (let i=1; i<uniqueDays.length; i++) {
-                const prev = new Date(uniqueDays[i-1]); prev.setHours(0,0,0,0);
-                const cur = new Date(uniqueDays[i]); cur.setHours(0,0,0,0);
-                if (Math.round((prev-cur)/86400000) === 1) streak++;
-                else break;
-            }
-        }
-    }
-    const streakEl = document.getElementById('currentStreak');
-    if (streakEl) streakEl.textContent = `${streak} day${streak === 1 ? '' : 's'}`;
-
-    // Rank progress.
-    const stars = number(stats.stars);
-    const calculated = calculateRank(stars);
-    const nextLabel = document.getElementById('nextRankLabel');
-    const nextPercent = document.getElementById('nextRankPercent');
-    const detailBar = document.getElementById('detailedProgressBar');
-    const remainingEl = document.getElementById('starsToNextRank');
-
-    if (calculated.next) {
-        const range = calculated.next.min - calculated.current.min;
-        const progress = range > 0
-            ? Math.min(100, Math.max(0, ((stars - calculated.current.min) / range) * 100))
-            : 100;
-        const remaining = Math.max(0, calculated.next.min - stars);
-        if (nextLabel) nextLabel.textContent = `${calculated.current.name} → ${calculated.next.name}`;
-        if (nextPercent) nextPercent.textContent = `${progress.toFixed(1)}%`;
-        if (detailBar) detailBar.style.width = `${progress}%`;
-        if (remainingEl) remainingEl.textContent = `${remaining.toFixed(2)} ⭐ remaining to ${calculated.next.name}`;
-    } else {
-        if (nextLabel) nextLabel.textContent = `${calculated.current.name} — Maximum rank`;
-        if (nextPercent) nextPercent.textContent = '100.0%';
-        if (detailBar) detailBar.style.width = '100%';
-        if (remainingEl) remainingEl.textContent = 'Maximum rank reached';
-    }
 }
+
+
+/* ============================================================
+   CURRENT USER RANK POSITION
+   ============================================================ */
+
+function findCurrentUserPosition(rankings, user) {
+
+    if(
+        !Array.isArray(rankings) ||
+        !user
+    ) {
+
+        return null;
+
+    }
+
+
+    const userId =
+        user.id ??
+        user.userId ??
+        user.user_id ??
+        user.pilotId ??
+        user.pilot_id ??
+        user._id;
+
+
+    if(
+        userId !== undefined &&
+        userId !== null
+    ) {
+
+        const index =
+            rankings.findIndex(
+                pilot => {
+
+                    const pilotId =
+                        pilot.id ??
+                        pilot.userId ??
+                        pilot.user_id ??
+                        pilot.pilotId ??
+                        pilot.pilot_id ??
+                        pilot._id;
+
+
+                    return (
+                        pilotId !== undefined &&
+                        pilotId !== null &&
+                        String(pilotId) ===
+                        String(userId)
+                    );
+
+                }
+            );
+
+
+        if(index !== -1) {
+
+            return (
+                rankings[index].position ||
+                index + 1
+            );
+
+        }
+
+    }
+
+
+    const username =
+        user.username;
+
+
+    if(username) {
+
+        const index =
+            rankings.findIndex(
+                pilot =>
+                    String(
+                        pilot.username ||
+                        ''
+                    ).toLowerCase() ===
+                    String(
+                        username
+                    ).toLowerCase()
+            );
+
+
+        if(index !== -1) {
+
+            return (
+                rankings[index].position ||
+                index + 1
+            );
+
+        }
+
+    }
+
+
+    const displayName =
+        user.displayName;
+
+
+    if(displayName) {
+
+        const index =
+            rankings.findIndex(
+                pilot =>
+                    String(
+                        pilot.name ||
+                        pilot.displayName ||
+                        ''
+                    ).toLowerCase() ===
+                    String(
+                        displayName
+                    ).toLowerCase()
+            );
+
+
+        if(index !== -1) {
+
+            return (
+                rankings[index].position ||
+                index + 1
+            );
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
 
 /* ============================================================
    DASHBOARD
@@ -3395,8 +3683,20 @@ function renderDashboard(data) {
 
 
     const stars =
-        number(stats.stars);
+        number(
+            stats.stars
+        );
 
+
+    const pilotStats =
+        calculatePilotStatistics(
+            flights
+        );
+
+
+    /* ========================================================
+       BASIC PILOT INFORMATION
+       ======================================================== */
 
     document.getElementById(
         'pilotName'
@@ -3407,7 +3707,9 @@ function renderDashboard(data) {
 
 
     const calculated =
-        calculateRank(stars);
+        calculateRank(
+            stars
+        );
 
 
     document.getElementById(
@@ -3421,6 +3723,10 @@ function renderDashboard(data) {
     ).textContent =
         stars.toFixed(2);
 
+
+    /* ========================================================
+       BASIC STATS
+       ======================================================== */
 
     document.getElementById(
         'flightCount'
@@ -3447,64 +3753,92 @@ function renderDashboard(data) {
         ).toFixed(1);
 
 
-    const progressBar =
-        document.getElementById(
-            'progressBar'
-        );
+    /* ========================================================
+       EXTENDED STATS
+       ======================================================== */
+
+    document.getElementById(
+        'totalDistance'
+    ).textContent =
+        `${pilotStats.totalDistance.toLocaleString('en-US', {
+            maximumFractionDigits:0
+        })} km`;
 
 
-    const progressText =
-        document.getElementById(
-            'progressText'
-        );
+    document.getElementById(
+        'bestStarFlight'
+    ).textContent =
+        `${pilotStats.bestStars.toFixed(2)} ⭐`;
 
 
-    if(calculated.next) {
-
-        const currentMin =
-            calculated.current.min;
-
-        const nextMin =
-            calculated.next.min;
+    document.getElementById(
+        'averageStarsMonth'
+    ).textContent =
+        `${pilotStats.averageStarsMonth.toFixed(2)} ⭐`;
 
 
-        const progress =
-            Math.min(
-                100,
-                Math.max(
-                    0,
-                    (
-                        (
-                            stars -
-                            currentMin
-                        ) /
-                        (
-                            nextMin -
-                            currentMin
-                        )
-                    ) * 100
-                )
-            );
+    document.getElementById(
+        'flightsThisYear'
+    ).textContent =
+        pilotStats.flightsThisYear;
 
 
-        progressBar.style.width =
-            progress + '%';
+    document.getElementById(
+        'mostUsedAircraft'
+    ).textContent =
+        pilotStats.mostUsedAircraft ||
+        '—';
 
 
-        progressText.textContent =
-            `${stars.toFixed(2)} / ${nextMin.toFixed(2)} ⭐ to ${calculated.next.name}`;
-
-    } else {
-
-        progressBar.style.width =
-            '100%';
+    document.getElementById(
+        'mostUsedHub'
+    ).textContent =
+        pilotStats.mostUsedHub ||
+        '—';
 
 
-        progressText.textContent =
-            'Maximum rank reached';
+    document.getElementById(
+        'longestFlight'
+    ).textContent =
+        pilotStats.longestFlight > 0
+            ? `${pilotStats.longestFlight.toLocaleString('en-US', {
+                maximumFractionDigits:0
+            })} km`
+            : '—';
 
-    }
 
+    document.getElementById(
+        'shortestFlight'
+    ).textContent =
+        pilotStats.shortestFlight > 0
+            ? `${pilotStats.shortestFlight.toLocaleString('en-US', {
+                maximumFractionDigits:0
+            })} km`
+            : '—';
+
+
+    document.getElementById(
+        'currentStreak'
+    ).textContent =
+        `${pilotStats.currentStreak} ${
+            pilotStats.currentStreak === 1
+                ? 'day'
+                : 'days'
+        }`;
+
+
+    /* ========================================================
+       RANK PROGRESS
+       ======================================================== */
+
+    renderRankProgress(
+        stars
+    );
+
+
+    /* ========================================================
+       NEWSKY
+       ======================================================== */
 
     const newskyId =
         user.newskyPilotId ||
@@ -3519,7 +3853,7 @@ function renderDashboard(data) {
 
 
     /* ========================================================
-       DISCORD CONNECTION STATUS
+       DISCORD
        ======================================================== */
 
     const discordButton =
@@ -3549,6 +3883,7 @@ function renderDashboard(data) {
             discordButton.textContent =
                 'Discord Connected';
 
+
             discordButton.disabled =
                 true;
 
@@ -3558,8 +3893,10 @@ function renderDashboard(data) {
                 discordMsg.textContent =
                     'Your Discord account is connected. Your Echo Air Group rank role will be synchronized automatically.';
 
+
                 discordMsg.style.display =
                     'block';
+
 
                 discordMsg.classList.remove(
                     'error'
@@ -3572,6 +3909,7 @@ function renderDashboard(data) {
             discordButton.textContent =
                 'Connect Discord';
 
+
             discordButton.disabled =
                 false;
 
@@ -3581,8 +3919,10 @@ function renderDashboard(data) {
                 discordMsg.textContent =
                     'Connect your Discord account to receive your Echo Air Group rank role.';
 
+
                 discordMsg.style.display =
                     'block';
+
 
                 discordMsg.classList.remove(
                     'error'
@@ -3596,8 +3936,7 @@ function renderDashboard(data) {
 
 
     renderFlights(
-        flights,
-        stats.flightCount
+        flights
     );
 
 }
@@ -3640,7 +3979,7 @@ async function loadMe() {
 
         showLoggedOut();
 
-        return false;
+        return null;
 
     }
 
@@ -3651,28 +3990,12 @@ async function loadMe() {
             await api('/me');
 
 
-        let rankingData = { rankings: [] };
-
-        try {
-            rankingData = await api('/ranking');
-        } catch(error) {
-            console.warn('Extended ranking stats could not load:', error);
-        }
-
-
         renderDashboard(
             data
         );
 
-        renderExtendedStats(
-            data,
-            Array.isArray(rankingData.rankings)
-                ? rankingData.rankings
-                : []
-        );
 
-
-        return true;
+        return data;
 
     } catch(error) {
 
@@ -3682,14 +4005,10 @@ async function loadMe() {
         );
 
 
-        token =
-            getAuthToken();
-
-
         showLoggedOut();
 
 
-        return false;
+        return null;
 
     }
 
@@ -3735,7 +4054,7 @@ async function loadLeaderboard() {
                 </tr>
             `;
 
-            return;
+            return rankings;
 
         }
 
@@ -3776,11 +4095,15 @@ async function loadLeaderboard() {
                             </td>
 
                             <td>
+
                                 <span class="badge">
+
                                     ${escapeHtml(
                                         rank.current.name
                                     )}
+
                                 </span>
+
                             </td>
 
                             <td>
@@ -3789,7 +4112,7 @@ async function loadLeaderboard() {
 
                             <td>
                                 ${number(
-                                    pilot.flights ||
+                                    pilot.flights ??
                                     pilot.flightCount
                                 )}
                             </td>
@@ -3800,6 +4123,8 @@ async function loadLeaderboard() {
                 }
             ).join('');
 
+
+        return rankings;
 
     } catch(error) {
 
@@ -3820,6 +4145,9 @@ async function loadLeaderboard() {
             </tr>
         `;
 
+
+        return [];
+
     }
 
 }
@@ -3829,7 +4157,7 @@ async function loadLeaderboard() {
    PILOT SIDEBAR
    ============================================================ */
 
-async function loadPilotSidebar() {
+async function loadPilotSidebar(rankings = null) {
 
     const list =
         document.getElementById(
@@ -3844,16 +4172,20 @@ async function loadPilotSidebar() {
 
     try {
 
-        const data =
-            await api('/ranking');
+        if(!Array.isArray(rankings)) {
+
+            const data =
+                await api('/ranking');
 
 
-        const rankings =
-            Array.isArray(
-                data.rankings
-            )
-                ? data.rankings
-                : [];
+            rankings =
+                Array.isArray(
+                    data.rankings
+                )
+                    ? data.rankings
+                    : [];
+
+        }
 
 
         if(!rankings.length) {
@@ -3921,6 +4253,43 @@ async function loadPilotSidebar() {
                         pilot._id;
 
 
+                    const inner = `
+                        <div class="pilot-position">
+                            #${escapeHtml(position)}
+                        </div>
+
+                        <div class="pilot-avatar">
+                            ${escapeHtml(avatar)}
+                        </div>
+
+                        <div class="pilot-info">
+
+                            <span class="pilot-name">
+                                ${escapeHtml(name)}
+                            </span>
+
+                            <span class="pilot-rank">
+                                ${escapeHtml(
+                                    rank.current.name
+                                )}
+                            </span>
+
+                        </div>
+
+                        <div class="pilot-rating">
+
+                            <span class="pilot-rating-value">
+                                ${stars.toFixed(2)}
+                            </span>
+
+                            <span class="pilot-rating-label">
+                                Stars
+                            </span>
+
+                        </div>
+                    `;
+
+
                     if(
                         pilotId !== undefined &&
                         pilotId !== null &&
@@ -3932,41 +4301,7 @@ async function loadPilotSidebar() {
                                 class="pilot-item"
                                 href="pilot.html?id=${encodeURIComponent(pilotId)}"
                             >
-
-                                <div class="pilot-position">
-                                    #${escapeHtml(position)}
-                                </div>
-
-                                <div class="pilot-avatar">
-                                    ${escapeHtml(avatar)}
-                                </div>
-
-                                <div class="pilot-info">
-
-                                    <span class="pilot-name">
-                                        ${escapeHtml(name)}
-                                    </span>
-
-                                    <span class="pilot-rank">
-                                        ${escapeHtml(
-                                            rank.current.name
-                                        )}
-                                    </span>
-
-                                </div>
-
-                                <div class="pilot-rating">
-
-                                    <span class="pilot-rating-value">
-                                        ${stars.toFixed(2)}
-                                    </span>
-
-                                    <span class="pilot-rating-label">
-                                        Stars
-                                    </span>
-
-                                </div>
-
+                                ${inner}
                             </a>
                         `;
 
@@ -3978,41 +4313,7 @@ async function loadPilotSidebar() {
                             class="pilot-item"
                             style="cursor:default;"
                         >
-
-                            <div class="pilot-position">
-                                #${escapeHtml(position)}
-                            </div>
-
-                            <div class="pilot-avatar">
-                                ${escapeHtml(avatar)}
-                            </div>
-
-                            <div class="pilot-info">
-
-                                <span class="pilot-name">
-                                    ${escapeHtml(name)}
-                                </span>
-
-                                <span class="pilot-rank">
-                                    ${escapeHtml(
-                                        rank.current.name
-                                    )}
-                                </span>
-
-                            </div>
-
-                            <div class="pilot-rating">
-
-                                <span class="pilot-rating-value">
-                                    ${stars.toFixed(2)}
-                                </span>
-
-                                <span class="pilot-rating-label">
-                                    Stars
-                                </span>
-
-                            </div>
-
+                            ${inner}
                         </div>
                     `;
 
@@ -4129,9 +4430,16 @@ document
             );
 
 
+            const rankings =
+                await loadLeaderboard();
+
+
+            await loadPilotSidebar(
+                rankings
+            );
+
+
             await loadMe();
-            await loadLeaderboard();
-            await loadPilotSidebar();
 
 
         } catch(error) {
@@ -4248,9 +4556,16 @@ document
             );
 
 
+            const rankings =
+                await loadLeaderboard();
+
+
+            await loadPilotSidebar(
+                rankings
+            );
+
+
             await loadMe();
-            await loadLeaderboard();
-            await loadPilotSidebar();
 
 
         } catch(error) {
@@ -4318,16 +4633,6 @@ document
             'Connecting…';
 
 
-        /*
-         * IMPORTANT:
-         *
-         * The user's JWT is sent to the backend.
-         *
-         * The Discord bot token is NEVER placed here.
-         *
-         * server.js handles Discord OAuth2.
-         */
-
         window.location.href =
             API +
             '/discord/login?token=' +
@@ -4366,11 +4671,6 @@ document
         discordStatus === 'connected'
     ) {
 
-        /*
-         * Remove OAuth query parameters
-         * from the browser URL.
-         */
-
         window.history.replaceState(
             {},
             document.title,
@@ -4383,11 +4683,6 @@ document
             'Discord account connected successfully! Your rank role will now be synchronized.'
         );
 
-
-        /*
-         * Reload the user so that the
-         * Discord connection status updates.
-         */
 
         setTimeout(
             () => {
@@ -4638,9 +4933,16 @@ document
             );
 
 
+            const rankings =
+                await loadLeaderboard();
+
+
+            await loadPilotSidebar(
+                rankings
+            );
+
+
             await loadMe();
-            await loadLeaderboard();
-            await loadPilotSidebar();
 
 
         } catch(error) {
@@ -4664,7 +4966,6 @@ document
                     true
                 );
 
-
             } else {
 
                 showMessage(
@@ -4675,7 +4976,6 @@ document
                 );
 
             }
-
 
         } finally {
 
@@ -4804,35 +5104,18 @@ function toggleMenu() {
 
 (async function init() {
 
-    await loadLeaderboard();
+    const rankings =
+        await loadLeaderboard();
 
-    await loadPilotSidebar();
+
+    await loadPilotSidebar(
+        rankings
+    );
+
 
     await loadMe();
 
 })();
-
-
-/* EXTRA STATS TOGGLE + ALL FLIGHTS MODAL */
-
-const statsToggle = document.getElementById('statsToggle');
-const moreStats = document.getElementById('moreStats');
-if(statsToggle && moreStats) {
-    statsToggle.addEventListener('click', () => {
-        const isOpen = !moreStats.hidden;
-        moreStats.hidden = isOpen;
-        statsToggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-        statsToggle.innerHTML = isOpen ? 'Show more statistics <span>＋</span>' : 'Hide extra statistics <span>−</span>';
-    });
-}
-['viewAllFlightsBtn'].forEach(id => {
-    const b=document.getElementById(id); if(b) b.addEventListener('click', openAllFlightsModal);
-});
-const closeAllFlights=document.getElementById('closeAllFlights');
-if(closeAllFlights) closeAllFlights.addEventListener('click', closeAllFlightsModal);
-const modal=document.getElementById('allFlightsModal');
-if(modal) modal.addEventListener('click', e => { if(e.target.matches('[data-close-modal]')) closeAllFlightsModal(); });
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeAllFlightsModal(); });
 
 </script>
 
