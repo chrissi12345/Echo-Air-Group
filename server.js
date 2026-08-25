@@ -2608,19 +2608,19 @@ app.get(
                         </p>
 
                         <button
-    onclick="window.location.href='https://chrissi12345.github.io/Echo-Air-Group/ranking.html'"
-    style="
-        border:0;
-        padding:12px 22px;
-        border-radius:10px;
-        cursor:pointer;
-        background:#ace336;
-        color:#18210f;
-        font-weight:bold;
-    "
->
-    Close
-</button>
+                            onclick="window.close()"
+                            style="
+                                border:0;
+                                padding:12px 22px;
+                                border-radius:10px;
+                                cursor:pointer;
+                                background:#ace336;
+                                color:#18210f;
+                                font-weight:bold;
+                            "
+                        >
+                            Close
+                        </button>
 
                     </div>
 
