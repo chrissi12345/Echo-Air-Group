@@ -1,0 +1,72 @@
+name: Fix server.js routes section
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'server.js'
+      - '.github/workflows/fix-server-routes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message != '[automated] Fix server.js routes section'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fix malformed routes section
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('server.js')
+          text = path.read_text(encoding='utf-8')
+
+          start_marker = "// ============================================================\n// NEWSKY SCHEDULES / ROUTES"
+          end_marker = "// ============================================================\n// API: ALL ECHO AIR GROUP ROUTES\n// ============================================================\n//\n// Routes are built from flights already stored in PostgreSQL."
+
+          start = text.find(start_marker)
+          end = text.find(end_marker, start + len(start_marker)) if start != -1 else -1
+
+          if start == -1:
+              raise SystemExit('Could not find NEWSKY SCHEDULES / ROUTES marker.')
+          if end == -1:
+              raise SystemExit('Could not find the PostgreSQL /api/routes marker.')
+
+          replacement = """// ============================================================
+// ROUTES
+// ============================================================
+//
+// Routes are served from PostgreSQL below. The old direct NewSky
+// schedules endpoint has been removed because it duplicated the
+// PostgreSQL /api/routes endpoint and caused malformed JavaScript.
+//
+// ============================================================
+
+"""
+
+          new_text = text[:start] + replacement + text[end:]
+          path.write_text(new_text, encoding='utf-8')
+
+      - name: Validate JavaScript
+        run: node --check server.js
+
+      - name: Commit and push fix
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add server.js
+          if git diff --cached --quiet; then
+            echo 'No changes needed.'
+            exit 0
+          fi
+          git commit -m '[automated] Fix server.js routes section'
+          git push
