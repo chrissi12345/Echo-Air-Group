@@ -3767,45 +3767,159 @@ function buildRoutesFromFlights(flights) {
 
 }
 
-
 // ============================================================
 // API: ALL ECHO AIR GROUP ROUTES
+// ============================================================
+//
+// Routes are built from flights already stored in PostgreSQL.
+// This means routes.html does NOT have to wait for a full
+// NewSky synchronization every time the page is opened.
+//
 // ============================================================
 
 app.get(
     "/api/routes",
-    async (
-        req,
-        res
-    ) => {
+    async (req, res) => {
 
         try {
 
-            console.log("");
-            console.log(
-                "============================================================"
-            );
-            console.log(
-                "LOADING ECHO AIR GROUP ROUTES"
-            );
-            console.log(
-                "============================================================"
-            );
-
-            const flights =
-                await getAllNewSkyFlights();
-
-            const routes =
-                buildRoutesFromFlights(
-                    flights
+            const result =
+                await query(
+                    `
+                    SELECT
+                        dep_icao,
+                        arr_icao,
+                        aircraft,
+                        COUNT(*)::INTEGER AS flights
+                    FROM flights
+                    WHERE
+                        dep_icao IS NOT NULL
+                        AND TRIM(dep_icao) != ''
+                        AND arr_icao IS NOT NULL
+                        AND TRIM(arr_icao) != ''
+                    GROUP BY
+                        dep_icao,
+                        arr_icao,
+                        aircraft
+                    ORDER BY
+                        dep_icao ASC,
+                        arr_icao ASC
+                    `
                 );
 
-            console.log(
-                `Routes found: ${routes.length}`
-            );
+            const routeMap =
+                new Map();
+
+            for (
+                const row of result.rows
+            ) {
+
+                const departure =
+                    String(
+                        row.dep_icao || ""
+                    )
+                        .trim()
+                        .toUpperCase();
+
+                const arrival =
+                    String(
+                        row.arr_icao || ""
+                    )
+                        .trim()
+                        .toUpperCase();
+
+                if (
+                    !departure ||
+                    !arrival
+                ) {
+                    continue;
+                }
+
+                const key =
+                    `${departure}|${arrival}`;
+
+                if (
+                    !routeMap.has(key)
+                ) {
+
+                    routeMap.set(
+                        key,
+                        {
+                            departure,
+                            arrival,
+                            flights: 0,
+                            aircraft: new Set()
+                        }
+                    );
+
+                }
+
+                const route =
+                    routeMap.get(key);
+
+                route.flights +=
+                    Number(
+                        row.flights
+                    ) || 0;
+
+                if (
+                    row.aircraft &&
+                    String(
+                        row.aircraft
+                    ).trim()
+                ) {
+
+                    route.aircraft.add(
+                        String(
+                            row.aircraft
+                        ).trim()
+                    );
+
+                }
+
+            }
+
+            const routes =
+                Array.from(
+                    routeMap.values()
+                )
+                    .map(
+                        route => ({
+
+                            departure:
+                                route.departure,
+
+                            arrival:
+                                route.arrival,
+
+                            flights:
+                                route.flights,
+
+                            aircraft:
+                                Array.from(
+                                    route.aircraft
+                                ).sort()
+
+                        })
+                    )
+                    .sort(
+                        (a, b) => {
+
+                            const first =
+                                `${a.departure}-${a.arrival}`;
+
+                            const second =
+                                `${b.departure}-${b.arrival}`;
+
+                            return first.localeCompare(
+                                second
+                            );
+
+                        }
+                    );
 
             console.log(
-                "============================================================"
+                `GET /api/routes -> ${routes.length} routes`
             );
 
             return res.json({
@@ -3838,7 +3952,7 @@ app.get(
                     false,
 
                 error:
-                    "Unable to load Echo Air Group routes from NewSky.",
+                    "Unable to load routes.",
 
                 details:
                     error.message
