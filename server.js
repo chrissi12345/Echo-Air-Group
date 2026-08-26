@@ -3067,6 +3067,143 @@ async function getNewSkyFlightPage(
     return data;
 }
 
+
+
+// ============================================================
+// API: ALL ECHO AIR GROUP ROUTES
+// ============================================================
+
+app.get(
+    "/api/routes",
+    async (
+        req,
+        res
+    ) => {
+
+        try {
+
+            const data =
+                await getNewSkyRoutes();
+
+
+            const rawRoutes =
+                extractNewSkyRoutes(
+                    data
+                );
+
+
+            const normalized =
+                rawRoutes
+                    .map(
+                        normalizeNewSkyRoute
+                    )
+                    .filter(
+                        route =>
+                            route.departure &&
+                            route.arrival
+                    );
+
+
+            /*
+             * Remove duplicate routes.
+             */
+
+            const unique =
+                new Map();
+
+
+            for (
+                const route of normalized
+            ) {
+
+                const key =
+                    [
+                        route.departure,
+                        route.arrival,
+                        route.aircraft || ""
+                    ]
+                        .join(
+                            "|"
+                        );
+
+
+                unique.set(
+                    key,
+                    route
+                );
+
+            }
+
+
+            const routes =
+                Array.from(
+                    unique.values()
+                );
+
+
+            routes.sort(
+                (
+                    a,
+                    b
+                ) => {
+
+                    const aKey =
+                        `${a.departure}-${a.arrival}`;
+
+                    const bKey =
+                        `${b.departure}-${b.arrival}`;
+
+                    return aKey.localeCompare(
+                        bKey
+                    );
+
+                }
+            );
+
+
+            return res.json({
+
+                success:
+                    true,
+
+                airlineId:
+                    NEWSKY_AIRLINE_ID,
+
+                count:
+                    routes.length,
+
+                routes
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "GET /api/routes failed:",
+                error
+            );
+
+
+            return res.status(
+                500
+            ).json({
+
+                success:
+                    false,
+
+                error:
+                    "Unable to load Echo Air Group routes from NewSky.",
+
+                details:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
 // ============================================================
 // EXTRACT FLIGHTS
 // ============================================================
@@ -3496,6 +3633,222 @@ async function getAllNewSkyFlights() {
 
     return result;
 }
+
+// ============================================================
+// ROUTES FROM NEWSKY FLIGHTS
+// ============================================================
+//
+// Builds the Echo Air Group route network from the flights
+// returned by NewSky.
+//
+// This does NOT require a separate undocumented NewSky
+// "routes" endpoint.
+//
+// ============================================================
+
+function buildRoutesFromFlights(flights) {
+
+    const routeMap = new Map();
+
+    for (const flight of flights) {
+
+        const departure =
+            getDeparture(flight);
+
+        const arrival =
+            getArrival(flight);
+
+        if (
+            !departure ||
+            !arrival
+        ) {
+            continue;
+        }
+
+        const dep =
+            String(
+                departure
+            )
+            .trim()
+            .toUpperCase();
+
+        const arr =
+            String(
+                arrival
+            )
+            .trim()
+            .toUpperCase();
+
+        if (
+            !dep ||
+            !arr
+        ) {
+            continue;
+        }
+
+        const key =
+            `${dep}|${arr}`;
+
+        if (
+            !routeMap.has(key)
+        ) {
+
+            routeMap.set(
+                key,
+                {
+                    departure: dep,
+                    arrival: arr,
+                    flights: 0,
+                    aircraft: new Set()
+                }
+            );
+
+        }
+
+        const route =
+            routeMap.get(key);
+
+        route.flights++;
+
+        const aircraft =
+            getAircraft(flight);
+
+        if (
+            aircraft &&
+            aircraft !== "Unknown aircraft"
+        ) {
+
+            route.aircraft.add(
+                String(
+                    aircraft
+                )
+            );
+
+        }
+
+    }
+
+    return Array.from(
+        routeMap.values()
+    )
+        .map(route => ({
+
+            departure:
+                route.departure,
+
+            arrival:
+                route.arrival,
+
+            flights:
+                route.flights,
+
+            aircraft:
+                Array.from(
+                    route.aircraft
+                )
+                    .sort()
+
+        }))
+        .sort(
+            (a, b) => {
+
+                const first =
+                    `${a.departure}-${a.arrival}`;
+
+                const second =
+                    `${b.departure}-${b.arrival}`;
+
+                return first.localeCompare(
+                    second
+                );
+
+            }
+        );
+
+}
+
+
+// ============================================================
+// API: ALL ECHO AIR GROUP ROUTES
+// ============================================================
+
+app.get(
+    "/api/routes",
+    async (
+        req,
+        res
+    ) => {
+
+        try {
+
+            console.log("");
+            console.log(
+                "============================================================"
+            );
+            console.log(
+                "LOADING ECHO AIR GROUP ROUTES"
+            );
+            console.log(
+                "============================================================"
+            );
+
+            const flights =
+                await getAllNewSkyFlights();
+
+            const routes =
+                buildRoutesFromFlights(
+                    flights
+                );
+
+            console.log(
+                `Routes found: ${routes.length}`
+            );
+
+            console.log(
+                "============================================================"
+            );
+
+            return res.json({
+
+                success:
+                    true,
+
+                airlineId:
+                    NEWSKY_AIRLINE_ID,
+
+                count:
+                    routes.length,
+
+                routes
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "GET /api/routes failed:",
+                error
+            );
+
+            return res.status(
+                500
+            ).json({
+
+                success:
+                    false,
+
+                error:
+                    "Unable to load Echo Air Group routes from NewSky.",
+
+                details:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
 
 // ============================================================
 // USER MAP
