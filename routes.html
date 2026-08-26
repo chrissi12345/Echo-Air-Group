@@ -1739,114 +1739,42 @@
             try {
 
                 const response =
-                    await fetch(
-                        "/api/routes",
-                        {
-                            method: "GET",
+    await fetch("/api/routes");
 
-                            headers: {
-                                "Accept":
-                                    "application/json"
-                            },
+const text =
+    await response.text();
 
-                            cache: "no-store"
-                        }
-                    );
+let data;
 
+try {
 
-                const data =
-                    await response.json();
+    data =
+        JSON.parse(text);
 
+} catch (error) {
 
-                if (
-                    !response.ok
-                ) {
+    console.error(
+        "Invalid response from /api/routes:",
+        text
+    );
 
-                    throw new Error(
-                        data.error ||
-                        "Unable to load routes."
-                    );
+    throw new Error(
+        "Server did not return valid JSON."
+    );
 
-                }
+}
 
+if (
+    !response.ok ||
+    !data.success
+) {
 
-                if (
-                    !Array.isArray(
-                        data.routes
-                    )
-                ) {
+    throw new Error(
+        data.error ||
+        "Routes could not be loaded."
+    );
 
-                    throw new Error(
-                        "The server returned an invalid route response."
-                    );
-
-                }
-
-
-                allRoutes =
-                    data.routes.map(
-                        normalizeRoute
-                    );
-
-
-                /*
-                 * Sort alphabetically by
-                 * departure then arrival.
-                 */
-
-                allRoutes.sort(
-                    (a, b) => {
-
-                        const aKey =
-                            `${a.departure}-${a.arrival}`;
-
-                        const bKey =
-                            `${b.departure}-${b.arrival}`;
-
-                        return aKey.localeCompare(
-                            bKey
-                        );
-
-                    }
-                );
-
-
-                renderRoutes();
-
-
-            } catch (error) {
-
-                console.error(
-                    "Route loading error:",
-                    error
-                );
-
-
-                routeRows.innerHTML = "";
-
-                routeEmpty.style.display =
-                    "none";
-
-                routeCount.textContent =
-                    "0";
-
-
-                routeErrorText.textContent =
-                    error.message ||
-                    "The route data could not be retrieved.";
-
-
-                routeError.style.display =
-                    "block";
-
-            } finally {
-
-                routeLoading.style.display =
-                    "none";
-
-            }
-
-        }
+}
 
 
         /* =========================================================
