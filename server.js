@@ -4312,6 +4312,139 @@ app.get(
         }
     }
 );
+// ============================================================
+// RECENT FLIGHTS
+// ============================================================
+
+app.get(
+    "/api/flights/recent",
+    async (req, res) => {
+
+        try {
+
+            const result =
+                await query(
+                    `
+                    SELECT
+                        f.id,
+                        f.newsky_id,
+                        f.dep_icao,
+                        f.arr_icao,
+                        f.aircraft,
+                        f.rating,
+                        f.duration,
+                        f.distance,
+                        f.stars,
+                        f.dep_time,
+                        f.synced_at,
+
+                        u.id AS user_id,
+                        u.username,
+                        u.display_name
+
+                    FROM flights f
+
+                    LEFT JOIN users u
+                        ON u.id = f.user_id
+
+                    WHERE
+                        f.dep_time IS NOT NULL
+
+                    ORDER BY
+                        f.dep_time DESC
+
+                    LIMIT 3
+                    `
+                );
+
+            const flights =
+                result.rows.map(
+                    flight => ({
+
+                        id:
+                            flight.id,
+
+                        newskyId:
+                            flight.newsky_id,
+
+                        pilotId:
+                            flight.user_id,
+
+                        pilot:
+                            flight.display_name ||
+                            flight.username ||
+                            "Unknown Pilot",
+
+                        username:
+                            flight.username,
+
+                        departure:
+                            flight.dep_icao ||
+                            "----",
+
+                        arrival:
+                            flight.arr_icao ||
+                            "----",
+
+                        aircraft:
+                            flight.aircraft ||
+                            "Unknown Aircraft",
+
+                        rating:
+                            flight.rating !== null
+                                ? Number(
+                                    flight.rating
+                                )
+                                : null,
+
+                        duration:
+                            flight.duration !== null
+                                ? Number(
+                                    flight.duration
+                                )
+                                : null,
+
+                        distance:
+                            flight.distance !== null
+                                ? Number(
+                                    flight.distance
+                                )
+                                : null,
+
+                        stars:
+                            flight.stars !== null
+                                ? Number(
+                                    flight.stars
+                                )
+                                : 0,
+
+                        date:
+                            flight.dep_time,
+
+                        syncedAt:
+                            flight.synced_at
+                    })
+                );
+
+            res.json({
+                flights
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Recent flights error:",
+                error
+            );
+
+            res.status(500).json({
+
+                error:
+                    "Unable to load recent flights."
+            });
+        }
+    }
+);
 
 // ============================================================
 // LEADERBOARD
