@@ -4,7 +4,10 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
 
     <title>Routes — Echo Air Group</title>
 
@@ -30,8 +33,7 @@
 
             transition:
                 background 0.25s ease,
-                box-shadow 0.25s ease,
-                backdrop-filter 0.25s ease;
+                box-shadow 0.25s ease;
         }
 
         header.scrolled {
@@ -40,7 +42,8 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         body {
@@ -122,7 +125,9 @@
         .foot-links a {
             color: #cbd2c7;
             text-decoration: none;
-            transition: color 0.2s ease;
+
+            transition:
+                color 0.2s ease;
         }
 
         .foot-links a:hover {
@@ -133,16 +138,20 @@
             display: flex;
             justify-content: space-between;
             gap: 20px;
+
             margin-top: 35px;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+            border-top:
+                1px solid rgba(255, 255, 255, 0.08);
+
             color: #737b70;
             font-size: 13px;
         }
 
 
         /* =========================================================
-           FOOTER SOCIAL BUTTONS
+           SOCIAL
         ========================================================= */
 
         .footer-social {
@@ -155,13 +164,15 @@
         .footer-social a {
             width: 38px;
             height: 38px;
+
             border-radius: 9px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: rgba(255, 255, 255, 0.08);
+            background:
+                rgba(255, 255, 255, 0.08);
 
             transition:
                 transform 0.2s ease,
@@ -170,7 +181,9 @@
 
         .footer-social a:hover {
             transform: translateY(-2px);
-            background: rgba(172, 227, 54, 0.15);
+
+            background:
+                rgba(172, 227, 54, 0.15);
         }
 
         .footer-social img {
@@ -181,7 +194,256 @@
 
 
         /* =========================================================
-           NEWSKY LIVE MAP
+           ROUTE FILTERS
+        ========================================================= */
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .filter {
+            border:
+                1px solid #d8ded6;
+
+            background: #ffffff;
+            color: #30372f;
+
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            font-family: inherit;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .filter:hover {
+            transform: translateY(-1px);
+        }
+
+        .filter.active {
+            background: #ace336;
+            color: #17200f;
+            border-color: #ace336;
+        }
+
+
+        /* =========================================================
+           ROUTE INFO
+        ========================================================= */
+
+        .route-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+        }
+
+        .route-count {
+            color: #687267;
+            font-size: 14px;
+        }
+
+        .route-count strong {
+            color: #17200f;
+        }
+
+
+        /* =========================================================
+           ROUTE TABLE
+        ========================================================= */
+
+        .route-table {
+            width: 100%;
+            overflow-x: auto;
+
+            border:
+                1px solid #dfe5dc;
+
+            border-radius: 16px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .route-row {
+            min-width: 800px;
+
+            display: grid;
+
+            grid-template-columns:
+                1.6fr
+                1fr
+                0.9fr
+                0.9fr
+                0.8fr;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 18px 22px;
+
+            border-bottom:
+                1px solid #e8ede5;
+        }
+
+        .route-row:last-child {
+            border-bottom: none;
+        }
+
+        .route-head {
+            background: #f5f7f3;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            color: #626b5e;
+        }
+
+        .route-main {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .route-main strong {
+            color: #17200f;
+        }
+
+        .route-main small {
+            color: #7d887a;
+            font-size: 12px;
+        }
+
+        .route-badge {
+            display: inline-block;
+
+            width: fit-content;
+
+            padding: 5px 9px;
+
+            border-radius: 7px;
+
+            background: #eef5e7;
+            color: #5c7d25;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: 0.4px;
+        }
+
+        .route-empty {
+            padding: 60px 25px;
+
+            text-align: center;
+
+            color: #687267;
+        }
+
+        .route-empty h3 {
+            margin-bottom: 8px;
+            color: #17200f;
+        }
+
+        .route-empty p {
+            margin: 0 auto;
+            max-width: 550px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================================================
+           LOADING
+        ========================================================= */
+
+        .route-loading {
+            padding: 60px 25px;
+
+            text-align: center;
+            color: #687267;
+        }
+
+        .loading-spinner {
+            width: 38px;
+            height: 38px;
+
+            margin:
+                0 auto 18px;
+
+            border:
+                3px solid #e4e9e0;
+
+            border-top-color:
+                #ace336;
+
+            border-radius: 50%;
+
+            animation:
+                routeSpin 0.8s linear infinite;
+        }
+
+        @keyframes routeSpin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* =========================================================
+           ERROR
+        ========================================================= */
+
+        .route-error {
+            display: none;
+
+            padding: 35px 25px;
+
+            text-align: center;
+
+            background: #fff7f7;
+
+            border:
+                1px solid #ead2d2;
+
+            border-radius: 14px;
+
+            margin-bottom: 25px;
+        }
+
+        .route-error h3 {
+            color: #8b3333;
+            margin-bottom: 8px;
+        }
+
+        .route-error p {
+            color: #765c5c;
+            margin: 0 auto;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================================================
+           LIVE MAP
         ========================================================= */
 
         .newsky-map {
@@ -193,9 +455,11 @@
 
             background: #101410;
 
-            border: 1px solid #dfe5dc;
+            border:
+                1px solid #dfe5dc;
 
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.08);
 
             position: relative;
         }
@@ -210,10 +474,12 @@
 
         .map-header {
             display: flex;
+
             justify-content: space-between;
             align-items: center;
 
             gap: 20px;
+
             margin-bottom: 20px;
         }
 
@@ -228,6 +494,7 @@
 
         .newsky-button {
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
 
@@ -254,150 +521,13 @@
             opacity: 0.9;
         }
 
-        .map-fallback {
-            display: none;
-
-            position: absolute;
-            inset: 0;
-
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-
-            padding: 30px;
-
-            background: #101410;
-            color: white;
-        }
-
-        .map-fallback-content {
-            max-width: 500px;
-        }
-
-        .map-fallback h3 {
-            margin-bottom: 10px;
-        }
-
-        .map-fallback p {
-            color: #c8cec5;
-            line-height: 1.6;
-        }
-
 
         /* =========================================================
-           ROUTE FILTERS
+           DARK SECTION
         ========================================================= */
 
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .filter {
-            border: 1px solid #d8ded6;
-
-            background: #ffffff;
-
-            color: #30372f;
-
-            padding: 10px 16px;
-
-            border-radius: 10px;
-
-            font-family: inherit;
-
-            font-weight: 700;
-
-            cursor: pointer;
-
-            transition:
-                background 0.2s ease,
-                color 0.2s ease,
-                border-color 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .filter:hover {
-            transform: translateY(-1px);
-        }
-
-        .filter.active {
-            background: #ace336;
-            color: #17200f;
-            border-color: #ace336;
-        }
-
-
-        /* =========================================================
-           ROUTE TABLE
-        ========================================================= */
-
-        .route-table {
-            width: 100%;
-            overflow-x: auto;
-
-            border: 1px solid #dfe5dc;
-            border-radius: 16px;
-
-            background: #ffffff;
-
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .route-row {
-            min-width: 760px;
-
-            display: grid;
-
-            grid-template-columns:
-                1.6fr
-                1fr
-                0.8fr
-                0.9fr
-                0.8fr;
-
-            align-items: center;
-
-            gap: 15px;
-
-            padding: 18px 22px;
-
-            border-bottom: 1px solid #e8ede5;
-        }
-
-        .route-row:last-child {
-            border-bottom: none;
-        }
-
-        .route-head {
-            background: #f5f7f3;
-
-            font-size: 13px;
-
-            font-weight: 800;
-
-            color: #626b5e;
-        }
-
-        .route-badge {
-            display: inline-block;
-
-            padding: 5px 9px;
-
-            border-radius: 7px;
-
-            background: #eef5e7;
-
-            color: #5c7d25;
-
-            font-size: 10px;
-
-            font-weight: 800;
-
-            letter-spacing: 0.4px;
+        .dark-section {
+            margin-top: 0;
         }
 
 
@@ -435,8 +565,12 @@
 
             .foot-links {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+
+                grid-template-columns:
+                    1fr 1fr;
+
                 gap: 10px 25px;
+
                 width: 100%;
             }
 
@@ -444,6 +578,12 @@
                 flex-direction: column;
                 gap: 8px;
             }
+
+            .route-info {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
         }
 
 
@@ -461,6 +601,7 @@
             .newsky-button {
                 width: 100%;
             }
+
         }
 
 
@@ -486,6 +627,7 @@
             .foot-links {
                 grid-template-columns: 1fr;
             }
+
         }
 
     </style>
@@ -504,7 +646,10 @@
 
         <div class="container nav">
 
-            <a class="brand" href="index.html">
+            <a
+                class="brand"
+                href="index.html"
+            >
 
                 <img
                     class="header-logo"
@@ -517,30 +662,53 @@
 
             <nav class="navlinks">
 
-                <a href="index.html">Home</a>
+                <a href="index.html">
+                    Home
+                </a>
 
-                <a href="about.html">About</a>
+                <a href="about.html">
+                    About
+                </a>
 
-                <a href="fleet.html">Fleet</a>
+                <a href="fleet.html">
+                    Fleet
+                </a>
 
-                <a href="routes.html">Routes</a>
+                <a href="routes.html">
+                    Routes
+                </a>
 
-                <a href="team.html">Team</a>
+                <a href="team.html">
+                    Team
+                </a>
 
-                <a href="join.html">Join Us</a>
+                <a href="join.html">
+                    Join Us
+                </a>
 
-                <a href="manual.html">Pilot Manual</a>
+                <a href="manual.html">
+                    Pilot Manual
+                </a>
 
-                <a href="contact.html">Contact Us</a>
+                <a href="contact.html">
+                    Contact Us
+                </a>
 
-                <a href="ranking.html">Ranking</a>
+                <a href="ranking.html">
+                    Ranking
+                </a>
 
-                <a href="booking.html">Book a flight</a>
+                <a href="booking.html">
+                    Book a flight
+                </a>
 
             </nav>
 
 
-            <a class="register" href="join.html">
+            <a
+                class="register"
+                href="join.html"
+            >
                 REGISTER
             </a>
 
@@ -558,31 +726,56 @@
 
         <!-- MOBILE NAV -->
 
-        <div id="mobileNav" class="mobileNav">
+        <div
+            id="mobileNav"
+            class="mobileNav"
+        >
 
             <div class="container">
 
-                <a href="index.html">Home</a>
+                <a href="index.html">
+                    Home
+                </a>
 
-                <a href="about.html">About</a>
+                <a href="about.html">
+                    About
+                </a>
 
-                <a href="fleet.html">Fleet</a>
+                <a href="fleet.html">
+                    Fleet
+                </a>
 
-                <a href="routes.html">Routes</a>
+                <a href="routes.html">
+                    Routes
+                </a>
 
-                <a href="team.html">Team</a>
+                <a href="team.html">
+                    Team
+                </a>
 
-                <a href="join.html">Join Us</a>
+                <a href="join.html">
+                    Join Us
+                </a>
 
-                <a href="manual.html">Pilot Manual</a>
+                <a href="manual.html">
+                    Pilot Manual
+                </a>
 
-                <a href="contact.html">Contact Us</a>
+                <a href="contact.html">
+                    Contact Us
+                </a>
 
-                <a href="ranking.html">Ranking</a>
+                <a href="ranking.html">
+                    Ranking
+                </a>
 
-                <a href="booking.html">Book a flight</a>
+                <a href="booking.html">
+                    Book a flight
+                </a>
 
-                <a href="join.html">Register</a>
+                <a href="join.html">
+                    Register
+                </a>
 
             </div>
 
@@ -599,7 +792,7 @@
 
 
         <!-- =====================================================
-             PAGE HERO
+             HERO
         ===================================================== -->
 
         <section class="pagehero">
@@ -615,7 +808,8 @@
                 </h1>
 
                 <p>
-                    Filter the network by operation type and view the live NewSky network.
+                    Explore the complete Echo Air Group network.
+                    Routes are loaded directly from our airline data.
                 </p>
 
             </div>
@@ -632,7 +826,7 @@
             <div class="container">
 
 
-                <!-- FILTER BUTTONS -->
+                <!-- FILTERS -->
 
                 <div class="filters">
 
@@ -671,12 +865,48 @@
                 </div>
 
 
+                <!-- ROUTE INFORMATION -->
+
+                <div class="route-info">
+
+                    <div class="route-count">
+
+                        Showing
+                        <strong id="routeCount">
+                            —
+                        </strong>
+                        routes
+
+                    </div>
+
+                </div>
+
+
+                <!-- ERROR -->
+
+                <div
+                    id="routeError"
+                    class="route-error"
+                >
+
+                    <h3>
+                        Routes could not be loaded
+                    </h3>
+
+                    <p id="routeErrorText">
+                        The route data could not be retrieved.
+                    </p>
+
+                </div>
+
+
                 <!-- =================================================
                      ROUTE TABLE
                 ================================================= -->
 
                 <div class="route-table">
 
+                    <!-- HEADER -->
 
                     <div class="route-row route-head">
 
@@ -703,338 +933,43 @@
                     </div>
 
 
-                    <!-- ROME → BARCELONA -->
+                    <!-- LOADING -->
 
                     <div
-                        class="route-row"
-                        data-type="international"
+                        id="routeLoading"
+                        class="route-loading"
                     >
 
-                        <div>
+                        <div class="loading-spinner"></div>
 
-                            <strong>
-                                Rome → Barcelona
-                            </strong>
-
-                            <small style="display:block;color:#7d887a">
-                                LIRF → LEBL
-                            </small>
-
-                        </div>
-
-                        <div>
-
-                            <span class="route-badge">
-                                INTERNATIONAL
-                            </span>
-
-                        </div>
-
-                        <div>
-                            A320
-                        </div>
-
-                        <div>
-                            533 nm
-                        </div>
-
-                        <div>
-                            Rome
-                        </div>
+                        <strong>
+                            Loading Echo Air Group routes...
+                        </strong>
 
                     </div>
 
 
-                    <!-- ROME → PRAGUE -->
+                    <!-- ROUTES -->
+
+                    <div id="routeRows"></div>
+
+
+                    <!-- EMPTY -->
 
                     <div
-                        class="route-row"
-                        data-type="international"
+                        id="routeEmpty"
+                        class="route-empty"
+                        style="display:none;"
                     >
 
-                        <div>
-
-                            <strong>
-                                Rome → Prague
-                            </strong>
-
-                            <small style="display:block;color:#7d887a">
-                                LIRF → LKPR
-                            </small>
-
-                        </div>
-
-                        <div>
-
-                            <span class="route-badge">
-                                INTERNATIONAL
-                            </span>
-
-                        </div>
-
-                        <div>
-                            A21N
-                        </div>
-
-                        <div>
-                            482 nm
-                        </div>
-
-                        <div>
-                            Rome
-                        </div>
-
-                    </div>
-
-
-                    <!-- PRAGUE → ROME -->
-
-                    <div
-                        class="route-row"
-                        data-type="international"
-                    >
-
-                        <div>
-
-                            <strong>
-                                Prague → Rome
-                            </strong>
-
-                            <small style="display:block;color:#7d887a">
-                                LKPR → LIRF
-                            </small>
-
-                        </div>
-
-                        <div>
-
-                            <span class="route-badge">
-                                INTERNATIONAL
-                            </span>
-
-                        </div>
-
-                        <div>
-                            A319
-                        </div>
-
-                        <div>
-                            482 nm
-                        </div>
-
-                        <div>
-                            Prague
-                        </div>
-
-                    </div>
-
-
-                    <!-- ROME → MILAN -->
-
-                    <div
-                        class="route-row"
-                        data-type="domestic"
-                    >
-
-                        <div>
-
-                            <strong>
-                                Rome → Milan
-                            </strong>
-
-                            <small style="display:block;color:#7d887a">
-                                LIRF → LIMC
-                            </small>
-
-                        </div>
-
-                        <div>
-
-                            <span class="route-badge">
-                                DOMESTIC
-                            </span>
-
-                        </div>
-
-                        <div>
-                            A320
-                        </div>
-
-                        <div>
-                            266 nm
-                        </div>
-
-                        <div>
-                            Rome
-                        </div>
-
-                    </div>
-
-
-                    <!-- BARCELONA → MADRID -->
-
-                    <div
-                        class="route-row"
-                        data-type="domestic"
-                    >
-
-                        <div>
-
-                            <strong>
-                                Barcelona → Madrid
-                            </strong>
-
-                            <small style="display:block;color:#7d887a">
-                                LEBL → LEMD
-                            </small>
-
-                        </div>
-
-                        <div>
-
-                            <span class="route-badge">
-                                DOMESTIC
-                            </span>
-
-                        </div>
-
-                        <div>
-                            A320
-                        </div>
-
-                        <div>
-                            301 nm
-                        </div>
-
-                        <div>
-                            Barcelona
-                        </div>
-
-                    </div>
-
-
-                    <!-- ROME → SINGAPORE -->
-
-                    <div
-                        class="route-row"
-                        data-type="longhaul"
-                    >
-
-                        <div>
-
-                            <strong>
-                                Rome → Singapore
-                            </strong>
-
-                            <small style="display:block;color:#7d887a">
-                                LIRF → WSSS
-                            </small>
-
-                        </div>
-
-                        <div>
-
-                            <span class="route-badge">
-                                LONG HAUL
-                            </span>
-
-                        </div>
-
-                        <div>
-                            A359
-                        </div>
-
-                        <div>
-                            5,250 nm
-                        </div>
-
-                        <div>
-                            Rome
-                        </div>
-
-                    </div>
-
-
-                    <!-- ROME → NEW YORK -->
-
-                    <div
-                        class="route-row"
-                        data-type="longhaul"
-                    >
-
-                        <div>
-
-                            <strong>
-                                Rome → New York
-                            </strong>
-
-                            <small style="display:block;color:#7d887a">
-                                LIRF → KJFK
-                            </small>
-
-                        </div>
-
-                        <div>
-
-                            <span class="route-badge">
-                                LONG HAUL
-                            </span>
-
-                        </div>
-
-                        <div>
-                            A359
-                        </div>
-
-                        <div>
-                            3,990 nm
-                        </div>
-
-                        <div>
-                            Rome
-                        </div>
-
-                    </div>
-
-
-                    <!-- PRAGUE → DUBAI -->
-
-                    <div
-                        class="route-row"
-                        data-type="longhaul"
-                    >
-
-                        <div>
-
-                            <strong>
-                                Prague → Dubai
-                            </strong>
-
-                            <small style="display:block;color:#7d887a">
-                                LKPR → OMDB
-                            </small>
-
-                        </div>
-
-                        <div>
-
-                            <span class="route-badge">
-                                LONG HAUL
-                            </span>
-
-                        </div>
-
-                        <div>
-                            A321neo
-                        </div>
-
-                        <div>
-                            2,485 nm
-                        </div>
-
-                        <div>
-                            Prague
-                        </div>
+                        <h3>
+                            No routes found
+                        </h3>
+
+                        <p>
+                            There are currently no routes matching
+                            this filter.
+                        </p>
 
                     </div>
 
@@ -1060,7 +995,8 @@
                             </h2>
 
                             <p>
-                                View live virtual aviation traffic on the NewSky network.
+                                View live virtual aviation traffic
+                                across the Echo Air Group network.
                             </p>
 
                         </div>
@@ -1087,36 +1023,6 @@
                             allow="fullscreen"
                         ></iframe>
 
-
-                        <!-- FALLBACK -->
-
-                        <div class="map-fallback">
-
-                            <div class="map-fallback-content">
-
-                                <h3>
-                                    NewSky Live Map
-                                </h3>
-
-                                <p>
-                                    The NewSky map cannot be displayed directly
-                                    inside this page. Use the button below to open
-                                    the live map.
-                                </p>
-
-                                <a
-                                    class="newsky-button"
-                                    href="https://newsky.app/map"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    Open NewSky Live Map ↗
-                                </a>
-
-                            </div>
-
-                        </div>
-
                     </div>
 
                 </section>
@@ -1127,7 +1033,7 @@
 
 
         <!-- =====================================================
-             BOTTOM SECTION
+             BOTTOM
         ===================================================== -->
 
         <section class="dark-section">
@@ -1141,12 +1047,13 @@
                     </span>
 
                     <h2>
-                        Fly further. <span>Fly together.</span>
+                        Fly further.
+                        <span>Fly together.</span>
                     </h2>
 
                     <p>
-                        Explore the Echo Air Group network and follow virtual
-                        flights across the world.
+                        Explore the Echo Air Group network and
+                        follow virtual flights across the world.
                     </p>
 
                 </div>
@@ -1169,7 +1076,7 @@
             <div class="foot-top">
 
 
-                <!-- FOOTER BRAND -->
+                <!-- BRAND -->
 
                 <div>
 
@@ -1206,12 +1113,7 @@
                     </p>
 
 
-                    <!-- SOCIAL BUTTONS -->
-
                     <div class="footer-social">
-
-
-                        <!-- DISCORD -->
 
                         <a
                             href="https://discord.gg/e7ePxYA24"
@@ -1227,8 +1129,6 @@
 
                         </a>
 
-
-                        <!-- TIKTOK -->
 
                         <a
                             href="https://www.tiktok.com/@echoairgroup"
@@ -1249,7 +1149,7 @@
                 </div>
 
 
-                <!-- FOOTER NAVIGATION -->
+                <!-- FOOTER LINKS -->
 
                 <div class="foot-links">
 
@@ -1261,7 +1161,7 @@
                         About
                     </a>
 
-                    <a href="index.html#fleet">
+                    <a href="fleet.html">
                         Fleet
                     </a>
 
@@ -1302,8 +1202,6 @@
             </div>
 
 
-            <!-- COPYRIGHT -->
-
             <div class="copy">
 
                 <span>
@@ -1331,10 +1229,12 @@
     <script>
 
         /* =========================================================
-           HEADER SCROLL EFFECT
+           HEADER
         ========================================================= */
 
-        const header = document.getElementById("siteHeader");
+        const header =
+            document.getElementById("siteHeader");
+
 
         function updateHeader() {
 
@@ -1350,7 +1250,12 @@
 
         }
 
-        window.addEventListener("scroll", updateHeader);
+
+        window.addEventListener(
+            "scroll",
+            updateHeader
+        );
+
 
         updateHeader();
 
@@ -1362,11 +1267,15 @@
         function toggleMenu() {
 
             const mobileNav =
-                document.getElementById("mobileNav");
+                document.getElementById(
+                    "mobileNav"
+                );
 
             if (mobileNav) {
 
-                mobileNav.classList.toggle("open");
+                mobileNav.classList.toggle(
+                    "open"
+                );
 
             }
 
@@ -1374,57 +1283,619 @@
 
 
         /* =========================================================
-           ROUTE FILTER
+           ROUTE DATA
+        ========================================================= */
+
+        let allRoutes = [];
+
+        let activeFilter = "all";
+
+
+        /* =========================================================
+           ELEMENTS
+        ========================================================= */
+
+        const routeRows =
+            document.getElementById(
+                "routeRows"
+            );
+
+        const routeLoading =
+            document.getElementById(
+                "routeLoading"
+            );
+
+        const routeEmpty =
+            document.getElementById(
+                "routeEmpty"
+            );
+
+        const routeError =
+            document.getElementById(
+                "routeError"
+            );
+
+        const routeErrorText =
+            document.getElementById(
+                "routeErrorText"
+            );
+
+        const routeCount =
+            document.getElementById(
+                "routeCount"
+            );
+
+
+        /* =========================================================
+           ESCAPE HTML
+        ========================================================= */
+
+        function escapeHtml(value) {
+
+            return String(
+                value ?? ""
+            )
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =========================================================
+           NORMALIZE ROUTE
+        ========================================================= */
+
+        function normalizeRoute(route) {
+
+            return {
+
+                departure:
+                    route.departure ||
+                    route.depIcao ||
+                    route.departureIcao ||
+                    route.origin ||
+                    "—",
+
+                arrival:
+                    route.arrival ||
+                    route.arrIcao ||
+                    route.arrivalIcao ||
+                    route.destination ||
+                    "—",
+
+                departureName:
+                    route.departureName ||
+                    route.depName ||
+                    route.originName ||
+                    "",
+
+                arrivalName:
+                    route.arrivalName ||
+                    route.arrName ||
+                    route.destinationName ||
+                    "",
+
+                aircraft:
+                    route.aircraft ||
+                    route.aircraftType ||
+                    route.equipment ||
+                    "—",
+
+                distance:
+                    route.distance ||
+                    route.distanceNm ||
+                    route.distanceNM ||
+                    null,
+
+                hub:
+                    route.hub ||
+                    route.hubName ||
+                    "",
+
+                type:
+                    route.type ||
+                    route.routeType ||
+                    "international"
+
+            };
+
+        }
+
+
+        /* =========================================================
+           DISTANCE
+        ========================================================= */
+
+        function formatDistance(distance) {
+
+            if (
+                distance === null ||
+                distance === undefined ||
+                distance === ""
+            ) {
+
+                return "—";
+
+            }
+
+            const number =
+                Number(distance);
+
+            if (
+                !Number.isFinite(number)
+            ) {
+
+                return escapeHtml(
+                    distance
+                );
+
+            }
+
+            return `${Math.round(number).toLocaleString()} nm`;
+
+        }
+
+
+        /* =========================================================
+           ROUTE TYPE
+        ========================================================= */
+
+        function getRouteType(route) {
+
+            const type =
+                String(
+                    route.type || ""
+                ).toLowerCase();
+
+            if (
+                type === "domestic" ||
+                type === "international" ||
+                type === "longhaul"
+            ) {
+
+                return type;
+
+            }
+
+            const distance =
+                Number(
+                    route.distance
+                );
+
+            if (
+                Number.isFinite(distance) &&
+                distance >= 2500
+            ) {
+
+                return "longhaul";
+
+            }
+
+            /*
+             * If the backend provides countries,
+             * those can be used here later.
+             *
+             * For now, anything not explicitly
+             * domestic is international.
+             */
+
+            return "international";
+
+        }
+
+
+        /* =========================================================
+           TYPE LABEL
+        ========================================================= */
+
+        function typeLabel(type) {
+
+            if (
+                type === "domestic"
+            ) {
+
+                return "DOMESTIC";
+
+            }
+
+            if (
+                type === "longhaul"
+            ) {
+
+                return "LONG HAUL";
+
+            }
+
+            return "INTERNATIONAL";
+
+        }
+
+
+        /* =========================================================
+           RENDER ROUTES
+        ========================================================= */
+
+        function renderRoutes() {
+
+            routeRows.innerHTML = "";
+
+            const filtered =
+                allRoutes.filter(
+                    route => {
+
+                        if (
+                            activeFilter ===
+                            "all"
+                        ) {
+
+                            return true;
+
+                        }
+
+                        return (
+                            getRouteType(
+                                route
+                            ) ===
+                            activeFilter
+                        );
+
+                    }
+                );
+
+
+            routeCount.textContent =
+                filtered.length.toLocaleString();
+
+
+            if (
+                filtered.length === 0
+            ) {
+
+                routeEmpty.style.display =
+                    "block";
+
+                return;
+
+            }
+
+
+            routeEmpty.style.display =
+                "none";
+
+
+            filtered.forEach(
+                route => {
+
+                    const type =
+                        getRouteType(
+                            route
+                        );
+
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
+
+                    row.className =
+                        "route-row";
+
+
+                    row.dataset.type =
+                        type;
+
+
+                    const departure =
+                        escapeHtml(
+                            route.departure
+                        );
+
+                    const arrival =
+                        escapeHtml(
+                            route.arrival
+                        );
+
+                    const departureName =
+                        escapeHtml(
+                            route.departureName
+                        );
+
+                    const arrivalName =
+                        escapeHtml(
+                            route.arrivalName
+                        );
+
+                    const aircraft =
+                        escapeHtml(
+                            route.aircraft
+                        );
+
+                    const hub =
+                        escapeHtml(
+                            route.hub ||
+                            route.departure
+                        );
+
+
+                    const routeNames =
+                        departureName ||
+                        arrivalName
+                            ? `
+                                <small>
+                                    ${
+                                        departureName ||
+                                        departure
+                                    }
+                                    →
+                                    ${
+                                        arrivalName ||
+                                        arrival
+                                    }
+                                </small>
+                              `
+                            : `
+                                <small>
+                                    ${departure}
+                                    →
+                                    ${arrival}
+                                </small>
+                              `;
+
+
+                    row.innerHTML = `
+
+                        <div class="route-main">
+
+                            <strong>
+                                ${departure}
+                                →
+                                ${arrival}
+                            </strong>
+
+                            ${routeNames}
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="route-badge">
+
+                                ${typeLabel(type)}
+
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            ${aircraft}
+
+                        </div>
+
+
+                        <div>
+
+                            ${formatDistance(
+                                route.distance
+                            )}
+
+                        </div>
+
+
+                        <div>
+
+                            ${hub}
+
+                        </div>
+
+                    `;
+
+
+                    routeRows.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           LOAD ROUTES
+        ========================================================= */
+
+        async function loadRoutes() {
+
+            routeLoading.style.display =
+                "block";
+
+            routeError.style.display =
+                "none";
+
+            routeEmpty.style.display =
+                "none";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/routes",
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            cache: "no-store"
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !response.ok
+                ) {
+
+                    throw new Error(
+                        data.error ||
+                        "Unable to load routes."
+                    );
+
+                }
+
+
+                if (
+                    !Array.isArray(
+                        data.routes
+                    )
+                ) {
+
+                    throw new Error(
+                        "The server returned an invalid route response."
+                    );
+
+                }
+
+
+                allRoutes =
+                    data.routes.map(
+                        normalizeRoute
+                    );
+
+
+                /*
+                 * Sort alphabetically by
+                 * departure then arrival.
+                 */
+
+                allRoutes.sort(
+                    (a, b) => {
+
+                        const aKey =
+                            `${a.departure}-${a.arrival}`;
+
+                        const bKey =
+                            `${b.departure}-${b.arrival}`;
+
+                        return aKey.localeCompare(
+                            bKey
+                        );
+
+                    }
+                );
+
+
+                renderRoutes();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Route loading error:",
+                    error
+                );
+
+
+                routeRows.innerHTML = "";
+
+                routeEmpty.style.display =
+                    "none";
+
+                routeCount.textContent =
+                    "0";
+
+
+                routeErrorText.textContent =
+                    error.message ||
+                    "The route data could not be retrieved.";
+
+
+                routeError.style.display =
+                    "block";
+
+            } finally {
+
+                routeLoading.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* =========================================================
+           FILTER
         ========================================================= */
 
         function filterRoutes(type) {
 
-            const rows =
-                document.querySelectorAll(
-                    ".route-row[data-type]"
+            activeFilter =
+                type;
+
+
+            document
+                .querySelectorAll(
+                    ".filter"
+                )
+                .forEach(
+                    button => {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+
+                        if (
+                            button.dataset.filter ===
+                            type
+                        ) {
+
+                            button.classList.add(
+                                "active"
+                            );
+
+                        }
+
+                    }
                 );
 
-            const buttons =
-                document.querySelectorAll(".filter");
 
-
-            /* Update active button */
-
-            buttons.forEach(button => {
-
-                button.classList.remove("active");
-
-                if (
-                    button.dataset.filter === type
-                ) {
-
-                    button.classList.add("active");
-
-                }
-
-            });
-
-
-            /* Filter rows */
-
-            rows.forEach(row => {
-
-                if (
-                    type === "all" ||
-                    row.dataset.type === type
-                ) {
-
-                    row.style.display = "grid";
-
-                } else {
-
-                    row.style.display = "none";
-
-                }
-
-            });
+            renderRoutes();
 
         }
+
+
+        /* =========================================================
+           INITIAL LOAD
+        ========================================================= */
+
+        loadRoutes();
 
     </script>
 
