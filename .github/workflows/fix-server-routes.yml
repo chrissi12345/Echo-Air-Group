@@ -21,7 +21,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fix malformed routes section
+      - name: Repair server.js routes section
         shell: python
         run: |
           from pathlib import Path
@@ -29,31 +29,31 @@ jobs:
           path = Path('server.js')
           text = path.read_text(encoding='utf-8')
 
-          start_marker = "// ============================================================\n// NEWSKY SCHEDULES / ROUTES"
-          end_marker = "// ============================================================\n// API: ALL ECHO AIR GROUP ROUTES\n// ============================================================\n//\n// Routes are built from flights already stored in PostgreSQL."
+          # Remove the stray duplicated code that appears immediately
+          # after the first normalizeNewSkySchedule() function.
+          start_marker = "    // --------------------------------------------------------\n    // Normal array response"
+          end_marker = "// ============================================================\n// SCHEDULE VALUE HELPER"
 
           start = text.find(start_marker)
-          end = text.find(end_marker, start + len(start_marker)) if start != -1 else -1
+          end = text.find(end_marker, start) if start != -1 else -1
 
-          if start == -1:
-              raise SystemExit('Could not find NEWSKY SCHEDULES / ROUTES marker.')
-          if end == -1:
-              raise SystemExit('Could not find the PostgreSQL /api/routes marker.')
+          if start != -1 and end != -1:
+              text = text[:start] + text[end:]
 
-          replacement = """// ============================================================
-// ROUTES
-// ============================================================
-//
-// Routes are served from PostgreSQL below. The old direct NewSky
-// schedules endpoint has been removed because it duplicated the
-// PostgreSQL /api/routes endpoint and caused malformed JavaScript.
-//
-// ============================================================
+          # Keep the direct NewSky schedules /api/routes endpoint.
+          # Remove the later PostgreSQL duplicate endpoint so there is
+          # only one GET /api/routes route and it uses the actual NewSky
+          # schedules returned by the airline account.
+          routes_marker = "// API: ALL ECHO AIR GROUP ROUTES"
+          flights_marker = "// ROUTES FROM NEWSKY FLIGHTS"
+          pg_start = text.find(routes_marker, text.find(flights_marker))
+          user_map_marker = "// USER MAP"
+          pg_end = text.find(user_map_marker, pg_start) if pg_start != -1 else -1
 
-"""
+          if pg_start != -1 and pg_end != -1:
+              text = text[:pg_start] + "// PostgreSQL route endpoint intentionally removed. Routes use NewSky schedules above.\n\n" + text[pg_end:]
 
-          new_text = text[:start] + replacement + text[end:]
-          path.write_text(new_text, encoding='utf-8')
+          path.write_text(text, encoding='utf-8')
 
       - name: Validate JavaScript
         run: node --check server.js
