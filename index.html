@@ -156,398 +156,6 @@ button {
     outline-offset: 4px;
 }
 
-    /* ============================================================
-   RECENT FLIGHTS
-   ============================================================ */
-
-.recent-flights {
-    position: relative;
-    padding: 100px 0;
-    background: var(--dark-3);
-    color: white;
-}
-
-.section-container {
-    width: min(
-        1200px,
-        calc(100% - 40px)
-    );
-
-    margin: 0 auto;
-}
-
-.section-heading {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.section-label {
-    display: inline-block;
-    margin-bottom: 10px;
-
-    color: #ace336;
-
-    font-size: 13px;
-    font-weight: 800;
-
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.section-heading h2 {
-    margin: 0 0 12px;
-
-    font-size: clamp(
-        32px,
-        5vw,
-        52px
-    );
-
-    font-weight: 800;
-}
-
-.section-heading p {
-    margin: 0;
-
-    color: rgba(
-        255,
-        255,
-        255,
-        .65
-    );
-
-    font-size: 16px;
-}
-
-
-/* GRID */
-
-.recent-flights-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
-
-    gap: 22px;
-}
-
-
-/* CARD */
-
-.recent-flight-card {
-
-    padding: 25px;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .035
-        );
-
-    border:
-        1px solid
-        rgba(
-            172,
-            227,
-            54,
-            .12
-        );
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 15px 40px
-        rgba(
-            0,
-            0,
-            0,
-            .15
-        );
-
-    transition:
-        transform .25s ease,
-        border-color .25s ease,
-        box-shadow .25s ease;
-}
-
-.recent-flight-card:hover {
-
-    transform:
-        translateY(-6px);
-
-    border-color:
-        rgba(
-            172,
-            227,
-            54,
-            .4
-        );
-
-    box-shadow:
-        0 20px 50px
-        rgba(
-            0,
-            0,
-            0,
-            .25
-        );
-}
-
-
-/* TOP */
-
-.recent-flight-top {
-
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 25px;
-}
-
-.recent-flight-date {
-
-    color:
-        rgba(
-            255,
-            255,
-            255,
-            .55
-        );
-
-    font-size: 13px;
-}
-
-.recent-flight-stars {
-
-    color: #ace336;
-
-    font-size: 13px;
-    font-weight: 700;
-}
-
-
-/* ROUTE */
-
-.recent-flight-route {
-
-    display: grid;
-
-    grid-template-columns:
-        auto
-        1fr
-        auto;
-
-    align-items: center;
-
-    gap: 15px;
-
-    margin-bottom: 28px;
-}
-
-.recent-flight-airport strong {
-
-    font-size: 27px;
-    font-weight: 800;
-}
-
-.recent-flight-line {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-}
-
-.recent-flight-line span {
-
-    flex: 1;
-
-    height: 1px;
-
-    background:
-        rgba(
-            255,
-            255,
-            255,
-            .2
-        );
-}
-
-.recent-flight-plane {
-
-    color: #ace336;
-
-    font-size: 18px;
-
-    transform:
-        rotate(90deg);
-}
-
-
-/* INFO */
-
-.recent-flight-info {
-
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap: 18px;
-
-    padding-top: 20px;
-
-    border-top:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .08
-        );
-}
-
-.recent-flight-info div {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 4px;
-}
-
-.recent-flight-info span {
-
-    color:
-        rgba(
-            255,
-            255,
-            255,
-            .45
-        );
-
-    font-size: 11px;
-
-    text-transform: uppercase;
-
-    letter-spacing: .8px;
-}
-
-.recent-flight-info strong {
-
-    color: white;
-
-    font-size: 14px;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-}
-
-
-/* FOOTER */
-
-.recent-flight-footer {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-top: 22px;
-    padding-top: 18px;
-
-    border-top:
-        1px solid
-        rgba(
-            255,
-            255,
-            255,
-            .08
-        );
-
-    color:
-        rgba(
-            255,
-            255,
-            255,
-            .45
-        );
-
-    font-size: 12px;
-}
-
-.recent-flight-footer strong {
-
-    color: #ace336;
-
-    margin-left: 4px;
-}
-
-
-/* LOADING / EMPTY */
-
-.recent-flight-loading,
-.recent-flight-empty {
-
-    grid-column:
-        1 / -1;
-
-    padding: 50px;
-
-    text-align: center;
-
-    color:
-        rgba(
-            255,
-            255,
-            255,
-            .55
-        );
-}
-
-
-/* MOBILE */
-
-@media (
-    max-width: 900px
-) {
-
-    .recent-flights-grid {
-
-        grid-template-columns:
-            1fr;
-    }
-
-}
-
-@media (
-    max-width: 500px
-) {
-
-    .recent-flights {
-
-        padding: 70px 0;
-    }
-
-    .recent-flight-card {
-
-        padding: 20px;
-    }
-
-}
 /* ============================================================
    GLOBAL HELPERS
    ============================================================ */
@@ -1975,45 +1583,69 @@ header.hide-on-scroll {
     font-size: 11px;
 }
 
-<!-- ============================================================
-     RECENT FLIGHTS
-     ============================================================ -->
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
 
-<section class="recent-flights" id="recent-flights">
+.testimonial-section {
+    background: var(--dark);
+    color: white;
+}
 
-    <div class="section-container">
+.testimonial-section .section-head p {
+    color: #aeb7aa;
+}
 
-        <div class="section-heading reveal">
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
 
-            <span class="section-label">
-                Flight Operations
-            </span>
+.testimonial {
+    padding: 28px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px;
+    background: rgba(255,255,255,.035);
+}
 
-            <h2>
-                Recent Flights
-            </h2>
+.stars {
+    color: var(--green);
+    letter-spacing: 3px;
+}
 
-            <p>
-                The latest flights operated by Echo Air Group pilots.
-            </p>
+.testimonial p {
+    color: #c0c8bb;
+    line-height: 1.75;
+}
 
-        </div>
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
 
+.author-avatar {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--green);
+    color: var(--black);
+    font-weight: 900;
+}
 
-        <div
-            class="recent-flights-grid"
-            id="recentFlightsGrid"
-        >
+.author-info strong {
+    display: block;
+}
 
-            <div class="recent-flight-loading">
-                Loading recent flights...
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
+.author-info span {
+    color: #7e897a;
+    font-size: 11px;
+}
 
 /* ============================================================
    FAQ
@@ -3634,341 +3266,75 @@ footer p {
 
 </section>
 
-<script>
+<!-- ============================================================
+     TESTIMONIALS
+     ============================================================ -->
 
-async function loadRecentFlights() {
+<section class="testimonial-section reveal">
 
-    const container =
-        document.getElementById("recentFlightsGrid");
+    <div class="container">
 
-    if (!container) {
-        return;
-    }
+        <div class="section-head center">
+            <span class="eyebrow">Pilot Community</span>
+            <h2>Made for <span>pilots.</span></h2>
+            <p>
+                Example testimonials you can replace with real feedback
+                from Echo Air Group members.
+            </p>
+        </div>
 
-    try {
+        <div class="testimonial-grid">
 
-        const response =
-            await fetch("/api/flights/recent");
-
-        if (!response.ok) {
-            throw new Error(
-                "Failed to load recent flights."
-            );
-        }
-
-        const data =
-            await response.json();
-
-        // Only show the 3 most recent flights
-        const flights =
-            (data.flights || []).slice(0, 3);
-
-        if (!flights.length) {
-
-            container.innerHTML = `
-                <div class="recent-flight-empty">
-
-                    <h3>No recent flights</h3>
-
-                    <p>
-                        No flights have been recorded yet.
-                    </p>
-
-                </div>
-            `;
-
-            return;
-        }
-
-        container.innerHTML =
-            flights
-                .map(flight =>
-                    createRecentFlightCard(flight)
-                )
-                .join("");
-
-    } catch (error) {
-
-        console.error(
-            "Recent flights error:",
-            error
-        );
-
-        container.innerHTML = `
-            <div class="recent-flight-empty">
-
-                <h3>Unable to load flights</h3>
-
+            <article class="testimonial">
+                <div class="stars">★★★★★</div>
                 <p>
-                    Please try again later.
+                    “A simple place to enjoy flight simulation while still
+                    feeling like you are part of an airline.”
                 </p>
-
-            </div>
-        `;
-    }
-}
-
-
-function createRecentFlightCard(flight) {
-
-    const date =
-        flight.date
-            ? new Date(
-                flight.date
-            ).toLocaleDateString(
-                "en-GB",
-                {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric"
-                }
-            )
-            : "Unknown date";
-
-
-    const departure =
-        flight.departure || "----";
-
-    const arrival =
-        flight.arrival || "----";
-
-    const aircraft =
-        flight.aircraft || "Unknown aircraft";
-
-    const pilot =
-        flight.pilot || "Unknown pilot";
-
-
-    const duration =
-        formatFlightDuration(
-            flight.duration
-        );
-
-
-    const distance =
-        flight.distance !== null &&
-        flight.distance !== undefined
-            ? `${Number(
-                flight.distance
-            ).toLocaleString()} km`
-            : "—";
-
-
-    const rating =
-        flight.rating !== null &&
-        flight.rating !== undefined
-            ? `${Number(
-                flight.rating
-            ).toFixed(1)}/5`
-            : "—";
-
-
-    const stars =
-        flight.stars !== null &&
-        flight.stars !== undefined
-            ? flight.stars
-            : "—";
-
-
-    const flightId =
-        flight.newskyId !== null &&
-        flight.newskyId !== undefined
-            ? flight.newskyId
-            : "—";
-
-
-    return `
-        <article class="recent-flight-card">
-
-            <div class="recent-flight-top">
-
-                <span class="recent-flight-date">
-                    ${escapeRecentFlightHtml(date)}
-                </span>
-
-                <span class="recent-flight-stars">
-                    ★ ${escapeRecentFlightHtml(
-                        String(stars)
-                    )}
-                </span>
-
-            </div>
-
-
-            <div class="recent-flight-route">
-
-                <div class="recent-flight-airport">
-
-                    <strong>
-                        ${escapeRecentFlightHtml(
-                            departure
-                        )}
-                    </strong>
-
-                </div>
-
-
-                <div class="recent-flight-line">
-
-                    <span></span>
-
-                    <div class="recent-flight-plane">
-                        ✈
+                <div class="testimonial-author">
+                    <div class="author-avatar">P</div>
+                    <div class="author-info">
+                        <strong>Example Pilot</strong>
+                        <span>Echo Air Group</span>
                     </div>
-
-                    <span></span>
-
                 </div>
+            </article>
 
-
-                <div class="recent-flight-airport">
-
-                    <strong>
-                        ${escapeRecentFlightHtml(
-                            arrival
-                        )}
-                    </strong>
-
+            <article class="testimonial">
+                <div class="stars">★★★★★</div>
+                <p>
+                    “The combination of routes, aircraft and community makes
+                    every flight feel a little more meaningful.”
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">A</div>
+                    <div class="author-info">
+                        <strong>Example Pilot</strong>
+                        <span>Virtual Aviation</span>
+                    </div>
                 </div>
+            </article>
 
-            </div>
-
-
-            <div class="recent-flight-info">
-
-                <div>
-
-                    <span>Aircraft</span>
-
-                    <strong>
-                        ${escapeRecentFlightHtml(
-                            aircraft
-                        )}
-                    </strong>
-
+            <article class="testimonial">
+                <div class="stars">★★★★★</div>
+                <p>
+                    “Pick a destination, start the simulator and fly. That is
+                    exactly the kind of virtual airline experience I wanted.”
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">E</div>
+                    <div class="author-info">
+                        <strong>Example Pilot</strong>
+                        <span>ECV Network</span>
+                    </div>
                 </div>
+            </article>
 
+        </div>
 
-                <div>
+    </div>
 
-                    <span>Pilot</span>
-
-                    <strong>
-                        ${escapeRecentFlightHtml(
-                            pilot
-                        )}
-                    </strong>
-
-                </div>
-
-
-                <div>
-
-                    <span>Duration</span>
-
-                    <strong>
-                        ${escapeRecentFlightHtml(
-                            duration
-                        )}
-                    </strong>
-
-                </div>
-
-
-                <div>
-
-                    <span>Distance</span>
-
-                    <strong>
-                        ${escapeRecentFlightHtml(
-                            distance
-                        )}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="recent-flight-footer">
-
-                <span>
-                    Rating
-
-                    <strong>
-                        ${escapeRecentFlightHtml(
-                            rating
-                        )}
-                    </strong>
-                </span>
-
-
-                <span>
-                    Flight #${escapeRecentFlightHtml(
-                        String(flightId)
-                    )}
-                </span>
-
-            </div>
-
-        </article>
-    `;
-}
-
-
-function formatFlightDuration(minutes) {
-
-    if (
-        minutes === null ||
-        minutes === undefined ||
-        Number.isNaN(
-            Number(minutes)
-        )
-    ) {
-        return "—";
-    }
-
-
-    const total =
-        Math.round(
-            Number(minutes)
-        );
-
-
-    const hours =
-        Math.floor(
-            total / 60
-        );
-
-
-    const mins =
-        total % 60;
-
-
-    if (hours > 0) {
-
-        return `${hours}h ${mins}m`;
-    }
-
-
-    return `${mins}m`;
-}
-
-
-function escapeRecentFlightHtml(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-loadRecentFlights();
-
-</script>
+</section>
 
 <!-- ============================================================
      FAQ
@@ -4921,400 +4287,6 @@ console.log(
 /* ============================================================
    END OF ECHO AIR GROUP HOMEPAGE SCRIPT
    ============================================================ */
-    
-</script>
-<script>
-
-/* ============================================================
-   RECENT FLIGHTS
-   ============================================================ */
-
-async function loadRecentFlights() {
-
-    const grid =
-        document.getElementById(
-            "recentFlightsGrid"
-        );
-
-    if (!grid) return;
-
-    try {
-
-        const response =
-            await fetch(
-                "/api/flights/recent"
-            );
-
-        if (!response.ok) {
-            throw new Error(
-                "Failed to load recent flights"
-            );
-        }
-
-        const data =
-            await response.json();
-
-        const flights =
-            data.flights || [];
-
-
-        /* --------------------------------------------------------
-           NO FLIGHTS
-           -------------------------------------------------------- */
-
-        if (!flights.length) {
-
-            grid.innerHTML = `
-                <div class="recent-flight-empty">
-
-                    No recent flights available.
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        /* --------------------------------------------------------
-           CREATE CARDS
-           -------------------------------------------------------- */
-
-        grid.innerHTML =
-            flights.map(
-                flight => {
-
-                    const date =
-                        flight.date
-                            ? new Date(
-                                flight.date
-                              ).toLocaleDateString(
-                                "en-GB",
-                                {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric"
-                                }
-                              )
-                            : "Unknown date";
-
-
-                    const duration =
-                        flight.duration !== null
-                            ? formatDuration(
-                                flight.duration
-                              )
-                            : "—";
-
-
-                    const distance =
-                        flight.distance !== null
-                            ? `${Math.round(
-                                flight.distance
-                              ).toLocaleString()} NM`
-                            : "—";
-
-
-                    const rating =
-                        flight.rating !== null
-                            ? `${flight.rating.toFixed(1)}/10`
-                            : "—";
-
-
-                    const stars =
-                        "★".repeat(
-                            Math.max(
-                                0,
-                                Math.min(
-                                    5,
-                                    flight.stars || 0
-                                )
-                            )
-                        );
-
-
-                    return `
-
-                        <article
-                            class="recent-flight-card reveal"
-                        >
-
-                            <!-- TOP -->
-
-                            <div class="recent-flight-top">
-
-                                <span
-                                    class="recent-flight-date"
-                                >
-                                    ${date}
-                                </span>
-
-                                <span
-                                    class="recent-flight-stars"
-                                >
-                                    ${stars || "—"}
-                                </span>
-
-                            </div>
-
-
-                            <!-- ROUTE -->
-
-                            <div
-                                class="recent-flight-route"
-                            >
-
-                                <div
-                                    class="recent-flight-airport"
-                                >
-                                    <strong>
-                                        ${escapeHTML(
-                                            flight.departure
-                                        )}
-                                    </strong>
-                                </div>
-
-
-                                <div
-                                    class="recent-flight-line"
-                                >
-
-                                    <span></span>
-
-                                    <div
-                                        class="recent-flight-plane"
-                                    >
-                                        ✈
-                                    </div>
-
-                                    <span></span>
-
-                                </div>
-
-
-                                <div
-                                    class="recent-flight-airport"
-                                >
-                                    <strong>
-                                        ${escapeHTML(
-                                            flight.arrival
-                                        )}
-                                    </strong>
-                                </div>
-
-                            </div>
-
-
-                            <!-- INFO -->
-
-                            <div
-                                class="recent-flight-info"
-                            >
-
-                                <div>
-
-                                    <span>
-                                        Pilot
-                                    </span>
-
-                                    <strong>
-                                        ${escapeHTML(
-                                            flight.pilot
-                                        )}
-                                    </strong>
-
-                                </div>
-
-
-                                <div>
-
-                                    <span>
-                                        Aircraft
-                                    </span>
-
-                                    <strong>
-                                        ${escapeHTML(
-                                            flight.aircraft
-                                        )}
-                                    </strong>
-
-                                </div>
-
-
-                                <div>
-
-                                    <span>
-                                        Duration
-                                    </span>
-
-                                    <strong>
-                                        ${duration}
-                                    </strong>
-
-                                </div>
-
-
-                                <div>
-
-                                    <span>
-                                        Distance
-                                    </span>
-
-                                    <strong>
-                                        ${distance}
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- FOOTER -->
-
-                            <div
-                                class="recent-flight-footer"
-                            >
-
-                                <span>
-                                    Flight Rating
-                                </span>
-
-                                <strong>
-                                    ${rating}
-                                </strong>
-
-                            </div>
-
-                        </article>
-
-                    `;
-
-                }
-            ).join("");
-
-
-        /* --------------------------------------------------------
-           REVEAL ANIMATION
-           -------------------------------------------------------- */
-
-        requestAnimationFrame(() => {
-
-            grid
-                .querySelectorAll(".reveal")
-                .forEach(
-                    element => {
-
-                        element.classList.add(
-                            "visible"
-                        );
-
-                    }
-                );
-
-        });
-
-
-    } catch (error) {
-
-        console.error(
-            "Recent flights:",
-            error
-        );
-
-        grid.innerHTML = `
-
-            <div
-                class="recent-flight-empty"
-            >
-                Unable to load recent flights.
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-/* ============================================================
-   FORMAT DURATION
-   ============================================================ */
-
-function formatDuration(value) {
-
-    const minutes =
-        Number(value);
-
-    if (
-        !Number.isFinite(minutes) ||
-        minutes < 0
-    ) {
-        return "—";
-    }
-
-    const hours =
-        Math.floor(
-            minutes / 60
-        );
-
-    const remainingMinutes =
-        Math.round(
-            minutes % 60
-        );
-
-    if (hours > 0) {
-
-        return `${hours}h ${remainingMinutes}m`;
-
-    }
-
-    return `${remainingMinutes}m`;
-
-}
-
-
-/* ============================================================
-   BASIC HTML ESCAPE
-   ============================================================ */
-
-function escapeHTML(value) {
-
-    return String(
-        value ?? ""
-    )
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* ============================================================
-   LOAD
-   ============================================================ */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    loadRecentFlights
-);
-
 </script>
 
 </body>
