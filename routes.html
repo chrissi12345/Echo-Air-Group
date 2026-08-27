@@ -4,628 +4,621 @@
 <head>
 
     <meta charset="utf-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
 
+    <meta
+        name="theme-color"
+        content="#101410"
+    >
+
+    <meta
+        name="description"
+        content="Explore the complete Echo Air Group scheduled route network."
+    >
+
     <title>Routes — Echo Air Group</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
     <style>
 
-        /* =========================================================
-           FIXED HEADER
-        ========================================================= */
+        /* ============================================================
+           ROUTES PAGE
+           ============================================================ */
 
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-
-            background: rgba(9, 13, 8, 0.98);
-
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-
-            transition:
-                background 0.25s ease,
-                box-shadow 0.25s ease;
+        :root {
+            --route-green: #ace336;
+            --route-dark: #101410;
+            --route-dark-2: #151b14;
+            --route-dark-3: #1b2318;
+            --route-border: rgba(172, 227, 54, 0.14);
+            --route-muted: #9ba496;
+            --route-white: #ffffff;
         }
 
-        header.scrolled {
-            background: rgba(9, 13, 8, 0.80);
-
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-
-            box-shadow:
-                0 4px 20px rgba(0, 0, 0, 0.08);
+        .routes-page {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(172, 227, 54, 0.08),
+                    transparent 32%
+                ),
+                var(--route-dark);
+            color: var(--route-white);
+            padding-bottom: 100px;
         }
 
-        body {
-            padding-top: 80px;
+        /* ============================================================
+           HERO
+           ============================================================ */
+
+        .routes-hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 150px 24px 70px;
         }
 
-
-        /* =========================================================
-           HEADER LOGO
-        ========================================================= */
-
-        .header-logo {
-            height: 48px;
-            width: auto;
-            display: block;
-            object-fit: contain;
-        }
-
-
-        /* =========================================================
-           FOOTER
-        ========================================================= */
-
-        footer {
-            background: #090d08;
-            color: white;
-            padding: 45px 0 22px;
-        }
-
-        .foot-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 50px;
-        }
-
-        footer .brand {
-            display: flex;
+        .routes-eyebrow {
+            display: inline-flex;
             align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: white;
-            margin-bottom: 16px;
-        }
+            gap: 8px;
 
-        footer .brand-logo {
-            width: 58px;
-            height: 58px;
-            object-fit: contain;
-            display: block;
-        }
+            padding: 7px 13px;
 
-        footer .brand-text {
-            display: flex;
-            flex-direction: column;
+            border: 1px solid rgba(172, 227, 54, 0.2);
+            border-radius: 999px;
+
+            color: var(--route-green);
+
+            font-size: 12px;
             font-weight: 800;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+
+            background: rgba(172, 227, 54, 0.06);
         }
 
-        footer .brand-text small {
-            display: block;
-            margin-top: 4px;
-            color: #8f988c;
-            font-size: 11px;
-            font-weight: 600;
+        .routes-hero h1 {
+            margin: 20px 0 14px;
+
+            font-size: clamp(42px, 7vw, 76px);
+            line-height: 0.95;
+            letter-spacing: -0.04em;
         }
 
-        footer p {
-            color: #8f988c;
+        .routes-hero h1 span {
+            color: var(--route-green);
+        }
+
+        .routes-hero p {
+            max-width: 720px;
+            margin: 0;
+
+            color: var(--route-muted);
+
+            font-size: 18px;
             line-height: 1.7;
         }
 
-        .foot-links {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        /* ============================================================
+           CONTROLS
+           ============================================================ */
+
+        .routes-controls {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 24px;
         }
 
-        .foot-links a {
-            color: #cbd2c7;
-            text-decoration: none;
+        .routes-controls-inner {
+            display: grid;
+            grid-template-columns: minmax(220px, 1fr) auto;
+            gap: 16px;
 
-            transition:
-                color 0.2s ease;
+            padding: 18px;
+
+            border: 1px solid var(--route-border);
+            border-radius: 18px;
+
+            background: rgba(21, 27, 20, 0.85);
+            backdrop-filter: blur(12px);
         }
 
-        .foot-links a:hover {
-            color: #ace336;
+        .route-search {
+            width: 100%;
+
+            box-sizing: border-box;
+
+            padding: 14px 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+
+            outline: none;
+
+            background: #101410;
+            color: white;
+
+            font: inherit;
         }
 
-        .copy {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-
-            margin-top: 35px;
-            padding-top: 20px;
-
-            border-top:
-                1px solid rgba(255, 255, 255, 0.08);
-
-            color: #737b70;
-            font-size: 13px;
+        .route-search::placeholder {
+            color: #6f786c;
         }
 
+        .route-search:focus {
+            border-color: rgba(172, 227, 54, 0.5);
+            box-shadow: 0 0 0 3px rgba(172, 227, 54, 0.08);
+        }
 
-        /* =========================================================
-           SOCIAL
-        ========================================================= */
-
-        .footer-social {
+        .route-filter {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-top: 18px;
-        }
-
-        .footer-social a {
-            width: 38px;
-            height: 38px;
-
-            border-radius: 9px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background:
-                rgba(255, 255, 255, 0.08);
-
-            transition:
-                transform 0.2s ease,
-                background 0.2s ease;
-        }
-
-        .footer-social a:hover {
-            transform: translateY(-2px);
-
-            background:
-                rgba(172, 227, 54, 0.15);
-        }
-
-        .footer-social img {
-            width: 22px;
-            height: 22px;
-            object-fit: contain;
-        }
-
-
-        /* =========================================================
-           ROUTE FILTERS
-        ========================================================= */
-
-        .filters {
-            display: flex;
+            gap: 8px;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
         }
 
-        .filter {
-            border:
-                1px solid #d8ded6;
+        .route-filter button {
+            border: 1px solid rgba(255, 255, 255, 0.08);
 
-            background: #ffffff;
-            color: #30372f;
-
-            padding: 10px 16px;
+            padding: 11px 16px;
 
             border-radius: 10px;
 
-            font-family: inherit;
-            font-weight: 700;
-
             cursor: pointer;
+
+            background: #101410;
+            color: #aeb7a9;
+
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
 
             transition:
                 background 0.2s ease,
                 color 0.2s ease,
-                border-color 0.2s ease,
-                transform 0.2s ease;
+                border-color 0.2s ease;
         }
 
-        .filter:hover {
-            transform: translateY(-1px);
+        .route-filter button:hover {
+            color: white;
+            border-color: rgba(172, 227, 54, 0.3);
         }
 
-        .filter.active {
-            background: #ace336;
-            color: #17200f;
-            border-color: #ace336;
+        .route-filter button.active {
+            background: var(--route-green);
+            border-color: var(--route-green);
+            color: #18210f;
         }
 
+        /* ============================================================
+           SUMMARY
+           ============================================================ */
 
-        /* =========================================================
-           ROUTE INFO
-        ========================================================= */
+        .routes-summary {
+            max-width: 1200px;
+            margin: 0 auto 28px;
+            padding: 0 24px;
 
-        .route-info {
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             gap: 20px;
-
-            margin-bottom: 20px;
         }
 
-        .route-count {
-            color: #687267;
+        .routes-summary strong {
+            font-size: 18px;
+        }
+
+        .routes-summary span {
+            color: var(--route-muted);
             font-size: 14px;
         }
 
-        .route-count strong {
-            color: #17200f;
+        .routes-updated {
+            text-align: right;
         }
 
+        /* ============================================================
+           ROUTE GRID
+           ============================================================ */
 
-        /* =========================================================
-           ROUTE TABLE
-        ========================================================= */
-
-        .route-table {
-            width: 100%;
-            overflow-x: auto;
-
-            border:
-                1px solid #dfe5dc;
-
-            border-radius: 16px;
-
-            background: #ffffff;
-
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .route-row {
-            min-width: 800px;
+        .routes-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
 
             display: grid;
-
-            grid-template-columns:
-                1.6fr
-                1fr
-                0.9fr
-                0.9fr
-                0.8fr;
-
-            align-items: center;
-
-            gap: 15px;
-
-            padding: 18px 22px;
-
-            border-bottom:
-                1px solid #e8ede5;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
         }
 
-        .route-row:last-child {
-            border-bottom: none;
+        .route-card {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 24px;
+
+            border: 1px solid var(--route-border);
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(27, 35, 24, 0.98),
+                    rgba(16, 20, 16, 0.98)
+                );
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
-        .route-head {
-            background: #f5f7f3;
+        .route-card:hover {
+            transform: translateY(-3px);
 
-            font-size: 13px;
-            font-weight: 800;
+            border-color: rgba(172, 227, 54, 0.35);
 
-            color: #626b5e;
+            box-shadow:
+                0 18px 45px rgba(0, 0, 0, 0.25);
         }
 
-        .route-main {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
+        .route-card::after {
+            content: "";
 
-        .route-main strong {
-            color: #17200f;
-        }
+            position: absolute;
 
-        .route-main small {
-            color: #7d887a;
-            font-size: 12px;
-        }
+            width: 140px;
+            height: 140px;
 
-        .route-badge {
-            display: inline-block;
-
-            width: fit-content;
-
-            padding: 5px 9px;
-
-            border-radius: 7px;
-
-            background: #eef5e7;
-            color: #5c7d25;
-
-            font-size: 10px;
-            font-weight: 800;
-
-            letter-spacing: 0.4px;
-        }
-
-        .route-empty {
-            padding: 60px 25px;
-
-            text-align: center;
-
-            color: #687267;
-        }
-
-        .route-empty h3 {
-            margin-bottom: 8px;
-            color: #17200f;
-        }
-
-        .route-empty p {
-            margin: 0 auto;
-            max-width: 550px;
-            line-height: 1.6;
-        }
-
-
-        /* =========================================================
-           LOADING
-        ========================================================= */
-
-        .route-loading {
-            padding: 60px 25px;
-
-            text-align: center;
-            color: #687267;
-        }
-
-        .loading-spinner {
-            width: 38px;
-            height: 38px;
-
-            margin:
-                0 auto 18px;
-
-            border:
-                3px solid #e4e9e0;
-
-            border-top-color:
-                #ace336;
+            right: -70px;
+            bottom: -70px;
 
             border-radius: 50%;
 
-            animation:
-                routeSpin 0.8s linear infinite;
+            background: rgba(172, 227, 54, 0.045);
+
+            pointer-events: none;
         }
 
-        @keyframes routeSpin {
+        /* ============================================================
+           CARD HEADER
+           ============================================================ */
 
-            to {
-                transform: rotate(360deg);
-            }
-
-        }
-
-
-        /* =========================================================
-           ERROR
-        ========================================================= */
-
-        .route-error {
-            display: none;
-
-            padding: 35px 25px;
-
-            text-align: center;
-
-            background: #fff7f7;
-
-            border:
-                1px solid #ead2d2;
-
-            border-radius: 14px;
+        .route-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
 
             margin-bottom: 25px;
         }
 
-        .route-error h3 {
-            color: #8b3333;
-            margin-bottom: 8px;
+        .flight-number {
+            color: var(--route-green);
+
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
         }
 
-        .route-error p {
-            color: #765c5c;
+        .route-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 6px 9px;
+
+            border-radius: 999px;
+
+            background: rgba(172, 227, 54, 0.08);
+
+            color: var(--route-green);
+
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .route-status-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--route-green);
+
+            box-shadow:
+                0 0 0 4px rgba(172, 227, 54, 0.08);
+        }
+
+        .route-status.inactive {
+            color: #8b9388;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .route-status.inactive .route-status-dot {
+            background: #737b70;
+            box-shadow: none;
+        }
+
+        /* ============================================================
+           AIRPORTS
+           ============================================================ */
+
+        .route-airports {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 16px;
+
+            margin-bottom: 22px;
+        }
+
+        .airport.arrival {
+            text-align: right;
+        }
+
+        .airport-code {
+            font-size: clamp(28px, 4vw, 38px);
+            line-height: 1;
+
+            font-weight: 900;
+            letter-spacing: -0.04em;
+        }
+
+        .airport-city {
+            margin-top: 7px;
+
+            color: var(--route-muted);
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .airport-name {
+            margin-top: 4px;
+
+            color: #697267;
+
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .route-arrow {
+            color: var(--route-green);
+
+            font-size: 26px;
+            font-weight: 300;
+        }
+
+        /* ============================================================
+           CARD META
+           ============================================================ */
+
+        .route-meta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+            margin-bottom: 18px;
+        }
+
+        .route-meta-item {
+            padding: 14px 10px;
+
+            min-width: 0;
+
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .route-meta-item:last-child {
+            border-right: 0;
+        }
+
+        .route-meta-label {
+            margin-bottom: 5px;
+
+            color: #687166;
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .route-meta-value {
+            overflow: hidden;
+
+            color: #e8ece5;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* ============================================================
+           DAYS
+           ============================================================ */
+
+        .route-days {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 7px;
+        }
+
+        .route-days-label {
+            color: #687166;
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .days {
+            display: flex;
+            gap: 5px;
+        }
+
+        .day {
+            display: grid;
+            place-items: center;
+
+            width: 27px;
+            height: 27px;
+
+            border-radius: 7px;
+
+            background: rgba(255, 255, 255, 0.035);
+
+            color: #626b60;
+
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .day.active {
+            background: rgba(172, 227, 54, 0.12);
+            color: var(--route-green);
+        }
+
+        /* ============================================================
+           EMPTY / LOADING / ERROR
+           ============================================================ */
+
+        .routes-message {
+            max-width: 1200px;
             margin: 0 auto;
-            max-width: 650px;
+            padding: 0 24px;
+        }
+
+        .message-box {
+            padding: 55px 25px;
+
+            border: 1px solid var(--route-border);
+            border-radius: 18px;
+
+            background: rgba(21, 27, 20, 0.8);
+
+            text-align: center;
+        }
+
+        .message-icon {
+            margin-bottom: 15px;
+
+            color: var(--route-green);
+
+            font-size: 36px;
+        }
+
+        .message-box h3 {
+            margin: 0 0 8px;
+
+            font-size: 20px;
+        }
+
+        .message-box p {
+            max-width: 500px;
+            margin: 0 auto;
+
+            color: var(--route-muted);
+
             line-height: 1.6;
         }
 
+        .retry-button {
+            margin-top: 20px;
 
-        /* =========================================================
-           LIVE MAP
-        ========================================================= */
-
-        .newsky-map {
-            width: 100%;
-            height: 650px;
-
-            border-radius: 18px;
-            overflow: hidden;
-
-            background: #101410;
-
-            border:
-                1px solid #dfe5dc;
-
-            box-shadow:
-                0 12px 35px rgba(0, 0, 0, 0.08);
-
-            position: relative;
-        }
-
-        .newsky-map iframe {
-            width: 100%;
-            height: 100%;
+            padding: 12px 20px;
 
             border: 0;
-            display: block;
-        }
-
-        .map-header {
-            display: flex;
-
-            justify-content: space-between;
-            align-items: center;
-
-            gap: 20px;
-
-            margin-bottom: 20px;
-        }
-
-        .map-header h2 {
-            margin-bottom: 5px;
-        }
-
-        .map-header p {
-            margin: 0;
-            color: #687267;
-        }
-
-        .newsky-button {
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 12px 18px;
-
             border-radius: 10px;
 
-            background: #ace336;
-            color: #17200f;
+            cursor: pointer;
 
-            text-decoration: none;
+            background: var(--route-green);
+            color: #18210f;
 
-            font-weight: 700;
-
-            white-space: nowrap;
-
-            transition:
-                transform 0.2s ease,
-                opacity 0.2s ease;
+            font: inherit;
+            font-weight: 800;
         }
 
-        .newsky-button:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
 
+        @media (max-width: 850px) {
 
-        /* =========================================================
-           DARK SECTION
-        ========================================================= */
-
-        .dark-section {
-            margin-top: 0;
-        }
-
-
-        /* =========================================================
-           MOBILE NAV
-        ========================================================= */
-
-        .mobileNav {
-            background: #090d08;
-        }
-
-        .mobileNav a {
-            color: white;
-        }
-
-
-        /* =========================================================
-           MOBILE
-        ========================================================= */
-
-        @media (max-width: 800px) {
-
-            body {
-                padding-top: 70px;
-            }
-
-            .header-logo {
-                height: 40px;
-            }
-
-            .foot-top {
-                flex-direction: column;
-                gap: 30px;
-            }
-
-            .foot-links {
-                display: grid;
-
-                grid-template-columns:
-                    1fr 1fr;
-
-                gap: 10px 25px;
-
-                width: 100%;
-            }
-
-            .copy {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .route-info {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-        }
-
-
-        @media (max-width: 700px) {
-
-            .newsky-map {
-                height: 500px;
-            }
-
-            .map-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .newsky-button {
-                width: 100%;
-            }
-
-        }
-
-
-        @media (max-width: 500px) {
-
-            body {
-                padding-top: 65px;
-            }
-
-            .header-logo {
-                height: 36px;
-            }
-
-            footer {
-                padding: 38px 0 20px;
-            }
-
-            footer .brand-logo {
-                width: 50px;
-                height: 50px;
-            }
-
-            .foot-links {
+            .routes-controls-inner {
                 grid-template-columns: 1fr;
+            }
+
+            .routes-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .routes-hero {
+                padding-top: 120px;
+            }
+
+            .routes-summary {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .routes-updated {
+                text-align: left;
+            }
+
+            .route-card {
+                padding: 20px;
+            }
+
+            .route-airports {
+                gap: 10px;
+            }
+
+            .airport-name {
+                display: none;
+            }
+
+            .route-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .route-meta-item {
+                border-right: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            }
+
+            .route-meta-item:last-child {
+                border-bottom: 0;
+            }
+
+            .route-days {
+                align-items: flex-start;
+                flex-direction: column;
             }
 
         }
@@ -634,429 +627,167 @@
 
 </head>
 
-
 <body>
 
+    <!-- ============================================================
+         PAGE
+         ============================================================ -->
 
-    <!-- =========================================================
-         HEADER
-    ========================================================= -->
+    <main class="routes-page">
 
-    <header id="siteHeader">
+        <!-- ========================================================
+             HERO
+             ======================================================== -->
 
-        <div class="container nav">
+        <section class="routes-hero">
 
-            <a
-                class="brand"
-                href="index.html"
-            >
+            <div class="routes-eyebrow">
+                Echo Air Group
+            </div>
 
-                <img
-                    class="header-logo"
-                    src="https://media.discordapp.net/attachments/1535409438683439314/1535737685921243176/Logo_Black_BG_2.png?ex=6a78daac&is=6a77892c&hm=6305c1a42b19573ab14a078da19356d64c6450caa398984d629aa154622cb491&=&format=webp&quality=lossless&width=768&height=768"
-                    alt="Echo Air Group"
+            <h1>
+                Our <span>Routes</span>
+            </h1>
+
+            <p>
+                Explore the complete scheduled route network of
+                Echo Air Group. All routes shown below are loaded
+                directly from our NewSky schedule network.
+            </p>
+
+        </section>
+
+
+        <!-- ========================================================
+             CONTROLS
+             ======================================================== -->
+
+        <section class="routes-controls">
+
+            <div class="routes-controls-inner">
+
+                <input
+                    id="routeSearch"
+                    class="route-search"
+                    type="search"
+                    placeholder="Search flight number, airport or city..."
+                    autocomplete="off"
                 >
 
-            </a>
+                <div class="route-filter">
 
+                    <button
+                        type="button"
+                        class="active"
+                        data-filter="all"
+                    >
+                        All
+                    </button>
 
-            <nav class="navlinks">
+                    <button
+                        type="button"
+                        data-filter="active"
+                    >
+                        Active
+                    </button>
 
-                <a href="index.html">
-                    Home
-                </a>
+                    <button
+                        type="button"
+                        data-filter="inactive"
+                    >
+                        Inactive
+                    </button>
 
-                <a href="about.html">
-                    About
-                </a>
-
-                <a href="fleet.html">
-                    Fleet
-                </a>
-
-                <a href="routes.html">
-                    Routes
-                </a>
-
-                <a href="team.html">
-                    Team
-                </a>
-
-                <a href="join.html">
-                    Join Us
-                </a>
-
-                <a href="manual.html">
-                    Pilot Manual
-                </a>
-
-                <a href="contact.html">
-                    Contact Us
-                </a>
-
-                <a href="ranking.html">
-                    Ranking
-                </a>
-
-                <a href="booking.html">
-                    Book a flight
-                </a>
-
-            </nav>
-
-
-            <a
-                class="register"
-                href="join.html"
-            >
-                REGISTER
-            </a>
-
-
-            <button
-                class="menu"
-                onclick="toggleMenu()"
-                aria-label="Open navigation menu"
-            >
-                ☰
-            </button>
-
-        </div>
-
-
-        <!-- MOBILE NAV -->
-
-        <div
-            id="mobileNav"
-            class="mobileNav"
-        >
-
-            <div class="container">
-
-                <a href="index.html">
-                    Home
-                </a>
-
-                <a href="about.html">
-                    About
-                </a>
-
-                <a href="fleet.html">
-                    Fleet
-                </a>
-
-                <a href="routes.html">
-                    Routes
-                </a>
-
-                <a href="team.html">
-                    Team
-                </a>
-
-                <a href="join.html">
-                    Join Us
-                </a>
-
-                <a href="manual.html">
-                    Pilot Manual
-                </a>
-
-                <a href="contact.html">
-                    Contact Us
-                </a>
-
-                <a href="ranking.html">
-                    Ranking
-                </a>
-
-                <a href="booking.html">
-                    Book a flight
-                </a>
-
-                <a href="join.html">
-                    Register
-                </a>
+                </div>
 
             </div>
 
-        </div>
-
-    </header>
+        </section>
 
 
-    <!-- =========================================================
-         MAIN
-    ========================================================= -->
+        <!-- ========================================================
+             SUMMARY
+             ======================================================== -->
 
-    <main>
+        <section class="routes-summary">
 
+            <div>
+                <strong id="routeCount">
+                    Loading routes...
+                </strong>
 
-        <!-- =====================================================
-             HERO
-        ===================================================== -->
+                <span id="routeCountDescription">
+                    Loading scheduled network
+                </span>
+            </div>
 
-        <section class="pagehero">
+            <div class="routes-updated">
 
-            <div class="container">
-
-                <span class="pill">
-                    Our Network
+                <span>
+                    Last updated
                 </span>
 
-                <h1>
-                    Explore our <span>routes.</span>
-                </h1>
+                <br>
 
-                <p>
-                    Explore the complete Echo Air Group network.
-                    Routes are loaded directly from our airline data.
-                </p>
+                <strong id="lastUpdated">
+                    —
+                </strong>
 
             </div>
 
         </section>
 
 
-        <!-- =====================================================
+        <!-- ========================================================
              ROUTES
-        ===================================================== -->
+             ======================================================== -->
 
-        <section class="content-section">
+        <section
+            id="routesContainer"
+            class="routes-grid"
+        >
 
-            <div class="container">
+            <!-- JavaScript inserts routes here -->
 
-
-                <!-- FILTERS -->
-
-                <div class="filters">
-
-                    <button
-                        class="filter active"
-                        data-filter="all"
-                        onclick="filterRoutes('all')"
-                    >
-                        All Routes
-                    </button>
-
-                    <button
-                        class="filter"
-                        data-filter="domestic"
-                        onclick="filterRoutes('domestic')"
-                    >
-                        Domestic
-                    </button>
-
-                    <button
-                        class="filter"
-                        data-filter="international"
-                        onclick="filterRoutes('international')"
-                    >
-                        International
-                    </button>
-
-                    <button
-                        class="filter"
-                        data-filter="longhaul"
-                        onclick="filterRoutes('longhaul')"
-                    >
-                        Long Haul
-                    </button>
-
-                </div>
+        </section>
 
 
-                <!-- ROUTE INFORMATION -->
+        <!-- ========================================================
+             MESSAGE
+             ======================================================== -->
 
-                <div class="route-info">
+        <section
+            id="routesMessage"
+            class="routes-message"
+            style="display:none;"
+        >
 
-                    <div class="route-count">
-
-                        Showing
-                        <strong id="routeCount">
-                            —
-                        </strong>
-                        routes
-
-                    </div>
-
-                </div>
-
-
-                <!-- ERROR -->
+            <div class="message-box">
 
                 <div
-                    id="routeError"
-                    class="route-error"
+                    id="messageIcon"
+                    class="message-icon"
                 >
-
-                    <h3>
-                        Routes could not be loaded
-                    </h3>
-
-                    <p id="routeErrorText">
-                        The route data could not be retrieved.
-                    </p>
-
+                    ✈
                 </div>
 
+                <h3 id="messageTitle">
+                    Loading routes
+                </h3>
 
-                <!-- =================================================
-                     ROUTE TABLE
-                ================================================= -->
+                <p id="messageText">
+                    Please wait while we load the Echo Air Group
+                    scheduled network.
+                </p>
 
-                <div class="route-table">
-
-                    <!-- HEADER -->
-
-                    <div class="route-row route-head">
-
-                        <div>
-                            Route
-                        </div>
-
-                        <div>
-                            Type
-                        </div>
-
-                        <div>
-                            Aircraft
-                        </div>
-
-                        <div>
-                            Distance
-                        </div>
-
-                        <div>
-                            Hub
-                        </div>
-
-                    </div>
-
-
-                    <!-- LOADING -->
-
-                    <div
-                        id="routeLoading"
-                        class="route-loading"
-                    >
-
-                        <div class="loading-spinner"></div>
-
-                        <strong>
-                            Loading Echo Air Group routes...
-                        </strong>
-
-                    </div>
-
-
-                    <!-- ROUTES -->
-
-                    <div id="routeRows"></div>
-
-
-                    <!-- EMPTY -->
-
-                    <div
-                        id="routeEmpty"
-                        class="route-empty"
-                        style="display:none;"
-                    >
-
-                        <h3>
-                            No routes found
-                        </h3>
-
-                        <p>
-                            There are currently no routes matching
-                            this filter.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =================================================
-                     NEWSKY LIVE MAP
-                ================================================= -->
-
-                <section style="margin-top:70px;">
-
-                    <div class="map-header">
-
-                        <div>
-
-                            <span class="eyebrow">
-                                Live Network
-                            </span>
-
-                            <h2>
-                                NewSky <span>Live Map.</span>
-                            </h2>
-
-                            <p>
-                                View live virtual aviation traffic
-                                across the Echo Air Group network.
-                            </p>
-
-                        </div>
-
-
-                        <a
-                            class="newsky-button"
-                            href="https://newsky.app/map"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Open Full Map ↗
-                        </a>
-
-                    </div>
-
-
-                    <div class="newsky-map">
-
-                        <iframe
-                            src="https://newsky.app/map/ecv"
-                            title="NewSky Live Map"
-                            loading="lazy"
-                            allow="fullscreen"
-                        ></iframe>
-
-                    </div>
-
-                </section>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             BOTTOM
-        ===================================================== -->
-
-        <section class="dark-section">
-
-            <div class="container">
-
-                <div class="section-head">
-
-                    <span class="eyebrow">
-                        Echo Network
-                    </span>
-
-                    <h2>
-                        Fly further.
-                        <span>Fly together.</span>
-                    </h2>
-
-                    <p>
-                        Explore the Echo Air Group network and
-                        follow virtual flights across the world.
-                    </p>
-
-                </div>
+                <button
+                    id="retryButton"
+                    class="retry-button"
+                    type="button"
+                    style="display:none;"
+                >
+                    Try again
+                </button>
 
             </div>
 
@@ -1065,259 +796,58 @@
     </main>
 
 
-    <!-- =========================================================
-         FOOTER
-    ========================================================= -->
-
-    <footer>
-
-        <div class="container">
-
-            <div class="foot-top">
-
-
-                <!-- BRAND -->
-
-                <div>
-
-                    <a
-                        class="brand"
-                        href="index.html"
-                    >
-
-                        <img
-                            class="brand-logo"
-                            src="https://media.discordapp.net/attachments/1535409438683439314/1535737684818006096/Full_Logo_White_1.png?ex=6a78daac&is=6a77892c&hm=101b0167be79e5d76583ad0d1ed08fb313fc8bef82d875871fa81643e0f811fc&=&format=webp&quality=lossless&width=768&height=768"
-                            alt="Echo Air Group Logo"
-                        >
-
-                        <div class="brand-text">
-
-                            ECHO AIR GROUP
-
-                            <small>
-                                6L · ECV · CLOVER
-                            </small>
-
-                        </div>
-
-                    </a>
-
-
-                    <p style="max-width:450px">
-
-                        Virtual aviation. Real passion.
-                        A community built for pilots who love
-                        the world of flight simulation.
-
-                    </p>
-
-
-                    <div class="footer-social">
-
-                        <a
-                            href="https://discord.gg/e7ePxYA24"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Discord"
-                        >
-
-                            <img
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL3851zWBAakGfTIxIoavLpD9xempKolcjVkbw-HmqvrpX_orWo4J7FMgr84kloUD2WyNy33gU7V6uQoLq3_g3esyH0N_u-oEsU5-w8CCR&s=10"
-                                alt="Discord"
-                            >
-
-                        </a>
-
-
-                        <a
-                            href="https://www.tiktok.com/@echoairgroup"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="TikTok"
-                        >
-
-                            <img
-                                src="https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png"
-                                alt="TikTok"
-                            >
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <!-- FOOTER LINKS -->
-
-                <div class="foot-links">
-
-                    <a href="index.html">
-                        Home
-                    </a>
-
-                    <a href="about.html">
-                        About
-                    </a>
-
-                    <a href="fleet.html">
-                        Fleet
-                    </a>
-
-                    <a href="routes.html">
-                        Routes
-                    </a>
-
-                    <a href="team.html">
-                        Team
-                    </a>
-
-                    <a href="index.html#news">
-                        News
-                    </a>
-
-                    <a href="join.html">
-                        Join Us
-                    </a>
-
-                    <a href="manual.html">
-                        Pilot Manual
-                    </a>
-
-                    <a href="contact.html">
-                        Contact Us
-                    </a>
-
-                    <a href="booking.html">
-                        Book a flight
-                    </a>
-
-                    <a href="join.html">
-                        Register
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <div class="copy">
-
-                <span>
-                    © 2026 Echo Air Group. Virtual airline.
-                </span>
-
-                <span>
-                    Not affiliated with any real-world airline.
-                </span>
-
-            </div>
-
-        </div>
-
-    </footer>
-
-
-    <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
-
-    <script src="script.js"></script>
-
+    <!-- ============================================================
+         JAVASCRIPT
+         ============================================================ -->
 
     <script>
 
-        /* =========================================================
-           HEADER
-        ========================================================= */
-
-        const header =
-            document.getElementById("siteHeader");
+        "use strict";
 
 
-        function updateHeader() {
-
-            if (window.scrollY > 20) {
-
-                header.classList.add("scrolled");
-
-            } else {
-
-                header.classList.remove("scrolled");
-
-            }
-
-        }
-
-
-        window.addEventListener(
-            "scroll",
-            updateHeader
-        );
-
-
-        updateHeader();
-
-
-        /* =========================================================
-           MOBILE MENU
-        ========================================================= */
-
-        function toggleMenu() {
-
-            const mobileNav =
-                document.getElementById(
-                    "mobileNav"
-                );
-
-            if (mobileNav) {
-
-                mobileNav.classList.toggle(
-                    "open"
-                );
-
-            }
-
-        }
-
-
-        /* =========================================================
-           ROUTE DATA
-        ========================================================= */
+        /* ============================================================
+           STATE
+           ============================================================ */
 
         let allRoutes = [];
 
-        let activeFilter = "all";
+        let currentFilter = "all";
+
+        let currentSearch = "";
 
 
-        /* =========================================================
+        /* ============================================================
            ELEMENTS
-        ========================================================= */
+           ============================================================ */
 
-        const routeRows =
+        const routesContainer =
             document.getElementById(
-                "routeRows"
+                "routesContainer"
             );
 
-        const routeLoading =
+        const routesMessage =
             document.getElementById(
-                "routeLoading"
+                "routesMessage"
             );
 
-        const routeEmpty =
+        const messageIcon =
             document.getElementById(
-                "routeEmpty"
+                "messageIcon"
             );
 
-        const routeError =
+        const messageTitle =
             document.getElementById(
-                "routeError"
+                "messageTitle"
             );
 
-        const routeErrorText =
+        const messageText =
             document.getElementById(
-                "routeErrorText"
+                "messageText"
+            );
+
+        const retryButton =
+            document.getElementById(
+                "retryButton"
             );
 
         const routeCount =
@@ -1325,508 +855,819 @@
                 "routeCount"
             );
 
+        const routeCountDescription =
+            document.getElementById(
+                "routeCountDescription"
+            );
 
-        /* =========================================================
+        const lastUpdated =
+            document.getElementById(
+                "lastUpdated"
+            );
+
+        const routeSearch =
+            document.getElementById(
+                "routeSearch"
+            );
+
+
+        /* ============================================================
            ESCAPE HTML
-        ========================================================= */
+           ============================================================ */
 
         function escapeHtml(value) {
 
             return String(
                 value ?? ""
             )
-                .replaceAll(
-                    "&",
+                .replace(
+                    /&/g,
                     "&amp;"
                 )
-                .replaceAll(
-                    "<",
+                .replace(
+                    /</g,
                     "&lt;"
                 )
-                .replaceAll(
-                    ">",
+                .replace(
+                    />/g,
                     "&gt;"
                 )
-                .replaceAll(
-                    '"',
+                .replace(
+                    /"/g,
                     "&quot;"
                 )
-                .replaceAll(
-                    "'",
+                .replace(
+                    /'/g,
                     "&#039;"
                 );
 
         }
 
 
-        /* =========================================================
-           NORMALIZE ROUTE
-        ========================================================= */
+        /* ============================================================
+           FORMAT DURATION
+           ============================================================ */
 
-        function normalizeRoute(route) {
+        function formatDuration(minutes) {
 
-            return {
-
-                departure:
-                    route.departure ||
-                    route.depIcao ||
-                    route.departureIcao ||
-                    route.origin ||
-                    "—",
-
-                arrival:
-                    route.arrival ||
-                    route.arrIcao ||
-                    route.arrivalIcao ||
-                    route.destination ||
-                    "—",
-
-                departureName:
-                    route.departureName ||
-                    route.depName ||
-                    route.originName ||
-                    "",
-
-                arrivalName:
-                    route.arrivalName ||
-                    route.arrName ||
-                    route.destinationName ||
-                    "",
-
-                aircraft:
-                    route.aircraft ||
-                    route.aircraftType ||
-                    route.equipment ||
-                    "—",
-
-                distance:
-                    route.distance ||
-                    route.distanceNm ||
-                    route.distanceNM ||
-                    null,
-
-                hub:
-                    route.hub ||
-                    route.hubName ||
-                    "",
-
-                type:
-                    route.type ||
-                    route.routeType ||
-                    "international"
-
-            };
-
-        }
-
-
-        /* =========================================================
-           DISTANCE
-        ========================================================= */
-
-        function formatDistance(distance) {
+            const value =
+                Number(minutes);
 
             if (
-                distance === null ||
-                distance === undefined ||
-                distance === ""
+                !Number.isFinite(value) ||
+                value <= 0
             ) {
-
                 return "—";
-
             }
 
-            const number =
-                Number(distance);
-
-            if (
-                !Number.isFinite(number)
-            ) {
-
-                return escapeHtml(
-                    distance
+            const hours =
+                Math.floor(
+                    value / 60
                 );
 
+            const mins =
+                value % 60;
+
+            if (!hours) {
+                return `${mins}m`;
             }
 
-            return `${Math.round(number).toLocaleString()} nm`;
+            if (!mins) {
+                return `${hours}h`;
+            }
+
+            return `${hours}h ${String(mins).padStart(2, "0")}m`;
 
         }
 
 
-        /* =========================================================
-           ROUTE TYPE
-        ========================================================= */
+        /* ============================================================
+           FORMAT AIRFRAMES
+           ============================================================ */
 
-        function getRouteType(route) {
-
-            const type =
-                String(
-                    route.type || ""
-                ).toLowerCase();
+        function formatAirframes(airframes) {
 
             if (
-                type === "domestic" ||
-                type === "international" ||
-                type === "longhaul"
+                !Array.isArray(airframes) ||
+                !airframes.length
             ) {
-
-                return type;
-
+                return "Passenger";
             }
 
-            const distance =
-                Number(
-                    route.distance
+            return airframes
+                .map(
+                    item =>
+                        String(item)
+                            .replace(
+                                /^./,
+                                char =>
+                                    char.toUpperCase()
+                            )
+                )
+                .join(", ");
+
+        }
+
+
+        /* ============================================================
+           DAY DATA
+           ============================================================ */
+
+        const dayDefinitions = [
+            {
+                key: "mon",
+                label: "M"
+            },
+            {
+                key: "tue",
+                label: "T"
+            },
+            {
+                key: "wed",
+                label: "W"
+            },
+            {
+                key: "thu",
+                label: "T"
+            },
+            {
+                key: "fri",
+                label: "F"
+            },
+            {
+                key: "sat",
+                label: "S"
+            },
+            {
+                key: "sun",
+                label: "S"
+            }
+        ];
+
+
+        /* ============================================================
+           DAYS HTML
+           ============================================================ */
+
+        function renderDays(weekDays) {
+
+            return dayDefinitions
+                .map(day => {
+
+                    const active =
+                        weekDays &&
+                        weekDays[day.key];
+
+                    return `
+                        <span
+                            class="day ${active ? "active" : ""}"
+                            title="${day.key}"
+                        >
+                            ${day.label}
+                        </span>
+                    `;
+
+                })
+                .join("");
+
+        }
+
+
+        /* ============================================================
+           ROUTE CARD
+           ============================================================ */
+
+        function renderRoute(route) {
+
+            const flightNumber =
+                route.flightNumber
+                    ? `ECV${route.flightNumber}`
+                    : "ECV";
+
+            const departure =
+                route.departure || {};
+
+            const arrival =
+                route.arrival || {};
+
+            const active =
+                Boolean(
+                    route.active
                 );
 
-            if (
-                Number.isFinite(distance) &&
-                distance >= 2500
-            ) {
+            return `
 
-                return "longhaul";
+                <article
+                    class="route-card"
+                    data-route-id="${escapeHtml(route.id)}"
+                    data-active="${active}"
+                >
 
-            }
+                    <div class="route-card-header">
 
-            /*
-             * If the backend provides countries,
-             * those can be used here later.
-             *
-             * For now, anything not explicitly
-             * domestic is international.
-             */
+                        <div class="flight-number">
+                            ${escapeHtml(flightNumber)}
+                        </div>
 
-            return "international";
+                        <div
+                            class="route-status ${active ? "" : "inactive"}"
+                        >
+
+                            <span class="route-status-dot"></span>
+
+                            ${active ? "Active" : "Inactive"}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="route-airports">
+
+                        <div class="airport">
+
+                            <div class="airport-code">
+                                ${escapeHtml(
+                                    departure.icao || "----"
+                                )}
+                            </div>
+
+                            <div class="airport-city">
+                                ${escapeHtml(
+                                    departure.city || "Unknown"
+                                )}
+                            </div>
+
+                            <div class="airport-name">
+                                ${escapeHtml(
+                                    departure.name || ""
+                                )}
+                            </div>
+
+                        </div>
+
+
+                        <div class="route-arrow">
+                            →
+                        </div>
+
+
+                        <div class="airport arrival">
+
+                            <div class="airport-code">
+                                ${escapeHtml(
+                                    arrival.icao || "----"
+                                )}
+                            </div>
+
+                            <div class="airport-city">
+                                ${escapeHtml(
+                                    arrival.city || "Unknown"
+                                )}
+                            </div>
+
+                            <div class="airport-name">
+                                ${escapeHtml(
+                                    arrival.name || ""
+                                )}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="route-meta">
+
+                        <div class="route-meta-item">
+
+                            <div class="route-meta-label">
+                                Flight time
+                            </div>
+
+                            <div class="route-meta-value">
+                                ${escapeHtml(
+                                    formatDuration(
+                                        route.duration
+                                    )
+                                )}
+                            </div>
+
+                        </div>
+
+
+                        <div class="route-meta-item">
+
+                            <div class="route-meta-label">
+                                Aircraft
+                            </div>
+
+                            <div class="route-meta-value">
+                                ${escapeHtml(
+                                    formatAirframes(
+                                        route.airframes
+                                    )
+                                )}
+                            </div>
+
+                        </div>
+
+
+                        <div class="route-meta-item">
+
+                            <div class="route-meta-label">
+                                Type
+                            </div>
+
+                            <div class="route-meta-value">
+                                ${escapeHtml(
+                                    route.type || "PAX"
+                                ).toUpperCase()}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="route-days">
+
+                        <div class="route-days-label">
+                            Operating days
+                        </div>
+
+                        <div class="days">
+                            ${renderDays(
+                                route.weekDays
+                            )}
+                        </div>
+
+                    </div>
+
+                </article>
+
+            `;
 
         }
 
 
-        /* =========================================================
-           TYPE LABEL
-        ========================================================= */
+        /* ============================================================
+           SEARCH TEXT
+           ============================================================ */
 
-        function typeLabel(type) {
+        function routeSearchText(route) {
 
-            if (
-                type === "domestic"
-            ) {
+            const departure =
+                route.departure || {};
 
-                return "DOMESTIC";
+            const arrival =
+                route.arrival || {};
 
-            }
-
-            if (
-                type === "longhaul"
-            ) {
-
-                return "LONG HAUL";
-
-            }
-
-            return "INTERNATIONAL";
+            return [
+                route.flightNumber,
+                `ECV${route.flightNumber || ""}`,
+                departure.icao,
+                departure.name,
+                departure.city,
+                arrival.icao,
+                arrival.name,
+                arrival.city,
+                ...(route.airframes || [])
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
 
         }
 
 
-        /* =========================================================
-           RENDER ROUTES
-        ========================================================= */
+        /* ============================================================
+           FILTER ROUTES
+           ============================================================ */
+
+        function getFilteredRoutes() {
+
+            return allRoutes.filter(route => {
+
+                if (
+                    currentFilter === "active" &&
+                    !route.active
+                ) {
+                    return false;
+                }
+
+                if (
+                    currentFilter === "inactive" &&
+                    route.active
+                ) {
+                    return false;
+                }
+
+                if (currentSearch) {
+
+                    const searchable =
+                        routeSearchText(
+                            route
+                        );
+
+                    if (
+                        !searchable.includes(
+                            currentSearch
+                        )
+                    ) {
+                        return false;
+                    }
+
+                }
+
+                return true;
+
+            });
+
+        }
+
+
+        /* ============================================================
+           RENDER
+           ============================================================ */
 
         function renderRoutes() {
 
-            routeRows.innerHTML = "";
-
             const filtered =
-                allRoutes.filter(
-                    route => {
+                getFilteredRoutes();
 
-                        if (
-                            activeFilter ===
-                            "all"
-                        ) {
+            if (!filtered.length) {
 
-                            return true;
+                routesContainer.innerHTML = "";
 
-                        }
-
-                        return (
-                            getRouteType(
-                                route
-                            ) ===
-                            activeFilter
-                        );
-
-                    }
-                );
-
-
-            routeCount.textContent =
-                filtered.length.toLocaleString();
-
-
-            if (
-                filtered.length === 0
-            ) {
-
-                routeEmpty.style.display =
+                routesMessage.style.display =
                     "block";
+
+                messageIcon.textContent =
+                    "⌕";
+
+                messageTitle.textContent =
+                    "No routes found";
+
+                messageText.textContent =
+                    currentSearch
+                        ? "No scheduled routes match your search."
+                        : "There are no routes matching the selected filter.";
+
+                retryButton.style.display =
+                    "none";
+
+                updateSummary(
+                    filtered.length
+                );
 
                 return;
 
             }
 
-
-            routeEmpty.style.display =
+            routesMessage.style.display =
                 "none";
 
+            routesContainer.innerHTML =
+                filtered
+                    .map(
+                        renderRoute
+                    )
+                    .join("");
 
-            filtered.forEach(
-                route => {
-
-                    const type =
-                        getRouteType(
-                            route
-                        );
-
-                    const row =
-                        document.createElement(
-                            "div"
-                        );
-
-                    row.className =
-                        "route-row";
-
-
-                    row.dataset.type =
-                        type;
-
-
-                    const departure =
-                        escapeHtml(
-                            route.departure
-                        );
-
-                    const arrival =
-                        escapeHtml(
-                            route.arrival
-                        );
-
-                    const departureName =
-                        escapeHtml(
-                            route.departureName
-                        );
-
-                    const arrivalName =
-                        escapeHtml(
-                            route.arrivalName
-                        );
-
-                    const aircraft =
-                        escapeHtml(
-                            route.aircraft
-                        );
-
-                    const hub =
-                        escapeHtml(
-                            route.hub ||
-                            route.departure
-                        );
-
-
-                    const routeNames =
-                        departureName ||
-                        arrivalName
-                            ? `
-                                <small>
-                                    ${
-                                        departureName ||
-                                        departure
-                                    }
-                                    →
-                                    ${
-                                        arrivalName ||
-                                        arrival
-                                    }
-                                </small>
-                              `
-                            : `
-                                <small>
-                                    ${departure}
-                                    →
-                                    ${arrival}
-                                </small>
-                              `;
-
-
-                    row.innerHTML = `
-
-                        <div class="route-main">
-
-                            <strong>
-                                ${departure}
-                                →
-                                ${arrival}
-                            </strong>
-
-                            ${routeNames}
-
-                        </div>
-
-
-                        <div>
-
-                            <span class="route-badge">
-
-                                ${typeLabel(type)}
-
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            ${aircraft}
-
-                        </div>
-
-
-                        <div>
-
-                            ${formatDistance(
-                                route.distance
-                            )}
-
-                        </div>
-
-
-                        <div>
-
-                            ${hub}
-
-                        </div>
-
-                    `;
-
-
-                    routeRows.appendChild(
-                        row
-                    );
-
-                }
+            updateSummary(
+                filtered.length
             );
 
         }
 
 
-        /* =========================================================
-           LOAD ROUTES
-        ========================================================= */
+        /* ============================================================
+           SUMMARY
+           ============================================================ */
 
-        async function loadRoutes() {
+        function updateSummary(
+            visibleCount
+        ) {
 
-            routeLoading.style.display =
-                "block";
+            const total =
+                allRoutes.length;
 
-            routeError.style.display =
-                "none";
+            const active =
+                allRoutes.filter(
+                    route =>
+                        route.active
+                ).length;
 
-            routeEmpty.style.display =
-                "none";
+            routeCount.textContent =
+                `${visibleCount} ${visibleCount === 1 ? "route" : "routes"}`;
 
-
-            try {
-
-                const response =
-    await fetch("/api/routes");
-
-const text =
-    await response.text();
-
-let data;
-
-try {
-
-    data =
-        JSON.parse(text);
-
-} catch (error) {
-
-    console.error(
-        "Invalid response from /api/routes:",
-        text
-    );
-
-    throw new Error(
-        "Server did not return valid JSON."
-    );
-
-}
-
-if (
-    !response.ok ||
-    !data.success
-) {
-
-    throw new Error(
-        data.error ||
-        "Routes could not be loaded."
-    );
-
-}
-
-
-        /* =========================================================
-           FILTER
-        ========================================================= */
-
-        function filterRoutes(type) {
-
-            activeFilter =
-                type;
-
-
-            document
-                .querySelectorAll(
-                    ".filter"
-                )
-                .forEach(
-                    button => {
-
-                        button.classList.remove(
-                            "active"
-                        );
-
-
-                        if (
-                            button.dataset.filter ===
-                            type
-                        ) {
-
-                            button.classList.add(
-                                "active"
-                            );
-
-                        }
-
-                    }
-                );
-
-
-            renderRoutes();
+            routeCountDescription.textContent =
+                `${active} active of ${total} scheduled routes`;
 
         }
 
 
-        /* =========================================================
+        /* ============================================================
+           LOADING STATE
+           ============================================================ */
+
+        function showLoading() {
+
+            routesContainer.innerHTML =
+                "";
+
+            routesMessage.style.display =
+                "block";
+
+            messageIcon.textContent =
+                "✈";
+
+            messageTitle.textContent =
+                "Loading routes";
+
+            messageText.textContent =
+                "Connecting to the Echo Air Group scheduled network.";
+
+            retryButton.style.display =
+                "none";
+
+        }
+
+
+        /* ============================================================
+           ERROR STATE
+           ============================================================ */
+
+        function showError(
+            message
+        ) {
+
+            routesContainer.innerHTML =
+                "";
+
+            routesMessage.style.display =
+                "block";
+
+            messageIcon.textContent =
+                "!";
+
+            messageTitle.textContent =
+                "Unable to load routes";
+
+            messageText.textContent =
+                message ||
+                "The scheduled route network could not be loaded.";
+
+            retryButton.style.display =
+                "inline-block";
+
+            routeCount.textContent =
+                "Routes unavailable";
+
+            routeCountDescription.textContent =
+                "Please try again";
+
+        }
+
+
+        /* ============================================================
+           LOAD ROUTES
+           ============================================================ */
+
+        async function loadRoutes() {
+
+            showLoading();
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/api/routes",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            },
+                            cache: "no-store"
+                        }
+                    );
+
+                let data = null;
+
+                try {
+
+                    data =
+                        await response.json();
+
+                } catch {
+
+                    throw new Error(
+                        "The server returned an invalid response."
+                    );
+
+                }
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data &&
+                        data.error
+                            ? data.error
+                            : `Server error (${response.status})`
+                    );
+
+                }
+
+                if (
+                    !data ||
+                    !Array.isArray(
+                        data.routes
+                    )
+                ) {
+
+                    throw new Error(
+                        "The server returned an invalid route list."
+                    );
+
+                }
+
+                allRoutes =
+                    data.routes;
+
+                allRoutes.sort(
+                    (
+                        a,
+                        b
+                    ) => {
+
+                        const aNumber =
+                            Number(
+                                a.flightNumber
+                            );
+
+                        const bNumber =
+                            Number(
+                                b.flightNumber
+                            );
+
+                        if (
+                            Number.isFinite(aNumber) &&
+                            Number.isFinite(bNumber)
+                        ) {
+                            return (
+                                aNumber -
+                                bNumber
+                            );
+                        }
+
+                        return String(
+                            a.flightNumber ||
+                            ""
+                        ).localeCompare(
+                            String(
+                                b.flightNumber ||
+                                ""
+                            )
+                        );
+
+                    }
+                );
+
+                if (
+                    data.updatedAt
+                ) {
+
+                    const date =
+                        new Date(
+                            data.updatedAt
+                        );
+
+                    if (
+                        !Number.isNaN(
+                            date.getTime()
+                        )
+                    ) {
+
+                        lastUpdated.textContent =
+                            date.toLocaleString(
+                                undefined,
+                                {
+                                    dateStyle:
+                                        "medium",
+                                    timeStyle:
+                                        "short"
+                                }
+                            );
+
+                    }
+
+                } else {
+
+                    lastUpdated.textContent =
+                        "Just now";
+
+                }
+
+                renderRoutes();
+
+            } catch (error) {
+
+                console.error(
+                    "Routes page error:",
+                    error
+                );
+
+                showError(
+                    error.message
+                );
+
+            }
+
+        }
+
+
+        /* ============================================================
+           SEARCH
+           ============================================================ */
+
+        routeSearch.addEventListener(
+            "input",
+            event => {
+
+                currentSearch =
+                    String(
+                        event.target.value ||
+                        ""
+                    )
+                        .trim()
+                        .toLowerCase();
+
+                renderRoutes();
+
+            }
+        );
+
+
+        /* ============================================================
+           FILTER BUTTONS
+           ============================================================ */
+
+        document
+            .querySelectorAll(
+                ".route-filter button"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        document
+                            .querySelectorAll(
+                                ".route-filter button"
+                            )
+                            .forEach(
+                                item =>
+                                    item.classList.remove(
+                                        "active"
+                                    )
+                            );
+
+                        button.classList.add(
+                            "active"
+                        );
+
+                        currentFilter =
+                            button.dataset.filter ||
+                            "all";
+
+                        renderRoutes();
+
+                    }
+                );
+
+            });
+
+
+        /* ============================================================
+           RETRY
+           ============================================================ */
+
+        retryButton.addEventListener(
+            "click",
+            loadRoutes
+        );
+
+
+        /* ============================================================
            INITIAL LOAD
-        ========================================================= */
+           ============================================================ */
 
         loadRoutes();
 
     </script>
-
 
 </body>
 
