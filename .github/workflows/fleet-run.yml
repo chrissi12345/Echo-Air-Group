@@ -1,0 +1,50 @@
+name: Apply Echo Air Group fleet update
+
+on:
+  workflow_run:
+    workflows: ["pages build and deployment"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update fleet cards
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+          def replace_container(text, cls, inner):
+              m=re.search(r'<div[^>]*class=["\'][^"\']*'+re.escape(cls)+r'[^"\']*["\'][^>]*>',text,re.I)
+              if not m: raise SystemExit('missing '+cls)
+              start=m.end(); pos=start; depth=1; tok=re.compile(r'<div[^>]*>|</div\s*>',re.I)
+              while depth:
+                  t=tok.search(text,pos)
+                  if not t: raise SystemExit('unclosed '+cls)
+                  if t.group(0).startswith('</'):
+                      depth-=1
+                      if depth==0: return text[:start]+'\n'+inner+'\n'+text[t.start():]
+                  else: depth+=1
+                  pos=t.end()
+          def card(name,role,img,rng,seats,cruise,eng,dtype=None):
+              dt=f' data-type="{dtype}"' if dtype else ''
+              return f'''<article class="fcard"{dt}><div class="fcard-visual"><div class="fcard-badge">{role}</div><img class="fcard-plane-img" src="{img}" alt="{name}" loading="lazy"></div><div class="fcard-info"><h3>{name}</h3><p class="fcard-sub">{role}</p><div class="fcard-specs"><div class="spec-row"><span>Range</span><span>{rng}</span></div><div class="spec-row"><span>Seats</span><span>{seats}</span></div><div class="spec-row"><span>Cruise</span><span>{cruise}</span></div><div class="spec-row"><span>Engines</span><span>{eng}</span></div></div></div></article>'''
+          A319='https://images.aircharterservice.com/global/aircraft-guide/group-charter/airbus-a319-1.jpg'; A320='https://images.aircharterservice.com/global/aircraft-guide/group-charter/airbus-a320-1.jpg'; A320N='https://www.aircraft.airbus.com/sites/g/files/jlcbta126/files/styles/w1200h675/public/2025-10/Aircraft.Airbus%20Figma%20Images%20V2_A320neo.png?h=eb58b4d6&itok=m1AYlns4'; A321N='https://www.aircraft.airbus.com/sites/g/files/jlcbta126/files/styles/w1200h675/public/2025-10/Aircraft.Airbus%20Figma%20Images%20V2_A321neo_0.png?h=eb58b4d6&itok=gAu23q7j'; B7377='https://www.flugzeuginfo.net/acimages/7377bbj_kp.jpg'; B7378='https://aeroaffaires.fr/wp-content/uploads/2024/05/ascend-airways-boeing-737-800.jpg'; MAX8='https://cf-images.us-east-1.prod.boltdns.net/v1/static/800000612001/dcfb0a2e-49be-40c3-8d69-2438a13ea1db/54874523-f888-40e7-94b3-ffcf9a49a8e7/1920x1080/match/image.jpg'; B787='https://commons.wikimedia.org/wiki/Special:FilePath/Boeing_787-8_Dreamliner.jpg'; B773='https://commons.wikimedia.org/wiki/Special:FilePath/Boeing_777-300ER.jpg'; A380='https://commons.wikimedia.org/wiki/Special:FilePath/Airbus_A380-800.jpg'; B772='https://commons.wikimedia.org/wiki/Special:FilePath/Boeing_777-200.jpg'; B772LR='https://commons.wikimedia.org/wiki/Special:FilePath/Boeing_777-200LR.jpg'; A350='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSq0_OfYatAxrbUJTTgRbHrSvDvDcn8vWbMzmhJGnImA&s=10'
+          ix='\n'.join([card('Airbus A320','Narrow Body',A320,'3,300 nm','180 pax','Mach 0.78','CFM56 / V2500','narrow'),card('Airbus A321neo','Narrow Body',A321N,'4,000 nm','220 pax','Mach 0.78','LEAP-1A','narrow'),card('Airbus A319','Narrow Body',A319,'3,700 nm','144 pax','Mach 0.78','CFM56 / V2500','narrow'),card('Boeing 737-800','Narrow Body',B7378,'2,935 nm','174 pax','Mach 0.79','CFM56-7B','narrow'),card('Boeing 737 MAX 8','Narrow Body',MAX8,'3,550 nm','178 pax','Mach 0.79','LEAP-1B','narrow'),card('Boeing 787-8','Wide Body',B787,'7,355 nm','242 pax','Mach 0.85','GEnx-1B / Trent 1000','wide'),card('Boeing 777-300ER','Wide Body',B773,'7,370 nm','396 pax','Mach 0.89','GE90-115B','wide'),card('Airbus A350-900','Wide Body',A350,'8,100 nm','325 pax','Mach 0.85','Trent XWB','wide'),card('Airbus A380-800','Wide Body',A380,'8,000 nm','555 pax','Mach 0.85','Trent 900 / GP7200','wide')])
+          fl='\n'.join([card('Airbus A321neo','Medium & Long Haul',A321N,'4,000 nm','220 pax','Mach 0.78','LEAP-1A'),card('Airbus A320','Short & Medium Haul',A320,'3,300 nm','180 pax','Mach 0.78','CFM56 / V2500'),card('Airbus A319','Short & Medium Haul',A319,'3,700 nm','144 pax','Mach 0.78','CFM56 / V2500'),card('Boeing 737-700','Regional & Short Haul',B7377,'3,440 nm','128 pax','Mach 0.79','CFM56-7B'),card('Boeing 737-800','Short & Medium Haul',B7378,'2,935 nm','174 pax','Mach 0.79','CFM56-7B'),card('Boeing 737 MAX 8','Medium Haul',MAX8,'3,550 nm','178 pax','Mach 0.79','LEAP-1B'),card('Boeing 787-8','Long Haul',B787,'7,355 nm','242 pax','Mach 0.85','GEnx-1B / Trent 1000'),card('Airbus A320neo','Short & Medium Haul',A320N,'3,500 nm','186 pax','Mach 0.78','LEAP-1A'),card('Boeing 777-300ER','Long Haul',B773,'7,370 nm','396 pax','Mach 0.89','GE90-115B'),card('Airbus A380-800','Ultra Long Haul',A380,'8,000 nm','555 pax','Mach 0.85','Trent 900 / GP7200'),card('Boeing 777-200','Long Haul',B772,'5,240 nm','314 pax','Mach 0.84','GE90 / Trent 800 / PW4000'),card('Boeing 777-200LR','Ultra Long Haul',B772LR,'8,555 nm','317 pax','Mach 0.84','GE90-110B1'),card('Airbus A350-900','Long Haul',A350,'8,100 nm','325 pax','Mach 0.85','Trent XWB')])
+          p=Path('index.html'); p.write_text(replace_container(p.read_text(),'fleet-grid',ix),encoding='utf-8')
+          p=Path('fleet.html'); p.write_text(replace_container(p.read_text(),'cards',fl),encoding='utf-8')
+          PY
+      - name: Commit and clean up
+        run: |
+          rm -f .github/workflows/fleet-run.yml .github/workflows/fleet-fix.yml .github/workflows/update-fleet.yml .fleet-update-trigger
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html fleet.html .github/workflows .fleet-update-trigger
+          git commit -m "Update Echo Air Group fleet"
+          git push
