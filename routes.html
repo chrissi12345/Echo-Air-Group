@@ -800,6 +800,7 @@
                         stroke-linejoin="round"
                         aria-hidden="true"
                     >
+
                         <circle
                             cx="11"
                             cy="11"
@@ -868,65 +869,38 @@
                      ROUTE TABLE
                 ================================================= -->
 
-                <!-- =================================================
-     ROUTE TABLE
-================================================= -->
+                <div class="route-table">
 
-<div class="route-table">
 
-    <!-- TABLE HEADER -->
+                    <!-- TABLE HEADER -->
 
-    <div class="route-row route-head">
+                    <div class="route-row route-head">
 
-        <div>
-            Route
-        </div>
+                        <div>
+                            Route
+                        </div>
 
-        <div>
-            Type
-        </div>
+                        <div>
+                            Type
+                        </div>
 
-        <div>
-            Aircraft
-        </div>
+                        <div>
+                            Aircraft
+                        </div>
 
-        <div>
-            Duration
-        </div>
+                        <div>
+                            Distance
+                        </div>
 
-        <div>
-            Hub
-        </div>
+                        <div>
+                            Hub
+                        </div>
 
-    </div>
-
-    <!-- ROUTES ARE GENERATED AUTOMATICALLY -->
-
-    <div id="routesContainer"></div>
-
-    <!-- NO RESULTS -->
-
-    <div
-        id="routeNoResults"
-        class="route-no-results"
-    >
-
-        <strong>
-            No routes found
-        </strong>
-
-        <span>
-            Try searching for another city, airport,
-            aircraft or route.
-        </span>
-
-    </div>
-
-</div>
+                    </div>
 
 
                     <!-- =================================================
-                         ROME → BARCELONA
+                         1. ROME → BARCELONA
                     ================================================= -->
 
                     <div
@@ -975,7 +949,7 @@
 
 
                     <!-- =================================================
-                         ROME → PRAGUE
+                         2. ROME → PRAGUE
                     ================================================= -->
 
                     <div
@@ -1024,7 +998,7 @@
 
 
                     <!-- =================================================
-                         PRAGUE → ROME
+                         3. PRAGUE → ROME
                     ================================================= -->
 
                     <div
@@ -1073,7 +1047,7 @@
 
 
                     <!-- =================================================
-                         ROME → MILAN
+                         4. ROME → MILAN
                     ================================================= -->
 
                     <div
@@ -1122,7 +1096,7 @@
 
 
                     <!-- =================================================
-                         BARCELONA → MADRID
+                         5. BARCELONA → MADRID
                     ================================================= -->
 
                     <div
@@ -1171,7 +1145,7 @@
 
 
                     <!-- =================================================
-                         ROME → SINGAPORE
+                         6. ROME → SINGAPORE
                     ================================================= -->
 
                     <div
@@ -1220,7 +1194,7 @@
 
 
                     <!-- =================================================
-                         ROME → NEW YORK
+                         7. ROME → NEW YORK
                     ================================================= -->
 
                     <div
@@ -1269,7 +1243,7 @@
 
 
                     <!-- =================================================
-                         PRAGUE → DUBAI
+                         8. PRAGUE → DUBAI
                     ================================================= -->
 
                     <div
@@ -1317,7 +1291,9 @@
                     </div>
 
 
-                    <!-- NO RESULTS -->
+                    <!-- =================================================
+                         NO RESULTS
+                    ================================================= -->
 
                     <div
                         id="routeNoResults"
@@ -1678,1095 +1654,137 @@
         }
 
 
-        <script>
+        /* =========================================================
+           ROUTE FILTER + SEARCH
+        ========================================================= */
 
-/* =========================================================
-   ECHO AIR GROUP ROUTES
-   NewSky Schedule Export
-========================================================= */
+        let currentRouteFilter = "all";
 
-const routes = [
 
-    // =====================================================
-    // ROME
-    // =====================================================
+        function filterRoutes(type) {
 
-    ["102","LIRF","EIDW","pax",195,"pax"],
-    ["201","EIDW","LIRF","pax",180,"pax"],
+            currentRouteFilter = type;
 
-    ["109","LIRF","GCLP","pax",270,"pax"],
-    ["901","GCLP","LIRF","pax",270,"pax"],
+            const buttons =
+                document.querySelectorAll(".filter");
 
-    ["110","LIRF","GCRR","pax",240,"pax"],
-    ["1001","GCRR","LIRF","pax",240,"pax"],
 
-    ["111","LIRF","GCTS","pax",285,"pax"],
-    ["1101","GCTS","LIRF","pax",285,"pax"],
+            /* Update active button */
 
-    ["112","LIRF","LPMA","pax",240,"pax"],
-    ["1201","LPMA","LIRF","pax",240,"pax"],
+            buttons.forEach(button => {
 
-    ["113","LIRF","LDZA","pax",85,"pax"],
-    ["1301","LDZA","LIRF","pax",85,"pax"],
+                button.classList.remove("active");
 
-    ["1328","LDZA","LGAV","pax",105,"pax"],
-    ["2813","LGAV","LDZA","pax",105,"pax"],
+                if (
+                    button.dataset.filter === type
+                ) {
 
-    ["114","LIRF","GMMX","pax",195,"pax"],
-    ["1401","GMMX","LIRF","pax",195,"pax"],
+                    button.classList.add("active");
 
-    ["115","LIRF","DTTA","pax",80,"pax"],
-    ["1501","DTTA","LIRF","pax",80,"pax"],
+                }
 
-    ["152","LIRF","KPHL","pax",600,"pax_xl"],
-    ["602","LIRF","KJFK","pax",510,"pax_l,pax_xl"],
-    ["801","KJFK","LIRF","pax",585,"pax_xl"],
-    ["5201","KPHL","LIRF","pax",585,"pax"],
+            });
 
-    ["117","LIRF","OMDB","pax",360,"pax"],
-    ["1701","OMDB","LIRF","pax",360,"pax"],
-
-    ["118","LIRF","OTHH","pax",330,"pax"],
-    ["1801","OTHH","LIRF","pax",345,"pax"],
-
-    ["119","LIRF","KMIA","pax",660,"pax_xl"],
-    ["1901","KMIA","LIRF","pax",660,"pax_xl"],
-
-    ["120","LIRF","KLAX","pax",780,"pax_xl"],
-    ["2001","KLAX","LIRF","pax",780,"pax_xl"],
-
-    ["105","LIRF","KSFO","pax",765,"pax_xl"],
-    ["501","KSFO","LIRF","pax",765,"pax_xl"],
-
-    ["121","LIRF","SCEL","pax",855,"pax_xl"],
-    ["2101","SCEL","LIRF","pax",855,"pax_xl"],
-
-    ["122","LIRF","SAEZ","pax",810,"pax_xl"],
-    ["2201","SAEZ","LIRF","pax",810,"pax_xl"],
-
-    ["103","LIRF","EDDM","pax",90,"pax"],
-    ["301","EDDM","LIRF","pax",90,"pax"],
-
-    ["123","LIRF","EDDL","pax",105,"pax"],
-    ["2301","EDDL","LIRF","pax",105,"pax"],
-
-    ["124","LIRF","EDDB","pax",105,"pax"],
-    ["2401","EDDB","LIRF","pax",105,"pax"],
-
-    ["125","LIRF","EDDF","pax",100,"pax"],
-    ["2501","EDDF","LIRF","pax",100,"pax"],
-
-    ["133","LIRF","LIMC","pax",70,"pax"],
-    ["345","LIMC","LIRF","pax",70,"pax"],
-
-    ["450","LIPE","LIRF","pax",60,"pax"],
-    ["132","LIRF","LIPE","pax",60,"pax"],
-
-    ["134","LIRF","LIEO","pax",45,"pax"],
-    ["335","LIEO","LIRF","pax",45,"pax"],
-
-    ["137","LIRF","LIBD","pax",70,"pax"],
-    ["267","LIBD","LIRF","pax",70,"pax"],
-
-    ["153","LIRF","VIDP","pax",510,"pax_xl"],
-    ["5301","VIDP","LIRF","pax",510,"pax_xl"],
-
-    ["128","LIRF","LGAV","pax",135,"pax"],
-    ["2801","LGAV","LIRF","pax",135,"pax"],
-
-    ["131","LIRF","LGIR","pax",110,"pax"],
-    ["620","LGIR","LIRF","pax",105,"pax"],
-
-    ["129","LIRF","LGKR","pax",85,"pax"],
-    ["460","LGKR","LIRF","pax",85,"pax"],
-
-    ["2830","LGAV","LGSM","pax",45,"pax"],
-    ["3028","LGSM","LGAV","pax",45,"pax"],
-
-    ["130","LIRF","LGSM","pax",135,"pax"],
-    ["3001","LGSM","LIRF","pax",140,"pax"],
-
-    ["2330","EDDL","LGSM","pax",165,"pax"],
-    ["3023","LGSM","EDDL","pax",170,"pax"],
-
-    ["150","LIRF","LTFM","pax",140,"pax"],
-    ["1015","LTFM","LIRF","pax",140,"pax"],
-
-    ["126","LIRF","EHAM","pax",125,"pax"],
-    ["270","EHAM","LIRF","pax",125,"pax"],
-
-    ["146","LIRF","EPWA","pax",145,"pax"],
-    ["730","EPWA","LIRF","pax",145,"pax"],
-
-    ["148","LIRF","LEBL","pax",90,"pax"],
-
-    ["155","LIRF","LEPA","pax",105,"pax"],
-    ["478","LEPA","LIRF","pax",100,"pax"],
-
-    ["135","LIRF","LICC","pax",60,"pax"],
-    ["3501","LICC","LIRF","pax",60,"pax"],
-
-    ["136","LIRF","LMML","pax",80,"pax"],
-    ["3601","LMML","LIRF","pax",80,"pax"],
-
-    ["145","LIRF","EKCH","pax",140,"pax"],
-    ["645","EKCH","LIRF","pax",145,"pax"],
-
-    ["127","LIRF","EGKK","pax",135,"pax"],
-    ["435","EGKK","LIRF","pax",135,"pax"],
-
-    ["139","LIRF","LDDU","pax",85,"pax"],
-    ["3901","LDDU","LIRF","pax",85,"pax"],
-
-    ["149","LIRF","LOWI","pax",70,"pax"],
-    ["945","LOWI","LIRF","pax",70,"pax"],
-
-    ["147","LIRF","LOWL","pax",85,"pax"],
-    ["925","LOWL","LIRF","pax",85,"pax"],
-
-    ["116","LIRF","LEMD","pax",130,"pax"],
-    ["1601","LEMD","LIRF","pax",135,"pax"],
-
-    ["143","LIRF","LPFR","pax",180,"pax"],
-    ["965","LPFR","LIRF","pax",180,"pax"],
-
-    ["141","LIRF","LPPT","pax",180,"pax"],
-    ["487","LPPT","LIRF","pax",180,"pax"],
-
-    ["138","LIRF","LATI","pax",70,"pax"],
-    ["432","LATI","LIRF","pax",70,"pax"],
-
-    ["140","LIRF","LFPO","pax",100,"pax"],
-    ["570","LFPO","LIRF","pax",100,"pax"],
-
-    ["154","LIRF","LGTS","pax",120,"pax"],
-    ["623","LGTS","LIRF","pax",120,"pax"],
-
-    ["151","LIRF","LIRN","pax",40,"pax"],
-    ["189","LIRN","LIRF","pax",40,"pax"],
-
-    ["142","LIRF","LIPZ","pax",60,"pax"],
-    ["957","LIPZ","LIRF","pax",60,"pax"],
-
-    ["144","LIRF","LKPR","pax",90,"pax"],
-    ["810","LKPR","LIRF","pax",90,"pax"],
-
-    ["156","LIRF","LSZH","pax",105,"pax"],
-    ["690","LSZH","LIRF","pax",105,"pax"],
-
-    // =====================================================
-    // NEW YORK
-    // =====================================================
-
-    ["5000","KJFK","KBOS","pax",70,"pax"],
-    ["5500","KBOS","KJFK","pax",70,"pax"],
-
-    ["5001","KJFK","KDCA","pax",80,"pax"],
-    ["5501","KDCA","KJFK","pax",80,"pax"],
-
-    ["5003","KJFK","KPHL","pax",30,"pax"],
-    ["5503","KPHL","KJFK","pax",60,"pax"],
-
-    ["5004","KJFK","KBWI","pax",75,"pax"],
-    ["5504","KBWI","KJFK","pax",75,"pax"],
-
-    ["5005","KJFK","KCLT","pax",120,"pax"],
-    ["5505","KCLT","KJFK","pax",120,"pax"],
-
-    ["5006","KJFK","KATL","pax",150,"pax"],
-
-    ["5007","KJFK","KBNA","pax",150,"pax"],
-    ["5507","KBNA","KJFK","pax",150,"pax"],
-
-    ["5008","KJFK","KRDU","pax",100,"pax"],
-    ["5508","KRDU","KJFK","pax",100,"pax"],
-
-    ["5009","KJFK","KMIA","pax",180,"pax"],
-    ["5509","KMIA","KJFK","pax",180,"pax"],
-
-    ["5010","KJFK","KMCO","pax",165,"pax"],
-    ["5510","KMCO","KJFK","pax",165,"pax"],
-
-    ["5011","KJFK","KORD","pax",165,"pax"],
-    ["5511","KORD","KJFK","pax",165,"pax"],
-
-    ["5012","KJFK","KDFW","pax",240,"pax"],
-    ["5512","KDFW","KJFK","pax",240,"pax"],
-
-    ["5013","KJFK","KDEN","pax",270,"pax"],
-    ["5513","KDEN","KJFK","pax",270,"pax"],
-
-    ["5014","KJFK","KMSY","pax",210,"pax"],
-    ["5514","KMSY","KJFK","pax",210,"pax"],
-
-    ["5015","KJFK","TJSJ","pax",240,"pax"],
-    ["5515","TJSJ","KJFK","pax",240,"pax"],
-
-    ["5016","KJFK","MYNN","pax",180,"pax"],
-    ["5516","MYNN","KJFK","pax",180,"pax"],
-
-    ["5017","KJFK","MMUN","pax",240,"pax"],
-    ["5517","MMUN","KJFK","pax",240,"pax"],
-
-    ["5018","KJFK","KLAX","pax",375,"pax"],
-    ["5019","KLAX","KJFK","pax",375,"pax"],
-
-    ["5020","KJFK","KSFO","pax",390,"pax"],
-    ["5520","KSFO","KJFK","pax",390,"pax"],
-
-    ["5021","KJFK","KSEA","pax",375,"pax"],
-    ["5521","KSEA","KJFK","pax",375,"pax"],
-
-    ["5022","KJFK","CYYZ","pax",90,"pax"],
-    ["5522","CYYZ","KJFK","pax",90,"pax"],
-
-    ["652","KJFK","EGKK","pax",405,"pax_xl"],
-    ["653","EGKK","KJFK","pax",405,"pax_xl"],
-
-    ["624","KJFK","LFPO","pax",420,"pax_xl"],
-    ["625","LFPO","KJFK","pax",420,"pax_xl"],
-
-    ["601","KJFK","LIRF","pax",510,"pax_xl"],
-
-    ["617","KJFK","OMDB","pax",750,"pax_xl"],
-    ["618","OMDB","KJFK","pax",750,"pax_xl"],
-
-    ["5023","KJFK","KEYW","pax",180,"pax_l,pax_xl,A319,B737"],
-    ["5024","KEYW","KJFK","pax",180,"A319,B737"],
-
-    ["5103","KPHL","KJFK","pax",30,"pax"],
-
-    // =====================================================
-    // DUSSELDORF
-    // =====================================================
-
-    ["2345","EDDL","EKCH","pax",75,"pax_m"],
-    ["4523","EKCH","EDDL","pax",75,"pax_m"],
-
-    ["2377","EDDL","EKBI","pax",65,"pax_m"],
-    ["7723","EKBI","EDDL","pax",65,"pax_m"],
-
-    ["231E","EDDL","EKAH","pax",75,"pax_m"],
-    ["1E23","EKAH","EDDL","pax",75,"pax_m"],
-
-    ["231D","EDDL","EKYT","pax",80,"pax_m"],
-
-    ["2391","EDDL","ESGG","pax",90,"pax_m"],
-    ["9123","ESGG","EDDL","pax",90,"pax_m"],
-
-    ["2392","EDDL","ESSA","pax",115,"pax_m"],
-    ["9223","ESSA","EDDL","pax",115,"pax_m"],
-
-    ["2394","EDDL","ENGM","pax",105,"pax_m"],
-    ["9423","ENGM","EDDL","pax",105,"pax_m"],
-
-    ["231P","EDDL","ENTO","pax",95,"pax_m"],
-    ["1P23","ENTO","EDDL","pax",95,"pax_m"],
-
-    ["11Q","LIRF","LGRP","pax",150,"pax_m"],
-    ["1Q01","LGRP","LIRF","pax",150,"pax_m"],
-
-    ["350","LIRF","LTBJ","pax",150,"pax_m"],
-    ["351","LTBJ","LIRF","pax",150,"pax_m"],
-
-    ["11S","LIRF","EDDV","pax",110,"pax"],
-    ["1S1R","EDDV","LTBJ","pax",110,"pax"],
-
-    ["1110","LIRF","LGKO","pax",150,"pax"],
-    ["1111","LGKO","LIRF","pax",150,"pax"],
-
-    ["11V","LIRF","LFMN","pax",75,"pax"],
-    ["12V","LFMN","LIRF","pax",75,"pax"],
-
-    ["3033","EDDL","LGKO","pax",195,"pax"],
-    ["3034","LGKO","EDDL","pax",200,"pax"],
-
-    ["2324","EDDL","EDDB","pax",65,"pax_m"],
-    ["2423","EDDB","EDDL","pax",65,"pax_m"],
-
-    ["2325","EDDL","EDDF","pax",40,"pax_m"],
-    ["2523","EDDF","EDDL","pax",40,"pax_m"],
-
-    ["2303","EDDL","EDDM","pax",65,"pax_m"],
-    ["323","EDDM","EDDL","pax",65,"pax_m"],
-
-    ["2396","EDDL","EDDC","pax",65,"pax_m"],
-    ["9623","EDDC","EDDL","pax",65,"pax_m"],
-
-    ["231G","EDDL","EYVI","pax",125,"pax_m"],
-    ["1G23","EYVI","EDDL","pax",125,"pax_m"],
-
-    ["231W","EDDL","EYKA","pax",120,"pax_m"],
-    ["1W23","EYKA","EDDL","pax",120,"pax_m"],
-
-    ["2382","EDDL","EGLL","pax",65,"pax_m"],
-    ["8223","EGLL","EDDL","pax",65,"pax_m"],
-
-    ["2383","EDDL","EGSS","pax",60,"pax_m"],
-    ["8323","EGSS","EDDL","pax",60,"pax_m"],
-
-    ["2386","EDDL","EGBB","pax",70,"pax_m"],
-    ["8623","EGBB","EDDL","pax",70,"pax_m"],
-
-    ["2327","EDDL","EGKK","pax",65,"pax_m"],
-    ["2723","EGKK","EDDL","pax",65,"pax_m"],
-
-    ["104","LIRF","KIAD","pax",540,"pax_l,pax_xl"],
-    ["401","KIAD","LIRF","pax",540,"pax_l,pax_xl"],
-
-    ["4801","LEBL","LIRF","pax",90,"pax"],
-
-    ["2387","EDDL","EGCC","pax",75,"pax_m"],
-    ["8723","EGCC","EDDL","pax",75,"pax_m"],
-
-    ["2302","EDDL","EIDW","pax",95,"pax_m"],
-    ["223","EIDW","EDDL","pax",95,"pax_m"],
-
-    ["232F","EDDL","LFOB","pax",55,"pax_m"],
-    ["2F23","LFOB","EDDL","pax",55,"pax_m"],
-
-    ["2379","EDDL","LFPG","pax",55,"pax_m"],
-    ["7923","LFPG","EDDL","pax",55,"pax_m"],
-
-    ["2326","EDDL","EHAM","pax",40,"pax_m"],
-    ["2623","EHAM","EDDL","pax",40,"pax_m"],
-
-    ["2346","EDDL","EPWA","pax",105,"pax_m"],
-    ["4623","EPWA","EDDL","pax",105,"pax_m"],
-
-    ["232G","EDDL","EPMO","pax",100,"pax_m"],
-    ["2G23","EPMO","EDDL","pax",100,"pax_m"],
-
-    ["231C","EDDL","EPGD","pax",95,"pax_m"],
-    ["1C23","EPGD","EDDL","pax",100,"pax_m"],
-
-    ["232I","EDDL","EPKT","pax",95,"pax_m"],
-    ["2I23","EPKT","EDDL","pax",95,"pax_m"],
-
-    ["233B","EDDL","LEGE","pax",110,"pax_m"],
-    ["3B23","LEGE","EDDL","pax",110,"pax_m"],
-
-    ["231I","EDDL","EETN","pax",140,"pax_m"],
-    ["1I23","EETN","EDDL","pax",140,"pax_m"],
-
-    ["231F","EDDL","EVRA","pax",125,"pax_m"],
-    ["1F23","EVRA","EDDL","pax",125,"pax_m"],
-
-    ["1D23","EKYT","EDDL","pax",80,"pax"],
-
-    // =====================================================
-    // CARGO
-    // =====================================================
-
-    ["6F","EDDC","EYVI","cargo",95,"cargo"],
-    ["7F","EYVI","EDDL","cargo",125,"cargo"],
-
-    ["1Y45","EDDK","EKCH","cargo",75,"cargo"],
-    ["451Y","EKCH","EDDK","cargo",75,"cargo"],
-
-    ["1YIG","EDDK","EYVI","cargo",125,"cargo"],
-    ["1GTY","EYVI","EDDK","cargo",125,"cargo"],
-
-    ["1YEW","EDDK","EYKA","cargo",120,"cargo"],
-    ["1WCY","EYKA","EDDK","cargo",120,"cargo"],
-
-    ["1YAZ","EDDK","EGNX","cargo",75,"cargo"],
-    ["1ZDY","EGNX","EDDK","cargo",75,"cargo"],
-
-    ["1YZA","EDDK","LFRN","cargo",80,"cargo"],
-    ["2ABY","LFRN","EDDK","cargo",80,"cargo"],
-
-    ["453F","EKCH","EDDP","cargo",60,"cargo"],
-    ["3F1Y","EDDP","EDDK","cargo",60,"cargo"],
-
-    ["1Y3G","EDDK","EFHK","cargo",60,"cargo"],
-    ["3G91","EFHK","ESGG","cargo",90,"cargo"],
-    ["911Y","ESGG","EDDK","cargo",80,"cargo"],
-
-    // =====================================================
-    // CARIBBEAN / AMERICAS
-    // =====================================================
-
-    ["6045","LIRF","TTPP","pax",675,"pax"],
-    ["604T","TTPP","TGPY","pax",45,"pax"],
-    ["6046","TGPY","LIRF","pax",60,"pax"],
-
-    ["6051","KJFK","LCLK","pax",615,"pax"],
-    ["6052","LCLK","KJFK","pax",680,"pax"],
-
-    // =====================================================
-    // ASIA
-    // =====================================================
-
-    ["704","KJFK","RJTT","pax",860,"pax_l,pax_xl"],
-    ["705","RJTT","KJFK","pax",800,"pax"],
-
-    ["415","LIRF","ZGSZ","pax",675,"pax"],
-    ["416","ZGSZ","LIRF","pax",795,"pax"],
-
-    ["4111","ZGSZ","WSSS","pax",260,"pax"],
-    ["4112","WSSS","ZGSZ","pax",270,"pax"],
-
-    ["4114","ZGSZ","VTSG","pax",225,"pax"],
-    ["4115","VTSG","ZGSZ","pax",215,"pax"],
-
-    // =====================================================
-    // FRANCE / NEW YORK
-    // =====================================================
-
-    ["4045","LFPG","KJFK","pax",480,"pax"],
-    ["4046","KJFK","LFPG","pax",450,"pax"],
-
-    ["115C","LIRF","DTTA","pax",80,"pax"]
-
-];
-
-
-/* =========================================================
-   AIRPORT / CITY NAMES
-========================================================= */
-
-const airports = {
-
-    LIRF: "Rome",
-    EIDW: "Dublin",
-    EDDM: "Munich",
-    KIAD: "Washington",
-    KSFO: "San Francisco",
-    BGGH: "Nuuk",
-    KJFK: "New York",
-    GCLP: "Gran Canaria",
-    GCRR: "Lanzarote",
-    GCTS: "Tenerife",
-    LPMA: "Madeira",
-    LDZA: "Zagreb",
-    LGAV: "Athens",
-    GMMX: "Marrakesh",
-    DTTA: "Tunis",
-    KPHL: "Philadelphia",
-    OMDB: "Dubai",
-    OTHH: "Doha",
-    KMIA: "Miami",
-    KLAX: "Los Angeles",
-    SCEL: "Santiago",
-    SAEZ: "Buenos Aires",
-    EDDL: "Düsseldorf",
-    EDDB: "Berlin",
-    EDDF: "Frankfurt",
-    LIMC: "Milan",
-    LIPE: "Bologna",
-    LIEO: "Olbia",
-    LIBD: "Bari",
-    LGIR: "Heraklion",
-    LGKR: "Corfu",
-    LGSM: "Samos",
-    LTFM: "Istanbul",
-    EHAM: "Amsterdam",
-    EPWA: "Warsaw",
-    LEBL: "Barcelona",
-    LEPA: "Palma de Mallorca",
-    LICC: "Catania",
-    LMML: "Malta",
-    EKCH: "Copenhagen",
-    EGKK: "London Gatwick",
-    LDDU: "Dubrovnik",
-    LOWI: "Innsbruck",
-    LOWL: "Linz",
-    LEMD: "Madrid",
-    LPFR: "Faro",
-    LPPT: "Lisbon",
-    LATI: "Tirana",
-    LFPO: "Paris Orly",
-    LGTS: "Thessaloniki",
-    LIRN: "Naples",
-    LIPZ: "Venice",
-    LKPR: "Prague",
-    LSZH: "Zurich",
-    KBOS: "Boston",
-    KDCA: "Washington National",
-    KBWI: "Baltimore",
-    KCLT: "Charlotte",
-    KATL: "Atlanta",
-    KBNA: "Nashville",
-    KRDU: "Raleigh-Durham",
-    KMCO: "Orlando",
-    KORD: "Chicago",
-    KDFW: "Dallas",
-    KDEN: "Denver",
-    KMSY: "New Orleans",
-    TJSJ: "San Juan",
-    MYNN: "Nassau",
-    MMUN: "Cancún",
-    KSEA: "Seattle",
-    CYYZ: "Toronto",
-    EGLL: "London Heathrow",
-    LFPG: "Paris Charles de Gaulle",
-    EGSS: "London Stansted",
-    EGBB: "Birmingham",
-    EGCC: "Manchester",
-    LFOB: "Beauvais",
-    EPGD: "Gdansk",
-    EPKT: "Katowice",
-    LEGE: "Girona",
-    EETN: "Tallinn",
-    EVRA: "Riga",
-    EKBI: "Billund",
-    EKAH: "Aarhus",
-    EKYT: "Aalborg",
-    ESGG: "Gothenburg",
-    ESSA: "Stockholm",
-    ENGM: "Oslo",
-    ENTO: "Sandefjord",
-    EDDC: "Dresden",
-    EYVI: "Vilnius",
-    EYKA: "Kaunas",
-    EDDV: "Hannover",
-    LGRP: "Rhodes",
-    LTBJ: "Izmir",
-    LGKO: "Kos",
-    LFMN: "Nice",
-    EDDK: "Cologne",
-    EDPD: "Leipzig",
-    EGNX: "East Midlands",
-    LFRN: "Rennes",
-    EFHK: "Helsinki",
-    TTPP: "Port of Spain",
-    TGPY: "Grenada",
-    LCLK: "Larnaca",
-    RJTT: "Tokyo",
-    ZGSZ: "Shenzhen",
-    WSSS: "Singapore",
-    VTSG: "Krabi"
-};
-
-
-/* =========================================================
-   HUBS
-========================================================= */
-
-const hubs = {
-
-    LIRF: "Rome",
-    EDDL: "Düsseldorf",
-    KJFK: "New York"
-
-};
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function formatDuration(minutes) {
-
-    const hours =
-        Math.floor(minutes / 60);
-
-    const mins =
-        minutes % 60;
-
-    if (hours === 0) {
-        return `${mins}m`;
-    }
-
-    if (mins === 0) {
-        return `${hours}h`;
-    }
-
-    return `${hours}h ${mins}m`;
-
-}
-
-
-function getAirportName(code) {
-
-    return airports[code] || code;
-
-}
-
-
-function getRouteCategory(dep, arr, duration) {
-
-    /*
-     * Long haul:
-     * 6 hours or longer
-     */
-
-    if (duration >= 360) {
-        return "longhaul";
-    }
-
-    /*
-     * Airports using the same
-     * country/region are treated
-     * as domestic where applicable.
-     */
-
-    const italy = [
-        "LIRF",
-        "LIMC",
-        "LIPE",
-        "LIEO",
-        "LIBD",
-        "LICC",
-        "LIRN",
-        "LIPZ"
-    ];
-
-    const germany = [
-        "EDDL",
-        "EDDM",
-        "EDDB",
-        "EDDF",
-        "EDDC",
-        "EDDV",
-        "EDDK",
-        "EDDP"
-    ];
-
-    const usa = [
-        "KJFK",
-        "KPHL",
-        "KIAD",
-        "KBOS",
-        "KDCA",
-        "KBWI",
-        "KCLT",
-        "KATL",
-        "KBNA",
-        "KRDU",
-        "KMIA",
-        "KMCO",
-        "KORD",
-        "KDFW",
-        "KDEN",
-        "KMSY",
-        "KLAX",
-        "KSFO",
-        "KSEA",
-        "KEYW"
-    ];
-
-    const uk = [
-        "EGLL",
-        "EGKK",
-        "EGSS",
-        "EGBB",
-        "EGCC"
-    ];
-
-    const countries = [
-        italy,
-        germany,
-        usa,
-        uk
-    ];
-
-    for (const country of countries) {
-
-        if (
-            country.includes(dep) &&
-            country.includes(arr)
-        ) {
-
-            return "domestic";
-
-        }
-
-    }
-
-    return "international";
-
-}
-
-
-/* =========================================================
-   CREATE ROUTE ROW
-========================================================= */
-
-function createRouteRow(route) {
-
-    const [
-        number,
-        dep,
-        arr,
-        type,
-        duration,
-        aircraft
-    ] = route;
-
-
-    const category =
-        getRouteCategory(
-            dep,
-            arr,
-            duration
-        );
-
-
-    const categoryLabel =
-        category === "longhaul"
-            ? "LONG HAUL"
-            : category === "domestic"
-                ? "DOMESTIC"
-                : "INTERNATIONAL";
-
-
-    const aircraftText =
-        aircraft
-            .replaceAll("_", " ")
-            .replaceAll(",", ", ");
-
-
-    let hub = "—";
-
-
-    if (hubs[dep]) {
-
-        hub = hubs[dep];
-
-    } else if (hubs[arr]) {
-
-        hub = hubs[arr];
-
-    }
-
-
-    const row =
-        document.createElement("div");
-
-
-    row.className = "route-row";
-
-
-    row.dataset.type =
-        category;
-
-
-    row.dataset.service =
-        type;
-
-
-    row.innerHTML = `
-
-        <div>
-
-            <strong>
-                ${getAirportName(dep)}
-                → 
-                ${getAirportName(arr)}
-            </strong>
-
-            <small
-                style="
-                    display:block;
-                    color:#7d887a;
-                "
-            >
-                ECV ${number}
-                ·
-                ${dep} → ${arr}
-            </small>
-
-        </div>
-
-
-        <div>
-
-            <span class="route-badge">
-
-                ${type === "cargo"
-                    ? "CARGO"
-                    : categoryLabel}
-
-            </span>
-
-        </div>
-
-
-        <div>
-            ${aircraftText}
-        </div>
-
-
-        <div>
-            ${formatDuration(duration)}
-        </div>
-
-
-        <div>
-            ${hub}
-        </div>
-
-    `;
-
-
-    return row;
-
-}
-
-
-/* =========================================================
-   RENDER ROUTES
-========================================================= */
-
-function renderRoutes() {
-
-    const container =
-        document.getElementById(
-            "routesContainer"
-        );
-
-
-    if (!container) return;
-
-
-    container.innerHTML = "";
-
-
-    routes.forEach(route => {
-
-        container.appendChild(
-            createRouteRow(route)
-        );
-
-    });
-
-
-    applyRouteFilters();
-
-}
-
-
-/* =========================================================
-   FILTER
-========================================================= */
-
-let currentRouteFilter = "all";
-
-
-function filterRoutes(type) {
-
-    currentRouteFilter = type;
-
-
-    const buttons =
-        document.querySelectorAll(
-            ".filter"
-        );
-
-
-    buttons.forEach(button => {
-
-        button.classList.remove(
-            "active"
-        );
-
-
-        if (
-            button.dataset.filter === type
-        ) {
-
-            button.classList.add(
-                "active"
-            );
-
-        }
-
-    });
-
-
-    applyRouteFilters();
-
-}
-
-
-/* =========================================================
-   APPLY FILTERS + SEARCH
-========================================================= */
-
-function applyRouteFilters() {
-
-    const rows =
-        document.querySelectorAll(
-            ".route-row[data-type]"
-        );
-
-
-    const searchInput =
-        document.getElementById(
-            "routeSearch"
-        );
-
-
-    const search =
-        searchInput
-            ? searchInput.value
-                .trim()
-                .toLowerCase()
-            : "";
-
-
-    let visibleCount = 0;
-
-
-    rows.forEach(row => {
-
-        const routeType =
-            row.dataset.type;
-
-
-        const rowText =
-            row.textContent.toLowerCase();
-
-
-        const matchesFilter =
-            currentRouteFilter === "all" ||
-            routeType === currentRouteFilter;
-
-
-        const matchesSearch =
-            search === "" ||
-            rowText.includes(search);
-
-
-        if (
-            matchesFilter &&
-            matchesSearch
-        ) {
-
-            row.style.display =
-                "grid";
-
-            visibleCount++;
-
-        } else {
-
-            row.style.display =
-                "none";
-
-        }
-
-    });
-
-
-    const noResults =
-        document.getElementById(
-            "routeNoResults"
-        );
-
-
-    if (noResults) {
-
-        noResults.style.display =
-            visibleCount === 0
-                ? "block"
-                : "none";
-
-    }
-
-
-    const results =
-        document.getElementById(
-            "routeResults"
-        );
-
-
-    if (results) {
-
-        if (search !== "") {
-
-            results.textContent =
-                visibleCount === 1
-                    ? "1 route found"
-                    : `${visibleCount} routes found`;
-
-        } else {
-
-            results.textContent = "";
-
-        }
-
-    }
-
-
-    const clearButton =
-        document.getElementById(
-            "routeSearchClear"
-        );
-
-
-    if (clearButton) {
-
-        clearButton.style.display =
-            search !== ""
-                ? "block"
-                : "none";
-
-    }
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-const routeSearch =
-    document.getElementById(
-        "routeSearch"
-    );
-
-
-if (routeSearch) {
-
-    routeSearch.addEventListener(
-        "input",
-        applyRouteFilters
-    );
-
-}
-
-
-/* =========================================================
-   CLEAR SEARCH
-========================================================= */
-
-const routeSearchClear =
-    document.getElementById(
-        "routeSearchClear"
-    );
-
-
-if (routeSearchClear) {
-
-    routeSearchClear.addEventListener(
-        "click",
-        function () {
-
-            if (routeSearch) {
-
-                routeSearch.value = "";
-
-                routeSearch.focus();
-
-            }
 
             applyRouteFilters();
 
         }
-    );
-
-}
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
+        function applyRouteFilters() {
 
-renderRoutes();
+            const rows =
+                document.querySelectorAll(
+                    ".route-row[data-type]"
+                );
 
-</script>
+            const searchInput =
+                document.getElementById("routeSearch");
+
+            const search =
+                searchInput
+                    ? searchInput.value
+                        .trim()
+                        .toLowerCase()
+                    : "";
+
+
+            let visibleCount = 0;
+
+
+            rows.forEach(row => {
+
+                const routeType =
+                    row.dataset.type;
+
+
+                /*
+                 * Search through the complete
+                 * route row:
+                 *
+                 * Route
+                 * Airports
+                 * Type
+                 * Aircraft
+                 * Distance
+                 * Hub
+                 */
+
+                const rowText =
+                    row.textContent
+                        .toLowerCase();
+
+
+                const matchesFilter =
+                    currentRouteFilter === "all" ||
+                    routeType === currentRouteFilter;
+
+
+                const matchesSearch =
+                    search === "" ||
+                    rowText.includes(search);
+
+
+                if (
+                    matchesFilter &&
+                    matchesSearch
+                ) {
+
+                    row.style.display = "grid";
+
+                    visibleCount++;
+
+                } else {
+
+                    row.style.display = "none";
+
+                }
+
+            });
+
+
+            /* =====================================================
+               NO RESULTS MESSAGE
+            ===================================================== */
+
+            const noResults =
+                document.getElementById("routeNoResults");
+
+
+            if (noResults) {
+
+                if (visibleCount === 0) {
+
+                    noResults.style.display = "block";
+
+                } else {
+
+                    noResults.style.display = "none";
+
+                }
+
+            }
+
 
             /* =====================================================
                RESULTS COUNTER
