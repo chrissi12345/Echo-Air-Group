@@ -23,14 +23,14 @@ jobs:
           import re
 
           def replace_container(text, class_name, new_inner):
-              pattern = re.compile(r'<div\\b[^>]*class=["\\\'][^"\\\']*\\b' + re.escape(class_name) + r'\\b[^"\\\']*["\\\'][^>]*>', re.I)
+              pattern = re.compile(r'<div[^>]*class=["\'][^"\']*' + re.escape(class_name) + r'[^"\']*["\'][^>]*>', re.I)
               m = pattern.search(text)
               if not m:
                   raise RuntimeError(f'Could not find .{class_name}')
               start = m.end()
               pos = start
               depth = 1
-              token = re.compile(r'<div\\b[^>]*>|</div\\s*>', re.I)
+              token = re.compile(r'<div[^>]*>|</div\s*>', re.I)
               while True:
                   t = token.search(text, pos)
                   if not t:
@@ -39,7 +39,7 @@ jobs:
                       depth -= 1
                       if depth == 0:
                           end = t.start()
-                          return text[:start] + '\\n' + new_inner.strip() + '\\n' + text[end:]
+                          return text[:start] + '\n' + new_inner.strip() + '\n' + text[end:]
                   else:
                       depth += 1
                   pos = t.end()
@@ -107,12 +107,12 @@ jobs:
 
           index_path = Path('index.html')
           index = index_path.read_text(encoding='utf-8')
-          index = replace_container(index, 'fleet-grid', '\\n\\n'.join(index_cards))
+          index = replace_container(index, 'fleet-grid', '\n\n'.join(index_cards))
           index_path.write_text(index, encoding='utf-8')
 
           fleet_path = Path('fleet.html')
           fleet = fleet_path.read_text(encoding='utf-8')
-          fleet = replace_container(fleet, 'cards', '\\n\\n'.join(fleet_cards))
+          fleet = replace_container(fleet, 'cards', '\n\n'.join(fleet_cards))
           fleet_path.write_text(fleet, encoding='utf-8')
           PY
 
