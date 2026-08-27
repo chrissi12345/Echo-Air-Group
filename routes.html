@@ -286,6 +286,104 @@
 
 
         /* =========================================================
+           ROUTE SEARCH
+        ========================================================= */
+
+        .route-search {
+            position: relative;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .route-search input {
+            width: 100%;
+            box-sizing: border-box;
+
+            padding: 14px 48px 14px 17px;
+
+            border: 1px solid #d8ded6;
+            border-radius: 12px;
+
+            background: #ffffff;
+            color: #30372f;
+
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .route-search input::placeholder {
+            color: #8a9386;
+        }
+
+        .route-search input:focus {
+            border-color: #ace336;
+
+            box-shadow:
+                0 0 0 3px rgba(172, 227, 54, 0.15);
+        }
+
+        .route-search-icon {
+            position: absolute;
+
+            right: 16px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 19px;
+            height: 19px;
+
+            color: #687267;
+
+            pointer-events: none;
+        }
+
+        .route-search-clear {
+            position: absolute;
+
+            right: 43px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            display: none;
+
+            border: none;
+            background: transparent;
+
+            color: #687267;
+
+            font-size: 18px;
+            line-height: 1;
+
+            cursor: pointer;
+
+            padding: 4px;
+        }
+
+        .route-search-clear:hover {
+            color: #ace336;
+        }
+
+        .route-results {
+            margin-top: -8px;
+            margin-bottom: 20px;
+
+            color: #7d887a;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+
+        /* =========================================================
            ROUTE FILTERS
         ========================================================= */
 
@@ -400,6 +498,28 @@
             letter-spacing: 0.4px;
         }
 
+        .route-no-results {
+            display: none;
+
+            min-width: 760px;
+
+            padding: 45px 25px;
+
+            text-align: center;
+
+            color: #687267;
+        }
+
+        .route-no-results strong {
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #30372f;
+
+            font-size: 17px;
+        }
+
 
         /* =========================================================
            MOBILE NAV
@@ -461,6 +581,10 @@
             .newsky-button {
                 width: 100%;
             }
+
+            .route-search input {
+                padding: 14px 45px 14px 15px;
+            }
         }
 
 
@@ -486,6 +610,16 @@
             .foot-links {
                 grid-template-columns: 1fr;
             }
+
+            .filters {
+                gap: 8px;
+            }
+
+            .filter {
+                padding: 9px 13px;
+                font-size: 13px;
+            }
+
         }
 
     </style>
@@ -631,6 +765,64 @@
         <section class="content-section">
 
             <div class="container">
+
+
+                <!-- =================================================
+                     ROUTE SEARCH
+                ================================================= -->
+
+                <div class="route-search">
+
+                    <input
+                        type="search"
+                        id="routeSearch"
+                        placeholder="Search routes, airports, aircraft or hubs..."
+                        autocomplete="off"
+                        aria-label="Search routes"
+                    >
+
+                    <button
+                        type="button"
+                        id="routeSearchClear"
+                        class="route-search-clear"
+                        aria-label="Clear search"
+                    >
+                        ×
+                    </button>
+
+                    <svg
+                        class="route-search-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <circle
+                            cx="11"
+                            cy="11"
+                            r="7"
+                        ></circle>
+
+                        <line
+                            x1="16.65"
+                            y1="16.65"
+                            x2="21"
+                            y2="21"
+                        ></line>
+
+                    </svg>
+
+                </div>
+
+
+                <div
+                    id="routeResults"
+                    class="route-results"
+                    aria-live="polite"
+                ></div>
 
 
                 <!-- FILTER BUTTONS -->
@@ -1098,6 +1290,25 @@
                     </div>
 
 
+                    <!-- NO RESULTS -->
+
+                    <div
+                        id="routeNoResults"
+                        class="route-no-results"
+                    >
+
+                        <strong>
+                            No routes found
+                        </strong>
+
+                        <span>
+                            Try searching for another city, airport,
+                            aircraft or route.
+                        </span>
+
+                    </div>
+
+
                 </div>
 
 
@@ -1441,15 +1652,15 @@
 
 
         /* =========================================================
-           ROUTE FILTER
+           ROUTE FILTER + SEARCH
         ========================================================= */
+
+        let currentRouteFilter = "all";
+
 
         function filterRoutes(type) {
 
-            const rows =
-                document.querySelectorAll(
-                    ".route-row[data-type]"
-                );
+            currentRouteFilter = type;
 
             const buttons =
                 document.querySelectorAll(".filter");
@@ -1472,16 +1683,73 @@
             });
 
 
-            /* Filter rows */
+            applyRouteFilters();
+
+        }
+
+
+        function applyRouteFilters() {
+
+            const rows =
+                document.querySelectorAll(
+                    ".route-row[data-type]"
+                );
+
+            const searchInput =
+                document.getElementById("routeSearch");
+
+            const search =
+                searchInput
+                    ? searchInput.value
+                        .trim()
+                        .toLowerCase()
+                    : "";
+
+
+            let visibleCount = 0;
+
 
             rows.forEach(row => {
 
+                const routeType =
+                    row.dataset.type;
+
+
+                /*
+                 * Search through the complete
+                 * route row:
+                 *
+                 * Route
+                 * Airports
+                 * Type
+                 * Aircraft
+                 * Distance
+                 * Hub
+                 */
+
+                const rowText =
+                    row.textContent
+                        .toLowerCase();
+
+
+                const matchesFilter =
+                    currentRouteFilter === "all" ||
+                    routeType === currentRouteFilter;
+
+
+                const matchesSearch =
+                    search === "" ||
+                    rowText.includes(search);
+
+
                 if (
-                    type === "all" ||
-                    row.dataset.type === type
+                    matchesFilter &&
+                    matchesSearch
                 ) {
 
                     row.style.display = "grid";
+
+                    visibleCount++;
 
                 } else {
 
@@ -1491,7 +1759,135 @@
 
             });
 
+
+            /* =====================================================
+               NO RESULTS MESSAGE
+            ===================================================== */
+
+            const noResults =
+                document.getElementById("routeNoResults");
+
+
+            if (noResults) {
+
+                if (visibleCount === 0) {
+
+                    noResults.style.display = "block";
+
+                } else {
+
+                    noResults.style.display = "none";
+
+                }
+
+            }
+
+
+            /* =====================================================
+               RESULTS COUNTER
+            ===================================================== */
+
+            const results =
+                document.getElementById("routeResults");
+
+
+            if (results) {
+
+                if (search !== "") {
+
+                    results.textContent =
+                        visibleCount === 1
+                            ? "1 route found"
+                            : `${visibleCount} routes found`;
+
+                } else {
+
+                    results.textContent = "";
+
+                }
+
+            }
+
+
+            /* =====================================================
+               CLEAR BUTTON
+            ===================================================== */
+
+            const clearButton =
+                document.getElementById(
+                    "routeSearchClear"
+                );
+
+
+            if (clearButton) {
+
+                clearButton.style.display =
+                    search !== ""
+                        ? "block"
+                        : "none";
+
+            }
+
         }
+
+
+        /* =========================================================
+           SEARCH INPUT
+        ========================================================= */
+
+        const routeSearch =
+            document.getElementById(
+                "routeSearch"
+            );
+
+
+        if (routeSearch) {
+
+            routeSearch.addEventListener(
+                "input",
+                applyRouteFilters
+            );
+
+        }
+
+
+        /* =========================================================
+           CLEAR SEARCH
+        ========================================================= */
+
+        const routeSearchClear =
+            document.getElementById(
+                "routeSearchClear"
+            );
+
+
+        if (routeSearchClear) {
+
+            routeSearchClear.addEventListener(
+                "click",
+                function () {
+
+                    if (routeSearch) {
+
+                        routeSearch.value = "";
+
+                        routeSearch.focus();
+
+                    }
+
+                    applyRouteFilters();
+
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           INITIALIZE ROUTES
+        ========================================================= */
+
+        applyRouteFilters();
 
     </script>
 
