@@ -4,18 +4,11 @@
 <head>
 
     <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Routes — Echo Air Group</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <link rel="stylesheet" href="style.css">
 
     <style>
 
@@ -37,7 +30,8 @@
 
             transition:
                 background 0.25s ease,
-                box-shadow 0.25s ease;
+                box-shadow 0.25s ease,
+                backdrop-filter 0.25s ease;
         }
 
         header.scrolled {
@@ -46,8 +40,7 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
 
-            box-shadow:
-                0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         body {
@@ -64,410 +57,6 @@
             width: auto;
             display: block;
             object-fit: contain;
-        }
-
-
-        /* =========================================================
-           SEARCH
-        ========================================================= */
-
-        .route-search {
-            position: relative;
-            margin-bottom: 22px;
-        }
-
-        .route-search input {
-            width: 100%;
-            box-sizing: border-box;
-
-            padding: 16px 20px 16px 50px;
-
-            border:
-                1px solid #d8ded6;
-
-            border-radius: 12px;
-
-            background: #ffffff;
-            color: #17200f;
-
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 500;
-
-            outline: none;
-
-            transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-        .route-search input:focus {
-            border-color: #ace336;
-
-            box-shadow:
-                0 0 0 4px rgba(172, 227, 54, 0.12);
-        }
-
-        .route-search input::placeholder {
-            color: #899286;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            color: #687267;
-
-            font-size: 18px;
-
-            pointer-events: none;
-        }
-
-
-        /* =========================================================
-           ROUTE FILTERS
-        ========================================================= */
-
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .filter {
-            border:
-                1px solid #d8ded6;
-
-            background: #ffffff;
-            color: #30372f;
-
-            padding: 10px 16px;
-
-            border-radius: 10px;
-
-            font-family: inherit;
-            font-weight: 700;
-
-            cursor: pointer;
-
-            transition:
-                background 0.2s ease,
-                color 0.2s ease,
-                border-color 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .filter:hover {
-            transform: translateY(-1px);
-        }
-
-        .filter.active {
-            background: #ace336;
-            color: #17200f;
-            border-color: #ace336;
-        }
-
-
-        /* =========================================================
-           ROUTE INFO
-        ========================================================= */
-
-        .route-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 20px;
-
-            margin-bottom: 20px;
-        }
-
-        .route-count {
-            color: #687267;
-            font-size: 14px;
-        }
-
-        .route-count strong {
-            color: #17200f;
-        }
-
-
-        /* =========================================================
-           ROUTE TABLE
-        ========================================================= */
-
-        .route-table {
-            width: 100%;
-
-            overflow-x: auto;
-
-            border:
-                1px solid #dfe5dc;
-
-            border-radius: 16px;
-
-            background: #ffffff;
-
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .route-row {
-            min-width: 1050px;
-
-            display: grid;
-
-            grid-template-columns:
-                1.7fr
-                1fr
-                1.1fr
-                0.8fr
-                0.9fr
-                0.9fr;
-
-            align-items: center;
-
-            gap: 15px;
-
-            padding: 18px 22px;
-
-            border-bottom:
-                1px solid #e8ede5;
-        }
-
-        .route-row:last-child {
-            border-bottom: none;
-        }
-
-        .route-head {
-            background: #f5f7f3;
-
-            font-size: 13px;
-            font-weight: 800;
-
-            color: #626b5e;
-        }
-
-        .route-main {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .route-main strong {
-            color: #17200f;
-            font-size: 15px;
-        }
-
-        .route-main small {
-            color: #7d887a;
-            font-size: 12px;
-        }
-
-        .flight-number {
-            color: #6d7868;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .route-badge {
-            display: inline-block;
-
-            width: fit-content;
-
-            padding: 5px 9px;
-
-            border-radius: 7px;
-
-            background: #eef5e7;
-            color: #5c7d25;
-
-            font-size: 10px;
-            font-weight: 800;
-
-            letter-spacing: 0.4px;
-        }
-
-        .route-badge.longhaul {
-            background: #e9f0ff;
-            color: #42649c;
-        }
-
-        .route-badge.domestic {
-            background: #fff3dd;
-            color: #91651d;
-        }
-
-        .aircraft-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-        }
-
-        .aircraft-tag {
-            display: inline-block;
-
-            padding: 4px 7px;
-
-            border-radius: 6px;
-
-            background: #f1f3ef;
-
-            color: #4e594b;
-
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .duration {
-            color: #30372f;
-            font-weight: 700;
-        }
-
-        .hub {
-            color: #5d6959;
-            font-weight: 700;
-        }
-
-
-        /* =========================================================
-           DAYS
-        ========================================================= */
-
-        .days {
-            display: flex;
-            gap: 3px;
-        }
-
-        .day {
-            width: 23px;
-            height: 23px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 5px;
-
-            background: #eef1ec;
-            color: #a1a99d;
-
-            font-size: 8px;
-            font-weight: 800;
-        }
-
-        .day.active {
-            background: #ace336;
-            color: #17200f;
-        }
-
-
-        /* =========================================================
-           EMPTY
-        ========================================================= */
-
-        .route-empty {
-            padding: 60px 25px;
-
-            text-align: center;
-
-            color: #687267;
-        }
-
-        .route-empty h3 {
-            margin-bottom: 8px;
-            color: #17200f;
-        }
-
-        .route-empty p {
-            margin: 0 auto;
-            max-width: 550px;
-            line-height: 1.6;
-        }
-
-
-        /* =========================================================
-           LIVE MAP
-        ========================================================= */
-
-        .newsky-map {
-            width: 100%;
-            height: 650px;
-
-            border-radius: 18px;
-            overflow: hidden;
-
-            background: #101410;
-
-            border:
-                1px solid #dfe5dc;
-
-            box-shadow:
-                0 12px 35px rgba(0, 0, 0, 0.08);
-
-            position: relative;
-        }
-
-        .newsky-map iframe {
-            width: 100%;
-            height: 100%;
-
-            border: 0;
-            display: block;
-        }
-
-        .map-header {
-            display: flex;
-
-            justify-content: space-between;
-            align-items: center;
-
-            gap: 20px;
-
-            margin-bottom: 20px;
-        }
-
-        .map-header h2 {
-            margin-bottom: 5px;
-        }
-
-        .map-header p {
-            margin: 0;
-            color: #687267;
-        }
-
-        .newsky-button {
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 12px 18px;
-
-            border-radius: 10px;
-
-            background: #ace336;
-            color: #17200f;
-
-            text-decoration: none;
-
-            font-weight: 700;
-
-            white-space: nowrap;
-
-            transition:
-                transform 0.2s ease,
-                opacity 0.2s ease;
-        }
-
-        .newsky-button:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
         }
 
 
@@ -533,9 +122,7 @@
         .foot-links a {
             color: #cbd2c7;
             text-decoration: none;
-
-            transition:
-                color 0.2s ease;
+            transition: color 0.2s ease;
         }
 
         .foot-links a:hover {
@@ -546,20 +133,16 @@
             display: flex;
             justify-content: space-between;
             gap: 20px;
-
             margin-top: 35px;
             padding-top: 20px;
-
-            border-top:
-                1px solid rgba(255, 255, 255, 0.08);
-
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             color: #737b70;
             font-size: 13px;
         }
 
 
         /* =========================================================
-           SOCIAL
+           FOOTER SOCIAL BUTTONS
         ========================================================= */
 
         .footer-social {
@@ -572,15 +155,13 @@
         .footer-social a {
             width: 38px;
             height: 38px;
-
             border-radius: 9px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background:
-                rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.08);
 
             transition:
                 transform 0.2s ease,
@@ -589,15 +170,234 @@
 
         .footer-social a:hover {
             transform: translateY(-2px);
-
-            background:
-                rgba(172, 227, 54, 0.15);
+            background: rgba(172, 227, 54, 0.15);
         }
 
         .footer-social img {
             width: 22px;
             height: 22px;
             object-fit: contain;
+        }
+
+
+        /* =========================================================
+           NEWSKY LIVE MAP
+        ========================================================= */
+
+        .newsky-map {
+            width: 100%;
+            height: 650px;
+
+            border-radius: 18px;
+            overflow: hidden;
+
+            background: #101410;
+
+            border: 1px solid #dfe5dc;
+
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+
+            position: relative;
+        }
+
+        .newsky-map iframe {
+            width: 100%;
+            height: 100%;
+
+            border: 0;
+            display: block;
+        }
+
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .map-header h2 {
+            margin-bottom: 5px;
+        }
+
+        .map-header p {
+            margin: 0;
+            color: #687267;
+        }
+
+        .newsky-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 18px;
+
+            border-radius: 10px;
+
+            background: #ace336;
+            color: #17200f;
+
+            text-decoration: none;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .newsky-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .map-fallback {
+            display: none;
+
+            position: absolute;
+            inset: 0;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 30px;
+
+            background: #101410;
+            color: white;
+        }
+
+        .map-fallback-content {
+            max-width: 500px;
+        }
+
+        .map-fallback h3 {
+            margin-bottom: 10px;
+        }
+
+        .map-fallback p {
+            color: #c8cec5;
+            line-height: 1.6;
+        }
+
+
+        /* =========================================================
+           ROUTE FILTERS
+        ========================================================= */
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .filter {
+            border: 1px solid #d8ded6;
+
+            background: #ffffff;
+
+            color: #30372f;
+
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            font-family: inherit;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .filter:hover {
+            transform: translateY(-1px);
+        }
+
+        .filter.active {
+            background: #ace336;
+            color: #17200f;
+            border-color: #ace336;
+        }
+
+
+        /* =========================================================
+           ROUTE TABLE
+        ========================================================= */
+
+        .route-table {
+            width: 100%;
+            overflow-x: auto;
+
+            border: 1px solid #dfe5dc;
+            border-radius: 16px;
+
+            background: #ffffff;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .route-row {
+            min-width: 760px;
+
+            display: grid;
+
+            grid-template-columns:
+                1.6fr
+                1fr
+                0.8fr
+                0.9fr
+                0.8fr;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 18px 22px;
+
+            border-bottom: 1px solid #e8ede5;
+        }
+
+        .route-row:last-child {
+            border-bottom: none;
+        }
+
+        .route-head {
+            background: #f5f7f3;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            color: #626b5e;
+        }
+
+        .route-badge {
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 7px;
+
+            background: #eef5e7;
+
+            color: #5c7d25;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.4px;
         }
 
 
@@ -635,12 +435,8 @@
 
             .foot-links {
                 display: grid;
-
-                grid-template-columns:
-                    1fr 1fr;
-
+                grid-template-columns: 1fr 1fr;
                 gap: 10px 25px;
-
                 width: 100%;
             }
 
@@ -648,12 +444,6 @@
                 flex-direction: column;
                 gap: 8px;
             }
-
-            .route-info {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
         }
 
 
@@ -671,7 +461,6 @@
             .newsky-button {
                 width: 100%;
             }
-
         }
 
 
@@ -697,7 +486,6 @@
             .foot-links {
                 grid-template-columns: 1fr;
             }
-
         }
 
     </style>
@@ -716,10 +504,7 @@
 
         <div class="container nav">
 
-            <a
-                class="brand"
-                href="index.html"
-            >
+            <a class="brand" href="index.html">
 
                 <img
                     class="header-logo"
@@ -733,23 +518,29 @@
             <nav class="navlinks">
 
                 <a href="index.html">Home</a>
+
                 <a href="about.html">About</a>
+
                 <a href="fleet.html">Fleet</a>
+
                 <a href="routes.html">Routes</a>
+
                 <a href="team.html">Team</a>
+
                 <a href="join.html">Join Us</a>
+
                 <a href="manual.html">Pilot Manual</a>
+
                 <a href="contact.html">Contact Us</a>
+
                 <a href="ranking.html">Ranking</a>
+
                 <a href="booking.html">Book a flight</a>
 
             </nav>
 
 
-            <a
-                class="register"
-                href="join.html"
-            >
+            <a class="register" href="join.html">
                 REGISTER
             </a>
 
@@ -767,23 +558,30 @@
 
         <!-- MOBILE NAV -->
 
-        <div
-            id="mobileNav"
-            class="mobileNav"
-        >
+        <div id="mobileNav" class="mobileNav">
 
             <div class="container">
 
                 <a href="index.html">Home</a>
+
                 <a href="about.html">About</a>
+
                 <a href="fleet.html">Fleet</a>
+
                 <a href="routes.html">Routes</a>
+
                 <a href="team.html">Team</a>
+
                 <a href="join.html">Join Us</a>
+
                 <a href="manual.html">Pilot Manual</a>
+
                 <a href="contact.html">Contact Us</a>
+
                 <a href="ranking.html">Ranking</a>
+
                 <a href="booking.html">Book a flight</a>
+
                 <a href="join.html">Register</a>
 
             </div>
@@ -801,7 +599,7 @@
 
 
         <!-- =====================================================
-             HERO
+             PAGE HERO
         ===================================================== -->
 
         <section class="pagehero">
@@ -817,9 +615,7 @@
                 </h1>
 
                 <p>
-                    Explore the complete Echo Air Group network.
-                    All scheduled routes are displayed directly
-                    from our airline schedule.
+                    Filter the network by operation type and view the live NewSky network.
                 </p>
 
             </div>
@@ -836,26 +632,7 @@
             <div class="container">
 
 
-                <!-- SEARCH -->
-
-                <div class="route-search">
-
-                    <span class="search-icon">
-                        🔎
-                    </span>
-
-                    <input
-                        id="routeSearch"
-                        type="search"
-                        placeholder="Search by flight number, airport, aircraft or route..."
-                        autocomplete="off"
-                        aria-label="Search routes"
-                    >
-
-                </div>
-
-
-                <!-- FILTERS -->
+                <!-- FILTER BUTTONS -->
 
                 <div class="filters">
 
@@ -894,27 +671,12 @@
                 </div>
 
 
-                <!-- ROUTE INFORMATION -->
-
-                <div class="route-info">
-
-                    <div class="route-count">
-
-                        Showing
-                        <strong id="routeCount">0</strong>
-                        routes
-
-                    </div>
-
-                </div>
-
-
-                <!-- ROUTE TABLE -->
+                <!-- =================================================
+                     ROUTE TABLE
+                ================================================= -->
 
                 <div class="route-table">
 
-
-                    <!-- HEADER -->
 
                     <div class="route-row route-head">
 
@@ -931,11 +693,7 @@
                         </div>
 
                         <div>
-                            Duration
-                        </div>
-
-                        <div>
-                            Days
+                            Distance
                         </div>
 
                         <div>
@@ -945,31 +703,2381 @@
                     </div>
 
 
-                    <!-- ROUTES -->
+                   <!-- =========================================================
+     ECV - ECHO AIR GROUP
+     NEW SKY ROUTES
+     Every NewSky schedule = separate route row
+========================================================= -->
 
-                    <div id="routeRows"></div>
+
+<!-- =========================
+     LIRF - ROME
+========================= -->
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Dublin</strong>
+        <small style="display:block;color:#7d887a">LIRF → EIDW</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>795 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Dublin → Rome</strong>
+        <small style="display:block;color:#7d887a">EIDW → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>795 nm</div>
+    <div>Dublin</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Gran Canaria</strong>
+        <small style="display:block;color:#7d887a">LIRF → GCLP</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1568 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Gran Canaria → Rome</strong>
+        <small style="display:block;color:#7d887a">GCLP → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1568 nm</div>
+    <div>Gran Canaria</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Lanzarote</strong>
+        <small style="display:block;color:#7d887a">LIRF → GCRR</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1441 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Lanzarote → Rome</strong>
+        <small style="display:block;color:#7d887a">GCRR → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1441 nm</div>
+    <div>Lanzarote</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Tenerife</strong>
+        <small style="display:block;color:#7d887a">LIRF → GCTS</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1458 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Tenerife → Rome</strong>
+        <small style="display:block;color:#7d887a">GCTS → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1458 nm</div>
+    <div>Tenerife</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Madeira</strong>
+        <small style="display:block;color:#7d887a">LIRF → LPMA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1258 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Madeira → Rome</strong>
+        <small style="display:block;color:#7d887a">LPMA → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1258 nm</div>
+    <div>Madeira</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Zagreb</strong>
+        <small style="display:block;color:#7d887a">LIRF → LDZA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>337 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Zagreb → Rome</strong>
+        <small style="display:block;color:#7d887a">LDZA → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>337 nm</div>
+    <div>Zagreb</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Athens</strong>
+        <small style="display:block;color:#7d887a">LIRF → LGAV</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>515 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Athens → Rome</strong>
+        <small style="display:block;color:#7d887a">LGAV → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>515 nm</div>
+    <div>Athens</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Marrakech</strong>
+        <small style="display:block;color:#7d887a">LIRF → GMMX</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>809 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Marrakech → Rome</strong>
+        <small style="display:block;color:#7d887a">GMMX → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>809 nm</div>
+    <div>Marrakech</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Tunis</strong>
+        <small style="display:block;color:#7d887a">LIRF → DTTA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>359 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Tunis → Rome</strong>
+        <small style="display:block;color:#7d887a">DTTA → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>359 nm</div>
+    <div>Tunis</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Philadelphia</strong>
+        <small style="display:block;color:#7d887a">LIRF → KPHL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>3971 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Philadelphia → Rome</strong>
+        <small style="display:block;color:#7d887a">KPHL → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>3971 nm</div>
+    <div>Philadelphia</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → New York</strong>
+        <small style="display:block;color:#7d887a">LIRF → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4004 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Rome</strong>
+        <small style="display:block;color:#7d887a">KJFK → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4004 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Dubai</strong>
+        <small style="display:block;color:#7d887a">LIRF → OMDB</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2702 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Dubai → Rome</strong>
+        <small style="display:block;color:#7d887a">OMDB → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2702 nm</div>
+    <div>Dubai</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Doha</strong>
+        <small style="display:block;color:#7d887a">LIRF → OTHH</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2497 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Doha → Rome</strong>
+        <small style="display:block;color:#7d887a">OTHH → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2497 nm</div>
+    <div>Doha</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Miami</strong>
+        <small style="display:block;color:#7d887a">LIRF → KMIA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4241 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Miami → Rome</strong>
+        <small style="display:block;color:#7d887a">KMIA → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4241 nm</div>
+    <div>Miami</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Los Angeles</strong>
+        <small style="display:block;color:#7d887a">LIRF → KLAX</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>5240 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Los Angeles → Rome</strong>
+        <small style="display:block;color:#7d887a">KLAX → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>5240 nm</div>
+    <div>Los Angeles</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → San Francisco</strong>
+        <small style="display:block;color:#7d887a">LIRF → KSFO</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>5072 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>San Francisco → Rome</strong>
+        <small style="display:block;color:#7d887a">KSFO → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>5072 nm</div>
+    <div>San Francisco</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Santiago</strong>
+        <small style="display:block;color:#7d887a">LIRF → SCEL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>6537 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Santiago → Rome</strong>
+        <small style="display:block;color:#7d887a">SCEL → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>6537 nm</div>
+    <div>Santiago</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Buenos Aires</strong>
+        <small style="display:block;color:#7d887a">LIRF → SAEZ</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>6000 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Buenos Aires → Rome</strong>
+        <small style="display:block;color:#7d887a">SAEZ → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>6000 nm</div>
+    <div>Buenos Aires</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Munich</strong>
+        <small style="display:block;color:#7d887a">LIRF → EDDM</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>415 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Munich → Rome</strong>
+        <small style="display:block;color:#7d887a">EDDM → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>415 nm</div>
+    <div>Munich</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">LIRF → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>552 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Rome</strong>
+        <small style="display:block;color:#7d887a">EDDL → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>552 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Berlin</strong>
+        <small style="display:block;color:#7d887a">LIRF → EDDB</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>475 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Berlin → Rome</strong>
+        <small style="display:block;color:#7d887a">EDDB → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>475 nm</div>
+    <div>Berlin</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Frankfurt</strong>
+        <small style="display:block;color:#7d887a">LIRF → EDDF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>484 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Frankfurt → Rome</strong>
+        <small style="display:block;color:#7d887a">EDDF → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>484 nm</div>
+    <div>Frankfurt</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Milan</strong>
+        <small style="display:block;color:#7d887a">LIRF → LIMC</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>267 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Milan → Rome</strong>
+        <small style="display:block;color:#7d887a">LIMC → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>267 nm</div>
+    <div>Milan</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Bologna → Rome</strong>
+        <small style="display:block;color:#7d887a">LIPE → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>188 nm</div>
+    <div>Bologna</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Bologna</strong>
+        <small style="display:block;color:#7d887a">LIRF → LIPE</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>188 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Olbia</strong>
+        <small style="display:block;color:#7d887a">LIRF → LIEO</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>157 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Olbia → Rome</strong>
+        <small style="display:block;color:#7d887a">LIEO → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>157 nm</div>
+    <div>Olbia</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Bari</strong>
+        <small style="display:block;color:#7d887a">LIRF → LIBD</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>184 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Bari → Rome</strong>
+        <small style="display:block;color:#7d887a">LIBD → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>184 nm</div>
+    <div>Bari</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Delhi</strong>
+        <small style="display:block;color:#7d887a">LIRF → VIDP</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>3290 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Delhi → Rome</strong>
+        <small style="display:block;color:#7d887a">VIDP → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>3290 nm</div>
+    <div>Delhi</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Heraklion</strong>
+        <small style="display:block;color:#7d887a">LIRF → LGIR</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>550 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Heraklion → Rome</strong>
+        <small style="display:block;color:#7d887a">LGIR → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>550 nm</div>
+    <div>Heraklion</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Corfu</strong>
+        <small style="display:block;color:#7d887a">LIRF → LGKR</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>411 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Corfu → Rome</strong>
+        <small style="display:block;color:#7d887a">LGKR → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>411 nm</div>
+    <div>Corfu</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Athens → Samos</strong>
+        <small style="display:block;color:#7d887a">LGAV → LGSM</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>139 nm</div>
+    <div>Athens</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Samos → Athens</strong>
+        <small style="display:block;color:#7d887a">LGSM → LGAV</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>139 nm</div>
+    <div>Samos</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Samos</strong>
+        <small style="display:block;color:#7d887a">LIRF → LGSM</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>599 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Samos → Rome</strong>
+        <small style="display:block;color:#7d887a">LGSM → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>599 nm</div>
+    <div>Samos</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Istanbul</strong>
+        <small style="display:block;color:#7d887a">LIRF → LTFM</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>722 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Istanbul → Rome</strong>
+        <small style="display:block;color:#7d887a">LTFM → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>722 nm</div>
+    <div>Istanbul</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Amsterdam</strong>
+        <small style="display:block;color:#7d887a">LIRF → EHAM</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>724 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Amsterdam → Rome</strong>
+        <small style="display:block;color:#7d887a">EHAM → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>724 nm</div>
+    <div>Amsterdam</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Warsaw</strong>
+        <small style="display:block;color:#7d887a">LIRF → EPWA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>749 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Warsaw → Rome</strong>
+        <small style="display:block;color:#7d887a">EPWA → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>749 nm</div>
+    <div>Warsaw</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Barcelona</strong>
+        <small style="display:block;color:#7d887a">LIRF → LEBL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>533 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Palma de Mallorca</strong>
+        <small style="display:block;color:#7d887a">LIRF → LEPA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>500 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Palma de Mallorca → Rome</strong>
+        <small style="display:block;color:#7d887a">LEPA → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>500 nm</div>
+    <div>Palma de Mallorca</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Catania</strong>
+        <small style="display:block;color:#7d887a">LIRF → LICC</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>292 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Catania → Rome</strong>
+        <small style="display:block;color:#7d887a">LICC → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>292 nm</div>
+    <div>Catania</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Malta</strong>
+        <small style="display:block;color:#7d887a">LIRF → LMML</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>328 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Malta → Rome</strong>
+        <small style="display:block;color:#7d887a">LMML → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>328 nm</div>
+    <div>Malta</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Copenhagen</strong>
+        <small style="display:block;color:#7d887a">LIRF → EKCH</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>823 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Copenhagen → Rome</strong>
+        <small style="display:block;color:#7d887a">EKCH → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>823 nm</div>
+    <div>Copenhagen</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → London Gatwick</strong>
+        <small style="display:block;color:#7d887a">LIRF → EGKK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>725 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>London Gatwick → Rome</strong>
+        <small style="display:block;color:#7d887a">EGKK → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>725 nm</div>
+    <div>London Gatwick</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Dubrovnik</strong>
+        <small style="display:block;color:#7d887a">LIRF → LDDU</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>285 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Dubrovnik → Rome</strong>
+        <small style="display:block;color:#7d887a">LDDU → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>285 nm</div>
+    <div>Dubrovnik</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Innsbruck</strong>
+        <small style="display:block;color:#7d887a">LIRF → LOWI</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>262 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Innsbruck → Rome</strong>
+        <small style="display:block;color:#7d887a">LOWI → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>262 nm</div>
+    <div>Innsbruck</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Linz</strong>
+        <small style="display:block;color:#7d887a">LIRF → LOWL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>322 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Linz → Rome</strong>
+        <small style="display:block;color:#7d887a">LOWL → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>322 nm</div>
+    <div>Linz</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Madrid</strong>
+        <small style="display:block;color:#7d887a">LIRF → LEMD</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>718 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Madrid → Rome</strong>
+        <small style="display:block;color:#7d887a">LEMD → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>718 nm</div>
+    <div>Madrid</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Porto</strong>
+        <small style="display:block;color:#7d887a">LIRF → LPFR</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>908 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Porto → Rome</strong>
+        <small style="display:block;color:#7d887a">LPFR → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>908 nm</div>
+    <div>Porto</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Lisbon</strong>
+        <small style="display:block;color:#7d887a">LIRF → LPPT</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>879 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Lisbon → Rome</strong>
+        <small style="display:block;color:#7d887a">LPPT → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>879 nm</div>
+    <div>Lisbon</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Tirana</strong>
+        <small style="display:block;color:#7d887a">LIRF → LATI</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>308 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Tirana → Rome</strong>
+        <small style="display:block;color:#7d887a">LATI → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>308 nm</div>
+    <div>Tirana</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Paris</strong>
+        <small style="display:block;color:#7d887a">LIRF → LFPO</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>586 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Paris → Rome</strong>
+        <small style="display:block;color:#7d887a">LFPO → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>586 nm</div>
+    <div>Paris</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Thessaloniki</strong>
+        <small style="display:block;color:#7d887a">LIRF → LGTS</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>534 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Thessaloniki → Rome</strong>
+        <small style="display:block;color:#7d887a">LGTS → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>534 nm</div>
+    <div>Thessaloniki</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Naples</strong>
+        <small style="display:block;color:#7d887a">LIRF → LIRN</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>108 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Naples → Rome</strong>
+        <small style="display:block;color:#7d887a">LIRN → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>108 nm</div>
+    <div>Naples</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Venice</strong>
+        <small style="display:block;color:#7d887a">LIRF → LIPZ</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>264 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Venice → Rome</strong>
+        <small style="display:block;color:#7d887a">LIPZ → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>264 nm</div>
+    <div>Venice</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Prague</strong>
+        <small style="display:block;color:#7d887a">LIRF → LKPR</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>482 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Prague → Rome</strong>
+        <small style="display:block;color:#7d887a">LKPR → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>482 nm</div>
+    <div>Prague</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Zurich</strong>
+        <small style="display:block;color:#7d887a">LIRF → LSZH</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>400 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Zurich → Rome</strong>
+        <small style="display:block;color:#7d887a">LSZH → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>400 nm</div>
+    <div>Zurich</div>
+</div>
 
 
-                    <!-- EMPTY -->
+<!-- =========================
+     KJFK - NEW YORK
+========================= -->
 
-                    <div
-                        id="routeEmpty"
-                        class="route-empty"
-                        style="display:none;"
-                    >
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Boston</strong>
+        <small style="display:block;color:#7d887a">KJFK → KBOS</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>163 nm</div>
+    <div>New York</div>
+</div>
 
-                        <h3>
-                            No routes found
-                        </h3>
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Boston → New York</strong>
+        <small style="display:block;color:#7d887a">KBOS → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>163 nm</div>
+    <div>Boston</div>
+</div>
 
-                        <p>
-                            There are currently no routes matching
-                            your search or selected filter.
-                        </p>
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Washington</strong>
+        <small style="display:block;color:#7d887a">KJFK → KDCA</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>184 nm</div>
+    <div>New York</div>
+</div>
 
-                    </div>
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Washington → New York</strong>
+        <small style="display:block;color:#7d887a">KDCA → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>184 nm</div>
+    <div>Washington</div>
+</div>
 
-                </div>
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Philadelphia</strong>
+        <small style="display:block;color:#7d887a">KJFK → KPHL</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>82 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Philadelphia → New York</strong>
+        <small style="display:block;color:#7d887a">KPHL → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>82 nm</div>
+    <div>Philadelphia</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Baltimore</strong>
+        <small style="display:block;color:#7d887a">KJFK → KBWI</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>147 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Baltimore → New York</strong>
+        <small style="display:block;color:#7d887a">KBWI → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>147 nm</div>
+    <div>Baltimore</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Charlotte</strong>
+        <small style="display:block;color:#7d887a">KJFK → KCLT</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>465 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Charlotte → New York</strong>
+        <small style="display:block;color:#7d887a">KCLT → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>465 nm</div>
+    <div>Charlotte</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Atlanta</strong>
+        <small style="display:block;color:#7d887a">KJFK → KATL</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>659 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Nashville</strong>
+        <small style="display:block;color:#7d887a">KJFK → KBNA</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>690 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Nashville → New York</strong>
+        <small style="display:block;color:#7d887a">KBNA → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>690 nm</div>
+    <div>Nashville</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Raleigh</strong>
+        <small style="display:block;color:#7d887a">KJFK → KRDU</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>391 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Raleigh → New York</strong>
+        <small style="display:block;color:#7d887a">KRDU → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>391 nm</div>
+    <div>Raleigh</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Miami</strong>
+        <small style="display:block;color:#7d887a">KJFK → KMIA</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>953 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Miami → New York</strong>
+        <small style="display:block;color:#7d887a">KMIA → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>953 nm</div>
+    <div>Miami</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Orlando</strong>
+        <small style="display:block;color:#7d887a">KJFK → KMCO</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>835 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Orlando → New York</strong>
+        <small style="display:block;color:#7d887a">KMCO → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>835 nm</div>
+    <div>Orlando</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Chicago</strong>
+        <small style="display:block;color:#7d887a">KJFK → KORD</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>641 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Chicago → New York</strong>
+        <small style="display:block;color:#7d887a">KORD → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>641 nm</div>
+    <div>Chicago</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Dallas</strong>
+        <small style="display:block;color:#7d887a">KJFK → KDFW</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>1247 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Dallas → New York</strong>
+        <small style="display:block;color:#7d887a">KDFW → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>1247 nm</div>
+    <div>Dallas</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → Denver</strong>
+        <small style="display:block;color:#7d887a">KJFK → KDEN</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>1418 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>Denver → New York</strong>
+        <small style="display:block;color:#7d887a">KDEN → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>1418 nm</div>
+    <div>Denver</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New York → New Orleans</strong>
+        <small style="display:block;color:#7d887a">KJFK → KMSY</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>1067 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="domestic">
+    <div>
+        <strong>New Orleans → New York</strong>
+        <small style="display:block;color:#7d887a">KMSY → KJFK</small>
+    </div>
+    <div><span class="route-badge">DOMESTIC</span></div>
+    <div>1067 nm</div>
+    <div>New Orleans</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → San Juan</strong>
+        <small style="display:block;color:#7d887a">KJFK → TJSJ</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1382 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>San Juan → New York</strong>
+        <small style="display:block;color:#7d887a">TJSJ → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1382 nm</div>
+    <div>San Juan</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Nassau</strong>
+        <small style="display:block;color:#7d887a">KJFK → MYNN</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1098 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Nassau → New York</strong>
+        <small style="display:block;color:#7d887a">MYNN → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1098 nm</div>
+    <div>Nassau</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Cancún</strong>
+        <small style="display:block;color:#7d887a">KJFK → MMUN</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1381 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Cancún → New York</strong>
+        <small style="display:block;color:#7d887a">MMUN → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1381 nm</div>
+    <div>Cancún</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Los Angeles</strong>
+        <small style="display:block;color:#7d887a">KJFK → KLAX</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2146 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Los Angeles → New York</strong>
+        <small style="display:block;color:#7d887a">KLAX → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2146 nm</div>
+    <div>Los Angeles</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → San Francisco</strong>
+        <small style="display:block;color:#7d887a">KJFK → KSFO</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2242 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>San Francisco → New York</strong>
+        <small style="display:block;color:#7d887a">KSFO → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2242 nm</div>
+    <div>San Francisco</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Seattle</strong>
+        <small style="display:block;color:#7d887a">KJFK → KSEA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2072 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Seattle → New York</strong>
+        <small style="display:block;color:#7d887a">KSEA → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2072 nm</div>
+    <div>Seattle</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Toronto</strong>
+        <small style="display:block;color:#7d887a">KJFK → CYYZ</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>353 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Toronto → New York</strong>
+        <small style="display:block;color:#7d887a">CYYZ → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>353 nm</div>
+    <div>Toronto</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → London Gatwick</strong>
+        <small style="display:block;color:#7d887a">KJFK → EGKK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2990 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>London Gatwick → New York</strong>
+        <small style="display:block;color:#7d887a">EGKK → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2990 nm</div>
+    <div>London Gatwick</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Paris</strong>
+        <small style="display:block;color:#7d887a">KJFK → LFPO</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>3120 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Paris → New York</strong>
+        <small style="display:block;color:#7d887a">LFPO → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>3120 nm</div>
+    <div>Paris</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Rome</strong>
+        <small style="display:block;color:#7d887a">KJFK → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4004 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → New York</strong>
+        <small style="display:block;color:#7d887a">LIRF → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4004 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Dubai</strong>
+        <small style="display:block;color:#7d887a">KJFK → OMDB</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>6007 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Dubai → New York</strong>
+        <small style="display:block;color:#7d887a">OMDB → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>6007 nm</div>
+    <div>Dubai</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Key West</strong>
+        <small style="display:block;color:#7d887a">KJFK → KEYW</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1054 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Key West → New York</strong>
+        <small style="display:block;color:#7d887a">KEYW → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1054 nm</div>
+    <div>Key West</div>
+</div>
+
+
+<!-- =========================
+     EDDL - DÜSSELDORF
+========================= -->
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Copenhagen</strong>
+        <small style="display:block;color:#7d887a">EDDL → EKCH</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>374 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Copenhagen → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EKCH → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>374 nm</div>
+    <div>Copenhagen</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Billund</strong>
+        <small style="display:block;color:#7d887a">EDDL → EKBI</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>250 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Billund → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EKBI → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>250 nm</div>
+    <div>Billund</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Aalborg</strong>
+        <small style="display:block;color:#7d887a">EDDL → EKAH</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>292 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Aalborg → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EKAH → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>292 nm</div>
+    <div>Aalborg</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Gothenburg</strong>
+        <small style="display:block;color:#7d887a">EDDL → ESGG</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>349 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Gothenburg → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">ESGG → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>349 nm</div>
+    <div>Gothenburg</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Stockholm</strong>
+        <small style="display:block;color:#7d887a">EDDL → ESSA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>525 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Stockholm → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">ESSA → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>525 nm</div>
+    <div>Stockholm</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Oslo</strong>
+        <small style="display:block;color:#7d887a">EDDL → ENGM</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>461 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Oslo → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">ENGM → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>461 nm</div>
+    <div>Oslo</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → London Heathrow</strong>
+        <small style="display:block;color:#7d887a">EDDL → EGLL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>263 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>London Heathrow → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EGLL → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>263 nm</div>
+    <div>London Heathrow</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → London Stansted</strong>
+        <small style="display:block;color:#7d887a">EDDL → EGSS</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>262 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>London Stansted → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EGSS → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>262 nm</div>
+    <div>London Stansted</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Birmingham</strong>
+        <small style="display:block;color:#7d887a">EDDL → EGBB</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>310 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Birmingham → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EGBB → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>310 nm</div>
+    <div>Birmingham</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → London Gatwick</strong>
+        <small style="display:block;color:#7d887a">EDDL → EGKK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>304 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>London Gatwick → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EGKK → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>304 nm</div>
+    <div>London Gatwick</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Athens</strong>
+        <small style="display:block;color:#7d887a">EDDL → LGAV</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1020 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Athens → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">LGAV → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>1020 nm</div>
+    <div>Athens</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Berlin</strong>
+        <small style="display:block;color:#7d887a">EDDL → EDDB</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>240 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Berlin → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EDDB → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>240 nm</div>
+    <div>Berlin</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Frankfurt</strong>
+        <small style="display:block;color:#7d887a">EDDL → EDDF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>124 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Frankfurt → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EDDF → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>124 nm</div>
+    <div>Frankfurt</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Munich</strong>
+        <small style="display:block;color:#7d887a">EDDL → EDDM</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>267 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Munich → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EDDM → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>267 nm</div>
+    <div>Munich</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Dresden</strong>
+        <small style="display:block;color:#7d887a">EDDL → EDDC</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>258 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Dresden → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EDDC → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>258 nm</div>
+    <div>Dresden</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Vilnius</strong>
+        <small style="display:block;color:#7d887a">EDDL → EYVI</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>649 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Vilnius → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EYVI → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>649 nm</div>
+    <div>Vilnius</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Kaunas</strong>
+        <small style="display:block;color:#7d887a">EDDL → EYKA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>586 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Kaunas → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EYKA → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>586 nm</div>
+    <div>Kaunas</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Manchester</strong>
+        <small style="display:block;color:#7d887a">EDDL → EGCC</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>339 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Manchester → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EGCC → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>339 nm</div>
+    <div>Manchester</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Dublin</strong>
+        <small style="display:block;color:#7d887a">EDDL → EIDW</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>476 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Dublin → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EIDW → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>476 nm</div>
+    <div>Dublin</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Paris Beauvais</strong>
+        <small style="display:block;color:#7d887a">EDDL → LFOB</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>227 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Paris Beauvais → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">LFOB → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>227 nm</div>
+    <div>Paris Beauvais</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Paris Charles de Gaulle</strong>
+        <small style="display:block;color:#7d887a">EDDL → LFPG</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>244 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Paris Charles de Gaulle → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">LFPG → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>244 nm</div>
+    <div>Paris Charles de Gaulle</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Amsterdam</strong>
+        <small style="display:block;color:#7d887a">EDDL → EHAM</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>91 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Amsterdam → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EHAM → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>91 nm</div>
+    <div>Amsterdam</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Warsaw</strong>
+        <small style="display:block;color:#7d887a">EDDL → EPWA</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>504 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Warsaw → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EPWA → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>504 nm</div>
+    <div>Warsaw</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Warsaw Modlin</strong>
+        <small style="display:block;color:#7d887a">EDDL → EPMO</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>483 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Warsaw Modlin → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EPMO → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>483 nm</div>
+    <div>Warsaw Modlin</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Gdańsk</strong>
+        <small style="display:block;color:#7d887a">EDDL → EPGD</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>479 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Gdańsk → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EPGD → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>479 nm</div>
+    <div>Gdańsk</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Katowice</strong>
+        <small style="display:block;color:#7d887a">EDDL → EPKT</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>463 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Katowice → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">EPKT → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>463 nm</div>
+    <div>Katowice</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → León</strong>
+        <small style="display:block;color:#7d887a">EDDL → LEGE</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>693 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>León → Düsseldorf</strong>
+        <small style="display:block;color:#7d887a">LEGE → EDDL</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>693 nm</div>
+    <div>León</div>
+</div>
+
+
+<!-- =========================
+     OTHER NEW SKY ROUTES
+========================= -->
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → London</strong>
+        <small style="display:block;color:#7d887a">KJFK → EGKK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2990 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>London → New York</strong>
+        <small style="display:block;color:#7d887a">EGKK → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>2990 nm</div>
+    <div>London</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Rome</strong>
+        <small style="display:block;color:#7d887a">KJFK → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4004 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Dubai</strong>
+        <small style="display:block;color:#7d887a">KJFK → OMDB</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>6007 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Dubai → New York</strong>
+        <small style="display:block;color:#7d887a">OMDB → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>6007 nm</div>
+    <div>Dubai</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Washington</strong>
+        <small style="display:block;color:#7d887a">LIRF → KIAD</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4065 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Washington → Rome</strong>
+        <small style="display:block;color:#7d887a">KIAD → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4065 nm</div>
+    <div>Washington</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Düsseldorf → Rome</strong>
+        <small style="display:block;color:#7d887a">EDDL → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>552 nm</div>
+    <div>Düsseldorf</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Washington</strong>
+        <small style="display:block;color:#7d887a">LIRF → KIAD</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4065 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Washington → Rome</strong>
+        <small style="display:block;color:#7d887a">KIAD → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4065 nm</div>
+    <div>Washington</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>London → Rome</strong>
+        <small style="display:block;color:#7d887a">EGKK → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>725 nm</div>
+    <div>London</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → London</strong>
+        <small style="display:block;color:#7d887a">LIRF → EGKK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>725 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Singapore</strong>
+        <small style="display:block;color:#7d887a">LIRF → WSSS</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>5140 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Singapore → Rome</strong>
+        <small style="display:block;color:#7d887a">WSSS → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>5140 nm</div>
+    <div>Singapore</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Singapore → Shenzhen</strong>
+        <small style="display:block;color:#7d887a">WSSS → ZGSZ</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>860 nm</div>
+    <div>Singapore</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Shenzhen → Singapore</strong>
+        <small style="display:block;color:#7d887a">ZGSZ → WSSS</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>860 nm</div>
+    <div>Shenzhen</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Shenzhen → Phuket</strong>
+        <small style="display:block;color:#7d887a">ZGSZ → VTSG</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>450 nm</div>
+    <div>Shenzhen</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Phuket → Shenzhen</strong>
+        <small style="display:block;color:#7d887a">VTSG → ZGSZ</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>450 nm</div>
+    <div>Phuket</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Paris → New York</strong>
+        <small style="display:block;color:#7d887a">LFPG → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>3140 nm</div>
+    <div>Paris</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Paris</strong>
+        <small style="display:block;color:#7d887a">KJFK → LFPG</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>3140 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Rome → Caracas</strong>
+        <small style="display:block;color:#7d887a">LIRF → TTPP</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4650 nm</div>
+    <div>Rome</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Caracas → Tobago</strong>
+        <small style="display:block;color:#7d887a">TTPP → TGPY</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>110 nm</div>
+    <div>Caracas</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Tobago → Rome</strong>
+        <small style="display:block;color:#7d887a">TGPY → LIRF</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>4560 nm</div>
+    <div>Tobago</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>New York → Tokyo</strong>
+        <small style="display:block;color:#7d887a">KJFK → RJTT</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>5860 nm</div>
+    <div>New York</div>
+</div>
+
+<div class="route-row" data-type="international">
+    <div>
+        <strong>Tokyo → New York</strong>
+        <small style="display:block;color:#7d887a">RJTT → KJFK</small>
+    </div>
+    <div><span class="route-badge">INTERNATIONAL</span></div>
+    <div>5860 nm</div>
+    <div>Tokyo</div>
+</div>
 
 
                 <!-- =================================================
@@ -991,8 +3099,7 @@
                             </h2>
 
                             <p>
-                                View live virtual aviation traffic
-                                across the Echo Air Group network.
+                                View live virtual aviation traffic on the NewSky network.
                             </p>
 
                         </div>
@@ -1019,6 +3126,36 @@
                             allow="fullscreen"
                         ></iframe>
 
+
+                        <!-- FALLBACK -->
+
+                        <div class="map-fallback">
+
+                            <div class="map-fallback-content">
+
+                                <h3>
+                                    NewSky Live Map
+                                </h3>
+
+                                <p>
+                                    The NewSky map cannot be displayed directly
+                                    inside this page. Use the button below to open
+                                    the live map.
+                                </p>
+
+                                <a
+                                    class="newsky-button"
+                                    href="https://newsky.app/map"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Open NewSky Live Map ↗
+                                </a>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </section>
@@ -1029,7 +3166,7 @@
 
 
         <!-- =====================================================
-             BOTTOM
+             BOTTOM SECTION
         ===================================================== -->
 
         <section class="dark-section">
@@ -1043,13 +3180,12 @@
                     </span>
 
                     <h2>
-                        Fly further.
-                        <span>Fly together.</span>
+                        Fly further. <span>Fly together.</span>
                     </h2>
 
                     <p>
-                        Explore the Echo Air Group network and
-                        follow virtual flights across the world.
+                        Explore the Echo Air Group network and follow virtual
+                        flights across the world.
                     </p>
 
                 </div>
@@ -1071,6 +3207,8 @@
 
             <div class="foot-top">
 
+
+                <!-- FOOTER BRAND -->
 
                 <div>
 
@@ -1107,7 +3245,12 @@
                     </p>
 
 
+                    <!-- SOCIAL BUTTONS -->
+
                     <div class="footer-social">
+
+
+                        <!-- DISCORD -->
 
                         <a
                             href="https://discord.gg/e7ePxYA24"
@@ -1123,6 +3266,8 @@
 
                         </a>
 
+
+                        <!-- TIKTOK -->
 
                         <a
                             href="https://www.tiktok.com/@echoairgroup"
@@ -1143,24 +3288,60 @@
                 </div>
 
 
+                <!-- FOOTER NAVIGATION -->
+
                 <div class="foot-links">
 
-                    <a href="index.html">Home</a>
-                    <a href="about.html">About</a>
-                    <a href="fleet.html">Fleet</a>
-                    <a href="routes.html">Routes</a>
-                    <a href="team.html">Team</a>
-                    <a href="index.html#news">News</a>
-                    <a href="join.html">Join Us</a>
-                    <a href="manual.html">Pilot Manual</a>
-                    <a href="contact.html">Contact Us</a>
-                    <a href="booking.html">Book a flight</a>
-                    <a href="join.html">Register</a>
+                    <a href="index.html">
+                        Home
+                    </a>
+
+                    <a href="about.html">
+                        About
+                    </a>
+
+                    <a href="index.html#fleet">
+                        Fleet
+                    </a>
+
+                    <a href="routes.html">
+                        Routes
+                    </a>
+
+                    <a href="team.html">
+                        Team
+                    </a>
+
+                    <a href="index.html#news">
+                        News
+                    </a>
+
+                    <a href="join.html">
+                        Join Us
+                    </a>
+
+                    <a href="manual.html">
+                        Pilot Manual
+                    </a>
+
+                    <a href="contact.html">
+                        Contact Us
+                    </a>
+
+                    <a href="booking.html">
+                        Book a flight
+                    </a>
+
+                    <a href="join.html">
+                        Register
+                    </a>
 
                 </div>
 
             </div>
 
+
+            <!-- COPYRIGHT -->
 
             <div class="copy">
 
@@ -1189,12 +3370,10 @@
     <script>
 
         /* =========================================================
-           HEADER
+           HEADER SCROLL EFFECT
         ========================================================= */
 
-        const header =
-            document.getElementById("siteHeader");
-
+        const header = document.getElementById("siteHeader");
 
         function updateHeader() {
 
@@ -1210,11 +3389,7 @@
 
         }
 
-
-        window.addEventListener(
-            "scroll",
-            updateHeader
-        );
+        window.addEventListener("scroll", updateHeader);
 
         updateHeader();
 
@@ -1238,1204 +3413,57 @@
 
 
         /* =========================================================
-           ROUTE DATA
-           =========================================================
-           
-           This is intentionally stored directly on the frontend.
-           
-           No API.
-           No server request.
-           No /api/routes.
-           
-           Format:
-           
-           number|dep|arr|type|duration|mon|tue|wed|thu|fri|sat|sun|airframes|active
-           
-        ========================================================= */
-
-        const ROUTE_DATA = `
-
-102|LIRF|EIDW|pax|195|true|true|true|true|true|true|true|pax|true
-304|EDDM|KIAD|pax|540|true|true|true|true|true|true|true|pax_xl|true
-305|EDDM|KSFO|pax|720|true|true|true|true|true|true|true|pax_xl|true
-207|EIDW|BGGH|pax|240|true|true|true|true|true|true|true|pax|true
-708|BGGH|KJFK|pax|270|true|true|true|true|true|true|true|pax|true
-201|EIDW|LIRF|pax|180|true|true|true|true|true|true|true|pax|true
-702|BGGH|EIDW|pax|240|true|true|true|true|true|true|true|pax|true
-807|KJFK|BGGH|pax|270|true|true|true|true|true|true|true|pax|true
-403|KIAD|EDDM|pax|510|true|true|true|true|true|true|true|pax_xl|true
-503|KSFO|EDDM|pax|690|true|true|true|true|true|true|true|pax_xl|true
-109|LIRF|GCLP|pax|270|true|true|true|true|true|true|true|pax|true
-901|GCLP|LIRF|pax|270|true|true|true|true|true|true|true|pax|true
-110|LIRF|GCRR|pax|240|true|true|true|true|true|true|true|pax|true
-1001|GCRR|LIRF|pax|240|true|true|true|true|true|true|true|pax|true
-111|LIRF|GCTS|pax|285|true|true|true|true|true|true|true|pax|true
-1101|GCTS|LIRF|pax|285|true|true|true|true|true|true|true|pax|true
-112|LIRF|LPMA|pax|240|true|true|true|true|true|true|true|pax|true
-1201|LPMA|LIRF|pax|240|true|true|true|true|true|true|true|pax|true
-113|LIRF|LDZA|pax|85|true|true|true|true|true|true|true|pax|true
-1301|LDZA|LIRF|pax|85|true|true|true|true|true|true|true|pax|true
-1328|LDZA|LGAV|pax|105|true|true|true|true|true|true|true|pax|true
-2813|LGAV|LDZA|pax|105|true|true|true|true|true|true|true|pax|true
-114|LIRF|GMMX|pax|195|true|true|true|true|true|true|true|pax|true
-1401|GMMX|LIRF|pax|195|true|true|true|true|true|true|true|pax|true
-115|LIRF|DTTA|pax|80|true|true|true|true|true|true|true|pax|true
-1501|DTTA|LIRF|pax|80|true|true|true|true|true|true|true|pax|true
-152|LIRF|KPHL|pax|600|true|true|true|true|true|true|true|pax_xl|true
-602|LIRF|KJFK|pax|510|true|true|true|true|true|true|true|pax_l,pax_xl|true
-801|KJFK|LIRF|pax|585|true|true|true|true|true|true|true|pax_xl|true
-5201|KPHL|LIRF|pax|585|true|true|true|true|true|true|true|pax|true
-117|LIRF|OMDB|pax|360|true|true|true|true|true|true|true|pax|true
-1701|OMDB|LIRF|pax|360|true|true|true|true|true|true|true|pax|true
-118|LIRF|OTHH|pax|330|true|true|true|true|true|true|true|pax|true
-1801|OTHH|LIRF|pax|345|true|true|true|true|true|true|true|pax|true
-119|LIRF|KMIA|pax|660|true|true|true|true|true|true|true|pax_xl|true
-1901|KMIA|LIRF|pax|660|true|true|true|true|true|true|true|pax_xl|true
-120|LIRF|KLAX|pax|780|true|true|true|true|true|true|true|pax_xl|true
-2001|KLAX|LIRF|pax|780|true|true|true|true|true|true|true|pax_xl|true
-105|LIRF|KSFO|pax|765|true|true|true|true|true|true|true|pax_xl|true
-501|KSFO|LIRF|pax|765|true|true|true|true|true|true|true|pax_xl|true
-121|LIRF|SCEL|pax|855|true|true|true|true|true|true|true|pax_xl|true
-2101|SCEL|LIRF|pax|855|true|true|true|true|true|true|true|pax_xl|true
-122|LIRF|SAEZ|pax|810|true|true|true|true|true|true|true|pax_xl|true
-2201|SAEZ|LIRF|pax|810|true|true|true|true|true|true|true|pax_xl|true
-103|LIRF|EDDM|pax|90|true|true|true|true|true|true|true|pax|true
-301|EDDM|LIRF|pax|90|true|true|true|true|true|true|true|pax|true
-123|LIRF|EDDL|pax|105|true|true|true|true|true|true|true|pax|true
-2301|EDDL|LIRF|pax|105|true|true|true|true|true|true|true|pax|true
-124|LIRF|EDDB|pax|105|true|true|true|true|true|true|true|pax|true
-2401|EDDB|LIRF|pax|105|true|true|true|true|true|true|true|pax|true
-125|LIRF|EDDF|pax|100|true|true|true|true|true|true|true|pax|true
-2501|EDDF|LIRF|pax|100|true|true|true|true|true|true|true|pax|true
-133|LIRF|LIMC|pax|70|true|true|true|true|true|true|true|pax|true
-345|LIMC|LIRF|pax|70|true|true|true|true|true|true|true|pax|true
-450|LIPE|LIRF|pax|60|true|true|true|true|true|true|true|pax|true
-132|LIRF|LIPE|pax|60|true|true|true|true|true|true|true|pax|true
-134|LIRF|LIEO|pax|45|true|true|true|true|true|true|true|pax|true
-335|LIEO|LIRF|pax|45|true|true|true|true|true|true|true|pax|true
-137|LIRF|LIBD|pax|70|true|true|true|true|true|true|true|pax|true
-267|LIBD|LIRF|pax|70|true|true|true|true|true|true|true|pax|true
-153|LIRF|VIDP|pax|510|true|true|true|true|true|true|true|pax_xl|true
-5301|VIDP|LIRF|pax|510|true|true|true|true|true|true|true|pax_xl|true
-128|LIRF|LGAV|pax|135|true|true|true|true|true|true|true|pax|true
-2801|LGAV|LIRF|pax|135|true|true|true|true|true|true|true|pax|true
-131|LIRF|LGIR|pax|110|true|true|true|true|true|true|true|pax|true
-620|LGIR|LIRF|pax|105|true|true|true|true|true|true|true|pax|true
-129|LIRF|LGKR|pax|85|true|true|true|true|true|true|true|pax|true
-460|LGKR|LIRF|pax|85|true|true|true|true|true|true|true|pax|true
-2830|LGAV|LGSM|pax|45|true|true|true|true|true|true|true|pax|true
-3028|LGSM|LGAV|pax|45|true|true|true|true|true|true|true|pax|true
-130|LIRF|LGSM|pax|135|true|true|true|true|true|true|true|pax|true
-3001|LGSM|LIRF|pax|140|true|true|true|true|true|true|true|pax|true
-2330|EDDL|LGSM|pax|165|true|true|true|true|true|true|true|pax|true
-3023|LGSM|EDDL|pax|170|true|true|true|true|true|true|true|pax|true
-150|LIRF|LTFM|pax|140|true|true|true|true|true|true|true|pax|true
-1015|LTFM|LIRF|pax|140|true|true|true|true|true|true|true|pax|true
-126|LIRF|EHAM|pax|125|true|true|true|true|true|true|true|pax|true
-270|EHAM|LIRF|pax|125|true|true|true|true|true|true|true|pax|true
-146|LIRF|EPWA|pax|145|true|true|true|true|true|true|true|pax|true
-730|EPWA|LIRF|pax|145|true|true|true|true|true|true|true|pax|true
-148|LIRF|LEBL|pax|90|true|true|true|true|true|true|true|pax|true
-155|LIRF|LEPA|pax|105|true|true|true|true|true|true|true|pax|true
-478|LEPA|LIRF|pax|100|true|true|true|true|true|true|true|pax|true
-135|LIRF|LICC|pax|60|true|true|true|true|true|true|true|pax|true
-3501|LICC|LIRF|pax|60|true|true|true|true|true|true|true|pax|true
-136|LIRF|LMML|pax|80|true|true|true|true|true|true|true|pax|true
-3601|LMML|LIRF|pax|80|true|true|true|true|true|true|true|pax|true
-145|LIRF|EKCH|pax|140|true|true|true|true|true|true|true|pax|true
-645|EKCH|LIRF|pax|145|true|true|true|true|true|true|true|pax|true
-127|LIRF|EGKK|pax|135|true|true|true|true|true|true|true|pax|true
-435|EGKK|LIRF|pax|135|true|true|true|true|true|true|true|pax|true
-139|LIRF|LDDU|pax|85|true|true|true|true|true|true|true|pax|true
-3901|LDDU|LIRF|pax|85|true|true|true|true|true|true|true|pax|true
-149|LIRF|LOWI|pax|70|true|true|true|true|true|true|true|pax|true
-945|LOWI|LIRF|pax|70|true|true|true|true|true|true|true|pax|true
-147|LIRF|LOWL|pax|85|true|true|true|true|true|true|true|pax|true
-925|LOWL|LIRF|pax|85|true|true|true|true|true|true|true|pax|true
-116|LIRF|LEMD|pax|130|true|true|true|true|true|true|true|pax|true
-1601|LEMD|LIRF|pax|135|true|true|true|true|true|true|true|pax|true
-143|LIRF|LPFR|pax|180|true|true|true|true|true|true|true|pax|true
-965|LPFR|LIRF|pax|180|true|true|true|true|true|true|true|pax|true
-141|LIRF|LPPT|pax|180|true|true|true|true|true|true|true|pax|true
-487|LPPT|LIRF|pax|180|true|true|true|true|true|true|true|pax|true
-138|LIRF|LATI|pax|70|true|true|true|true|true|true|true|pax|true
-432|LATI|LIRF|pax|70|true|true|true|true|true|true|true|pax|true
-140|LIRF|LFPO|pax|100|true|true|true|true|true|true|true|pax|true
-570|LFPO|LIRF|pax|100|true|true|true|true|true|true|true|pax|true
-154|LIRF|LGTS|pax|120|true|true|true|true|true|true|true|pax|true
-623|LGTS|LIRF|pax|120|true|true|true|true|true|true|true|pax|true
-151|LIRF|LIRN|pax|40|true|true|true|true|true|true|true|pax|true
-189|LIRN|LIRF|pax|40|true|true|true|true|true|true|true|pax|true
-142|LIRF|LIPZ|pax|60|true|true|true|true|true|true|true|pax|true
-957|LIPZ|LIRF|pax|60|true|true|true|true|true|true|true|pax|true
-144|LIRF|LKPR|pax|90|true|true|true|true|true|true|true|pax|true
-810|LKPR|LIRF|pax|90|true|true|true|true|true|true|true|pax|true
-156|LIRF|LSZH|pax|105|true|true|true|true|true|true|true|pax|true
-690|LSZH|LIRF|pax|105|true|true|true|true|true|true|true|pax|true
-5000|KJFK|KBOS|pax|70|true|true|true|true|true|true|true|pax|true
-5500|KBOS|KJFK|pax|70|true|true|true|true|true|true|true|pax|true
-5001|KJFK|KDCA|pax|80|true|true|true|true|true|true|true|pax|true
-5501|KDCA|KJFK|pax|80|true|true|true|true|true|true|true|pax|true
-5003|KJFK|KPHL|pax|30|true|true|true|true|true|true|true|pax|true
-5503|KPHL|KJFK|pax|60|true|true|true|true|true|true|true|pax|true
-5004|KJFK|KBWI|pax|75|true|true|true|true|true|true|true|pax|true
-5504|KBWI|KJFK|pax|75|true|true|true|true|true|true|true|pax|true
-5005|KJFK|KCLT|pax|120|true|true|true|true|true|true|true|pax|true
-5505|KCLT|KJFK|pax|120|true|true|true|true|true|true|true|pax|true
-5006|KJFK|KATL|pax|150|true|true|true|true|true|true|true|pax|true
-5007|KJFK|KBNA|pax|150|true|true|true|true|true|true|true|pax|true
-5507|KBNA|KJFK|pax|150|true|true|true|true|true|true|true|pax|true
-5008|KJFK|KRDU|pax|100|true|true|true|true|true|true|true|pax|true
-5508|KRDU|KJFK|pax|100|true|true|true|true|true|true|true|pax|true
-5009|KJFK|KMIA|pax|180|true|true|true|true|true|true|true|pax|true
-5509|KMIA|KJFK|pax|180|true|true|true|true|true|true|true|pax|true
-5010|KJFK|KMCO|pax|165|true|true|true|true|true|true|true|pax|true
-5510|KMCO|KJFK|pax|165|true|true|true|true|true|true|true|pax|true
-5011|KJFK|KORD|pax|165|true|true|true|true|true|true|true|pax|true
-5511|KORD|KJFK|pax|165|true|true|true|true|true|true|true|pax|true
-5012|KJFK|KDFW|pax|240|true|true|true|true|true|true|true|pax|true
-5512|KDFW|KJFK|pax|240|true|true|true|true|true|true|true|pax|true
-5013|KJFK|KDEN|pax|270|true|true|true|true|true|true|true|pax|true
-5513|KDEN|KJFK|pax|270|true|true|true|true|true|true|true|pax|true
-5014|KJFK|KMSY|pax|210|true|true|true|true|true|true|true|pax|true
-5514|KMSY|KJFK|pax|210|true|true|true|true|true|true|true|pax|true
-5015|KJFK|TJSJ|pax|240|true|true|true|true|true|true|true|pax|true
-5515|TJSJ|KJFK|pax|240|true|true|true|true|true|true|true|pax|true
-5016|KJFK|MYNN|pax|180|true|true|true|true|true|true|true|pax|true
-5516|MYNN|KJFK|pax|180|true|true|true|true|true|true|true|pax|true
-5017|KJFK|MMUN|pax|240|true|true|true|true|true|true|true|pax|true
-5517|MMUN|KJFK|pax|240|true|true|true|true|true|true|true|pax|true
-5018|KJFK|KLAX|pax|375|true|true|true|true|true|true|true|pax|true
-5019|KLAX|KJFK|pax|375|true|true|true|true|true|true|true|pax|true
-5020|KJFK|KSFO|pax|390|true|true|true|true|true|true|true|pax|true
-5520|KSFO|KJFK|pax|390|true|true|true|true|true|true|true|pax|true
-5021|KJFK|KSEA|pax|375|true|true|true|true|true|true|true|pax|true
-5521|KSEA|KJFK|pax|375|true|true|true|true|true|true|true|pax|true
-5022|KJFK|CYYZ|pax|90|true|true|true|true|true|true|true|pax|true
-5522|CYYZ|KJFK|pax|90|true|true|true|true|true|true|true|pax|true
-652|KJFK|EGKK|pax|405|true|true|true|true|true|true|true|pax_xl|true
-653|EGKK|KJFK|pax|405|true|true|true|true|true|true|true|pax_xl|true
-624|KJFK|LFPO|pax|420|true|true|true|true|true|true|true|pax_xl|true
-625|LFPO|KJFK|pax|420|true|true|true|true|true|true|true|pax_xl|true
-601|KJFK|LIRF|pax|510|true|true|true|true|true|true|true|pax_xl|true
-617|KJFK|OMDB|pax|750|true|true|true|true|true|true|true|pax_xl|true
-618|OMDB|KJFK|pax|750|true|true|true|true|true|true|true|pax_xl|true
-2345|EDDL|EKCH|pax|75|true|true|true|true|true|true|true|pax_m|true
-4523|EKCH|EDDL|pax|75|true|true|true|true|true|true|true|pax_m|true
-2377|EDDL|EKBI|pax|65|true|true|true|true|true|true|true|pax_m|true
-7723|EKBI|EDDL|pax|65|true|true|true|true|true|true|true|pax_m|true
-231E|EDDL|EKAH|pax|75|true|true|true|true|true|true|true|pax_m|true
-1E23|EKAH|EDDL|pax|75|true|true|true|true|true|true|true|pax_m|true
-231D|EDDL|EKYT|pax|80|true|true|true|true|true|true|true|pax_m|true
-2391|EDDL|ESGG|pax|90|true|true|true|true|true|true|true|pax_m|true
-9123|ESGG|EDDL|pax|90|true|true|true|true|true|true|true|pax_m|true
-2392|EDDL|ESSA|pax|115|true|true|true|true|true|true|true|pax_m|true
-9223|ESSA|EDDL|pax|115|true|true|true|true|true|true|true|pax_m|true
-2394|EDDL|ENGM|pax|105|true|true|true|true|true|true|true|pax_m|true
-9423|ENGM|EDDL|pax|105|true|true|true|true|true|true|true|pax_m|true
-231P|EDDL|ENTO|pax|95|true|true|true|true|true|true|true|pax_m|true
-1P23|ENTO|EDDL|pax|95|true|true|true|true|true|true|true|pax_m|true
-11Q|LIRF|LGRP|pax|150|true|true|true|true|true|true|true|pax_m|true
-1Q01|LGRP|LIRF|pax|150|true|true|true|true|true|true|true|pax_m|true
-350|LIRF|LTBJ|pax|150|true|true|true|true|true|true|true|pax_m|true
-351|LTBJ|LIRF|pax|150|true|true|true|true|true|true|true|pax_m|true
-11S|LIRF|EDDV|pax|110|true|true|true|true|true|true|true|pax|true
-1S1R|EDDV|LTBJ|pax|110|true|true|true|true|true|true|true|pax|true
-1110|LIRF|LGKO|pax|150|true|true|true|true|true|true|true|pax|true
-1111|LGKO|LIRF|pax|150|true|true|true|true|true|true|true|pax|true
-11V|LIRF|LFMN|pax|75|true|true|true|true|true|true|true|pax|true
-12V|LFMN|LIRF|pax|75|true|true|true|true|true|true|true|pax|true
-3033|EDDL|LGKO|pax|195|true|true|true|true|true|true|true|pax|true
-3034|LGKO|EDDL|pax|200|true|true|true|true|true|true|true|pax|true
-2324|EDDL|EDDB|pax|65|true|true|true|true|true|true|true|pax_m|true
-2423|EDDB|EDDL|pax|65|true|true|true|true|true|true|true|pax_m|true
-2325|EDDL|EDDF|pax|40|true|true|true|true|true|true|true|pax_m|true
-2523|EDDF|EDDL|pax|40|true|true|true|true|true|true|true|pax_m|true
-2303|EDDL|EDDM|pax|65|true|true|true|true|true|true|true|pax_m|true
-323|EDDM|EDDL|pax|65|true|true|true|true|true|true|true|pax_m|true
-2396|EDDL|EDDC|pax|65|true|true|true|true|true|true|true|pax_m|true
-9623|EDDC|EDDL|pax|65|true|true|true|true|true|true|true|pax_m|true
-6F|EDDC|EYVI|cargo|95|true|true|true|true|true|true|true|cargo|true
-7F|EYVI|EDDL|cargo|125|true|true|true|true|true|true|true|cargo|true
-231G|EDDL|EYVI|pax|125|true|true|true|true|true|true|true|pax_m|true
-1G23|EYVI|EDDL|pax|125|true|true|true|true|true|true|true|pax_m|true
-231W|EDDL|EYKA|pax|120|true|true|true|true|true|true|true|pax_m|true
-1W23|EYKA|EDDL|pax|120|true|true|true|true|true|true|true|pax_m|true
-2382|EDDL|EGLL|pax|65|true|true|true|true|true|true|true|pax_m|true
-8223|EGLL|EDDL|pax|65|true|true|true|true|true|true|true|pax_m|true
-2383|EDDL|EGSS|pax|60|true|true|true|true|true|true|true|pax_m|true
-8323|EGSS|EDDL|pax|60|true|true|true|true|true|true|true|pax_m|true
-2386|EDDL|EGBB|pax|70|true|true|true|true|true|true|true|pax_m|true
-8623|EGBB|EDDL|pax|70|true|true|true|true|true|true|true|pax_m|true
-2327|EDDL|EGKK|pax|65|true|true|true|true|true|true|true|pax_m|true
-2723|EGKK|EDDL|pax|65|true|true|true|true|true|true|true|pax_m|true
-104|LIRF|KIAD|pax|540|true|true|true|true|true|true|true|pax_l,pax_xl|true
-401|KIAD|LIRF|pax|540|true|true|true|true|true|true|true|pax_l,pax_xl|true
-1Y45|EDDK|EKCH|cargo|75|true|true|true|true|true|true|true|cargo|true
-451Y|EKCH|EDDK|cargo|75|true|true|true|true|true|true|true|cargo|true
-1YIG|EDDK|EYVI|cargo|125|true|true|true|true|true|true|true|cargo|true
-1GTY|EYVI|EDDK|cargo|125|true|true|true|true|true|true|true|cargo|true
-1YEW|EDDK|EYKA|cargo|120|true|true|true|true|true|true|true|cargo|true
-1WCY|EYKA|EDDK|cargo|120|true|true|true|true|true|true|true|cargo|true
-1YAZ|EDDK|EGNX|cargo|75|true|true|true|true|true|true|true|cargo|true
-1ZDY|EGNX|EDDK|cargo|75|true|true|true|true|true|true|true|cargo|true
-1YZA|EDDK|LFRN|cargo|80|true|true|true|true|true|true|true|cargo|true
-2ABY|LFRN|EDDK|cargo|80|true|true|true|true|true|true|true|cargo|true
-4801|LEBL|LIRF|pax|90|true|true|true|true|true|true|true|pax|true
-2387|EDDL|EGCC|pax|75|true|true|true|true|true|true|true|pax_m|true
-8723|EGCC|EDDL|pax|75|true|true|true|true|true|true|true|pax_m|true
-2302|EDDL|EIDW|pax|95|true|true|true|true|true|true|true|pax_m|true
-223|EIDW|EDDL|pax|95|true|true|true|true|true|true|true|pax_m|true
-232F|EDDL|LFOB|pax|55|true|true|true|true|true|true|true|pax_m|true
-2F23|LFOB|EDDL|pax|55|true|true|true|true|true|true|true|pax_m|true
-2379|EDDL|LFPG|pax|55|true|true|true|true|true|true|true|pax_m|true
-7923|LFPG|EDDL|pax|55|true|true|true|true|true|true|true|pax_m|true
-2326|EDDL|EHAM|pax|40|true|true|true|true|true|true|true|pax_m|true
-2623|EHAM|EDDL|pax|40|true|true|true|true|true|true|true|pax_m|true
-2346|EDDL|EPWA|pax|105|true|true|true|true|true|true|true|pax_m|true
-4623|EPWA|EDDL|pax|105|true|true|true|true|true|true|true|pax_m|true
-232G|EDDL|EPMO|pax|100|true|true|true|true|true|true|true|pax_m|true
-2G23|EPMO|EDDL|pax|100|true|true|true|true|true|true|true|pax_m|true
-231C|EDDL|EPGD|pax|95|true|true|true|true|true|true|true|pax_m|true
-1C23|EPGD|EDDL|pax|100|true|true|true|true|true|true|true|pax_m|true
-232I|EDDL|EPKT|pax|95|true|true|true|true|true|true|true|pax_m|true
-2I23|EPKT|EDDL|pax|95|true|true|true|true|true|true|true|pax_m|true
-233B|EDDL|LEGE|pax|110|true|true|true|true|true|true|true|pax_m|true
-3B23|LEGE|EDDL|pax|110|true|true|true|true|true|true|true|pax_m|true
-5103|KPHL|KJFK|pax|30|true|true|true|true|true|true|true|pax|true
-231I|EDDL|EETN|pax|140|true|true|true|true|true|true|true|pax_m|true
-1I23|EETN|EDDL|pax|140|true|true|true|true|true|true|true|pax_m|true
-231F|EDDL|EVRA|pax|125|true|true|true|true|true|true|true|pax_m|true
-1F23|EVRA|EDDL|pax|125|true|true|true|true|true|true|true|pax_m|true
-5023|KJFK|KEYW|pax|180|true|true|true|true|true|true|true|pax_l,pax_xl,A319,B737|true
-5024|KEYW|KJFK|pax|180|true|true|true|true|true|true|true|A319,B737|true
-453F|EKCH|EDDP|cargo|60|true|true|true|true|true|true|true|cargo|true
-3F1Y|EDDP|EDDK|cargo|60|true|true|true|true|true|true|true|cargo|true
-1Y3G|EDDK|EFHK|cargo|60|true|true|true|true|true|true|true|cargo|true
-3G91|EFHK|ESGG|cargo|90|true|true|true|true|true|true|true|cargo|true
-911Y|ESGG|EDDK|cargo|80|true|true|true|true|true|true|true|cargo|true
-1D23|EKYT|EDDL|pax|80|true|true|true|true|true|true|true|pax|true
-6045|LIRF|TTPP|pax|675|true|true|false|false|true|true|true|pax|true
-604T|TTPP|TGPY|pax|45|true|true|true|true|true|true|true|pax|true
-6046|TGPY|LIRF|pax|60|false|false|false|false|true|true|true|pax|true
-6051|KJFK|LCLK|pax|615|false|true|true|false|true|true|false|pax|true
-6052|LCLK|KJFK|pax|680|false|true|true|false|true|true|false|pax|true
-704|KJFK|RJTT|pax|860|true|true|true|true|true|true|true|pax_l,pax_xl|true
-705|RJTT|KJFK|pax|800|true|true|true|true|true|true|true|pax|true
-415|LIRF|ZGSZ|pax|675|true|true|true|true|true|true|true|pax|true
-416|ZGSZ|LIRF|pax|795|true|true|true|true|true|true|true|pax|true
-4111|ZGSZ|WSSS|pax|260|true|true|true|true|true|true|true|pax|true
-4112|WSSS|ZGSZ|pax|270|true|true|true|true|true|true|true|true|pax|true
-4114|ZGSZ|VTSG|pax|225|true|true|true|true|true|true|true|pax|true
-4115|VTSG|ZGSZ|pax|215|true|true|true|true|true|true|true|pax|true
-4045|LFPG|KJFK|pax|480|true|true|true|true|true|true|true|pax|true
-4046|KJFK|LFPG|pax|450|true|true|true|true|true|true|true|pax|true
-115C|LIRF|DTTA|pax|80|true|true|true|true|true|true|true|pax|true
-
-        `;
-
-
-        /* =========================================================
-           AIRPORT COUNTRY DATA
-           ========================================================= */
-
-        const AIRPORT_COUNTRIES = {
-
-            /* Italy */
-            LIRF: "IT",
-            LIMC: "IT",
-            LIPE: "IT",
-            LIEO: "IT",
-            LIBD: "IT",
-            LICC: "IT",
-            LIRN: "IT",
-            LIPZ: "IT",
-
-            /* Germany */
-            EDDM: "DE",
-            EDDL: "DE",
-            EDDB: "DE",
-            EDDF: "DE",
-            EDDV: "DE",
-            EDDC: "DE",
-            EDDK: "DE",
-            EDDP: "DE",
-
-            /* Ireland */
-            EIDW: "IE",
-
-            /* Greenland */
-            BGGH: "GL",
-
-            /* USA */
-            KJFK: "US",
-            KIAD: "US",
-            KPHL: "US",
-            KBOS: "US",
-            KDCA: "US",
-            KBWI: "US",
-            KCLT: "US",
-            KATL: "US",
-            KBNA: "US",
-            KRDU: "US",
-            KMIA: "US",
-            KMCO: "US",
-            KORD: "US",
-            KDFW: "US",
-            KDEN: "US",
-            KMSY: "US",
-            KLAX: "US",
-            KSFO: "US",
-            KSEA: "US",
-            KEYW: "US",
-
-            /* Canada */
-            CYYZ: "CA",
-
-            /* UK */
-            EGKK: "GB",
-            EGLL: "GB",
-            EGSS: "GB",
-            EGBB: "GB",
-            EGNX: "GB",
-            EGCC: "GB",
-
-            /* Spain */
-            GCLP: "ES",
-            GCRR: "ES",
-            GCTS: "ES",
-            LEBL: "ES",
-            LEPA: "ES",
-            LEMD: "ES",
-            LEGE: "ES",
-
-            /* Portugal */
-            LPMA: "PT",
-            LPFR: "PT",
-            LPPT: "PT",
-
-            /* Croatia */
-            LDZA: "HR",
-            LDDU: "HR",
-
-            /* Greece */
-            LGAV: "GR",
-            LGIR: "GR",
-            LGKR: "GR",
-            LGSM: "GR",
-            LGTS: "GR",
-            LGKO: "GR",
-            LGRP: "GR",
-
-            /* Morocco */
-            GMMX: "MA",
-
-            /* Tunisia */
-            DTTA: "TN",
-
-            /* USA/Caribbean */
-            TJSJ: "PR",
-            MYNN: "BS",
-            MMUN: "MX",
-
-            /* UAE / Qatar */
-            OMDB: "AE",
-            OTHH: "QA",
-
-            /* India */
-            VIDP: "IN",
-
-            /* Turkey */
-            LTFM: "TR",
-            LT BJ: "TR",
-
-            /* Netherlands */
-            EHAM: "NL",
-
-            /* Poland */
-            EPWA: "PL",
-            EPMO: "PL",
-            EPGD: "PL",
-            EPKT: "PL",
-
-            /* Denmark */
-            EKCH: "DK",
-            EKBI: "DK",
-            EKAH: "DK",
-            EKYT: "DK",
-
-            /* Sweden */
-            ESGG: "SE",
-            ESSA: "SE",
-
-            /* Norway */
-            ENGM: "NO",
-            ENTO: "NO",
-
-            /* Estonia */
-            EETN: "EE",
-
-            /* Latvia */
-            EVRA: "LV",
-
-            /* France */
-            LFPO: "FR",
-            LFPG: "FR",
-            LFOB: "FR",
-            LFMN: "FR",
-
-            /* Czech Republic */
-            LKPR: "CZ",
-
-            /* Switzerland */
-            LSZH: "CH",
-
-            /* Austria */
-            LOWI: "AT",
-            LOWL: "AT",
-
-            /* Lithuania */
-            EYVI: "LT",
-            EYKA: "LT",
-
-            /* Finland */
-            EFHK: "FI",
-
-            /* Brazil / Caribbean / South America */
-            TTPP: "TT",
-            TGPY: "GD",
-            ZGSZ: "CN",
-            WSSS: "SG",
-            VTSG: "TH",
-
-            /* Japan */
-            RJTT: "JP",
-
-            /* Chile */
-            SCEL: "CL",
-
-            /* Argentina */
-            SAEZ: "AR",
-
-            /* Cyprus */
-            LCLK: "CY",
-
-            /* Croatia / Albania */
-            LATI: "AL"
-
-        };
-
-
-        /* =========================================================
-           HUBS
-        ========================================================= */
-
-        const HUBS = [
-            "LIRF",
-            "EDDL",
-            "KJFK"
-        ];
-
-
-        /* =========================================================
-           PARSE ROUTES
-        ========================================================= */
-
-        function parseRoutes() {
-
-            return ROUTE_DATA
-                .trim()
-                .split("\n")
-                .map(line => line.trim())
-                .filter(Boolean)
-                .map(line => {
-
-                    const parts =
-                        line.split("|");
-
-                    const [
-                        number,
-                        dep,
-                        arr,
-                        type,
-                        duration,
-                        mon,
-                        tue,
-                        wed,
-                        thu,
-                        fri,
-                        sat,
-                        sun,
-                        airframes,
-                        active
-                    ] = parts;
-
-
-                    const aircraft =
-                        airframes
-                            .split(",")
-                            .map(item =>
-                                item.trim()
-                            )
-                            .filter(Boolean);
-
-
-                    return {
-
-                        number,
-
-                        departure:
-                            dep.toUpperCase(),
-
-                        arrival:
-                            arr.toUpperCase(),
-
-                        type:
-                            type.toLowerCase(),
-
-                        duration:
-                            Number(duration),
-
-                        days: {
-
-                            mon:
-                                mon === "true",
-
-                            tue:
-                                tue === "true",
-
-                            wed:
-                                wed === "true",
-
-                            thu:
-                                thu === "true",
-
-                            fri:
-                                fri === "true",
-
-                            sat:
-                                sat === "true",
-
-                            sun:
-                                sun === "true"
-
-                        },
-
-                        aircraft,
-
-                        active:
-                            active === "true"
-
-                    };
-
-                });
-
-        }
-
-
-        let allRoutes =
-            parseRoutes();
-
-        let activeFilter =
-            "all";
-
-        let searchQuery =
-            "";
-
-
-        /* =========================================================
-           ELEMENTS
-        ========================================================= */
-
-        const routeRows =
-            document.getElementById(
-                "routeRows"
-            );
-
-        const routeEmpty =
-            document.getElementById(
-                "routeEmpty"
-            );
-
-        const routeCount =
-            document.getElementById(
-                "routeCount"
-            );
-
-        const routeSearch =
-            document.getElementById(
-                "routeSearch"
-            );
-
-
-        /* =========================================================
-           ESCAPE HTML
-        ========================================================= */
-
-        function escapeHtml(value) {
-
-            return String(
-                value ?? ""
-            )
-                .replaceAll(
-                    "&",
-                    "&amp;"
-                )
-                .replaceAll(
-                    "<",
-                    "&lt;"
-                )
-                .replaceAll(
-                    ">",
-                    "&gt;"
-                )
-                .replaceAll(
-                    '"',
-                    "&quot;"
-                )
-                .replaceAll(
-                    "'",
-                    "&#039;"
-                );
-
-        }
-
-
-        /* =========================================================
-           FORMAT DURATION
-        ========================================================= */
-
-        function formatDuration(minutes) {
-
-            if (
-                !Number.isFinite(
-                    minutes
-                )
-            ) {
-
-                return "—";
-
-            }
-
-            const hours =
-                Math.floor(
-                    minutes / 60
-                );
-
-            const mins =
-                minutes % 60;
-
-
-            if (hours === 0) {
-
-                return `${mins} min`;
-
-            }
-
-            if (mins === 0) {
-
-                return `${hours}h`;
-
-            }
-
-            return `${hours}h ${mins}m`;
-
-        }
-
-
-        /* =========================================================
-           ROUTE TYPE
-        ========================================================= */
-
-        function getRouteType(route) {
-
-            /*
-             * Long haul is based on scheduled
-             * flight duration.
-             */
-
-            if (
-                route.duration >= 360
-            ) {
-
-                return "longhaul";
-
-            }
-
-
-            const depCountry =
-                AIRPORT_COUNTRIES[
-                    route.departure
-                ];
-
-            const arrCountry =
-                AIRPORT_COUNTRIES[
-                    route.arrival
-                ];
-
-
-            /*
-             * Same country = domestic.
-             */
-
-            if (
-                depCountry &&
-                arrCountry &&
-                depCountry === arrCountry
-            ) {
-
-                return "domestic";
-
-            }
-
-
-            return "international";
-
-        }
-
-
-        /* =========================================================
-           TYPE LABEL
-        ========================================================= */
-
-        function typeLabel(type) {
-
-            if (
-                type === "domestic"
-            ) {
-
-                return "DOMESTIC";
-
-            }
-
-            if (
-                type === "longhaul"
-            ) {
-
-                return "LONG HAUL";
-
-            }
-
-            return "INTERNATIONAL";
-
-        }
-
-
-        /* =========================================================
-           TYPE CLASS
-        ========================================================= */
-
-        function typeClass(type) {
-
-            if (
-                type === "domestic"
-            ) {
-
-                return "domestic";
-
-            }
-
-            if (
-                type === "longhaul"
-            ) {
-
-                return "longhaul";
-
-            }
-
-            return "";
-
-        }
-
-
-        /* =========================================================
-           SEARCH MATCH
-        ========================================================= */
-
-        function matchesSearch(route) {
-
-            if (!searchQuery) {
-
-                return true;
-
-            }
-
-
-            const searchable = [
-
-                route.number,
-
-                route.departure,
-
-                route.arrival,
-
-                route.type,
-
-                route.aircraft.join(" "),
-
-                getRouteType(route),
-
-                typeLabel(
-                    getRouteType(route)
-                )
-
-            ]
-                .join(" ")
-                .toLowerCase();
-
-
-            return searchable.includes(
-                searchQuery
-            );
-
-        }
-
-
-        /* =========================================================
-           FILTER ROUTES
-        ========================================================= */
-
-        function getFilteredRoutes() {
-
-            return allRoutes.filter(
-                route => {
-
-                    const type =
-                        getRouteType(
-                            route
-                        );
-
-
-                    const matchesFilter =
-                        activeFilter === "all" ||
-                        type === activeFilter;
-
-
-                    return (
-                        matchesFilter &&
-                        matchesSearch(route)
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =========================================================
-           RENDER AIRCRAFT
-        ========================================================= */
-
-        function renderAircraft(
-            aircraft
-        ) {
-
-            if (
-                !aircraft ||
-                aircraft.length === 0
-            ) {
-
-                return "—";
-
-            }
-
-
-            return `
-
-                <div class="aircraft-list">
-
-                    ${aircraft.map(
-                        item => `
-
-                            <span
-                                class="aircraft-tag"
-                            >
-                                ${escapeHtml(item)}
-                            </span>
-
-                        `
-                    ).join("")}
-
-                </div>
-
-            `;
-
-        }
-
-
-        /* =========================================================
-           RENDER DAYS
-        ========================================================= */
-
-        function renderDays(days) {
-
-            const dayList = [
-
-                ["M", days.mon],
-                ["T", days.tue],
-                ["W", days.wed],
-                ["T", days.thu],
-                ["F", days.fri],
-                ["S", days.sat],
-                ["S", days.sun]
-
-            ];
-
-
-            return `
-
-                <div class="days">
-
-                    ${dayList.map(
-                        ([label, active]) => `
-
-                            <span
-                                class="day ${
-                                    active
-                                        ? "active"
-                                        : ""
-                                }"
-                                title="${
-                                    active
-                                        ? "Operating"
-                                        : "Not operating"
-                                }"
-                            >
-                                ${label}
-                            </span>
-
-                        `
-                    ).join("")}
-
-                </div>
-
-            `;
-
-        }
-
-
-        /* =========================================================
-           RENDER ROUTES
-        ========================================================= */
-
-        function renderRoutes() {
-
-            const filtered =
-                getFilteredRoutes();
-
-
-            routeRows.innerHTML =
-                "";
-
-
-            routeCount.textContent =
-                filtered.length.toLocaleString();
-
-
-            if (
-                filtered.length === 0
-            ) {
-
-                routeEmpty.style.display =
-                    "block";
-
-                return;
-
-            }
-
-
-            routeEmpty.style.display =
-                "none";
-
-
-            filtered.forEach(
-                route => {
-
-                    const type =
-                        getRouteType(
-                            route
-                        );
-
-
-                    const row =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    row.className =
-                        "route-row";
-
-
-                    const hub =
-                        HUBS.includes(
-                            route.departure
-                        )
-                            ? route.departure
-                            : HUBS.includes(
-                                route.arrival
-                            )
-                                ? route.arrival
-                                : "—";
-
-
-                    row.innerHTML = `
-
-                        <div class="route-main">
-
-                            <strong>
-
-                                ${escapeHtml(
-                                    route.departure
-                                )}
-
-                                →
-
-                                ${escapeHtml(
-                                    route.arrival
-                                )}
-
-                            </strong>
-
-                            <span class="flight-number">
-
-                                ECV ${escapeHtml(
-                                    route.number
-                                )}
-
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <span
-                                class="route-badge ${typeClass(type)}"
-                            >
-
-                                ${typeLabel(type)}
-
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            ${renderAircraft(
-                                route.aircraft
-                            )}
-
-                        </div>
-
-
-                        <div class="duration">
-
-                            ${formatDuration(
-                                route.duration
-                            )}
-
-                        </div>
-
-
-                        <div>
-
-                            ${renderDays(
-                                route.days
-                            )}
-
-                        </div>
-
-
-                        <div class="hub">
-
-                            ${escapeHtml(
-                                hub
-                            )}
-
-                        </div>
-
-                    `;
-
-
-                    routeRows.appendChild(
-                        row
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =========================================================
-           FILTER
+           ROUTE FILTER
         ========================================================= */
 
         function filterRoutes(type) {
 
-            activeFilter =
-                type;
-
-
-            document
-                .querySelectorAll(
-                    ".filter"
-                )
-                .forEach(
-                    button => {
-
-                        button.classList.remove(
-                            "active"
-                        );
-
-
-                        if (
-                            button.dataset.filter ===
-                            type
-                        ) {
-
-                            button.classList.add(
-                                "active"
-                            );
-
-                        }
-
-                    }
+            const rows =
+                document.querySelectorAll(
+                    ".route-row[data-type]"
                 );
 
+            const buttons =
+                document.querySelectorAll(".filter");
 
-            renderRoutes();
+
+            /* Update active button */
+
+            buttons.forEach(button => {
+
+                button.classList.remove("active");
+
+                if (
+                    button.dataset.filter === type
+                ) {
+
+                    button.classList.add("active");
+
+                }
+
+            });
+
+
+            /* Filter rows */
+
+            rows.forEach(row => {
+
+                if (
+                    type === "all" ||
+                    row.dataset.type === type
+                ) {
+
+                    row.style.display = "grid";
+
+                } else {
+
+                    row.style.display = "none";
+
+                }
+
+            });
 
         }
-
-
-        /* =========================================================
-           SEARCH
-        ========================================================= */
-
-        routeSearch.addEventListener(
-            "input",
-            function () {
-
-                searchQuery =
-                    this.value
-                        .trim()
-                        .toLowerCase();
-
-
-                renderRoutes();
-
-            }
-        );
-
-
-        /* =========================================================
-           INITIAL RENDER
-        ========================================================= */
-
-        renderRoutes();
 
     </script>
 
