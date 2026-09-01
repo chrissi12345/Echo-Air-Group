@@ -4249,6 +4249,173 @@ app.get(
                     user.id
                 );
 
+            // ------------------------------------------------
+            // CALCULATE EXTRA PUBLIC STATISTICS
+            // ------------------------------------------------
+
+            const flights =
+                stats.flights || [];
+
+            let bestRating = 0;
+
+            const aircraftTypes =
+                new Set();
+
+            const routes =
+                new Set();
+
+            for (
+                const flight of flights
+            ) {
+
+                const rating =
+                    toNumber(
+                        flight.rating
+                    );
+
+                if (
+                    rating > bestRating
+                ) {
+
+                    bestRating =
+                        rating;
+                }
+
+                if (
+                    flight.aircraft
+                ) {
+
+                    aircraftTypes.add(
+                        String(
+                            flight.aircraft
+                        ).trim()
+                    );
+                }
+
+                if (
+                    flight.dep_icao &&
+                    flight.arr_icao
+                ) {
+
+                    routes.add(
+                        `${flight.dep_icao}-${flight.arr_icao}`
+                    );
+                }
+            }
+
+            // ------------------------------------------------
+            // CALCULATE LEADERBOARD POSITION
+            // ------------------------------------------------
+
+            const allUsersResult =
+                await query(
+                    `
+                    SELECT
+                        id,
+                        username,
+                        display_name
+                    FROM users
+                    `
+                );
+
+            const leaderboard =
+                [];
+
+            for (
+                const pilot of allUsersResult.rows
+            ) {
+
+                const pilotStats =
+                    await getUserStats(
+                        pilot.id
+                    );
+
+                leaderboard.push({
+
+                    id:
+                        pilot.id,
+
+                    stars:
+                        pilotStats.stars,
+
+                    averageRating:
+                        pilotStats.averageRating,
+
+                    flights:
+                        pilotStats.flightCount
+                });
+            }
+
+            leaderboard.sort(
+                (
+                    a,
+                    b
+                ) => {
+
+                    if (
+                        b.stars !==
+                        a.stars
+                    ) {
+
+                        return (
+                            b.stars -
+                            a.stars
+                        );
+                    }
+
+                    if (
+                        b.averageRating !==
+                        a.averageRating
+                    ) {
+
+                        return (
+                            b.averageRating -
+                            a.averageRating
+                        );
+                    }
+
+                    return (
+                        b.flights -
+                        a.flights
+                    );
+                }
+            );
+
+            const positionIndex =
+                leaderboard.findIndex(
+                    pilot =>
+                        pilot.id ===
+                        user.id
+                );
+
+            const position =
+                positionIndex >= 0
+                    ? positionIndex + 1
+                    : null;
+
+            // ------------------------------------------------
+            // AVERAGE STARS PER FLIGHT
+            // ------------------------------------------------
+
+            const averageStarsPerFlight =
+                stats.flightCount > 0
+                    ? stats.stars /
+                      stats.flightCount
+                    : 0;
+
+            // ------------------------------------------------
+            // ACHIEVEMENTS
+            // ------------------------------------------------
+
+            const achievements =
+                getAchievements(
+                    stats
+                );
+
+            // ------------------------------------------------
+            // RESPONSE
+            // ------------------------------------------------
+
             res.json({
 
                 pilot: {
@@ -4266,36 +4433,79 @@ app.get(
                     rank:
                         stats.rank.name,
 
+                    rankMin:
+                        stats.rank.stars,
+
+                    nextRank:
+                        stats.nextRank,
+
+                    progress:
+                        stats.progress,
+
                     stars:
                         stats.stars,
 
                     flightCount:
                         stats.flightCount,
 
-                    averageRating:
-                        stats.averageRating,
-
                     flightHours:
                         stats.flightHours,
 
+                    duration:
+                        stats.duration,
+
                     distance:
                         stats.distance,
+
+                    averageRating:
+                        stats.averageRating,
+
+                    bestRating:
+                        round(
+                            bestRating,
+                            2
+                        ),
+
+                    averageStarsPerFlight:
+                        round(
+                            averageStarsPerFlight,
+                            2
+                        ),
+
+                    position,
+
+                    aircraftTypes:
+                        Array.from(
+                            aircraftTypes
+                        ).sort(),
+
+                    routes:
+                        Array.from(
+                            routes
+                        ).sort(),
+
+                    achievementCount:
+                        achievements.filter(
+                            achievement =>
+                                achievement.unlocked
+                        ).length,
 
                     createdAt:
                         user.created_at
                 },
 
+                achievements,
+
                 /*
-                 * IMPORTANT:
+                 * Complete public flight history.
                  *
-                 * No .slice(0, 100) here.
-                 *
-                 * Public pilot profiles now receive
-                 * the complete flight history.
+                 * Passwords, Discord IDs and
+                 * NewSky account IDs are NOT exposed.
                  */
                 flights:
-                    stats.flights
-                        .map(formatFlight)
+                    flights.map(
+                        formatFlight
+                    )
             });
 
         } catch (error) {
@@ -4312,6 +4522,7 @@ app.get(
         }
     }
 );
+
 // ============================================================
 // RECENT FLIGHTS
 // ============================================================
